@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {RNCamera} from 'react-native-camera';
+
+import CameraRoll from '@react-native-community/cameraroll';
+
 import {
   TakePicture,
   FlashMode,
@@ -23,7 +26,7 @@ const PendingView = () => (
 class CameraScreen extends Component {
   state = {
     flashMode: 3, //AutoFlash
-    cameraType: true,
+    cameraType: false,
   };
 
   componentDidMount() {}
@@ -34,7 +37,10 @@ class CameraScreen extends Component {
     const data = await camera.takePictureAsync(options);
     //  eslint-disable-next-line
     console.log(data.uri);
-    console.log(RNCamera.Constants);
+    data.name = 'amazing.jpg';
+    // console.log(data.name);
+    CameraRoll.save(data.uri, {type: 'photo', album: 'Cykee'});
+    // CameraRoll.saveToCameraRoll(data.uri);
   };
 
   changeFlashMode = () => {
