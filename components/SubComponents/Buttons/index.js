@@ -2,8 +2,9 @@ import TakePicture from './TakePicture/TakePicture';
 import FlashMode from './FlashMode/FlashMode';
 import CameraType from './CameraType/CameraType';
 import GalleryIcon from './GalleryIcon/GalleryIcon';
+import TextMode from './TextMode/TextMode';
 
-export {TakePicture, FlashMode, CameraType, GalleryIcon};
+export {TakePicture, FlashMode, CameraType, GalleryIcon, TextMode};
 
 //Global constants
 const GlobalIconColor = 'white';

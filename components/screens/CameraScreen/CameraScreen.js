@@ -10,6 +10,7 @@ import {
   FlashMode,
   CameraType,
   GalleryIcon,
+  TextMode,
 } from './../../SubComponents/Buttons/index';
 
 const PendingView = () => (
@@ -24,12 +25,23 @@ const PendingView = () => (
   </View>
 );
 class CameraScreen extends Component {
+  constructor(props) {
+    super(props);
+  }
   state = {
     flashMode: 3, //AutoFlash
-    cameraType: false,
+    cameraType: true,
+    textMode: true,
+    photo: null,
   };
 
   componentDidMount() {}
+
+  PhotoPreview = data => {
+    <View>
+      <Text>PREVIEW SCREEN</Text>
+    </View>;
+  };
 
   takePicture = async function(camera) {
     console.log('CLICK CLICK');
@@ -38,8 +50,14 @@ class CameraScreen extends Component {
     //  eslint-disable-next-line
     console.log(data.uri);
     data.name = 'amazing.jpg';
+    this.setState({photo: data});
+
+    if (this.state.textMode)
+      this.props.navigation.navigate('PreviewScreen', {photo: data});
+    else CameraRoll.save(data.uri, {type: 'photo', album: 'Cykee'});
     // console.log(data.name);
-    CameraRoll.save(data.uri, {type: 'photo', album: 'Cykee'});
+
+    // CameraRoll.save(data.uri, {type: 'photo', album: 'Cykee'});
     // CameraRoll.saveToCameraRoll(data.uri);
   };
 
@@ -49,9 +67,7 @@ class CameraScreen extends Component {
       this.setState({flashMode: this.state.flashMode + 1});
     else this.setState({flashMode: 0});
   };
-  changeCameraType = () => {
-    this.setState({cameraType: !this.state.cameraType});
-  };
+  changeCameraType = () => {};
   render() {
     return (
       <View style={styles.container}>
@@ -64,6 +80,8 @@ class CameraScreen extends Component {
               ? RNCamera.Constants.FlashMode.on
               : RNCamera.Constants.FlashMode.off
           }
+          autoFocus={true}
+          onPictureTaken={() => console.log('onPictureTaken')}
           // flashMode={RNCamera.Constants.FlashMode.on}
           androidCameraPermissionOptions={{
             title: 'Permission to use camera',
@@ -80,16 +98,7 @@ class CameraScreen extends Component {
           {({camera, status, recordAudioPermissionStatus}) => {
             if (status !== 'READY') return <PendingView />;
             return (
-              <View
-                style={{
-                  flex: 1,
-                  opacity: 0.6,
-                  height: '100%',
-                  width: '100%',
-                  flexDirection: 'row',
-                  alignItems: 'flex-end',
-                  justifyContent: 'space-around',
-                }}>
+              <View style={styles.bottomContainer}>
                 <GalleryIcon
                   onPressGalleryIcon={() => console.log('GalleryIcon Pressed')}
                 />
@@ -98,7 +107,17 @@ class CameraScreen extends Component {
                   flashIcon={this.state.flashMode}
                   onPressFlashMode={() => this.changeFlashMode()}
                 />
-                <CameraType onPressCameraType={() => this.changeCameraType()} />
+                <CameraType
+                  onPressCameraType={() =>
+                    this.setState({cameraType: !this.state.cameraType})
+                  }
+                />
+                <TextMode
+                  textIcon={this.state.textMode}
+                  onPressTextMode={() =>
+                    this.setState({textMode: !this.state.textMode})
+                  }
+                />
               </View>
             );
           }}
