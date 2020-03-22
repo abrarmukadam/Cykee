@@ -4,9 +4,13 @@ const {width: WIDTH} = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
-    alignItems: 'center',
     flex: 1,
-    backgroundColor: 'grey',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    backgroundColor: 'white',
+  },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
 });
