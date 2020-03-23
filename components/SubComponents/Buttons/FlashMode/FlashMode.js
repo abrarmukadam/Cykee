@@ -7,7 +7,6 @@ import styles from './styles';
 
 class FlashMode extends Component {
   render() {
-    console.log(this.props.flashIcon);
     return (
       <TouchableOpacity
         onPress={() => this.props.onPressFlashMode()}

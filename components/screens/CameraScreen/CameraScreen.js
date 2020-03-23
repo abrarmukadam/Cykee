@@ -29,19 +29,12 @@ class CameraScreen extends Component {
     super(props);
   }
   state = {
-    flashMode: 3, //AutoFlash
     cameraType: true,
     textMode: true,
     photo: null,
   };
 
   componentDidMount() {}
-
-  PhotoPreview = data => {
-    <View>
-      <Text>PREVIEW SCREEN</Text>
-    </View>;
-  };
 
   takePicture = async function(camera) {
     console.log('CLICK CLICK');
@@ -63,23 +56,21 @@ class CameraScreen extends Component {
 
   changeFlashMode = () => {
     //"FlashMode": {"auto": 3, "off": 0, "on": 1, "torch": 2}
-    if (this.state.flashMode < 3)
-      this.setState({flashMode: this.state.flashMode + 1});
-    else this.setState({flashMode: 0});
+    console.log(this.props.flashMode);
+    if (this.props.flashMode < 3)
+      this.props.changeFlashMode(this.props.flashMode + 1);
+    else this.props.changeFlashMode(0);
   };
   changeCameraType = () => {};
   render() {
+    console.log(this.props);
     return (
       <View style={styles.container}>
         <RNCamera
           style={styles.preview}
           // type={RNCamera.Constants.Type.back}
           type={this.state.cameraType ? 0 : 1} //back:0 , front:1
-          flashMode={
-            this.state.flashMode
-              ? RNCamera.Constants.FlashMode.on
-              : RNCamera.Constants.FlashMode.off
-          }
+          flashMode={this.props.flashMode}
           autoFocus={true}
           onPictureTaken={() => console.log('onPictureTaken')}
           // flashMode={RNCamera.Constants.FlashMode.on}
@@ -104,7 +95,7 @@ class CameraScreen extends Component {
                 />
                 <TakePicture onTakePicture={() => this.takePicture(camera)} />
                 <FlashMode
-                  flashIcon={this.state.flashMode}
+                  flashIcon={this.props.flashMode}
                   onPressFlashMode={() => this.changeFlashMode()}
                 />
                 <CameraType
