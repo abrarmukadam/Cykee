@@ -3,10 +3,10 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {CardStyleInterpolators} from '@react-navigation/stack';
 import {Component} from 'react';
-import {PreviewImageScreen} from './components/index';
 import {store, persistor} from './redux-store';
 
 import {default as CameraScreen} from './components/screens/CameraScreen/CameraScreen.container';
+import {default as PreviewImageScreen} from './components/screens/PreviewImageScreen/PreviewImageScreen.container';
 
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -56,10 +56,6 @@ function MyStack() {
 }
 
 class App extends Component {
-  state = {xyz: 'xyxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxz'};
-  updatePhotoArray = () => {
-    console.log('updatePhotoArray called');
-  };
   render() {
     return (
       <Provider store={store}>

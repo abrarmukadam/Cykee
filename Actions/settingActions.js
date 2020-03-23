@@ -9,3 +9,22 @@ export function changeFlashMode(flashMode) {
     },
   };
 }
+
+export function changeCameraType(cameraType) {
+  console.log('Change cameraType called');
+  return {
+    type: CAMERA_TYPE,
+    payload: {
+      cameraType: cameraType,
+    },
+  };
+}
+export function changeTextMode(textMode) {
+  console.log('Change textMode called');
+  return {
+    type: TEXT_MODE,
+    payload: {
+      textMode: textMode,
+    },
+  };
+}

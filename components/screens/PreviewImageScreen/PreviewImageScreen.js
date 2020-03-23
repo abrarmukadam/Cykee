@@ -13,27 +13,34 @@ class PreviewImageScreen extends Component {
   constructor(props) {
     super(props);
   }
-  // const { photo } = route.params;
 
   state = {
-    // photo: this.props.navigation.getParam('photo'),
     photo: this.props.route.params.photo,
     text: '',
   };
-  savePhoto = () => {
+  savePhoto = photo => {
+    let newPhoto = [];
+    const temp = photo.uri.split('/');
     console.log('Photo saved in gallery');
-
     CameraRoll.save(this.state.photo.uri, {
       type: 'photo',
       album: 'Cykee',
     });
+    newPhoto.uri = photo.uri;
+    newPhoto.galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+    newPhoto.fileName = temp[temp.length - 1];
+    newPhoto.caption = this.state.text;
+    console.log('Photo saved in gallery:', newPhoto);
+    this.props.addNewPhoto(newPhoto);
     this.props.navigation.navigate('Home');
   };
   render() {
-    // console.log('URI:', this.state.photo.uri);
+    // let abx =
+    //   'file:///storage/emulated/0/Pictures/Cykee/437233e2-bf11-432f-8633-ca175b9741ff.jpg';
     return (
       <View style={styles.container}>
         <Image source={{uri: this.state.photo.uri}} style={styles.image} />
+        {/* <Image source={{uri: abx}} style={styles.image} /> */}
         <Icon
           name="ios-close"
           size={GlobalIconSize}
@@ -57,7 +64,7 @@ class PreviewImageScreen extends Component {
             size={GlobalIconSize}
             color={GlobalIconColor}
             style={styles.saveButtonStyle}
-            onPress={() => this.savePhoto()}
+            onPress={() => this.savePhoto(this.state.photo)}
           />
         </View>
       </View>

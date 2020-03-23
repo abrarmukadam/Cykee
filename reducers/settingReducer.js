@@ -1,4 +1,4 @@
-const defaultState = {};
+const defaultState = {flashMode: 0};
 import {FLASH_MODE, CAMERA_TYPE, TEXT_MODE} from '../Actions/actionTypes';
 
 export default function settingReducer(state = defaultState, action) {

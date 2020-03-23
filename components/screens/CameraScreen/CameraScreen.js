@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, ActivityIndicator, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {RNCamera} from 'react-native-camera';
 
@@ -16,12 +16,11 @@ import {
 const PendingView = () => (
   <View
     style={{
-      flex: 1,
-      backgroundColor: 'lightgreen',
+      backgroundColor: 'black',
       justifyContent: 'center',
       alignItems: 'center',
     }}>
-    <Text>Waiting</Text>
+    <ActivityIndicator />
   </View>
 );
 class CameraScreen extends Component {
@@ -29,8 +28,6 @@ class CameraScreen extends Component {
     super(props);
   }
   state = {
-    cameraType: true,
-    textMode: true,
     photo: null,
   };
 
@@ -45,7 +42,7 @@ class CameraScreen extends Component {
     data.name = 'amazing.jpg';
     this.setState({photo: data});
 
-    if (this.state.textMode)
+    if (this.props.textMode)
       this.props.navigation.navigate('PreviewScreen', {photo: data});
     else CameraRoll.save(data.uri, {type: 'photo', album: 'Cykee'});
     // console.log(data.name);
@@ -56,20 +53,18 @@ class CameraScreen extends Component {
 
   changeFlashMode = () => {
     //"FlashMode": {"auto": 3, "off": 0, "on": 1, "torch": 2}
-    console.log(this.props.flashMode);
     if (this.props.flashMode < 3)
       this.props.changeFlashMode(this.props.flashMode + 1);
     else this.props.changeFlashMode(0);
   };
   changeCameraType = () => {};
   render() {
-    console.log(this.props);
     return (
       <View style={styles.container}>
         <RNCamera
           style={styles.preview}
           // type={RNCamera.Constants.Type.back}
-          type={this.state.cameraType ? 0 : 1} //back:0 , front:1
+          type={this.props.cameraType ? 0 : 1} //back:0 , front:1
           flashMode={this.props.flashMode}
           autoFocus={true}
           onPictureTaken={() => console.log('onPictureTaken')}
@@ -100,13 +95,13 @@ class CameraScreen extends Component {
                 />
                 <CameraType
                   onPressCameraType={() =>
-                    this.setState({cameraType: !this.state.cameraType})
+                    this.props.changeCameraType(!this.props.cameraType)
                   }
                 />
                 <TextMode
-                  textIcon={this.state.textMode}
+                  textIcon={this.props.textMode}
                   onPressTextMode={() =>
-                    this.setState({textMode: !this.state.textMode})
+                    this.props.changeTextMode(!this.props.textMode)
                   }
                 />
               </View>
