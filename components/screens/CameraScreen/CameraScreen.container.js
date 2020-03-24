@@ -21,6 +21,9 @@ const mapDispatchToProps = dispatch => {
     changeTextMode: textMode => {
       return dispatch(Actions.settingActions.changeTextMode(textMode));
     },
+    addNewPhoto: newPhoto => {
+      return dispatch(Actions.galleryActions.addPhotoToList(newPhoto));
+    },
   };
 };
 

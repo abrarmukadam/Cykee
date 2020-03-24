@@ -4,7 +4,7 @@ import {Actions} from './../../../Actions/index';
 
 const mapPropsToState = state => {
   return {
-    photoArray: state.galleryReducer.photoArray || [],
+    // photoArray: state.galleryReducer.photoArray || [],
   };
 };
 

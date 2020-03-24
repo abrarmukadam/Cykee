@@ -2,14 +2,13 @@ import React, {Component} from 'react';
 import {View, Text, ActivityIndicator, TouchableOpacity} from 'react-native';
 import styles from './styles';
 import {RNCamera} from 'react-native-camera';
-
+import GalleryButton from './../../SubComponents/GalleryButton/GalleryButton';
 import CameraRoll from '@react-native-community/cameraroll';
 
 import {
   TakePicture,
   FlashMode,
   CameraType,
-  GalleryIcon,
   TextMode,
 } from './../../SubComponents/Buttons/index';
 
@@ -27,9 +26,7 @@ class CameraScreen extends Component {
   constructor(props) {
     super(props);
   }
-  state = {
-    photo: null,
-  };
+  state = {};
 
   componentDidMount() {}
 
@@ -39,16 +36,25 @@ class CameraScreen extends Component {
     const data = await camera.takePictureAsync(options);
     //  eslint-disable-next-line
     console.log(data.uri);
-    data.name = 'amazing.jpg';
-    this.setState({photo: data});
+    // this.setState({photo: data});
 
     if (this.props.textMode)
       this.props.navigation.navigate('PreviewScreen', {photo: data});
-    else CameraRoll.save(data.uri, {type: 'photo', album: 'Cykee'});
-    // console.log(data.name);
-
-    // CameraRoll.save(data.uri, {type: 'photo', album: 'Cykee'});
-    // CameraRoll.saveToCameraRoll(data.uri);
+    else {
+      let newPhoto = [];
+      const temp = data.uri.split('/');
+      console.log('Photo saved in gallery');
+      CameraRoll.save(data.uri, {
+        type: 'photo',
+        album: 'Cykee',
+      });
+      newPhoto.galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+      newPhoto.fileName = temp[temp.length - 1];
+      newPhoto.caption = '';
+      newPhoto.uri = newPhoto.galleryUri + newPhoto.fileName;
+      console.log('Photo saved in gallery:', newPhoto);
+      this.props.addNewPhoto(newPhoto);
+    }
   };
 
   changeFlashMode = () => {
@@ -85,8 +91,8 @@ class CameraScreen extends Component {
             if (status !== 'READY') return <PendingView />;
             return (
               <View style={styles.bottomContainer}>
-                <GalleryIcon
-                  onPressGalleryIcon={() => console.log('GalleryIcon Pressed')}
+                <GalleryButton
+                //      onPressGalleryIcon={() => console.log('GalleryIcon Pressed')}
                 />
                 <TakePicture onTakePicture={() => this.takePicture(camera)} />
                 <FlashMode

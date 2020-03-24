@@ -59,9 +59,11 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <NavigationContainer>
-          <MyStack />
-        </NavigationContainer>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContainer>
+            <MyStack />
+          </NavigationContainer>
+        </PersistGate>
       </Provider>
     );
   }

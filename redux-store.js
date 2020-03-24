@@ -6,15 +6,15 @@ import logger from 'redux-logger';
 
 import {persistStore, persistReducer} from 'redux-persist';
 
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+// import storage from 'redux-persist/lib/storage';
 
 let middleware = [logger];
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  //   whitelist: ['affirmationReducer', 'visionBoardReducer'], // which reducer want to store
-  //blacklist: ['loginReducer.status'],
+  whitelist: ['settingReducer', 'galleryReducer'], // which reducer want to store
 };
 
 const pReducer = persistReducer(persistConfig, reducers);

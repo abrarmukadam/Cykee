@@ -8,7 +8,8 @@ export {TakePicture, FlashMode, CameraType, GalleryIcon, TextMode};
 
 //Global constants
 const GlobalIconColor = 'white';
-const GlobalIconSize = 40;
+const GlobalIconSize = 30;
+const GlobalMediumIconSize = 40;
 const GlobalLargeIconSize = 80;
 
 //Flash icons
@@ -20,4 +21,10 @@ const flashIconName = [
   'flash-auto',
 ];
 
-export {GlobalIconColor, GlobalIconSize, GlobalLargeIconSize, flashIconName};
+export {
+  GlobalIconColor,
+  GlobalMediumIconSize,
+  GlobalIconSize,
+  GlobalLargeIconSize,
+  flashIconName,
+};

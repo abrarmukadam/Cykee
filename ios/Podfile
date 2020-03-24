@@ -36,9 +36,13 @@ target 'Cykee' do
 
   pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
+
+
+
+
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
   target 'CykeeTests' do
     inherit! :search_paths

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {GlobalIconColor, GlobalIconSize} from '../index';
+import {GlobalIconColor, GlobalMediumIconSize} from '../index';
 import styles from './styles';
 
 class CameraType extends Component {
@@ -12,7 +12,7 @@ class CameraType extends Component {
         style={styles.CameraTypeStyle}>
         <Icon
           name={'ios-reverse-camera'}
-          size={GlobalIconSize}
+          size={GlobalMediumIconSize}
           color={GlobalIconColor}
         />
       </TouchableOpacity>

@@ -17,7 +17,7 @@ export default StyleSheet.create({
   },
   bottomContainer: {
     flex: 1,
-    opacity: 0.6,
+    // opacity: 0.6,
     height: '100%',
     width: '100%',
     flexDirection: 'row',
