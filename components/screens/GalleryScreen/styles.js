@@ -36,8 +36,9 @@ export default StyleSheet.create({
   bottomSubContainer: {
     marginTop: 4,
     flexDirection: 'row',
-    paddingHorizontal: 14,
+    // paddingHorizontal: 14,
     justifyContent: 'space-between',
+    // borderWidth: 1,
   },
 
   IconTextStyle: {
@@ -47,6 +48,7 @@ export default StyleSheet.create({
     paddingBottom: 2,
   },
   IconContainer: {
+    flex: 4,
     justifyContent: 'center',
     alignItems: 'center',
   },

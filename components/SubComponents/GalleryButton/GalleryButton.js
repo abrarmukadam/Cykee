@@ -4,7 +4,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 import styles from './styles';
 
 class GalleryButton extends Component {
-  state = {photo: ''};
+  state = {photo: undefined};
   componentDidMount() {}
 
   render() {
@@ -12,10 +12,10 @@ class GalleryButton extends Component {
       first: 1,
       groupName: 'Cykee',
     })
-      .then(r => {
+      .then((r) => {
         this.setState({photo: r.edges[0].node.image.uri});
       })
-      .catch(err => {
+      .catch((err) => {
         console.log('Error loading 1st image for Gallery Icon view');
         //Error Loading Images
       });

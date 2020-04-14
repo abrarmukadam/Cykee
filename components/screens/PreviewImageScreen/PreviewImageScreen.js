@@ -30,10 +30,10 @@ class PreviewImageScreen extends Component {
     newPhoto.height = photo.height;
     newPhoto.width = photo.width;
 
-    newPhoto.galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+    let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
     newPhoto.fileName = temp[temp.length - 1];
     newPhoto.caption = this.state.text;
-    newPhoto.uri = newPhoto.galleryUri + newPhoto.fileName;
+    newPhoto.uri = galleryUri + newPhoto.fileName;
     console.log('Photo saved in gallery:', newPhoto);
     this.props.addNewPhoto(newPhoto);
     this.props.navigation.navigate('Home');

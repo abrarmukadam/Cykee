@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import GalleryScreen from './GalleryScreen';
+import GridViewScreen from './GridViewScreen';
 import {Actions} from '../../../Actions/index';
 
 const mapPropsToState = (state) => {
@@ -16,4 +16,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapPropsToState, mapDispatchToProps)(GalleryScreen);
+export default connect(mapPropsToState, mapDispatchToProps)(GridViewScreen);

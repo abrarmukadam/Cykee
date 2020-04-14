@@ -1,4 +1,4 @@
-import {ADD_PHOTO} from '../Actions/actionTypes';
+import {ADD_PHOTO, FAV_PHOTO} from '../Actions/actionTypes';
 
 const defaultState = {photoArray: []};
 
@@ -7,7 +7,13 @@ export default function galleryReducer(state = defaultState, action) {
     case ADD_PHOTO: {
       return {
         ...state,
-        photoArray: [...state.photoArray, action.payload.newPhoto],
+        photoArray: [action.payload.newPhoto, ...state.photoArray],
+      };
+    }
+    case FAV_PHOTO: {
+      return {
+        ...state,
+        photoArray: [...action.payload.updatedPhotoArray],
       };
     }
     default:

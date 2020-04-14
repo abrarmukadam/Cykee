@@ -5,11 +5,12 @@ import Icon from 'react-native-vector-icons/Entypo';
 class FavouriteIcon extends Component {
   state = {};
   render() {
+    // fav_status = this.props.fav_status ? this.props.fav_status : false;
     return (
       <Icon
-        name="heart-outlined"
-        size={GlobalIconSize}
-        color={GalleryIconColor}
+        name={this.props.fav_status ? 'heart' : 'heart-outlined'}
+        size={this.props.iconSize ? this.props.iconSize : GlobalIconSize}
+        color={this.props.iconColor ? this.props.iconColor : GalleryIconColor}
       />
     );
   }

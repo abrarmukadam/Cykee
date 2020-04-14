@@ -34,12 +34,13 @@ class CameraScreen extends Component {
   takePicture = async function () {
     console.log('CLICK CLICK');
     const options = {quality: 1, base64: true};
-    // const asp = await this.camera.getSupportedRatiosAsync();
+    const asp = await this.camera.getSupportedRatiosAsync();
+    //[1:1 , 4:3, 16:9, 48:23]
+    console.log('asp:', asp);
 
     const data = await this.camera.takePictureAsync(options);
     //  eslint-disable-next-line
     // console.log(data.uri);
-    // console.log('asp:', asp);
     // this.setState({photo: data});
 
     if (this.props.textMode)
@@ -54,10 +55,10 @@ class CameraScreen extends Component {
       }).then((uri) => console.log('uri uri uri:', uri));
       newPhoto.height = data.height;
       newPhoto.width = data.width;
-      newPhoto.galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+      let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
       newPhoto.fileName = temp[temp.length - 1];
       newPhoto.caption = '';
-      newPhoto.uri = newPhoto.galleryUri + newPhoto.fileName;
+      newPhoto.uri = galleryUri + newPhoto.fileName;
       console.log('Photo saved in gallery:', newPhoto);
       this.props.addNewPhoto(newPhoto);
     }

@@ -14,8 +14,9 @@ import FavouriteIcon from './FavouriteIcon/FavouriteIcon';
 import DeleteIcon from './DeleteIcon/DeleteIcon';
 import EditIcon from './EditIcon/EditIcon';
 import MoreIcon from './MoreIcon/MoreIcon';
+import BackButton from './BackButton/BackButton';
 
-export {ShareIcon, FavouriteIcon, DeleteIcon, EditIcon, MoreIcon};
+export {ShareIcon, FavouriteIcon, DeleteIcon, EditIcon, MoreIcon, BackButton};
 //Global constants
 const GlobalIconColor = 'white';
 const GlobalIconSize = 30;

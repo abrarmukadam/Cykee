@@ -49,6 +49,8 @@ class GalleryScreen extends Component {
             if (item.fileName == p.node.image.filename) return item;
           });
           p.node.image.caption = findingCaption.caption;
+          p.node.image.fav_status = findingCaption.fav_status;
+
           return (temp = [...temp, p.node.image]);
         });
         this.setState({photoArrayObj: r, toBeDisplayed: temp});
@@ -59,13 +61,15 @@ class GalleryScreen extends Component {
       });
   }
   onPressGallery = () => {
+    this.props.navigation.navigate('GridViewScreen');
     console.log('Gallery Pressed');
   };
   onPressShare = () => {
     console.log('Share Pressed');
   };
-  onPressFav = () => {
+  onPressFav = (item) => {
     console.log('Favorite Pressed');
+    this.props.favPhoto(this.props.photoArray, item.uri);
   };
   onPressEdit = () => {
     console.log('Edit Pressed');
@@ -109,9 +113,14 @@ class GalleryScreen extends Component {
       <View style={styles.container}>
         <GallerySwiper
           initialPage={this.state.index}
-          style={{backgroundColor: 'white'}}
+          style={{
+            width: '100%',
+            backgroundColor: this.state.optionsAvailable ? 'white' : 'black',
+          }}
           images={this.state.toBeDisplayed}
           initialNumToRender={2}
+          pageMargin={6}
+          removeClippedSubviews={true}
           sensitiveScroll={true}
           onSingleTapConfirmed={() =>
             this.setState({optionsAvailable: !this.state.optionsAvailable})
@@ -120,47 +129,50 @@ class GalleryScreen extends Component {
           onDoubleTapConfirmed={() => console.log('2')}
           onLongPress={(i, j) => console.log(i, j)}
           onSwipeDownReleased={() => this.props.navigation.navigate('Home')}
+          onEndReachedThreshold={0.8}
           onEndReached={() => {
             // if (this.state.photoArrayObj.page_info)
             //   console.log(
             //     'this.state.photoArrayObj.page_info.end_cursor',
             //     this.state.photoArrayObj,
             //   );
-            if (this.state.photoArrayObj.page_info)
-              if (
-                this.state.index ==
-                this.state.photoArrayObj.page_info.end_cursor - 2
-              )
-                CameraRoll.getPhotos({
-                  first: 10,
-                  after: this.state.photoArrayObj.page_info.end_cursor,
-                  groupName: 'Cykee',
-                })
-                  .then((r) => {
-                    let temp = [];
-                    // console.log(r.edges[0]);
-                    r.edges.map((p, i) => {
-                      let findingCaption = this.props.photoArray.find(
-                        (item) => {
-                          if (item.fileName == p.node.image.filename)
-                            return item;
-                        },
-                      );
-                      p.node.image.caption = findingCaption.caption;
+            if (this.state.photoArrayObj.page_info) {
+              // if (
+              //   this.state.index ==
+              //   this.state.photoArrayObj.page_info.end_cursor - 4
+              // )
+              console.log(
+                'load photo called-',
+                this.state.photoArrayObj.page_info.end_cursor,
+              );
+              CameraRoll.getPhotos({
+                first: 10,
+                after: this.state.photoArrayObj.page_info.end_cursor,
+                groupName: 'Cykee',
+              })
+                .then((r) => {
+                  let temp = [];
+                  let findingCaption = {};
+                  console.log('r.edges[0]', r.edges[0]);
+                  r.edges.map((p, i) => {
+                    findingCaption = this.props.photoArray.find((item) => {
+                      if (item.fileName == p.node.image.filename) return item;
+                    });
+                    p.node.image.caption = findingCaption.caption;
 
-                      return (temp = [...temp, p.node.image]);
-                    });
-                    this.setState({
-                      photoArrayObj: r,
-                      toBeDisplayed: [...this.state.toBeDisplayed, ...temp],
-                    });
-                  })
-                  .catch((err) => {
-                    console.log(
-                      'Error loading 1st image for Gallery Icon view',
-                    );
-                    //Error Loading Images
+                    return (temp = [...temp, p.node.image]);
                   });
+                  console.log(temp);
+                  this.setState({
+                    photoArrayObj: r,
+                    toBeDisplayed: [...this.state.toBeDisplayed, ...temp],
+                  });
+                })
+                .catch((err) => {
+                  console.log('Error loading 1st image for Gallery Icon view');
+                  //Error Loading Images
+                });
+            }
 
             console.log('end Reached');
             //     // add more images when scroll reaches end
@@ -170,8 +182,9 @@ class GalleryScreen extends Component {
           <SafeAreaView style={styles.topContainer}>
             <TouchableOpacity
               onPress={() => {
-                console.log('Back Pressed');
+                // this.props.navigationgoBack()
                 this.props.navigation.navigate('Home');
+                console.log('Back Pressed');
               }}>
               <Icon
                 name="md-arrow-back"
@@ -181,7 +194,7 @@ class GalleryScreen extends Component {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => this.onPressGallery()}
-              style={styles.IconContainer}>
+              style={[styles.IconContainer, {flex: 0}]}>
               <GalleryIcon />
             </TouchableOpacity>
           </SafeAreaView>
@@ -205,8 +218,21 @@ class GalleryScreen extends Component {
 
               <TouchableOpacity
                 style={styles.IconContainer}
-                onPress={() => this.onPressFav()}>
-                <FavouriteIcon />
+                onPress={() => {
+                  this.onPressFav(this.state.toBeDisplayed[this.state.index]);
+
+                  let temp = [...this.state.toBeDisplayed];
+                  temp[this.state.index].fav_status = !temp[this.state.index]
+                    .fav_status;
+                  this.setState({toBeDisplayed: temp});
+                }}>
+                <FavouriteIcon
+                  fav_status={
+                    this.state.toBeDisplayed[this.state.index]
+                      ? this.state.toBeDisplayed[this.state.index].fav_status
+                      : false
+                  }
+                />
                 <Text style={styles.IconTextStyle}>Favorite</Text>
               </TouchableOpacity>
               <TouchableOpacity
