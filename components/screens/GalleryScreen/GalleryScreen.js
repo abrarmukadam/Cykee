@@ -14,6 +14,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-crop-picker';
 import CameraRoll from '@react-native-community/cameraroll';
 import GallerySwiper from 'react-native-gallery-swiper';
+
+import Gallery from 'react-native-image-gallery';
+
 import {CaptionComponent} from '../../index';
 import {
   GlobalIconColor,
@@ -37,15 +40,36 @@ class GalleryScreen extends Component {
     index: this.props.route.params.index,
   };
   componentDidUpdate(prevProps) {
-    if (prevProps.photoArray != this.props.photoArray)
-      this.setState({photoArray: this.props.photoArray});
+    if (prevProps.photoArray != this.props.photoArray) {
+      let temp = [];
+      this.props.photoArray.map((item) => {
+        let newItem = {
+          source: {uri: item.uri},
+          dimension: {height: item.height, width: item.width},
+          caption: item.caption,
+        };
+        temp = [...temp, newItem];
+        // item.dimension={{item.height,item.width}}
+      });
+      this.setState({photoArray: temp});
+    }
     // if (this.props.route.params.index != prevProps.route.params.index) {
     //   this.setState({index: this.props.route.params.index});
     //   console.log('loading index2:', this.props.route.params.index);
     // }
   }
   componentDidMount() {
-    this.setState({photoArray: this.props.photoArray});
+    let temp = [];
+    this.props.photoArray.map((item) => {
+      let newItem = {
+        source: {uri: item.uri},
+        dimension: {height: item.height, width: item.width},
+        caption: item.caption,
+      };
+      temp = [...temp, newItem];
+      // item.dimension={{item.height,item.width}}
+    });
+    this.setState({photoArray: temp});
     // this.setState({index: this.props.route.params.index});
     // console.log('loading index:', this.props.route.params.index);
     //getting 1st 10 photos in Cykee gallery
@@ -125,7 +149,21 @@ class GalleryScreen extends Component {
     console.log(this.state.index);
     return (
       <View style={styles.container}>
-        <GallerySwiper
+        {this.state.photoArray[0] && (
+          <Gallery
+            images={this.state.photoArray}
+            initialPage={this.state.index}
+            style={{
+              width: '100%',
+              backgroundColor: this.state.optionsAvailable ? 'white' : 'black',
+            }}
+            onSingleTapConfirmed={() =>
+              this.setState({optionsAvailable: !this.state.optionsAvailable})
+            }
+            onPageSelected={(index) => this.setState({index: index})}
+          />
+        )}
+        {/* <GallerySwiper
           initialPage={this.state.index}
           // initialPage={0}
           style={{
@@ -193,7 +231,7 @@ class GalleryScreen extends Component {
           //   console.log('end Reached');
           //   //     // add more images when scroll reaches end
           // }}
-        />
+        /> */}
         {this.state.optionsAvailable && (
           <SafeAreaView style={styles.topContainer}>
             <TouchableOpacity
