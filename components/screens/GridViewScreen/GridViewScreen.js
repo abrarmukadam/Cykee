@@ -11,6 +11,7 @@ import {
 import styles from './styles';
 import {BackButton, FavouriteIcon} from './../../SubComponents/Buttons/index';
 // import FastImage from 'react-native-fast-image';
+import WebImage from 'react-native-web-image';
 
 class GridViewScreen extends Component {
   constructor() {
@@ -96,7 +97,7 @@ class GridViewScreen extends Component {
           onPress={() => {
             // Do Something
           }}>
-          <Image
+          <WebImage
             resizeMode="cover"
             style={{flex: 1, borderRadius: 5}}
             source={{uri: item.uri}}
