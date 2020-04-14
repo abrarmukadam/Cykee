@@ -1,10 +1,18 @@
-import {ADD_PHOTO, FAV_PHOTO} from './actionTypes';
+import {ADD_PHOTO, FAV_PHOTO, DELETE_PHOTO} from './actionTypes';
 
 export function addPhotoToList(newPhoto) {
   return {
     type: ADD_PHOTO,
     payload: {
       newPhoto: newPhoto,
+    },
+  };
+}
+export function deletePhotoFromList(newPhotoArray) {
+  return {
+    type: DELETE_PHOTO,
+    payload: {
+      newPhotoArray: newPhotoArray,
     },
   };
 }

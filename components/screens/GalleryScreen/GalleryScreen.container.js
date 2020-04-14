@@ -13,6 +13,11 @@ const mapDispatchToProps = (dispatch) => {
     favPhoto: (photoArray, photo_uri) => {
       return dispatch(Actions.galleryActions.favPhoto(photoArray, photo_uri));
     },
+    deletePhotoFromList: (newPhotoArray) => {
+      return dispatch(
+        Actions.galleryActions.deletePhotoFromList(newPhotoArray),
+      );
+    },
   };
 };
 

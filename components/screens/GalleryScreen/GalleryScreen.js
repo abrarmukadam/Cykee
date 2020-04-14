@@ -8,6 +8,7 @@ import {
   Image,
   Alert,
 } from 'react-native';
+
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -30,38 +31,49 @@ import {
 
 class GalleryScreen extends Component {
   state = {
-    photoArrayObj: [],
-    toBeDisplayed: [],
     optionsAvailable: true,
-    index: 0,
+    photoArray: [],
+    images: [],
+    index: this.props.route.params.index,
   };
-
+  componentDidUpdate(prevProps) {
+    if (prevProps.photoArray != this.props.photoArray)
+      this.setState({photoArray: this.props.photoArray});
+    // if (this.props.route.params.index != prevProps.route.params.index) {
+    //   this.setState({index: this.props.route.params.index});
+    //   console.log('loading index2:', this.props.route.params.index);
+    // }
+  }
   componentDidMount() {
+    this.setState({photoArray: this.props.photoArray});
+    // this.setState({index: this.props.route.params.index});
+    // console.log('loading index:', this.props.route.params.index);
     //getting 1st 10 photos in Cykee gallery
-    CameraRoll.getPhotos({
-      first: 10,
-      groupName: 'Cykee',
-    })
-      .then((r) => {
-        let temp = [];
-        r.edges.map((p, i) => {
-          let findingCaption = this.props.photoArray.find((item) => {
-            if (item.fileName == p.node.image.filename) return item;
-          });
-          p.node.image.caption = findingCaption.caption;
-          p.node.image.fav_status = findingCaption.fav_status;
-
-          return (temp = [...temp, p.node.image]);
-        });
-        this.setState({photoArrayObj: r, toBeDisplayed: temp});
-      })
-      .catch((err) => {
-        console.log('Error loading 1st image for Gallery Icon view');
-        //Error Loading Images
-      });
+    // console.log(this.props.photoArray[0]);
+    // CameraRoll.getPhotos({
+    //   first: 10,
+    //   groupName: 'Cykee',
+    // })
+    //   .then((r) => {
+    //     let temp = [];
+    //     r.edges.map((p, i) => {
+    //       let findingCaption = this.props.photoArray.find((item) => {
+    //         if (item.fileName == p.node.image.filename) return item;
+    //       });
+    //       p.node.image.caption = findingCaption.caption;
+    //       p.node.image.fav_status = findingCaption.fav_status;
+    //       return (temp = [...temp, p.node.image]);
+    //     });
+    //     this.setState({photoArrayObj: r, toBeDisplayed: temp});
+    //   })
+    //   .catch((err) => {
+    //     console.log('Error loading 1st image for Gallery Icon view');
+    //     //Error Loading Images
+    //   });
   }
   onPressGallery = () => {
     this.props.navigation.navigate('GridViewScreen');
+    // this.setState({index: 0});
     console.log('Gallery Pressed');
   };
   onPressShare = () => {
@@ -92,12 +104,13 @@ class GalleryScreen extends Component {
         {
           text: 'OK',
           onPress: () => {
-            CameraRoll.deletePhotos([this.state.toBeDisplayed[index].uri]);
-            // this.setState({
-            //   // photoArrayObj: [],
-            //   toBeDisplayed: [...this.state.toBeDisplayed.splice(index, 1)],
-            // });
-            console.log('toBeDisplayed:', this.state.toBeDisplayed);
+            CameraRoll.deletePhotos([this.props.photoArray[index].uri]);
+            let updatedPhotoArray = [...this.props.photoArray];
+            updatedPhotoArray.splice(index, 1);
+
+            console.log('updatedPhotoArray:', updatedPhotoArray);
+            this.props.deletePhotoFromList(updatedPhotoArray);
+            console.log('photo deleted');
           },
         },
       ],
@@ -109,18 +122,21 @@ class GalleryScreen extends Component {
     console.log('More Pressed');
   };
   render() {
+    console.log(this.state.index);
     return (
       <View style={styles.container}>
         <GallerySwiper
           initialPage={this.state.index}
+          // initialPage={0}
           style={{
             width: '100%',
             backgroundColor: this.state.optionsAvailable ? 'white' : 'black',
           }}
-          images={this.state.toBeDisplayed}
-          initialNumToRender={2}
+          // images={this.state.toBeDisplayed}
+          images={this.state.photoArray}
+          initialNumToRender={this.state.index + 2}
           pageMargin={6}
-          removeClippedSubviews={true}
+          // removeClippedSubviews={true}
           sensitiveScroll={true}
           onSingleTapConfirmed={() =>
             this.setState({optionsAvailable: !this.state.optionsAvailable})
@@ -129,61 +145,61 @@ class GalleryScreen extends Component {
           onDoubleTapConfirmed={() => console.log('2')}
           onLongPress={(i, j) => console.log(i, j)}
           onSwipeDownReleased={() => this.props.navigation.navigate('Home')}
-          onEndReachedThreshold={0.8}
-          onEndReached={() => {
-            // if (this.state.photoArrayObj.page_info)
-            //   console.log(
-            //     'this.state.photoArrayObj.page_info.end_cursor',
-            //     this.state.photoArrayObj,
-            //   );
-            if (this.state.photoArrayObj.page_info) {
-              // if (
-              //   this.state.index ==
-              //   this.state.photoArrayObj.page_info.end_cursor - 4
-              // )
-              console.log(
-                'load photo called-',
-                this.state.photoArrayObj.page_info.end_cursor,
-              );
-              CameraRoll.getPhotos({
-                first: 10,
-                after: this.state.photoArrayObj.page_info.end_cursor,
-                groupName: 'Cykee',
-              })
-                .then((r) => {
-                  let temp = [];
-                  let findingCaption = {};
-                  console.log('r.edges[0]', r.edges[0]);
-                  r.edges.map((p, i) => {
-                    findingCaption = this.props.photoArray.find((item) => {
-                      if (item.fileName == p.node.image.filename) return item;
-                    });
-                    p.node.image.caption = findingCaption.caption;
+          // onEndReachedThreshold={0.8}
+          // onEndReached={() => {
+          //   // if (this.state.photoArrayObj.page_info)
+          //   //   console.log(
+          //   //     'this.state.photoArrayObj.page_info.end_cursor',
+          //   //     this.state.photoArrayObj,
+          //   //   );
+          //   if (this.state.photoArrayObj.page_info) {
+          //     // if (
+          //     //   this.state.index ==
+          //     //   this.state.photoArrayObj.page_info.end_cursor - 4
+          //     // )
+          //     console.log(
+          //       'load photo called-',
+          //       this.state.photoArrayObj.page_info.end_cursor,
+          //     );
+          //     CameraRoll.getPhotos({
+          //       first: 10,
+          //       after: this.state.photoArrayObj.page_info.end_cursor,
+          //       groupName: 'Cykee',
+          //     })
+          //       .then((r) => {
+          //         let temp = [];
+          //         let findingCaption = {};
+          //         console.log('r.edges[0]', r.edges[0]);
+          //         r.edges.map((p, i) => {
+          //           findingCaption = this.props.photoArray.find((item) => {
+          //             if (item.fileName == p.node.image.filename) return item;
+          //           });
+          //           p.node.image.caption = findingCaption.caption;
 
-                    return (temp = [...temp, p.node.image]);
-                  });
-                  console.log(temp);
-                  this.setState({
-                    photoArrayObj: r,
-                    toBeDisplayed: [...this.state.toBeDisplayed, ...temp],
-                  });
-                })
-                .catch((err) => {
-                  console.log('Error loading 1st image for Gallery Icon view');
-                  //Error Loading Images
-                });
-            }
+          //           return (temp = [...temp, p.node.image]);
+          //         });
+          //         console.log(temp);
+          //         this.setState({
+          //           photoArrayObj: r,
+          //           toBeDisplayed: [...this.state.toBeDisplayed, ...temp],
+          //         });
+          //       })
+          //       .catch((err) => {
+          //         console.log('Error loading 1st image for Gallery Icon view');
+          //         //Error Loading Images
+          //       });
+          //   }
 
-            console.log('end Reached');
-            //     // add more images when scroll reaches end
-          }}
+          //   console.log('end Reached');
+          //   //     // add more images when scroll reaches end
+          // }}
         />
         {this.state.optionsAvailable && (
           <SafeAreaView style={styles.topContainer}>
             <TouchableOpacity
               onPress={() => {
                 // this.props.navigationgoBack()
-                this.props.navigation.navigate('Home');
+                this.props.navigation.navigate('GridViewScreen');
                 console.log('Back Pressed');
               }}>
               <Icon
@@ -203,8 +219,8 @@ class GalleryScreen extends Component {
           <SafeAreaView style={styles.bottomContainer}>
             <CaptionComponent
               caption={
-                this.state.toBeDisplayed[this.state.index]
-                  ? this.state.toBeDisplayed[this.state.index].caption
+                this.props.photoArray[this.state.index]
+                  ? this.props.photoArray[this.state.index].caption
                   : ''
               }
             />
@@ -219,17 +235,17 @@ class GalleryScreen extends Component {
               <TouchableOpacity
                 style={styles.IconContainer}
                 onPress={() => {
-                  this.onPressFav(this.state.toBeDisplayed[this.state.index]);
+                  this.onPressFav(this.props.photoArray[this.state.index]);
 
-                  let temp = [...this.state.toBeDisplayed];
-                  temp[this.state.index].fav_status = !temp[this.state.index]
-                    .fav_status;
-                  this.setState({toBeDisplayed: temp});
+                  // let temp = [...this.props.photoArray];
+                  // temp[this.state.index].fav_status = !temp[this.state.index]
+                  //   .fav_status;
+                  // this.setState({toBeDisplayed: temp});
                 }}>
                 <FavouriteIcon
                   fav_status={
-                    this.state.toBeDisplayed[this.state.index]
-                      ? this.state.toBeDisplayed[this.state.index].fav_status
+                    this.props.photoArray[this.state.index]
+                      ? this.props.photoArray[this.state.index].fav_status
                       : false
                   }
                 />

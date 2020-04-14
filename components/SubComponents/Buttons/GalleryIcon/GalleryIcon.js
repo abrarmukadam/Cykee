@@ -8,7 +8,7 @@ class GalleryIcon extends Component {
       <Icon
         name={'ios-images'}
         size={GlobalIconSize}
-        color={GalleryIconColor}
+        color={this.props.iconColor ? this.props.iconColor : GalleryIconColor}
       />
     );
   }

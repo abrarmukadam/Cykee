@@ -11,6 +11,7 @@ import {
   CameraType,
   TextMode,
   AspectRatio,
+  GalleryIcon,
 } from './../../SubComponents/Buttons/index';
 
 const PendingView = () => (
@@ -30,6 +31,11 @@ class CameraScreen extends Component {
   state = {};
 
   componentDidMount() {}
+  onPressGallery = () => {
+    this.props.navigation.navigate('GridViewScreen');
+    // this.setState({index: 0});
+    console.log('Gallery Pressed');
+  };
 
   takePicture = async function () {
     console.log('CLICK CLICK');
@@ -120,6 +126,11 @@ class CameraScreen extends Component {
                     this.props.changeAspectRatio(!this.props.aspectRatio)
                   }
                 />
+                <TouchableOpacity
+                  onPress={() => this.onPressGallery()}
+                  style={{marginTop: 10}}>
+                  <GalleryIcon iconColor="white" />
+                </TouchableOpacity>
               </View>
             );
           }}
@@ -127,7 +138,7 @@ class CameraScreen extends Component {
         <View style={styles.bottomContainer}>
           <GalleryButton
             onPressGalleryIcon={() =>
-              this.props.navigation.navigate('GalleryScreen')
+              this.props.navigation.navigate('GalleryScreen', {index: 0})
             }
           />
           <TakePicture onTakePicture={() => this.takePicture()} />

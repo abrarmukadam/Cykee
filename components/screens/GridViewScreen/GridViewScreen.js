@@ -45,6 +45,11 @@ class GridViewScreen extends Component {
       });
     }
   }
+  onPressGallery = () => {
+    this.props.navigation.navigate('GridViewScreen');
+    // this.setState({index: 0});
+    console.log('Gallery Pressed');
+  };
 
   render() {
     // console.log(this.state.text);
@@ -95,7 +100,11 @@ class GridViewScreen extends Component {
           style={{flex: 1, activeOpacity: 0}}
           // style={{width: '24%', height: 200}}
           onPress={() => {
+            let index = this.props.photoArray.indexOf(item);
             // Do Something
+            this.props.navigation.navigate('GalleryScreen', {index: index});
+
+            console.log('index:', index);
           }}>
           <WebImage
             resizeMode="cover"
