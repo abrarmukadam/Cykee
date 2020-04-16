@@ -37,14 +37,6 @@ target 'Cykee' do
 
   pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
-
-
-
-
-
-  pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
-
-
   pod 'RNShare', :path => '../node_modules/react-native-share'
 
   target 'CykeeTests' do

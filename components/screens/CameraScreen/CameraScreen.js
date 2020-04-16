@@ -10,6 +10,7 @@ import styles from './styles';
 import {RNCamera} from 'react-native-camera';
 import GalleryButton from './../../SubComponents/GalleryButton/GalleryButton';
 import CameraRoll from '@react-native-community/cameraroll';
+import VolumeControl, {VolumeControlEvents} from 'react-native-volume-control';
 
 import {
   TakePicture,
@@ -19,13 +20,7 @@ import {
   AspectRatio,
   GalleryIcon,
 } from './../../SubComponents/Buttons/index';
-const OPTIONS = {
-  quality: 1,
-  base64: true,
-  orientation: 'portrait',
-  // OPTIONS.mirrorImage = this.props.cameraType ? false : true; //0 = back , 1 = front
-  fixOrientation: true,
-};
+
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
 const PendingView = () => (
@@ -43,19 +38,39 @@ class CameraScreen extends Component {
     super(props);
   }
   state = {
-    asp: [],
+    asp: ['16:9'],
     options: {
       quality: 1,
       base64: true,
       orientation: 'portrait',
       fixOrientation: true,
+      volume: 0,
     },
   };
 
-  componentDidMount() {
-    this.camera.getSupportedRatiosAsync().then(temp => {
-      this.setState({asp: temp});
+  async componentDidMount() {
+    this.setState({
+      volume: await VolumeControl.getVolume(),
+      asp: await this.camera.getSupportedRatiosAsync(),
     });
+    // this.camera.getSupportedRatiosAsync().then(temp => {
+    //   this.setState({asp: temp});
+    // });
+    this.volEvent = VolumeControlEvents.addListener(
+      'VolumeChanged',
+      this.volumeEvent,
+    );
+    console.log('MOUNTED');
+  }
+  volumeEvent = event => {
+    console.log('volume event ');
+    if (this.state.volume >= event.volume) this.takePicture();
+
+    this.setState({volume: event.volume});
+  };
+  componentWillUnmount() {
+    // remove event listener
+    this.volEvent.remove();
   }
   onPressGallery = () => {
     this.props.navigation.navigate('GridViewScreen');
@@ -64,10 +79,19 @@ class CameraScreen extends Component {
   };
 
   takePicture = async function() {
+    const options = {
+      quality: 1,
+      base64: true,
+      orientation: 'portrait',
+      fixOrientation: true,
+      volume: 0,
+      // pauseAfterCapture: true,
+      mirrorImage: this.props.cameraType ? false : true, //0 = back , 1 = front
+    };
     console.log('CLICK CLICK');
-    const cam_options = {OPTIONS};
-    cam_options.mirrorImage = this.props.cameraType ? false : true; //0 = back , 1 = front
-    const data = await this.camera.takePictureAsync(cam_options);
+    // const cam_options = this.state.options;
+    // cam_options.mirrorImage = this.props.cameraType ? false : true; //0 = back , 1 = front
+    const data = await this.camera.takePictureAsync(options);
 
     if (this.props.textMode)
       this.props.navigation.navigate('PreviewScreen', {photo: data});
@@ -78,7 +102,7 @@ class CameraScreen extends Component {
       CameraRoll.save(data.uri, {
         type: 'photo',
         album: 'Cykee',
-      }).then(uri => console.log('uri uri uri:', uri));
+      }).then(uri => console.log('uri:', uri));
       newPhoto.height = data.height;
       newPhoto.width = data.width;
       let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
@@ -98,6 +122,8 @@ class CameraScreen extends Component {
   };
 
   render() {
+    console.log('asp:', this.state.asp[this.state.asp.length - 1]);
+    console.log('volume:', this.state.volume);
     return (
       <View style={styles.container}>
         <RNCamera
@@ -109,7 +135,12 @@ class CameraScreen extends Component {
           ]}
           type={this.props.cameraType ? 0 : 1} //back:0 , front:1
           flashMode={this.props.flashMode}
-          ratio={this.props.aspectRatio ? '4:3' : '16:9'}
+          ratio={
+            this.props.aspectRatio
+              ? '4:3'
+              : this.state.asp[this.state.asp.length - 1]
+          }
+          autoFocusPointOfInterest={{x: 1, y: 1}}
           autoFocus={true}
           // onCameraReady={this.getCameraRatio}
           onPictureTaken={() => console.log('onPictureTaken')}
@@ -126,7 +157,10 @@ class CameraScreen extends Component {
             buttonNegative: 'Cancel',
           }}>
           {({camera, status, recordAudioPermissionStatus}) => {
-            if (status !== 'READY') return <PendingView />;
+            if (status !== 'READY') {
+              console.log('NOT READY');
+              return <PendingView />;
+            }
             return (
               <View style={styles.CameraIconContainer}>
                 <FlashMode

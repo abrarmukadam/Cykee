@@ -47,7 +47,6 @@ class GalleryScreen extends Component {
       this.props.photoArray.map(item => {
         let newItem = {
           source: {uri: item.uri},
-          dimension: {height: 50, width: 50},
 
           // dimension: {height: item.height, width: item.width},
           caption: item.caption,
@@ -69,7 +68,6 @@ class GalleryScreen extends Component {
     this.props.photoArray.map(item => {
       let newItem = {
         source: {uri: item.uri},
-        dimension: {height: 50, width: 50},
         // dimension: {height: item.height, width: item.width},
         caption: item.caption,
       };
@@ -127,7 +125,8 @@ class GalleryScreen extends Component {
     console.log('Favorite Pressed');
     this.props.favPhoto(this.props.photoArray, item.uri);
   };
-  onPressEdit = () => {
+  onPressEdit = item => {
+    this.props.navigation.navigate('EditScreen', {photo: item});
     console.log('Edit Pressed');
   };
   onPressDelete = index => {
@@ -317,7 +316,9 @@ class GalleryScreen extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.IconContainer}
-                onPress={() => this.onPressEdit()}>
+                onPress={() =>
+                  this.onPressEdit(this.props.photoArray[this.state.index])
+                }>
                 <EditIcon />
                 <Text style={styles.IconTextStyle}>Edit</Text>
               </TouchableOpacity>

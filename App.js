@@ -9,6 +9,7 @@ import {default as CameraScreen} from './components/screens/CameraScreen/CameraS
 import {default as PreviewImageScreen} from './components/screens/PreviewImageScreen/PreviewImageScreen.container';
 import {default as GalleryScreen} from './components/screens/GalleryScreen/GalleryScreen.container';
 import {default as GridViewScreen} from './components/screens/GridViewScreen/GridViewScreen.container';
+import {default as EditScreen} from './components/screens/EditScreen/EditScreen.container';
 
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -66,6 +67,16 @@ function MyStack() {
       <Stack.Screen
         name="GridViewScreen"
         component={GridViewScreen}
+        options={{
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+          cardStyleInterpolator:
+            CardStyleInterpolators.forFadeFromBottomAndroid,
+        }}
+      />
+      <Stack.Screen
+        name="EditScreen"
+        component={EditScreen}
         options={{
           gestureEnabled: true,
           gestureDirection: 'vertical',

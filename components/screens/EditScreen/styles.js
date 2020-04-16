@@ -12,8 +12,8 @@ export default StyleSheet.create({
   },
 
   image: {
-    flex: 1,
-    resizeMode: 'center',
+    // flex: 1,
+    resizeMode: 'contain',
     position: 'absolute',
     width: '100%',
     height: '100%',
@@ -25,6 +25,16 @@ export default StyleSheet.create({
     top: 20,
     left: 20,
   },
+  cropButtonStyle: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+  rotateButtonStyle: {
+    position: 'absolute',
+    top: 60,
+    right: 20,
+  },
   saveButtonStyle: {
     flex: 0,
     alignSelf: 'center',
@@ -33,14 +43,10 @@ export default StyleSheet.create({
   textInputStyle: {
     flex: 1,
     fontSize: 20,
-    // backgroundColor: 'grey',
-    //    color: '#fffafa',
     color: 'white',
-
-    // fontWeight: 'bold',
-    // fontStyle: 'italic',
     borderRadius: 10,
     marginHorizontal: 6,
+    textAlign: 'center',
   },
   textBoxContainer: {
     flex: 1,
@@ -50,7 +56,6 @@ export default StyleSheet.create({
     paddingBottom: 10,
     flexDirection: 'row',
     backgroundColor: 'black',
-    // flex: 1,
     justifyContent: 'flex-start',
     alignContent: 'flex-start',
     opacity: 0.7,
