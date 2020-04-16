@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
+
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -6,14 +7,14 @@ import {
   Text,
   ScrollView,
   Image,
+  Dimensions,
   Alert,
 } from 'react-native';
+import Share from 'react-native-share';
 
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ImagePicker from 'react-native-image-crop-picker';
 import CameraRoll from '@react-native-community/cameraroll';
-import GallerySwiper from 'react-native-gallery-swiper';
 
 import Gallery from 'react-native-image-gallery';
 
@@ -31,6 +32,7 @@ import {
   MoreIcon,
   GalleryIcon,
 } from '../../SubComponents/Buttons/index';
+const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
 class GalleryScreen extends Component {
   state = {
@@ -42,16 +44,19 @@ class GalleryScreen extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.photoArray != this.props.photoArray) {
       let temp = [];
-      this.props.photoArray.map((item) => {
+      this.props.photoArray.map(item => {
         let newItem = {
           source: {uri: item.uri},
-          dimension: {height: item.height, width: item.width},
+          dimension: {height: 50, width: 50},
+
+          // dimension: {height: item.height, width: item.width},
           caption: item.caption,
         };
         temp = [...temp, newItem];
         // item.dimension={{item.height,item.width}}
       });
       this.setState({photoArray: temp});
+      console.log('did update');
     }
     // if (this.props.route.params.index != prevProps.route.params.index) {
     //   this.setState({index: this.props.route.params.index});
@@ -59,15 +64,16 @@ class GalleryScreen extends Component {
     // }
   }
   componentDidMount() {
+    console.log('did mount');
     let temp = [];
-    this.props.photoArray.map((item) => {
+    this.props.photoArray.map(item => {
       let newItem = {
         source: {uri: item.uri},
-        dimension: {height: item.height, width: item.width},
+        dimension: {height: 50, width: 50},
+        // dimension: {height: item.height, width: item.width},
         caption: item.caption,
       };
       temp = [...temp, newItem];
-      // item.dimension={{item.height,item.width}}
     });
     this.setState({photoArray: temp});
     // this.setState({index: this.props.route.params.index});
@@ -100,17 +106,31 @@ class GalleryScreen extends Component {
     // this.setState({index: 0});
     console.log('Gallery Pressed');
   };
-  onPressShare = () => {
+  onPressShare = item => {
     console.log('Share Pressed');
+    const shareOptions = {
+      type: 'image',
+      url: item.uri,
+      message: item.caption,
+      subject: item.caption,
+      title: item.caption,
+    };
+    Share.open(shareOptions)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        err && console.log(err);
+      });
   };
-  onPressFav = (item) => {
+  onPressFav = item => {
     console.log('Favorite Pressed');
     this.props.favPhoto(this.props.photoArray, item.uri);
   };
   onPressEdit = () => {
     console.log('Edit Pressed');
   };
-  onPressDelete = (index) => {
+  onPressDelete = index => {
     console.log('Delete Pressed');
     const deletHeader = 'Delete Photo ?';
     const deletMessage = 'Do you wish to Delete the selected Photo?';
@@ -146,7 +166,8 @@ class GalleryScreen extends Component {
     console.log('More Pressed');
   };
   render() {
-    console.log(this.state.index);
+    console.log('render ', HEIGHT);
+
     return (
       <View style={styles.container}>
         {this.state.photoArray[0] && (
@@ -154,13 +175,16 @@ class GalleryScreen extends Component {
             images={this.state.photoArray}
             initialPage={this.state.index}
             style={{
+              height: '100%',
               width: '100%',
               backgroundColor: this.state.optionsAvailable ? 'white' : 'black',
             }}
             onSingleTapConfirmed={() =>
-              this.setState({optionsAvailable: !this.state.optionsAvailable})
+              this.setState({
+                optionsAvailable: !this.state.optionsAvailable,
+              })
             }
-            onPageSelected={(index) => this.setState({index: index})}
+            onPageSelected={index => this.setState({index: index})}
           />
         )}
         {/* <GallerySwiper
@@ -265,7 +289,9 @@ class GalleryScreen extends Component {
             <SafeAreaView style={styles.bottomSubContainer}>
               <TouchableOpacity
                 style={styles.IconContainer}
-                onPress={() => this.onPressShare()}>
+                onPress={() =>
+                  this.onPressShare(this.props.photoArray[this.state.index])
+                }>
                 <ShareIcon />
                 <Text style={styles.IconTextStyle}>Share</Text>
               </TouchableOpacity>

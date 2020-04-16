@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, ActivityIndicator, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import styles from './styles';
 import {RNCamera} from 'react-native-camera';
 import GalleryButton from './../../SubComponents/GalleryButton/GalleryButton';
@@ -13,6 +19,14 @@ import {
   AspectRatio,
   GalleryIcon,
 } from './../../SubComponents/Buttons/index';
+const OPTIONS = {
+  quality: 1,
+  base64: true,
+  orientation: 'portrait',
+  // OPTIONS.mirrorImage = this.props.cameraType ? false : true; //0 = back , 1 = front
+  fixOrientation: true,
+};
+const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
 const PendingView = () => (
   <View
@@ -28,26 +42,32 @@ class CameraScreen extends Component {
   constructor(props) {
     super(props);
   }
-  state = {};
+  state = {
+    asp: [],
+    options: {
+      quality: 1,
+      base64: true,
+      orientation: 'portrait',
+      fixOrientation: true,
+    },
+  };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.camera.getSupportedRatiosAsync().then(temp => {
+      this.setState({asp: temp});
+    });
+  }
   onPressGallery = () => {
     this.props.navigation.navigate('GridViewScreen');
     // this.setState({index: 0});
     console.log('Gallery Pressed');
   };
 
-  takePicture = async function () {
+  takePicture = async function() {
     console.log('CLICK CLICK');
-    const options = {quality: 1, base64: true};
-    const asp = await this.camera.getSupportedRatiosAsync();
-    //[1:1 , 4:3, 16:9, 48:23]
-    console.log('asp:', asp);
-
-    const data = await this.camera.takePictureAsync(options);
-    //  eslint-disable-next-line
-    // console.log(data.uri);
-    // this.setState({photo: data});
+    const cam_options = {OPTIONS};
+    cam_options.mirrorImage = this.props.cameraType ? false : true; //0 = back , 1 = front
+    const data = await this.camera.takePictureAsync(cam_options);
 
     if (this.props.textMode)
       this.props.navigation.navigate('PreviewScreen', {photo: data});
@@ -58,7 +78,7 @@ class CameraScreen extends Component {
       CameraRoll.save(data.uri, {
         type: 'photo',
         album: 'Cykee',
-      }).then((uri) => console.log('uri uri uri:', uri));
+      }).then(uri => console.log('uri uri uri:', uri));
       newPhoto.height = data.height;
       newPhoto.width = data.width;
       let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
@@ -81,8 +101,8 @@ class CameraScreen extends Component {
     return (
       <View style={styles.container}>
         <RNCamera
-          ref={(ref) => (this.camera = ref)}
-          fixOrientation={false}
+          ref={ref => (this.camera = ref)}
+          // fixOrientation={false}
           style={[
             styles.preview,
             {height: this.props.aspectRatio ? '75%' : '100%'},
@@ -137,6 +157,7 @@ class CameraScreen extends Component {
         </RNCamera>
         <View style={styles.bottomContainer}>
           <GalleryButton
+            photo_uri={this.props.photoArray[0].uri}
             onPressGalleryIcon={() =>
               this.props.navigation.navigate('GalleryScreen', {index: 0})
             }

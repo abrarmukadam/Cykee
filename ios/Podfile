@@ -44,6 +44,9 @@ target 'Cykee' do
 
   pod 'RNFastImage', :path => '../node_modules/react-native-fast-image'
 
+
+  pod 'RNShare', :path => '../node_modules/react-native-share'
+
   target 'CykeeTests' do
     inherit! :search_paths
     # Pods for testing

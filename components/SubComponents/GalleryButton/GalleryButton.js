@@ -8,24 +8,24 @@ class GalleryButton extends Component {
   componentDidMount() {}
 
   render() {
-    CameraRoll.getPhotos({
-      first: 1,
-      groupName: 'Cykee',
-    })
-      .then((r) => {
-        this.setState({photo: r.edges[0].node.image.uri});
-      })
-      .catch((err) => {
-        console.log('Error loading 1st image for Gallery Icon view');
-        //Error Loading Images
-      });
+    // CameraRoll.getPhotos({
+    //   first: 1,
+    //   groupName: 'Cykee',
+    // })
+    //   .then((r) => {
+    //     this.setState({photo: r.edges[0].node.image.uri});
+    //   })
+    //   .catch((err) => {
+    //     console.log('Error loading 1st image for Gallery Icon view');
+    //     //Error Loading Images
+    //   });
     return (
       <TouchableOpacity
         style={styles.IconContainer}
         onPress={() => this.props.onPressGalleryIcon()}>
         <Image
           style={styles.ImageStyle}
-          source={{uri: this.state.photo}}
+          source={{uri: this.props.photo_uri}}
           defaultSource={require('../../Images/no-image.png')}
         />
       </TouchableOpacity>

@@ -18,7 +18,7 @@ export default StyleSheet.create({
     width: '100%',
     height: '100%',
     bottom: 0,
-    flexDirection: 'column',
+    // flexDirection: 'column',
   },
   crossButtonStyle: {
     position: 'absolute',
