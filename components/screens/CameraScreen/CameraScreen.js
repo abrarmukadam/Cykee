@@ -2,9 +2,13 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
+  TouchableWithoutFeedback,
   Dimensions,
   ActivityIndicator,
   TouchableOpacity,
+  PermissionsAndroid,
+  StyleSheet,
+  Slider,
 } from 'react-native';
 import styles from './styles';
 import {RNCamera} from 'react-native-camera';
@@ -46,9 +50,18 @@ class CameraScreen extends Component {
       fixOrientation: true,
       volume: 0,
     },
+    focus: false,
+    autoFocusPoint: {
+      normalized: {x: 0.5, y: 0.5}, // normalized values required for autoFocusPointOfInterest
+      drawRectPosition: {
+        x: Dimensions.get('window').width * 0.5 - 32,
+        y: Dimensions.get('window').height * 0.5 - 32,
+      },
+    },
   };
 
   async componentDidMount() {
+    console.log('MOUNTED');
     this.setState({
       volume: await VolumeControl.getVolume(),
       asp: await this.camera.getSupportedRatiosAsync(),
@@ -60,7 +73,6 @@ class CameraScreen extends Component {
       'VolumeChanged',
       this.volumeEvent,
     );
-    console.log('MOUNTED');
   }
   volumeEvent = event => {
     console.log('volume event ');
@@ -68,8 +80,16 @@ class CameraScreen extends Component {
 
     this.setState({volume: event.volume});
   };
+  componentWillMount() {
+    console.log('Component will mount called for Camera Screen');
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('CameraScreen did update called');
+  }
   componentWillUnmount() {
     // remove event listener
+    console.log('CameraScreen unmount');
     this.volEvent.remove();
   }
   onPressGallery = () => {
@@ -77,15 +97,17 @@ class CameraScreen extends Component {
     // this.setState({index: 0});
     console.log('Gallery Pressed');
   };
-
-  takePicture = async function() {
+  takeVideo = async () => {
+    console.log('take video');
+  };
+  takePicture = async () => {
     const options = {
       quality: 1,
       base64: true,
       orientation: 'portrait',
       fixOrientation: true,
       volume: 0,
-      // pauseAfterCapture: true,
+      pauseAfterCapture: true,
       mirrorImage: this.props.cameraType ? false : true, //0 = back , 1 = front
     };
     console.log('CLICK CLICK');
@@ -112,6 +134,8 @@ class CameraScreen extends Component {
       console.log('Photo saved in gallery:', newPhoto);
       this.props.addNewPhoto(newPhoto);
     }
+    this.camera.resumePreview();
+    this.setState({focus: false});
   };
 
   changeFlashMode = () => {
@@ -121,9 +145,36 @@ class CameraScreen extends Component {
     else this.props.changeFlashMode(0);
   };
 
+  touchToFocus = event => {
+    const {pageX, pageY} = event.nativeEvent;
+    const screenWidth = Dimensions.get('window').width;
+    const screenHeight = Dimensions.get('window').height;
+    const isPortrait = screenHeight > screenWidth;
+
+    let x = pageX / screenWidth;
+    let y = pageY / screenHeight;
+    // Coordinate transform for portrait. See autoFocusPointOfInterest in docs for more info
+    if (isPortrait) {
+      x = pageY / screenHeight;
+      y = -(pageX / screenWidth) + 1;
+    }
+
+    this.setState({
+      focus: true,
+      autoFocusPoint: {
+        normalized: {x, y},
+        drawRectPosition: {x: pageX, y: pageY},
+      },
+    });
+  };
+
   render() {
-    console.log('asp:', this.state.asp[this.state.asp.length - 1]);
-    console.log('volume:', this.state.volume);
+    console.log('Camera Screen Rendered');
+    console.log(this.state.autoFocusPoint);
+    const drawFocusRingPosition = {
+      top: this.state.autoFocusPoint.drawRectPosition.y - 32,
+      left: this.state.autoFocusPoint.drawRectPosition.x - 32,
+    };
     return (
       <View style={styles.container}>
         <RNCamera
@@ -140,8 +191,14 @@ class CameraScreen extends Component {
               ? '4:3'
               : this.state.asp[this.state.asp.length - 1]
           }
-          autoFocusPointOfInterest={{x: 1, y: 1}}
+          autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
+          // autoFocusPointOfInterest={{x: 1, y: 1}}
+
+          defaultOnFocusComponent={true}
+          // defaultTouchToFocus
+          // onFocusChanged={() => this._handleFocusChanged()}
           autoFocus={true}
+          zoom={this.state.zoom}
           // onCameraReady={this.getCameraRatio}
           onPictureTaken={() => console.log('onPictureTaken')}
           androidCameraPermissionOptions={{
@@ -158,45 +215,68 @@ class CameraScreen extends Component {
           }}>
           {({camera, status, recordAudioPermissionStatus}) => {
             if (status !== 'READY') {
+              PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+              );
               console.log('NOT READY');
               return <PendingView />;
             }
             return (
-              <View style={styles.CameraIconContainer}>
-                <FlashMode
-                  flashIcon={this.props.flashMode}
-                  onPressFlashMode={() => this.changeFlashMode()}
-                />
-                <TextMode
-                  textIcon={this.props.textMode}
-                  onPressTextMode={() =>
-                    this.props.changeTextMode(!this.props.textMode)
-                  }
+              <View style={StyleSheet.absoluteFill}>
+                <View
+                  style={[
+                    styles.autoFocusBox,
+                    drawFocusRingPosition,
+                    {borderColor: this.state.focus ? 'white' : '#0000'},
+                  ]}
                 />
 
-                <AspectRatio
-                  aspectIcon={this.props.aspectRatio}
-                  onPressAspectRatio={() =>
-                    this.props.changeAspectRatio(!this.props.aspectRatio)
-                  }
-                />
-                <TouchableOpacity
-                  onPress={() => this.onPressGallery()}
-                  style={{marginTop: 10}}>
-                  <GalleryIcon iconColor="white" />
-                </TouchableOpacity>
+                <TouchableWithoutFeedback
+                  onPress={event => this.touchToFocus(event)}>
+                  <View style={{flex: 1}} />
+                </TouchableWithoutFeedback>
+                <View style={styles.CameraIconContainer}>
+                  {/* <View style={[styles.autoFocusBox]} /> */}
+                  <FlashMode
+                    flashIcon={this.props.flashMode}
+                    onPressFlashMode={() => this.changeFlashMode()}
+                  />
+                  <TextMode
+                    textIcon={this.props.textMode}
+                    onPressTextMode={() =>
+                      this.props.changeTextMode(!this.props.textMode)
+                    }
+                  />
+
+                  <AspectRatio
+                    aspectIcon={this.props.aspectRatio}
+                    onPressAspectRatio={() =>
+                      this.props.changeAspectRatio(!this.props.aspectRatio)
+                    }
+                  />
+                  <TouchableOpacity
+                    onPress={() => this.onPressGallery()}
+                    style={{marginTop: 10}}>
+                    <GalleryIcon iconColor="white" />
+                  </TouchableOpacity>
+                </View>
               </View>
             );
           }}
         </RNCamera>
         <View style={styles.bottomContainer}>
           <GalleryButton
-            photo_uri={this.props.photoArray[0].uri}
+            photo_uri={
+              this.props.photoArray[0] ? this.props.photoArray[0].uri : ''
+            }
             onPressGalleryIcon={() =>
               this.props.navigation.navigate('GalleryScreen', {index: 0})
             }
           />
-          <TakePicture onTakePicture={() => this.takePicture()} />
+          <TakePicture
+            onTakePicture={() => this.takePicture()}
+            onTakeVideo={() => this.takeVideo()}
+          />
           <CameraType
             onPressCameraType={() =>
               this.props.changeCameraType(!this.props.cameraType)

@@ -165,8 +165,6 @@ class GalleryScreen extends Component {
     console.log('More Pressed');
   };
   render() {
-    console.log('render ', HEIGHT);
-
     return (
       <View style={styles.container}>
         {this.state.photoArray[0] && (

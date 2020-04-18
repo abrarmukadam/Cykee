@@ -25,20 +25,31 @@ export default StyleSheet.create({
     top: 20,
     left: 20,
   },
-  cropButtonStyle: {
+  undoButtonStyle: {
+    position: 'absolute',
+    top: 20,
+    right: WIDTH / 2 + 30,
+  },
+  redoButtonStyle: {
+    position: 'absolute',
+    top: 20,
+    right: WIDTH / 2 - 30,
+  },
+  saveButtonStyle: {
     position: 'absolute',
     top: 20,
     right: 20,
   },
-  rotateButtonStyle: {
+
+  cropButtonStyle: {
     position: 'absolute',
-    top: 60,
+    top: 80,
     right: 20,
   },
-  saveButtonStyle: {
-    flex: 0,
-    alignSelf: 'center',
-    paddingHorizontal: 4,
+  rotateButtonStyle: {
+    position: 'absolute',
+    top: 120,
+    right: 20,
   },
   textInputStyle: {
     flex: 1,
@@ -53,9 +64,9 @@ export default StyleSheet.create({
     width: '100%',
     position: 'absolute',
     bottom: 0,
-    paddingBottom: 10,
+    // paddingBottom: 10,
     flexDirection: 'row',
-    backgroundColor: 'black',
+    // backgroundColor: 'black',
     justifyContent: 'flex-start',
     alignContent: 'flex-start',
     opacity: 0.7,

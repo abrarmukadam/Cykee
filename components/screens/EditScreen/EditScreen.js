@@ -12,11 +12,15 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CameraRoll from '@react-native-community/cameraroll';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageRotate from 'react-native-image-rotate';
+import {Input} from 'react-native-elements';
 
 import {
   GlobalIconColor,
   GlobalIconSize,
+  GlobalMediumIconSize,
+  GlobalLargeIconSize,
 } from '../../SubComponents/Buttons/index';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 class EditScreen extends Component {
   constructor(props) {
     super(props);
@@ -24,16 +28,52 @@ class EditScreen extends Component {
 
   state = {
     photo: this.props.route.params.photo,
+    orignal_photo: this.props.route.params.photo,
     tempPhoto: this.props.route.params.photo,
+    prevPhoto: {},
+    nextPhoto: {},
     text: this.props.route.params.photo.caption,
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.tempPhoto.uri != this.state.tempPhoto.uri) {
+      this.setState({
+        photo: this.state.tempPhoto,
+        prevPhoto: prevState.photo,
+      });
+      console.log('photo changed');
+    }
+    if (prevState.photo.uri != this.state.photo.uri) {
+      //   this.setState({
+      //     prevPhoto: prevState.photo,
+      //   });
+    }
+  }
+
+  undoPressed = () => {
+    console.log('Undo Pressed');
+    this.setState({
+      nextPhoto: this.state.tempPhoto,
+      photo: this.state.prevPhoto,
+      prevPhoto: {},
+    });
+  };
+  redoPressed = () => {
+    this.setState({
+      prevPhoto: this.state.photo,
+      photo: this.state.nextPhoto,
+      nextPhoto: {},
+    });
+    console.log('redo Pressed');
+  };
+
   crossPressed = () => {
     console.log('crossPressed');
     const deletHeader = 'Discard changes ?';
     const deletMessage = '';
     if (
-      this.state.photo != this.state.tempPhoto ||
-      this.state.photo.caption != this.state.text
+      this.state.orignal_photo != this.state.photo ||
+      this.state.orignal_photo.caption != this.state.text
     )
       Alert.alert(
         deletHeader,
@@ -60,7 +100,7 @@ class EditScreen extends Component {
   cropPressed = () => {
     ImagePicker.openCropper({
       freeStyleCropEnabled: true,
-      path: this.state.tempPhoto.uri,
+      path: this.state.photo.uri,
     }).then(image => {
       image.uri = image.path;
       this.setState({tempPhoto: image});
@@ -71,12 +111,12 @@ class EditScreen extends Component {
     let DisplayedPhoto = {};
     console.log(this.state.photo.uri);
     ImageRotate.rotateImage(
-      this.state.tempPhoto.uri,
+      this.state.photo.uri,
       90,
       uri => {
         DisplayedPhoto.uri = uri;
-        DisplayedPhoto.height = this.state.tempPhoto.width;
-        DisplayedPhoto.width = this.state.tempPhoto.heightl;
+        DisplayedPhoto.height = this.state.photo.width;
+        DisplayedPhoto.width = this.state.photo.heightl;
         this.setState({tempPhoto: DisplayedPhoto});
       },
       error => {
@@ -85,17 +125,17 @@ class EditScreen extends Component {
     );
   };
 
-  savePhoto = photo => {
+  savePhoto = () => {
     let newPhoto = {};
-    const temp = photo.uri.split('/');
+    const temp = this.state.photo.uri.split('/');
     console.log('Photo saved in gallery');
     CameraRoll.save(this.state.photo.uri, {
       type: 'photo',
       album: 'Cykee',
     });
 
-    newPhoto.height = photo.height;
-    newPhoto.width = photo.width;
+    newPhoto.height = this.state.photo.height;
+    newPhoto.width = this.state.photo.width;
 
     let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
     newPhoto.fileName = temp[temp.length - 1];
@@ -103,14 +143,40 @@ class EditScreen extends Component {
     newPhoto.uri = galleryUri + newPhoto.fileName;
     console.log('Photo saved in gallery:', newPhoto);
     this.props.addNewPhoto(newPhoto);
-    this.props.navigation.goback();
+    this.props.navigation.goBack();
   };
 
   render() {
+    // console.log('prevPhoto:', this.state.prevPhoto.uri);
+    // console.log('nextPhoto:', this.state.nextPhoto.uri);
+    // console.log('OG PHOTO:', this.state.orignal_photo.uri);
+    // console.log('Photo:', this.state.photo.uri);
     return (
-      <KeyboardAvoidingView style={styles.container} disabled behavior="height">
-        <Image source={{uri: this.state.tempPhoto.uri}} style={styles.image} />
-        {/* <Image source={{uri: abx}} style={styles.image} /> */}
+      <View style={styles.container} disabled behavior="height">
+        <Image source={{uri: this.state.photo.uri}} style={styles.image} />
+        <Icon
+          name="md-save"
+          size={GlobalMediumIconSize}
+          color={GlobalIconColor}
+          style={[
+            styles.saveButtonStyle,
+            {
+              opacity:
+                this.state.text == this.state.orignal_photo.caption &&
+                this.state.photo.uri == this.state.orignal_photo.uri
+                  ? 0.5
+                  : 1,
+            },
+          ]}
+          disabled={
+            this.state.text == this.state.orignal_photo.caption &&
+            this.state.photo.uri == this.state.orignal_photo.uri
+              ? true
+              : false
+          }
+          onPress={() => this.savePhoto()}
+        />
+
         <Icon
           name="ios-close"
           size={GlobalIconSize}
@@ -132,9 +198,34 @@ class EditScreen extends Component {
           style={styles.rotateButtonStyle}
           onPress={() => this.rotatePressed()}
         />
-        <View style={styles.textBoxContainer}>
-          <TextInput
-            style={styles.textInputStyle}
+        <Icon
+          name="md-undo"
+          size={GlobalIconSize}
+          color={GlobalIconColor}
+          style={[
+            styles.undoButtonStyle,
+            {
+              opacity: this.state.prevPhoto.uri ? 1 : 0.5,
+            },
+          ]}
+          disabled={this.state.prevPhoto.uri ? false : true}
+          onPress={() => this.undoPressed()}
+        />
+        <Icon
+          name="md-redo"
+          size={GlobalIconSize}
+          color={GlobalIconColor}
+          style={[
+            styles.redoButtonStyle,
+            {opacity: this.state.nextPhoto.uri ? 1 : 0.5},
+          ]}
+          disabled={this.state.nextPhoto.uri ? false : true}
+          onPress={() => this.redoPressed()}
+        />
+        <KeyboardAvoidingView style={styles.textBoxContainer}>
+          <Input
+            containerStyle={{backgroundColor: 'black'}}
+            inputStyle={styles.textInputStyle}
             placeholder={'Add a caption...'}
             placeholderTextColor="grey"
             value={this.state.text}
@@ -143,15 +234,8 @@ class EditScreen extends Component {
             autoCapitalize="none"
             padding={10}
           />
-          <Icon
-            name="md-send"
-            size={GlobalIconSize}
-            color={GlobalIconColor}
-            style={styles.saveButtonStyle}
-            onPress={() => this.savePhoto(this.state.photo)}
-          />
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </View>
     );
   }
 }

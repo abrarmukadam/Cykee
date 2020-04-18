@@ -33,7 +33,6 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    // flex: 1,
     marginBottom: 40,
     opacity: 0.8,
     width: 60,
@@ -44,5 +43,14 @@ export default StyleSheet.create({
     marginRight: 4,
     justifyContent: 'space-around',
     paddingVertical: 20,
+  },
+  autoFocusBox: {
+    position: 'absolute',
+    height: 64,
+    width: 64,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: 'white',
+    opacity: 0.4,
   },
 });

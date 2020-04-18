@@ -12,6 +12,7 @@ import styles from './styles';
 import {BackButton, FavouriteIcon} from './../../SubComponents/Buttons/index';
 // import FastImage from 'react-native-fast-image';
 import WebImage from 'react-native-web-image';
+import {SearchBar, ButtonGroup} from 'react-native-elements';
 
 class GridViewScreen extends Component {
   constructor() {
@@ -24,16 +25,24 @@ class GridViewScreen extends Component {
   componentDidMount() {
     this.setState({
       filteredList: this.props.photoArray,
+      selectedIndex: 0,
     });
   }
-
+  componentWillUnmount() {
+    // remove event listener
+    console.log('GridViewScreen unmount');
+  }
   componentDidUpdate(prevProps, prevState) {
+    console.log('GridView did update called');
+
     let filteredList = [];
     if (
       prevState.searchFilter != this.state.searchFilter ||
-      prevProps.photoArray != this.props.photoArray
+      prevProps.photoArray != this.props.photoArray ||
+      (prevState.selectedIndex != this.state.selectedIndex &&
+        this.state.selectedIndex == 0)
     ) {
-      filteredList = this.props.photoArray.filter((List) => {
+      filteredList = this.props.photoArray.filter(List => {
         return (
           List.caption
             .toLowerCase()
@@ -44,31 +53,70 @@ class GridViewScreen extends Component {
         filteredList: filteredList,
       });
     }
+    if (prevState.selectedIndex != this.state.selectedIndex) {
+      if (this.state.selectedIndex == 1) {
+        filteredList = this.props.photoArray.filter(List => {
+          return List.fav_status == true;
+        });
+        this.setState({
+          filteredList: filteredList,
+        });
+      }
+    }
   }
   onPressGallery = () => {
     this.props.navigation.navigate('GridViewScreen');
     // this.setState({index: 0});
     console.log('Gallery Pressed');
   };
-
+  updateIndex = selectedIndex => {
+    this.setState({selectedIndex});
+    console.log('selected index:', selectedIndex);
+  };
   render() {
     // console.log(this.state.text);
+    const buttons = ['All', 'Favorites'];
+    const {selectedIndex} = this.state;
+
     return (
       <View style={styles.container}>
         <View style={styles.headerStyle}>
           <BackButton
-            onPressBack={() => this.props.navigation.navigate('Home')}
+            onPressBack={() => {
+              console.log('Back Pressed from Grid Screen');
+              this.props.navigation.navigate('Home');
+              //  this.props.navigation.goBack();
+              // this.props.navigation.navigate('Home');
+            }}
           />
-          <Text style={styles.headerTextStyle}>Cykee Gallery</Text>
+          <TouchableOpacity
+            onPress={() => {
+              console.log('Touch Back');
+              this.props.navigation.navigate('Home');
+              // this.props.navigation.popToTop();
+            }}>
+            <Text style={styles.headerTextStyle}>Cykee Gallery</Text>
+          </TouchableOpacity>
         </View>
+
         <ScrollView>
           <View style={styles.searchContainer}>
-            <TextInput
+            <SearchBar
+              containerStyle={{backgroundColor: 'silver'}}
+              inputContainerStyle={styles.searchContainer}
+              inputStyle={styles.searchStyle}
+              placeholder="Search Photo..."
+              onChangeText={text => this.setState({searchFilter: text})}
+              value={this.state.searchFilter}
+              style={styles.searchStyle}
+              round={true}
+            />
+            {/* <TextInput
               style={styles.searchStyle}
               placeholder={'Search Photo...'}
               placeholderTextColor={'silver'}
-              onChangeText={(text) => this.setState({searchFilter: text})}
-            />
+              onChangeText={text => this.setState({searchFilter: text})}
+            /> */}
           </View>
 
           <View style={styles.gridContainer}>
@@ -83,6 +131,12 @@ class GridViewScreen extends Component {
             )}
           </View>
         </ScrollView>
+        <ButtonGroup
+          containerStyle={styles.buttonContainerStyle}
+          onPress={this.updateIndex}
+          selectedIndex={selectedIndex}
+          buttons={buttons}
+        />
       </View>
     );
   }

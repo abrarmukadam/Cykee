@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   container: {
+    flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
     marginHorizontal: 2,
@@ -38,7 +39,12 @@ export default StyleSheet.create({
     // borderRadius: 24,
   },
   gridContainer: {height: '100%', width: '100%'},
-  searchContainer: {backgroundColor: 'grey', borderRadius: 25, marginBottom: 2},
-  searchStyle: {paddingStart: 10, color: 'white'},
+  searchContainer: {
+    backgroundColor: 'white',
+    // borderRadius: 25,
+    marginBottom: 2,
+  },
+  searchStyle: {paddingStart: 10, color: 'black'},
   favContainer: {position: 'absolute', top: 2, right: 2},
+  buttonContainerStyle: {flex: 0},
 });
