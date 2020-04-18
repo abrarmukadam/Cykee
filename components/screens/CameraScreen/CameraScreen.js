@@ -65,6 +65,7 @@ class CameraScreen extends Component {
     PermissionsAndroid.requestMultiple([
       PermissionsAndroid.PERMISSIONS.CAMERA,
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
     ]);
     this.camera.refreshAuthorizationStatus();
 
