@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Image, View, TextInput} from 'react-native';
+import {View, TextInput, KeyboardAvoidingView} from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CameraRoll from '@react-native-community/cameraroll';
+import FastImage from 'react-native-fast-image';
 
 import {
   GlobalIconColor,
@@ -18,7 +19,7 @@ class PreviewImageScreen extends Component {
     photo: this.props.route.params.photo,
     text: '',
   };
-  savePhoto = (photo) => {
+  savePhoto = photo => {
     let newPhoto = {};
     const temp = photo.uri.split('/');
     console.log('Photo saved in gallery');
@@ -42,8 +43,15 @@ class PreviewImageScreen extends Component {
     // let abx =
     //   'file:///storage/emulated/0/Pictures/Cykee/437233e2-bf11-432f-8633-ca175b9741ff.jpg';
     return (
-      <View style={styles.container}>
-        <Image source={{uri: this.state.photo.uri}} style={styles.image} />
+      <KeyboardAvoidingView style={styles.container}>
+        <FastImage
+          source={{
+            uri: this.state.photo.uri,
+            priority: FastImage.priority.high,
+          }}
+          resizeMode={FastImage.resizeMode.contain}
+          style={styles.image}
+        />
         {/* <Image source={{uri: abx}} style={styles.image} /> */}
         <Icon
           name="ios-close"
@@ -59,7 +67,7 @@ class PreviewImageScreen extends Component {
             placeholderTextColor="grey"
             value={this.state.text}
             // autoFocus
-            onChangeText={(text) => this.setState({text})}
+            onChangeText={text => this.setState({text})}
             autoCapitalize="none"
             padding={10}
           />
@@ -71,7 +79,7 @@ class PreviewImageScreen extends Component {
             onPress={() => this.savePhoto(this.state.photo)}
           />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

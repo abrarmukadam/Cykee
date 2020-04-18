@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, Text, Image} from 'react-native';
+import {TouchableOpacity, Text} from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
 import styles from './styles';
+import FastImage from 'react-native-fast-image';
 
 class GalleryButton extends Component {
   state = {photo: undefined};
@@ -23,7 +24,7 @@ class GalleryButton extends Component {
       <TouchableOpacity
         style={styles.IconContainer}
         onPress={() => this.props.onPressGalleryIcon()}>
-        <Image
+        <FastImage
           style={styles.ImageStyle}
           source={{uri: this.props.photo_uri}}
           defaultSource={require('../../Images/no-image.png')}

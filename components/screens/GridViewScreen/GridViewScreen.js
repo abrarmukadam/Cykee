@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PhotoGrid from 'react-native-photo-grid';
 import {
-  Image,
   ScrollView,
   TextInput,
   View,
@@ -10,8 +9,7 @@ import {
 } from 'react-native';
 import styles from './styles';
 import {BackButton, FavouriteIcon} from './../../SubComponents/Buttons/index';
-// import FastImage from 'react-native-fast-image';
-import WebImage from 'react-native-web-image';
+import FastImage from 'react-native-fast-image';
 import {SearchBar, ButtonGroup} from 'react-native-elements';
 
 class GridViewScreen extends Component {
@@ -160,8 +158,8 @@ class GridViewScreen extends Component {
 
             console.log('index:', index);
           }}>
-          <WebImage
-            resizeMode="cover"
+          <FastImage
+            resizeMode={FastImage.resizeMode.cover}
             style={{flex: 1, borderRadius: 5}}
             source={{uri: item.uri}}
           />
