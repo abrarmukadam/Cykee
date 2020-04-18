@@ -1,4 +1,9 @@
-const defaultState = {flashMode: 0};
+const defaultState = {
+  flashMode: 0,
+  textMode: true,
+  cameraType: 1,
+  aspectRatio: 0,
+};
 import {
   FLASH_MODE,
   CAMERA_TYPE,

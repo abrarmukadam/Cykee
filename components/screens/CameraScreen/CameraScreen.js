@@ -62,6 +62,12 @@ class CameraScreen extends Component {
 
   async componentDidMount() {
     console.log('MOUNTED');
+    PermissionsAndroid.requestMultiple([
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+    ]);
+    this.camera.refreshAuthorizationStatus();
+
     this.setState({
       volume: await VolumeControl.getVolume(),
       asp: await this.camera.getSupportedRatiosAsync(),
@@ -80,9 +86,6 @@ class CameraScreen extends Component {
 
     this.setState({volume: event.volume});
   };
-  componentWillMount() {
-    console.log('Component will mount called for Camera Screen');
-  }
 
   componentDidUpdate(prevProps, prevState) {
     console.log('CameraScreen did update called');
@@ -166,6 +169,13 @@ class CameraScreen extends Component {
         drawRectPosition: {x: pageX, y: pageY},
       },
     });
+    let intervalId = setTimeout(() => {
+      console.log('this will run after 2 seconds');
+      this.setState({
+        focus: false,
+      });
+      clearInterval(intervalId);
+    }, 2000);
   };
 
   render() {
@@ -192,32 +202,24 @@ class CameraScreen extends Component {
               : this.state.asp[this.state.asp.length - 1]
           }
           autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
-          // autoFocusPointOfInterest={{x: 1, y: 1}}
-
           defaultOnFocusComponent={true}
-          // defaultTouchToFocus
-          // onFocusChanged={() => this._handleFocusChanged()}
           autoFocus={true}
-          zoom={this.state.zoom}
-          // onCameraReady={this.getCameraRatio}
           onPictureTaken={() => console.log('onPictureTaken')}
-          androidCameraPermissionOptions={{
-            title: 'Permission to use camera',
-            message: 'We need your permission to use your camera',
-            buttonPositive: 'Ok',
-            buttonNegative: 'Cancel',
-          }}
-          androidRecordAudioPermissionOptions={{
-            title: 'Permission to use audio recording',
-            message: 'We need your permission to use your audio',
-            buttonPositive: 'Ok',
-            buttonNegative: 'Cancel',
-          }}>
+          // androidCameraPermissionOptions={{
+          //   title: 'Permission to use camera',
+          //   message: 'We need your permission to use your camera',
+          //   buttonPositive: 'Ok',
+          //   buttonNegative: 'Cancel',
+          // }}
+          // androidRecordAudioPermissionOptions={{
+          //   title: 'Permission to use audio recording',
+          //   message: 'We need your permission to use your audio',
+          //   buttonPositive: 'Ok',
+          //   buttonNegative: 'Cancel',
+          // }}
+        >
           {({camera, status, recordAudioPermissionStatus}) => {
             if (status !== 'READY') {
-              PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-              );
               console.log('NOT READY');
               return <PendingView />;
             }
