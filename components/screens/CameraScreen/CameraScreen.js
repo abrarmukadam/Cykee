@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {
   View,
   Text,
@@ -37,7 +37,7 @@ const PendingView = () => (
     <ActivityIndicator />
   </View>
 );
-class CameraScreen extends Component {
+class CameraScreen extends PureComponent {
   constructor(props) {
     super(props);
   }

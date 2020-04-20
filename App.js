@@ -1,7 +1,11 @@
-import {createStackNavigator} from '@react-navigation/stack';
+// import {createStackNavigator, createAppContainer} from 'react-navigation-stack';
+
 import * as React from 'react';
+import 'react-native-gesture-handler';
+
+import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
-import {CardStyleInterpolators} from '@react-navigation/stack';
+
 import {Component} from 'react';
 import {store, persistor} from './redux-store';
 
@@ -14,74 +18,58 @@ import {default as EditScreen} from './components/screens/EditScreen/EditScreen.
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 
-const config = {
-  // animation: 'spring',
-  config: {
-    // stiffness: 1000,
-    // damping: 500,
-    // mass: 3,
-    // overshootClamping: true,
-    // restDisplacementThreshold: 0.01,
-    // restSpeedThreshold: 0.01,
-  },
-};
 const Stack = createStackNavigator();
-function MyStack() {
+
+function MyStack(navigation) {
   return (
     <Stack.Navigator
       initialRouteName="Home"
-      headerMode="none"
+      // headerMode="none"
       screenOptions={{
-        headerTintColor: 'white',
-        // headerStyle: {backgroundColor: 'tomato'},
+        animationEnabled: false,
       }}>
       <Stack.Screen
         name="Home"
+        headerMode="none"
         component={CameraScreen}
-        options={
-          {
-            // cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-          }
-        }
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="PreviewScreen"
         component={PreviewImageScreen}
         options={{
-          gestureEnabled: true,
+          title: 'Preview',
           gestureDirection: 'vertical',
-          cardStyleInterpolator:
-            CardStyleInterpolators.forFadeFromBottomAndroid,
         }}
       />
       <Stack.Screen
         name="GalleryScreen"
         component={GalleryScreen}
-        options={{
+        options={({navigation, route}) => ({
+          title: '',
           gestureEnabled: true,
           gestureDirection: 'vertical',
-          cardStyleInterpolator:
-            CardStyleInterpolators.forFadeFromBottomAndroid,
-        }}
+        })}
       />
       <Stack.Screen
         name="GridViewScreen"
         component={GridViewScreen}
         options={{
+          title: 'Cykeee Gallery',
           gestureEnabled: true,
           gestureDirection: 'vertical',
-          cardStyleInterpolator:
-            CardStyleInterpolators.forFadeFromBottomAndroid,
         }}
       />
       <Stack.Screen
         name="EditScreen"
         component={EditScreen}
+        headerMode="none"
         options={{
+          headerShown: false,
           gestureEnabled: true,
           gestureDirection: 'vertical',
-          cardStyleInterpolator:
-            CardStyleInterpolators.forFadeFromBottomAndroid,
         }}
       />
     </Stack.Navigator>

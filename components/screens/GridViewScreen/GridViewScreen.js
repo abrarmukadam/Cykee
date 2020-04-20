@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PhotoGrid from 'react-native-photo-grid';
 import {
   ScrollView,
@@ -11,8 +11,9 @@ import styles from './styles';
 import {BackButton, FavouriteIcon} from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 import {SearchBar, ButtonGroup} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/native';
 
-class GridViewScreen extends Component {
+class GridViewScreen extends PureComponent {
   constructor() {
     super();
     this.state = {
@@ -72,31 +73,14 @@ class GridViewScreen extends Component {
     console.log('selected index:', selectedIndex);
   };
   render() {
+    const {navigation} = this.props;
+
     // console.log(this.state.text);
     const buttons = ['All', 'Favorites'];
     const {selectedIndex} = this.state;
 
     return (
       <View style={styles.container}>
-        <View style={styles.headerStyle}>
-          <BackButton
-            onPressBack={() => {
-              console.log('Back Pressed from Grid Screen');
-              this.props.navigation.navigate('Home');
-              //  this.props.navigation.goBack();
-              // this.props.navigation.navigate('Home');
-            }}
-          />
-          <TouchableOpacity
-            onPress={() => {
-              console.log('Touch Back');
-              this.props.navigation.navigate('Home');
-              // this.props.navigation.popToTop();
-            }}>
-            <Text style={styles.headerTextStyle}>Cykee Gallery</Text>
-          </TouchableOpacity>
-        </View>
-
         <ScrollView>
           <View style={styles.searchContainer}>
             <SearchBar

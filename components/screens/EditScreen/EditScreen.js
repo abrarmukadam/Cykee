@@ -4,7 +4,7 @@ import {
   View,
   TextInput,
   KeyboardAvoidingView,
-  ImageEditor,
+  Text,
   Alert,
 } from 'react-native';
 import styles from './styles';
@@ -152,7 +152,7 @@ class EditScreen extends Component {
     // console.log('OG PHOTO:', this.state.orignal_photo.uri);
     // console.log('Photo:', this.state.photo.uri);
     return (
-      <View style={styles.container} disabled behavior="height">
+      <View style={styles.container2} disabled behavior="height">
         <Image source={{uri: this.state.photo.uri}} style={styles.image} />
         <Icon
           name="md-save"
@@ -176,7 +176,6 @@ class EditScreen extends Component {
           }
           onPress={() => this.savePhoto()}
         />
-
         <Icon
           name="ios-close"
           size={GlobalIconSize}

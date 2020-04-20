@@ -35,13 +35,16 @@ import {
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
 class GalleryScreen extends Component {
+  constructor(props) {
+    super(props);
+  }
   state = {
     optionsAvailable: true,
     photoArray: [],
     images: [],
     index: this.props.route.params.index,
   };
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.photoArray != this.props.photoArray) {
       let temp = [];
       this.props.photoArray.map(item => {
@@ -61,6 +64,10 @@ class GalleryScreen extends Component {
     //   this.setState({index: this.props.route.params.index});
     //   console.log('loading index2:', this.props.route.params.index);
     // }
+    if (prevState.optionsAvailable != this.state.optionsAvailable)
+      this.props.navigation.setOptions({
+        headerShown: this.state.optionsAvailable ? true : false,
+      });
   }
   componentDidMount() {
     console.log('did mount');
@@ -98,8 +105,27 @@ class GalleryScreen extends Component {
     //     console.log('Error loading 1st image for Gallery Icon view');
     //     //Error Loading Images
     //   });
+    this.props.navigation.setOptions({
+      headerTransparent: true,
+      headerStyle: {
+        backgroundColor: '#0000',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerRight: () => this.rightHeaderButton,
+    });
   }
+  rightHeaderButton = (
+    <TouchableOpacity
+      onPress={() => this.onPressGallery()}
+      style={[styles.IconContainer, {flex: 0}]}>
+      <GalleryIcon iconColor="white" />
+    </TouchableOpacity>
+  );
   onPressGallery = () => {
+    this.props.navigation.navigate('GridViewScreen');
     this.props.navigation.navigate('GridViewScreen');
     // this.setState({index: 0});
     console.log('Gallery Pressed');
@@ -172,6 +198,7 @@ class GalleryScreen extends Component {
             images={this.state.photoArray}
             initialPage={this.state.index}
             style={{
+              flex: 1,
               height: '100%',
               width: '100%',
               backgroundColor: this.state.optionsAvailable ? 'white' : 'black',
@@ -253,27 +280,6 @@ class GalleryScreen extends Component {
           //   //     // add more images when scroll reaches end
           // }}
         /> */}
-        {this.state.optionsAvailable && (
-          <SafeAreaView style={styles.topContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                // this.props.navigationgoBack()
-                this.props.navigation.navigate('GridViewScreen');
-                console.log('Back Pressed');
-              }}>
-              <Icon
-                name="md-arrow-back"
-                size={GlobalIconSize}
-                color={GalleryIconColor}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.onPressGallery()}
-              style={[styles.IconContainer, {flex: 0}]}>
-              <GalleryIcon />
-            </TouchableOpacity>
-          </SafeAreaView>
-        )}
         {this.state.optionsAvailable && (
           <SafeAreaView style={styles.bottomContainer}>
             <CaptionComponent
