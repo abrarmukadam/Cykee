@@ -12,6 +12,14 @@ import {BackButton, FavouriteIcon} from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 import {SearchBar, ButtonGroup} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+import {
+  GlobalIconColor,
+  GlobalIconSize,
+  GlobalMediumIconSize,
+  GlobalLargeIconSize,
+} from '../../SubComponents/Buttons/index';
 
 class GridViewScreen extends PureComponent {
   constructor() {
@@ -27,10 +35,7 @@ class GridViewScreen extends PureComponent {
       selectedIndex: 0,
     });
   }
-  componentWillUnmount() {
-    // remove event listener
-    console.log('GridViewScreen unmount');
-  }
+
   componentDidUpdate(prevProps, prevState) {
     console.log('GridView did update called');
 
@@ -38,44 +43,38 @@ class GridViewScreen extends PureComponent {
     if (
       prevState.searchFilter != this.state.searchFilter ||
       prevProps.photoArray != this.props.photoArray ||
-      (prevState.selectedIndex != this.state.selectedIndex &&
-        this.state.selectedIndex == 0)
+      prevState.selectedIndex != this.state.selectedIndex
     ) {
-      filteredList = this.props.photoArray.filter(List => {
-        return (
-          List.caption
-            .toLowerCase()
-            .indexOf(this.state.searchFilter.toLowerCase()) !== -1
-        );
-      });
+      // console.log(this.state.selectedIndex)
+      if (this.state.selectedIndex == 1)
+        filteredList = this.props.photoArray.filter(List => {
+          return (
+            List.caption
+              .toLowerCase()
+              .indexOf(this.state.searchFilter.toLowerCase()) !== -1 &&
+            List.fav_status == true
+          );
+        });
+      else
+        filteredList = this.props.photoArray.filter(List => {
+          return (
+            List.caption
+              .toLowerCase()
+              .indexOf(this.state.searchFilter.toLowerCase()) !== -1
+          );
+        });
       this.setState({
         filteredList: filteredList,
       });
     }
-    if (prevState.selectedIndex != this.state.selectedIndex) {
-      if (this.state.selectedIndex == 1) {
-        filteredList = this.props.photoArray.filter(List => {
-          return List.fav_status == true;
-        });
-        this.setState({
-          filteredList: filteredList,
-        });
-      }
-    }
   }
-  onPressGallery = () => {
-    this.props.navigation.navigate('GridViewScreen');
-    // this.setState({index: 0});
-    console.log('Gallery Pressed');
-  };
+
   updateIndex = selectedIndex => {
     this.setState({selectedIndex});
     console.log('selected index:', selectedIndex);
   };
   render() {
-    const {navigation} = this.props;
-
-    // console.log(this.state.text);
+    console.log(this.state.searchFilter);
     const buttons = ['All', 'Favorites'];
     const {selectedIndex} = this.state;
 
@@ -83,22 +82,27 @@ class GridViewScreen extends PureComponent {
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.searchContainer}>
-            <SearchBar
-              containerStyle={{backgroundColor: 'silver'}}
-              inputContainerStyle={styles.searchContainer}
-              inputStyle={styles.searchStyle}
-              placeholder="Search Photo..."
-              onChangeText={text => this.setState({searchFilter: text})}
-              value={this.state.searchFilter}
-              style={styles.searchStyle}
-              round={true}
+            <Icon
+              name="ios-search"
+              size={GlobalIconSize - 10}
+              color={'grey'}
+              style={{position: 'absolute', left: 10}}
             />
-            {/* <TextInput
+
+            <TextInput
               style={styles.searchStyle}
               placeholder={'Search Photo...'}
+              value={this.state.searchFilter}
               placeholderTextColor={'silver'}
               onChangeText={text => this.setState({searchFilter: text})}
-            /> */}
+            />
+            {this.state.searchFilter != '' && (
+              <TouchableOpacity
+                style={{position: 'absolute', right: 30, padding: 4}}
+                onPress={() => this.setState({searchFilter: ''})}>
+                <Icon name="ios-close" size={GlobalIconSize} color={'grey'} />
+              </TouchableOpacity>
+            )}
           </View>
 
           <View style={styles.gridContainer}>
@@ -128,9 +132,10 @@ class GridViewScreen extends PureComponent {
   }
 
   renderItem = (item, itemSize) => {
-    // console.log(item.fav_status);
     return (
-      <View style={[styles.cardStyle, {activeOpacity: 0}]}>
+      <View
+        style={[styles.cardStyle, {activeOpacity: 0, marginRight: 2}]}
+        key={this.props.photoArray.indexOf(item)}>
         <TouchableOpacity
           key={item.id}
           style={{flex: 1, activeOpacity: 0}}
@@ -138,7 +143,7 @@ class GridViewScreen extends PureComponent {
           onPress={() => {
             let index = this.props.photoArray.indexOf(item);
             // Do Something
-            this.props.navigation.navigate('GalleryScreen', {index: index});
+            this.props.navigation.push('GalleryScreen', {index: index});
 
             console.log('index:', index);
           }}>
@@ -148,9 +153,12 @@ class GridViewScreen extends PureComponent {
             source={{uri: item.uri}}
           />
         </TouchableOpacity>
-        <View style={styles.captionContainer}>
-          <Text style={styles.captionStyle}>{item.caption}</Text>
-        </View>
+
+        {item.caption != '' && (
+          <View style={styles.captionContainer}>
+            <Text style={styles.captionStyle}>{item.caption}</Text>
+          </View>
+        )}
         <TouchableOpacity
           style={styles.favContainer}
           onPress={() => {

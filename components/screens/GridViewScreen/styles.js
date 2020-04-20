@@ -41,10 +41,14 @@ export default StyleSheet.create({
   gridContainer: {height: '100%', width: '100%'},
   searchContainer: {
     backgroundColor: 'white',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     // borderRadius: 25,
     marginBottom: 2,
+    paddingHorizontal: 30,
   },
-  searchStyle: {paddingStart: 10, color: 'black'},
+  searchStyle: {paddingStart: 10, color: 'black', width: '100%'},
   favContainer: {position: 'absolute', top: 2, right: 2},
   buttonContainerStyle: {flex: 0},
 });

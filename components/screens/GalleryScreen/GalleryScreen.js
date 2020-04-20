@@ -8,6 +8,8 @@ import {
   ScrollView,
   Dimensions,
   Alert,
+  TouchableWithoutFeedback,
+  Image,
 } from 'react-native';
 import Share from 'react-native-share';
 
@@ -16,6 +18,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CameraRoll from '@react-native-community/cameraroll';
 
 import Gallery from 'react-native-image-gallery';
+import Carousel from 'react-native-snap-carousel';
+import FastImage from 'react-native-fast-image';
 
 import {CaptionComponent} from '../../index';
 import {
@@ -63,10 +67,10 @@ class GalleryScreen extends Component {
     //   this.setState({index: this.props.route.params.index});
     //   console.log('loading index2:', this.props.route.params.index);
     // }
-    if (prevState.optionsAvailable != this.state.optionsAvailable)
-      this.props.navigation.setOptions({
-        headerShown: this.state.optionsAvailable ? true : false,
-      });
+    // if (prevState.optionsAvailable != this.state.optionsAvailable)
+    //   this.props.navigation.setOptions({
+    //     headerShown: this.state.optionsAvailable ? true : false,
+    //   });
   }
   componentDidMount() {
     console.log('did mount');
@@ -105,15 +109,15 @@ class GalleryScreen extends Component {
     //     //Error Loading Images
     //   });
     this.props.navigation.setOptions({
-      headerTransparent: true,
-      headerStyle: {
-        backgroundColor: '#0000',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-      headerRight: () => this.rightHeaderButton,
+      // headerTransparent: true,
+      // headerStyle: {
+      //   backgroundColor: '#0000',
+      // },
+      // headerTintColor: '#fff',
+      // headerTitleStyle: {
+      //   fontWeight: 'bold',
+      // },
+      // headerRight: () => this.rightHeaderButton,
     });
   }
   rightHeaderButton = (
@@ -189,18 +193,53 @@ class GalleryScreen extends Component {
   onPressMore = () => {
     console.log('More Pressed');
   };
+
+  _renderItem = ({item, index}) => {
+    return (
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => {
+          this.setState({
+            optionsAvailable: !this.state.optionsAvailable,
+          });
+        }}
+        style={styles.ItemContainer}>
+        {/* <Image source={{uri: item.uri}} style={styles.image} /> */}
+        <Image
+          resizeMode={FastImage.resizeMode.cover}
+          // resizeMode={FastImage.resizeMode.cover}
+          style={{flex: 1, resizeMode: 'cover'}}
+          source={{uri: item.uri}}
+        />
+        {/* {item.caption != '' && (
+          <View style={styles.captionContainer}>
+            <Text style={styles.captionStyle}>{item.caption}</Text>
+          </View>
+        )} */}
+      </TouchableOpacity>
+    );
+  };
   render() {
     return (
       <View style={styles.container}>
         {this.state.photoArray[0] && (
           <Gallery
-            images={this.state.photoArray}
-            initialPage={this.state.index}
             style={{
               flex: 1,
               height: '100%',
               width: '100%',
-              backgroundColor: this.state.optionsAvailable ? 'white' : 'black',
+              backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
+            }}
+            images={this.state.photoArray}
+            initialPage={this.state.index}
+            flatListProps={{
+              initialNumToRender: this.state.index,
+              initialScrollIndex: this.state.index,
+              getItemLayout: (data, index) => ({
+                length: Dimensions.get('screen').width,
+                offset: Dimensions.get('screen').width * index,
+                index,
+              }),
             }}
             onSingleTapConfirmed={() =>
               this.setState({
@@ -209,6 +248,33 @@ class GalleryScreen extends Component {
             }
             onPageSelected={index => this.setState({index: index})}
           />
+
+          // <Gallery
+          //   images={this.state.photoArray}
+          //   initialPage={this.state.index}
+          //   style={{
+          //     flex: 1,
+          //     height: '100%',
+          //     width: '100%',
+          //     backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
+          //   }}
+          //   onSingleTapConfirmed={() =>
+          //     this.setState({
+          //       optionsAvailable: !this.state.optionsAvailable,
+          //     })
+          //   }
+          //   onPageSelected={index => this.setState({index: index})}
+          // />
+          // <Carousel
+          //   ref={c => {
+          //     this._carousel = c;
+          //   }}
+          //   data={this.state.photoArray}
+          //   renderItem={this._renderItem}
+          //   sliderWidth={WIDTH}
+          //   itemWidth={WIDTH}
+          //   onSnapToItem={index => this.setState({index: index})}
+          // />
         )}
         {/* <GallerySwiper
           initialPage={this.state.index}
@@ -279,6 +345,28 @@ class GalleryScreen extends Component {
           //   //     // add more images when scroll reaches end
           // }}
         /> */}
+
+        {this.state.optionsAvailable && (
+          <SafeAreaView style={styles.topContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.goBack();
+                console.log('Back Pressed');
+              }}>
+              <Icon
+                name="md-arrow-back"
+                size={GlobalIconSize}
+                color={GalleryIconColor}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.onPressGallery()}
+              style={[styles.IconContainer, {flex: 0}]}>
+              <GalleryIcon />
+            </TouchableOpacity>
+          </SafeAreaView>
+        )}
+
         {this.state.optionsAvailable && (
           <SafeAreaView style={styles.bottomContainer}>
             <CaptionComponent

@@ -88,10 +88,7 @@ class CameraScreen extends PureComponent {
     this.setState({volume: event.volume});
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log('CameraScreen did update called');
-  }
-  componentWillUnmount() {
+  componenDidUnmount() {
     // remove event listener
     console.log('CameraScreen unmount');
     this.volEvent.remove();

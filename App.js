@@ -25,6 +25,9 @@ function MyStack(navigation) {
     <Stack.Navigator
       initialRouteName="Home"
       // headerMode="none"
+      // options={{
+      //   headerTintColor: 'red',
+      // }}
       screenOptions={{
         animationEnabled: false,
       }}>
@@ -42,17 +45,19 @@ function MyStack(navigation) {
         options={{
           title: 'Preview',
           headerTransparent: true,
-          // gestureDirection: 'vertical',
+          headerTintColor: 'white',
         }}
       />
       <Stack.Screen
         name="GalleryScreen"
         component={GalleryScreen}
-        options={({navigation, route}) => ({
+        options={{
           title: '',
+          // headerTransparent: true,
+          headerShown: false,
           gestureEnabled: true,
           gestureDirection: 'vertical',
-        })}
+        }}
       />
       <Stack.Screen
         name="GridViewScreen"
