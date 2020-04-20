@@ -6,7 +6,6 @@ import {
   View,
   Text,
   ScrollView,
-  Image,
   Dimensions,
   Alert,
 } from 'react-native';

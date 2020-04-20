@@ -41,7 +41,8 @@ function MyStack(navigation) {
         component={PreviewImageScreen}
         options={{
           title: 'Preview',
-          gestureDirection: 'vertical',
+          headerTransparent: true,
+          // gestureDirection: 'vertical',
         }}
       />
       <Stack.Screen
