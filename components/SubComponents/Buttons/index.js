@@ -16,6 +16,11 @@ import EditIcon from './EditIcon/EditIcon';
 import MoreIcon from './MoreIcon/MoreIcon';
 import BackButton from './BackButton/BackButton';
 
+//Gallery(Grid) view component
+import GridViewComponent from '../GridViewComponent/GridViewComponent';
+
+export {GridViewComponent};
+
 export {ShareIcon, FavouriteIcon, DeleteIcon, EditIcon, MoreIcon, BackButton};
 //Global constants
 const GlobalIconColor = 'white';

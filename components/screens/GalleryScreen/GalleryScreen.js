@@ -7,6 +7,7 @@ import {
   Text,
   ScrollView,
   Dimensions,
+  StatusBar,
   Alert,
   TouchableWithoutFeedback,
   Image,
@@ -20,6 +21,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 import Gallery from 'react-native-image-gallery';
 import Carousel from 'react-native-snap-carousel';
 import FastImage from 'react-native-fast-image';
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 import {CaptionComponent} from '../../index';
 import {
@@ -43,6 +45,7 @@ class GalleryScreen extends Component {
   }
   state = {
     optionsAvailable: true,
+    showCapion: true,
     photoArray: [],
     images: [],
     index: this.props.route.params.index,
@@ -128,8 +131,7 @@ class GalleryScreen extends Component {
     </TouchableOpacity>
   );
   onPressGallery = () => {
-    this.props.navigation.navigate('GridViewScreen');
-    this.props.navigation.navigate('GridViewScreen');
+    this.props.navigation.navigate('GalleryTab');
     // this.setState({index: 0});
     console.log('Gallery Pressed');
   };
@@ -194,42 +196,54 @@ class GalleryScreen extends Component {
     console.log('More Pressed');
   };
 
-  _renderItem = ({item, index}) => {
-    return (
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={() => {
-          this.setState({
-            optionsAvailable: !this.state.optionsAvailable,
-          });
-        }}
-        style={styles.ItemContainer}>
-        {/* <Image source={{uri: item.uri}} style={styles.image} /> */}
-        <Image
-          resizeMode={FastImage.resizeMode.cover}
-          // resizeMode={FastImage.resizeMode.cover}
-          style={{flex: 1, resizeMode: 'cover'}}
-          source={{uri: item.uri}}
-        />
-        {/* {item.caption != '' && (
-          <View style={styles.captionContainer}>
-            <Text style={styles.captionStyle}>{item.caption}</Text>
-          </View>
-        )} */}
-      </TouchableOpacity>
-    );
-  };
+  // _renderItem = ({item, index}) => {
+  //   return (
+  //     <TouchableOpacity
+  //       activeOpacity={1}
+  //       onPress={() => {
+  //         this.setState({
+  //           optionsAvailable: !this.state.optionsAvailable,
+  //         });
+  //       }}
+  //       style={styles.ItemContainer}>
+  //       {/* <Image source={{uri: item.uri}} style={styles.image} /> */}
+  //       <Image
+  //         // resizeMode={FastImage.resizeMode.cover}
+  //         // resizeMode={FastImage.resizeMode.cover}
+  //         style={{flex: 1, resizeMode: 'cover'}}
+  //         source={{uri: item.uri}}
+  //       />
+  //       {/* {item.caption != '' && (
+  //         <View style={styles.captionContainer}>
+  //           <Text style={styles.captionStyle}>{item.caption}</Text>
+  //         </View>
+  //       )} */}
+  //     </TouchableOpacity>
+  //   );
+  // };
   render() {
+    const config = {
+      velocityThreshold: 0.3,
+      directionalOffsetThreshold: 80,
+    };
+    const ImageRatio =
+      this.props.photoArray[this.state.index].height /
+      this.props.photoArray[this.state.index].width;
+    console.log('height:', this.props.photoArray[this.state.index].height);
+    console.log('width:', this.props.photoArray[this.state.index].width);
     return (
       <View style={styles.container}>
+        <StatusBar hidden={!this.state.optionsAvailable} />
         {this.state.photoArray[0] && (
           <Gallery
             style={{
-              flex: 1,
+              // flex: 1,
               height: '100%',
               width: '100%',
               backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
             }}
+            // ImageResizeMode={'contain'}
+            ImageResizeMode={ImageRatio >= 2 ? 'stretch' : 'center'}
             images={this.state.photoArray}
             initialPage={this.state.index}
             flatListProps={{
@@ -248,33 +262,6 @@ class GalleryScreen extends Component {
             }
             onPageSelected={index => this.setState({index: index})}
           />
-
-          // <Gallery
-          //   images={this.state.photoArray}
-          //   initialPage={this.state.index}
-          //   style={{
-          //     flex: 1,
-          //     height: '100%',
-          //     width: '100%',
-          //     backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
-          //   }}
-          //   onSingleTapConfirmed={() =>
-          //     this.setState({
-          //       optionsAvailable: !this.state.optionsAvailable,
-          //     })
-          //   }
-          //   onPageSelected={index => this.setState({index: index})}
-          // />
-          // <Carousel
-          //   ref={c => {
-          //     this._carousel = c;
-          //   }}
-          //   data={this.state.photoArray}
-          //   renderItem={this._renderItem}
-          //   sliderWidth={WIDTH}
-          //   itemWidth={WIDTH}
-          //   onSnapToItem={index => this.setState({index: index})}
-          // />
         )}
         {/* <GallerySwiper
           initialPage={this.state.index}
@@ -367,15 +354,38 @@ class GalleryScreen extends Component {
           </SafeAreaView>
         )}
 
-        {this.state.optionsAvailable && (
-          <SafeAreaView style={styles.bottomContainer}>
-            <CaptionComponent
-              caption={
-                this.props.photoArray[this.state.index]
-                  ? this.props.photoArray[this.state.index].caption
-                  : ''
-              }
-            />
+        <SafeAreaView style={styles.bottomContainer}>
+          <GestureRecognizer
+            // onSwipe={(direction, state) => this.onSwipe(direction, state)}
+            onSwipeUp={() => this.setState({showCapion: true})}
+            onSwipeDown={() => this.setState({showCapion: false})}
+            config={config}
+            style={{
+              flex: 1,
+              // marginTop: 50,
+              // borderColor: 'red',
+              // borderWidth: 2,
+            }}>
+            <View
+              style={{
+                flex: 1,
+                paddingTop: 60,
+                borderColor: '#0000',
+                borderWidth: 0.01,
+              }}>
+              {this.state.showCapion && (
+                <CaptionComponent
+                  caption={
+                    this.props.photoArray[this.state.index]
+                      ? this.props.photoArray[this.state.index].caption
+                      : ''
+                  }
+                />
+              )}
+            </View>
+          </GestureRecognizer>
+
+          {this.state.optionsAvailable && (
             <SafeAreaView style={styles.bottomSubContainer}>
               <TouchableOpacity
                 style={styles.IconContainer}
@@ -426,8 +436,8 @@ class GalleryScreen extends Component {
                 <Text style={styles.IconTextStyle}>More</Text>
               </TouchableOpacity>
             </SafeAreaView>
-          </SafeAreaView>
-        )}
+          )}
+        </SafeAreaView>
       </View>
     );
   }

@@ -5,17 +5,19 @@ const {width: WIDTH} = Dimensions.get('window');
 export default StyleSheet.create({
   container: {
     flex: 1,
-    // height: '100%',
-    // width: '100%',
     flexDirection: 'column',
     backgroundColor: 'black',
   },
   preview: {
     // flex: 1,
-    width: '100%',
+    // width: '100%',
     // height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  slider: {
+    height: 30,
+    marginLeft: 7,
   },
   bottomContainer: {
     flex: 0,

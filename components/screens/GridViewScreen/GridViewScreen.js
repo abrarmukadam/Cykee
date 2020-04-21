@@ -6,12 +6,12 @@ import {
   View,
   TouchableOpacity,
   Text,
+  StatusBar,
 } from 'react-native';
 import styles from './styles';
 import {BackButton, FavouriteIcon} from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 import {SearchBar, ButtonGroup} from 'react-native-elements';
-import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {
@@ -46,23 +46,14 @@ class GridViewScreen extends PureComponent {
       prevState.selectedIndex != this.state.selectedIndex
     ) {
       // console.log(this.state.selectedIndex)
-      if (this.state.selectedIndex == 1)
-        filteredList = this.props.photoArray.filter(List => {
-          return (
-            List.caption
-              .toLowerCase()
-              .indexOf(this.state.searchFilter.toLowerCase()) !== -1 &&
-            List.fav_status == true
-          );
-        });
-      else
-        filteredList = this.props.photoArray.filter(List => {
-          return (
-            List.caption
-              .toLowerCase()
-              .indexOf(this.state.searchFilter.toLowerCase()) !== -1
-          );
-        });
+
+      filteredList = this.props.photoArray.filter(List => {
+        return (
+          List.caption
+            .toLowerCase()
+            .indexOf(this.state.searchFilter.toLowerCase()) !== -1
+        );
+      });
       this.setState({
         filteredList: filteredList,
       });
@@ -75,7 +66,6 @@ class GridViewScreen extends PureComponent {
   };
   render() {
     console.log(this.state.searchFilter);
-    const buttons = ['All', 'Favorites'];
     const {selectedIndex} = this.state;
 
     return (
@@ -117,12 +107,6 @@ class GridViewScreen extends PureComponent {
             )}
           </View>
         </ScrollView>
-        <ButtonGroup
-          containerStyle={styles.buttonContainerStyle}
-          onPress={this.updateIndex}
-          selectedIndex={selectedIndex}
-          buttons={buttons}
-        />
       </View>
     );
   }
@@ -136,6 +120,8 @@ class GridViewScreen extends PureComponent {
       <View
         style={[styles.cardStyle, {activeOpacity: 0, marginRight: 2}]}
         key={this.props.photoArray.indexOf(item)}>
+        <StatusBar hidden={false} />
+
         <TouchableOpacity
           key={item.id}
           style={{flex: 1, activeOpacity: 0}}

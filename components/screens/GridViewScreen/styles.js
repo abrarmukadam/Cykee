@@ -1,4 +1,6 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const {width: WIDTH, height: HEIGHT} = Dimensions.get('screen');
 
 export default StyleSheet.create({
   container: {
@@ -48,7 +50,7 @@ export default StyleSheet.create({
     marginBottom: 2,
     paddingHorizontal: 30,
   },
-  searchStyle: {paddingStart: 10, color: 'black', width: '100%'},
+  searchStyle: {paddingStart: 10, color: 'black', width: WIDTH - 100},
   favContainer: {position: 'absolute', top: 2, right: 2},
   buttonContainerStyle: {flex: 0},
 });

@@ -3,6 +3,8 @@ import {
   Image,
   View,
   TextInput,
+  StatusBar,
+  BackHandler,
   KeyboardAvoidingView,
   Text,
   Alert,
@@ -34,6 +36,28 @@ class EditScreen extends Component {
     nextPhoto: {},
     text: this.props.route.params.photo.caption,
   };
+  backAction = () => {
+    Alert.alert('Discard changes ?', 'Are you sure you want to go back?', [
+      {
+        text: 'Cancel',
+        onPress: () => null,
+        style: 'cancel',
+      },
+      {text: 'YES', onPress: () => BackHandler.exitApp()},
+    ]);
+    return true;
+  };
+
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.backAction,
+    );
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.tempPhoto.uri != this.state.tempPhoto.uri) {
@@ -82,7 +106,7 @@ class EditScreen extends Component {
           {
             text: 'Cancel',
             onPress: () => {
-              return;
+              return null;
             },
             style: 'cancel',
           },
@@ -153,6 +177,8 @@ class EditScreen extends Component {
     // console.log('Photo:', this.state.photo.uri);
     return (
       <View style={styles.container2} disabled behavior="height">
+        <StatusBar hidden={false} />
+
         <Image source={{uri: this.state.photo.uri}} style={styles.image} />
         <Icon
           name="md-save"

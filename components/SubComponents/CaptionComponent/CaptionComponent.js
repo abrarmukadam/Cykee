@@ -12,7 +12,7 @@ class CaptionComponent extends Component {
             style={[
               styles.captionContainer,
               {
-                opacity: 0.4,
+                opacity: 0.6,
                 backgroundColor: 'black',
               },
             ]}>
@@ -21,7 +21,9 @@ class CaptionComponent extends Component {
             </Text>
           </SafeAreaView>
           <SafeAreaView style={[styles.captionContainer]}>
-            <Text style={styles.captionFont}>{this.props.caption}</Text>
+            <Text style={[styles.captionFont, {color: 'white'}]}>
+              {this.props.caption}
+            </Text>
           </SafeAreaView>
         </SafeAreaView>
       );

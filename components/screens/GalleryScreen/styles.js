@@ -4,14 +4,14 @@ const {width: WIDTH, height: HEIGHT} = Dimensions.get('screen');
 
 export default StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     // height: '100%',
     // width: '100%',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: 0,
-    backgroundColor: 'white',
+    // position: 'absolute',
+    // top: 0,
+    // bottom: 0,
+    // right: 0,
+    // backgroundColor: 'white',
     // justifyContent: 'center',
     // alignItems: 'center',
     // borderWidth: 1,
@@ -36,10 +36,11 @@ export default StyleSheet.create({
     flex: 0,
     position: 'absolute',
     bottom: 0,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     width: '100%',
   },
   bottomSubContainer: {
+    backgroundColor: 'white',
     marginTop: 4,
     flexDirection: 'row',
     // paddingHorizontal: 14,

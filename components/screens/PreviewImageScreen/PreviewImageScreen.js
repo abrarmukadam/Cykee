@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {View, TextInput, KeyboardAvoidingView} from 'react-native';
+import {
+  View,
+  TextInput,
+  KeyboardAvoidingView,
+  StyleSheet,
+  StatusBar,
+} from 'react-native';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CameraRoll from '@react-native-community/cameraroll';
@@ -10,6 +16,7 @@ import {
   GlobalIconColor,
   GlobalIconSize,
 } from '../../SubComponents/Buttons/index';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 class PreviewImageScreen extends Component {
   constructor(props) {
@@ -51,6 +58,7 @@ class PreviewImageScreen extends Component {
       directionalOffsetThreshold: 80,
     };
     return (
+      // <SafeAreaView style={StyleSheet.absoluteFill}>
       <GestureRecognizer
         // onSwipe={(direction, state) => this.onSwipe(direction, state)}
         onSwipeDown={() => this.onSwipeDown()}
@@ -58,6 +66,7 @@ class PreviewImageScreen extends Component {
         style={{
           flex: 1,
         }}>
+        <StatusBar hidden={false} />
         <KeyboardAvoidingView style={styles.container}>
           <FastImage
             source={{
@@ -65,7 +74,8 @@ class PreviewImageScreen extends Component {
               priority: FastImage.priority.high,
             }}
             resizeMode={FastImage.resizeMode.contain}
-            style={styles.image}
+            style={StyleSheet.absoluteFill}
+            // style={styles.image}
           />
           {/* <Image source={{uri: abx}} style={styles.image} /> */}
           {/* <Icon
@@ -96,6 +106,7 @@ class PreviewImageScreen extends Component {
           </View>
         </KeyboardAvoidingView>
       </GestureRecognizer>
+      // </SafeAreaView>
     );
   }
 }
