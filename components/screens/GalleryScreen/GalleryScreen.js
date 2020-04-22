@@ -204,7 +204,7 @@ class GalleryScreen extends Component {
               backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
             }}
             // ImageResizeMode={'contain'}
-            ImageResizeMode={ImageRatio >= 2 ? 'stretch' : 'center'}
+            ImageResizeMode={ImageRatio >= 2 ? 'stretch' : 'contain'}
             images={this.state.photoArray}
             initialPage={this.state.index}
             flatListProps={{

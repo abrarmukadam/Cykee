@@ -4,6 +4,7 @@ import {
   ScrollView,
   TextInput,
   View,
+  Image,
   TouchableOpacity,
   Text,
   StatusBar,
@@ -11,7 +12,6 @@ import {
 import styles from './styles';
 import {BackButton, FavouriteIcon} from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
-import {SearchBar, ButtonGroup} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {
@@ -71,30 +71,31 @@ class GridViewComponent extends PureComponent {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <View style={styles.searchContainer}>
-            <Icon
-              name="ios-search"
-              size={GlobalIconSize - 10}
-              color={'grey'}
-              style={{position: 'absolute', left: 10}}
-            />
+          {this.props.gridSize != 'CameraRoll' && (
+            <View style={styles.searchContainer}>
+              <Icon
+                name="ios-search"
+                size={GlobalIconSize - 10}
+                color={'grey'}
+                style={{position: 'absolute', left: 10}}
+              />
 
-            <TextInput
-              style={styles.searchStyle}
-              placeholder={'Search Photo...'}
-              value={this.state.searchFilter}
-              placeholderTextColor={'silver'}
-              onChangeText={text => this.setState({searchFilter: text})}
-            />
-            {this.state.searchFilter != '' && (
-              <TouchableOpacity
-                style={{position: 'absolute', right: 30, padding: 4}}
-                onPress={() => this.setState({searchFilter: ''})}>
-                <Icon name="ios-close" size={GlobalIconSize} color={'grey'} />
-              </TouchableOpacity>
-            )}
-          </View>
-
+              <TextInput
+                style={styles.searchStyle}
+                placeholder={'Search Photo...'}
+                value={this.state.searchFilter}
+                placeholderTextColor={'silver'}
+                onChangeText={text => this.setState({searchFilter: text})}
+              />
+              {this.state.searchFilter != '' && (
+                <TouchableOpacity
+                  style={{position: 'absolute', right: 30, padding: 4}}
+                  onPress={() => this.setState({searchFilter: ''})}>
+                  <Icon name="ios-close" size={GlobalIconSize} color={'grey'} />
+                </TouchableOpacity>
+              )}
+            </View>
+          )}
           <View style={styles.gridContainer}>
             {this.state.filteredList && (
               <PhotoGrid
@@ -118,7 +119,14 @@ class GridViewComponent extends PureComponent {
   renderItem = (item, itemSize) => {
     return (
       <View
-        style={[styles.cardStyle, {activeOpacity: 0, marginRight: 2}]}
+        style={[
+          styles.cardStyle,
+          {
+            activeOpacity: 0,
+            marginRight: 2,
+            height: this.props.gridSize == 'CameraRoll' ? 100 : 200,
+          },
+        ]}
         key={this.state.filteredList.indexOf(item)}>
         <StatusBar hidden={false} />
 
@@ -134,9 +142,9 @@ class GridViewComponent extends PureComponent {
 
             console.log('index:', index);
           }}>
-          <FastImage
-            resizeMode={FastImage.resizeMode.cover}
-            style={{flex: 1, borderRadius: 5}}
+          <Image
+            // resizeMode={FastImage.resizeMode.cover}
+            style={{flex: 1, borderRadius: 5, resizeMode: 'cover'}}
             source={{uri: item.uri}}
           />
         </TouchableOpacity>
@@ -146,18 +154,20 @@ class GridViewComponent extends PureComponent {
             <Text style={styles.captionStyle}>{item.caption}</Text>
           </View>
         )}
-        <TouchableOpacity
-          style={styles.favContainer}
-          onPress={() => {
-            console.log('Photo Fav pressed');
-            this.props.favPhoto(this.props.receivedArray, item.uri);
-          }}>
-          <FavouriteIcon
-            iconSize={20}
-            iconColor="white"
-            fav_status={item.fav_status}
-          />
-        </TouchableOpacity>
+        {this.props.gridSize != 'CameraRoll' && (
+          <TouchableOpacity
+            style={styles.favContainer}
+            onPress={() => {
+              console.log('Photo Fav pressed');
+              this.props.favPhoto(this.props.receivedArray, item.uri);
+            }}>
+            <FavouriteIcon
+              iconSize={20}
+              iconColor="white"
+              fav_status={item.fav_status}
+            />
+          </TouchableOpacity>
+        )}
       </View>
     );
   };

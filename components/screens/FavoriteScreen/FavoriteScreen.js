@@ -37,6 +37,7 @@ class FavoriteScreen extends Component {
       <GridViewComponent
         receivedArray={this.state.toBeDisplayed}
         onPressCard={this.onPressCard}
+        gridSize={'Favorite'}
       />
     );
   }

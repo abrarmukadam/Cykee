@@ -35,7 +35,6 @@ export default StyleSheet.create({
   cardStyle: {
     // activeOpacity: 0.2,
     width: '33%',
-    height: 200,
     // marginVertical: 1,
     // height: '30%',
     // borderRadius: 24,
