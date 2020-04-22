@@ -43,7 +43,7 @@ class GridViewComponent extends PureComponent {
     if (
       prevState.searchFilter != this.state.searchFilter ||
       prevProps.receivedArray != this.props.receivedArray ||
-      prevState.selectedIndex != this.state.selectedIndex
+      prevProps.photoArray != this.props.photoArray
     ) {
       // console.log(this.state.selectedIndex)
 
@@ -119,7 +119,7 @@ class GridViewComponent extends PureComponent {
     return (
       <View
         style={[styles.cardStyle, {activeOpacity: 0, marginRight: 2}]}
-        key={this.props.receivedArray.indexOf(item)}>
+        key={this.state.filteredList.indexOf(item)}>
         <StatusBar hidden={false} />
 
         <TouchableOpacity
@@ -127,9 +127,9 @@ class GridViewComponent extends PureComponent {
           style={{flex: 1, activeOpacity: 0}}
           // style={{width: '24%', height: 200}}
           onPress={() => {
-            let index = this.props.receivedArray.indexOf(item);
+            let index = this.state.filteredList.indexOf(item);
             // Do Something
-            this.props.onPressCard(index);
+            this.props.onPressCard(index, this.state.filteredList);
             // this.props.navigation.push('GalleryScreen', {index: index});
 
             console.log('index:', index);

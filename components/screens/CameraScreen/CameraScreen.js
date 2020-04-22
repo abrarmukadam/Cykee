@@ -186,7 +186,10 @@ class CameraScreen extends PureComponent {
     }, 2000);
   };
   onPressGalleryIcon = () =>
-    this.props.navigation.navigate('GalleryScreen', {index: 0});
+    this.props.navigation.navigate('GalleryScreen', {
+      index: 0,
+      toBeDisplayed: this.props.photoArray,
+    });
 
   getCameraRatio = async () => {
     if (!this.state.asp && this.camera) {

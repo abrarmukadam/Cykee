@@ -41,7 +41,7 @@ export default StyleSheet.create({
   },
   bottomSubContainer: {
     backgroundColor: 'white',
-    marginTop: 4,
+    // marginTop: 4,
     flexDirection: 'row',
     // paddingHorizontal: 14,
     justifyContent: 'space-between',

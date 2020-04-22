@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import styles from './styles';
 import {BackButton, FavouriteIcon} from './../../SubComponents/Buttons/index';
+import {default as GridViewComponent} from '../../SubComponents/GridViewComponent/GridViewComponent.container';
+
 import FastImage from 'react-native-fast-image';
 import {SearchBar, ButtonGroup} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -42,8 +44,7 @@ class GridViewScreen extends PureComponent {
     let filteredList = [];
     if (
       prevState.searchFilter != this.state.searchFilter ||
-      prevProps.photoArray != this.props.photoArray ||
-      prevState.selectedIndex != this.state.selectedIndex
+      prevProps.photoArray != this.props.photoArray
     ) {
       // console.log(this.state.selectedIndex)
 
@@ -64,10 +65,24 @@ class GridViewScreen extends PureComponent {
     this.setState({selectedIndex});
     console.log('selected index:', selectedIndex);
   };
+
+  onPressCard = (index, photoArray) => {
+    this.props.navigation.push('GalleryScreen', {
+      index: index,
+      toBeDisplayed: this.props.photoArray,
+    });
+  };
+
   render() {
     console.log(this.state.searchFilter);
     const {selectedIndex} = this.state;
 
+    return (
+      <GridViewComponent
+        receivedArray={this.props.photoArray}
+        onPressCard={this.onPressCard}
+      />
+    );
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -129,7 +144,10 @@ class GridViewScreen extends PureComponent {
           onPress={() => {
             let index = this.props.photoArray.indexOf(item);
             // Do Something
-            this.props.navigation.push('GalleryScreen', {index: index});
+            this.props.navigation.push('GalleryScreen', {
+              index: index,
+              toBeDisplayed: this.props.photoArray,
+            });
 
             console.log('index:', index);
           }}>
