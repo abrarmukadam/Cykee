@@ -15,8 +15,10 @@ export default StyleSheet.create({
   },
   headerStyle: {
     paddingHorizontal: 8,
-    paddingVertical: 12,
+    paddingVertical: 8,
+    alignItems: 'center',
     flexDirection: 'row',
+    width: '100%',
     // backgroundColor: 'yellow',
   },
   captionStyle: {
@@ -33,11 +35,7 @@ export default StyleSheet.create({
     borderRadius: 5,
   },
   cardStyle: {
-    // activeOpacity: 0.2,
     width: '33%',
-    // marginVertical: 1,
-    // height: '30%',
-    // borderRadius: 24,
   },
   gridContainer: {height: '100%', width: '100%'},
   searchContainer: {
@@ -51,5 +49,18 @@ export default StyleSheet.create({
   },
   searchStyle: {paddingStart: 10, color: 'black', width: WIDTH - 100},
   favContainer: {position: 'absolute', top: 2, right: 2},
-  buttonContainerStyle: {flex: 0},
+  selectionIconContainer: {position: 'absolute', bottom: 12, right: 2},
+  buttonContainerStyle: {
+    flex: 0,
+    width: '100%',
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  shareIconContainer: {
+    justifyContent: 'flex-end',
+    // alignContent: 'center',
+    // alignItems: 'center',
+  },
+  shareIconText: {textAlign: 'center', alignContent: 'center', fontSize: 10},
 });

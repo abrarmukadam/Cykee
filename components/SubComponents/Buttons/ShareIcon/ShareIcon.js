@@ -5,7 +5,13 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 class ShareIcon extends Component {
   state = {};
   render() {
-    return <Icon name="share" size={GlobalIconSize} color={GalleryIconColor} />;
+    return (
+      <Icon
+        name="share"
+        size={this.props.iconSize ? this.props.iconSize : GlobalIconSize}
+        color={GalleryIconColor}
+      />
+    );
   }
 }
 

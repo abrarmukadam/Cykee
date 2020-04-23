@@ -6,7 +6,6 @@ import {
   StatusBar,
   BackHandler,
   KeyboardAvoidingView,
-  Text,
   Alert,
 } from 'react-native';
 import styles from './styles';
@@ -60,14 +59,14 @@ class EditScreen extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.tempPhoto.uri != this.state.tempPhoto.uri) {
+    if (prevState.tempPhoto.source.uri != this.state.tempPhoto.source.uri) {
       this.setState({
         photo: this.state.tempPhoto,
         prevPhoto: prevState.photo,
       });
       console.log('photo changed');
     }
-    if (prevState.photo.uri != this.state.photo.uri) {
+    if (prevState.photo.source.uri != this.state.photo.source.uri) {
       //   this.setState({
       //     prevPhoto: prevState.photo,
       //   });
@@ -124,7 +123,7 @@ class EditScreen extends Component {
   cropPressed = () => {
     ImagePicker.openCropper({
       freeStyleCropEnabled: true,
-      path: this.state.photo.uri,
+      path: this.state.photo.source.uri,
     }).then(image => {
       image.uri = image.path;
       this.setState({tempPhoto: image});
@@ -133,12 +132,12 @@ class EditScreen extends Component {
 
   rotatePressed = () => {
     let DisplayedPhoto = {};
-    console.log(this.state.photo.uri);
+    console.log(this.state.photo.source.uri);
     ImageRotate.rotateImage(
-      this.state.photo.uri,
+      this.state.photo.source.uri,
       90,
       uri => {
-        DisplayedPhoto.uri = uri;
+        DisplayedPhoto.source = {uri: uri};
         DisplayedPhoto.height = this.state.photo.width;
         DisplayedPhoto.width = this.state.photo.heightl;
         this.setState({tempPhoto: DisplayedPhoto});
@@ -151,17 +150,17 @@ class EditScreen extends Component {
 
   savePhoto = () => {
     let newPhoto = {};
-    const temp = this.state.photo.uri.split('/');
+    const temp = this.state.photo.source.uri.split('/');
     console.log('Photo saved in gallery');
-    CameraRoll.save(this.state.photo.uri, {
+    CameraRoll.save(this.state.photo.source.uri, {
       type: 'photo',
       album: 'Cykee',
     });
 
+    let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+
     newPhoto.height = this.state.photo.height;
     newPhoto.width = this.state.photo.width;
-
-    let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
     newPhoto.fileName = temp[temp.length - 1];
     newPhoto.caption = this.state.text;
     newPhoto.uri = galleryUri + newPhoto.fileName;
@@ -179,7 +178,10 @@ class EditScreen extends Component {
       <View style={styles.container2} disabled behavior="height">
         <StatusBar hidden={false} />
 
-        <Image source={{uri: this.state.photo.uri}} style={styles.image} />
+        <Image
+          source={{uri: this.state.photo.source.uri}}
+          style={styles.image}
+        />
         <Icon
           name="md-save"
           size={GlobalMediumIconSize}
@@ -189,14 +191,15 @@ class EditScreen extends Component {
             {
               opacity:
                 this.state.text == this.state.orignal_photo.caption &&
-                this.state.photo.uri == this.state.orignal_photo.uri
+                this.state.photo.source.uri ==
+                  this.state.orignal_photo.source.uri
                   ? 0.5
                   : 1,
             },
           ]}
           disabled={
             this.state.text == this.state.orignal_photo.caption &&
-            this.state.photo.uri == this.state.orignal_photo.uri
+            this.state.photo.source.uri == this.state.orignal_photo.source.uri
               ? true
               : false
           }
@@ -230,10 +233,10 @@ class EditScreen extends Component {
           style={[
             styles.undoButtonStyle,
             {
-              opacity: this.state.prevPhoto.uri ? 1 : 0.5,
+              opacity: this.state.prevPhoto.source ? 1 : 0.5,
             },
           ]}
-          disabled={this.state.prevPhoto.uri ? false : true}
+          disabled={this.state.prevPhoto.source ? false : true}
           onPress={() => this.undoPressed()}
         />
         <Icon
@@ -242,9 +245,9 @@ class EditScreen extends Component {
           color={GlobalIconColor}
           style={[
             styles.redoButtonStyle,
-            {opacity: this.state.nextPhoto.uri ? 1 : 0.5},
+            {opacity: this.state.nextPhoto.source ? 1 : 0.5},
           ]}
-          disabled={this.state.nextPhoto.uri ? false : true}
+          disabled={this.state.nextPhoto.source ? false : true}
           onPress={() => this.redoPressed()}
         />
         <KeyboardAvoidingView style={styles.textBoxContainer}>

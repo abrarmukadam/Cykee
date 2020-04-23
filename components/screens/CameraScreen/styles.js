@@ -1,6 +1,8 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
 const {width: WIDTH} = Dimensions.get('window');
+const ELEVATION = 100;
+const BORDERWIDTH = 0;
 
 export default StyleSheet.create({
   container: {
@@ -29,6 +31,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-around',
+    elevation: ELEVATION,
+    borderWidth: BORDERWIDTH,
   },
   CameraIconContainer: {
     // borderWidth: 1,
@@ -38,6 +42,9 @@ export default StyleSheet.create({
     marginBottom: 40,
     opacity: 0.8,
     width: 60,
+    elevation: ELEVATION,
+    borderWidth: BORDERWIDTH,
+    // border
     // height: '100%',
     // width: '100%',
     // flexDirection: '',

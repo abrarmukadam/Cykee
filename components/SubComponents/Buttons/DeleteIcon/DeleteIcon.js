@@ -6,7 +6,11 @@ class DeleteIcon extends Component {
   state = {};
   render() {
     return (
-      <Icon name="trash" size={GlobalIconSize + 6} color={GalleryIconColor} />
+      <Icon
+        name="trash"
+        size={this.props.iconSize ? this.props.iconSize : GlobalIconSize + 6}
+        color={GalleryIconColor}
+      />
     );
   }
 }

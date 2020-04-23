@@ -7,12 +7,22 @@ import {
   Image,
   TouchableOpacity,
   Text,
+  Alert,
   StatusBar,
 } from 'react-native';
 import styles from './styles';
-import {BackButton, FavouriteIcon} from './../../SubComponents/Buttons/index';
+import {
+  BackButton,
+  FavouriteIcon,
+  SelectionIcon,
+  ShareIcon,
+  DeleteIcon,
+} from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {Button} from 'react-native-elements';
+import Share from 'react-native-share';
+import CameraRoll from '@react-native-community/cameraroll';
 
 import {
   GlobalIconColor,
@@ -22,17 +32,18 @@ import {
 } from '../../SubComponents/Buttons/index';
 
 class GridViewComponent extends PureComponent {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       searchFilter: '',
       filteredList: [],
+      longPressStatus: false,
+      selectedArray: 0,
     };
   }
   componentDidMount() {
     this.setState({
       filteredList: this.props.receivedArray,
-      selectedIndex: 0,
     });
   }
 
@@ -45,8 +56,6 @@ class GridViewComponent extends PureComponent {
       prevProps.receivedArray != this.props.receivedArray ||
       prevProps.photoArray != this.props.photoArray
     ) {
-      // console.log(this.state.selectedIndex)
-
       filteredList = this.props.receivedArray.filter(List => {
         return (
           List.caption
@@ -59,17 +68,98 @@ class GridViewComponent extends PureComponent {
       });
     }
   }
-
-  updateIndex = selectedIndex => {
-    this.setState({selectedIndex});
-    console.log('selected index:', selectedIndex);
+  onPressShare = () => {
+    console.log('Share Pressed');
+    let items = [];
+    this.state.filteredList.map(item => {
+      if (item.selectedStatus) items = [...items, item.uri];
+      // {uri: item.uri, caption: item.caption}];
+    });
+    const shareOptions = {
+      type: 'image',
+      urls: [...items],
+      message: items[0].caption,
+      subject: items[0].caption,
+      title: items[0].caption,
+    };
+    Share.open(shareOptions)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        err && console.log(err);
+      });
   };
-  render() {
-    console.log(this.state.searchFilter);
-    const {selectedIndex} = this.state;
 
+  onPressDelete = () => {
+    console.log('Delete Pressed');
+    const deletHeader = 'Delete Photo ?';
+    const deletMessage = 'Do you wish to Delete the selected Photo?';
+    Alert.alert(
+      deletHeader,
+      deletMessage,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {
+            return;
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            let deleteItems = [];
+            this.state.selectedArray.map(item => {
+              deleteItems = [...deleteItems, item.uri];
+            });
+            CameraRoll.deletePhotos(deleteItems);
+            let updatedPhotoArray = [...this.props.photoArray];
+
+            this.state.selectedArray.map(item => {
+              let deleteIndex = updatedPhotoArray.indexOf(
+                item, //item to be deleted should match the item in photoArray Props
+              );
+              updatedPhotoArray.splice(deleteIndex, 1);
+            });
+
+            console.log('updatedPhotoArray:', updatedPhotoArray);
+            this.props.deletePhotoFromList(updatedPhotoArray);
+            this.setState({longPressStatus: false});
+            console.log('photo deleted');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
+  render() {
     return (
       <View style={styles.container}>
+        {this.state.longPressStatus && (
+          <View style={styles.headerStyle}>
+            <Text style={styles.headerTextStyle}>
+              {this.state.selectedArray.length} Item selected
+            </Text>
+            <TouchableOpacity
+              onPress={() => this.setState({longPressStatus: false})}
+              style={{
+                flex: 0,
+                position: 'absolute',
+                right: 0,
+                // alignSelf: 'flex-end',
+                // width: 100,
+              }}>
+              <Button
+                onPress={() => this.setState({longPressStatus: false})}
+                title="Cancel"
+                type="clear"
+                buttonStyle={{width: 100, height: 40}}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
         <ScrollView>
           {this.props.gridSize != 'CameraRoll' && (
             <View style={styles.searchContainer}>
@@ -108,15 +198,61 @@ class GridViewComponent extends PureComponent {
             )}
           </View>
         </ScrollView>
+        {this.state.longPressStatus && (
+          <View style={styles.buttonContainerStyle}>
+            <TouchableOpacity
+              style={styles.shareIconContainer}
+              onPress={() => this.onPressShare()}>
+              <ShareIcon iconSize={24} />
+              <Text style={styles.shareIconText}>Share</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.shareIconContainer}
+              onPress={() => this.onPressDelete()}>
+              <DeleteIcon iconSize={30} />
+              <Text style={styles.shareIconText}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     );
   }
 
-  renderHeader() {
+  renderHeader = () => {
     return <View />;
-  }
+  };
+  longPressItem = index => {
+    let filteredList = [...this.state.filteredList];
+    filteredList.map(item => {
+      item.selectedStatus = false;
+    });
+    filteredList[index].selectedStatus = true;
+
+    this.setState({
+      longPressStatus: true,
+      filteredList: filteredList,
+      selectedArray: [filteredList[index]],
+    });
+  };
+
+  singlePressItem = index => {
+    if (this.state.longPressStatus == false)
+      this.props.onPressCard(index, this.state.filteredList);
+    else if (this.state.longPressStatus == true) {
+      let tempList = [...this.state.filteredList];
+      tempList[index].selectedStatus = !tempList[index].selectedStatus;
+
+      this.setState({
+        filteredList: tempList,
+        selectedArray: [...this.state.selectedArray, tempList[index]],
+      });
+    }
+    // this.props.navigation.push('GalleryScreen', {index: index});
+  };
 
   renderItem = (item, itemSize) => {
+    let index = this.state.filteredList.indexOf(item);
+
     return (
       <View
         style={[
@@ -133,14 +269,10 @@ class GridViewComponent extends PureComponent {
         <TouchableOpacity
           key={item.id}
           style={{flex: 1, activeOpacity: 0}}
-          // style={{width: '24%', height: 200}}
-          onPress={() => {
-            let index = this.state.filteredList.indexOf(item);
-            // Do Something
-            this.props.onPressCard(index, this.state.filteredList);
-            // this.props.navigation.push('GalleryScreen', {index: index});
-
-            console.log('index:', index);
+          onPress={() => this.singlePressItem(index)}
+          onLongPress={() => {
+            this.longPressItem(index);
+            console.log('longPress accepted');
           }}>
           <Image
             // resizeMode={FastImage.resizeMode.cover}
@@ -154,20 +286,34 @@ class GridViewComponent extends PureComponent {
             <Text style={styles.captionStyle}>{item.caption}</Text>
           </View>
         )}
-        {this.props.gridSize != 'CameraRoll' && (
+        {this.state.longPressStatus && (
           <TouchableOpacity
-            style={styles.favContainer}
-            onPress={() => {
-              console.log('Photo Fav pressed');
-              this.props.favPhoto(this.props.receivedArray, item.uri);
-            }}>
-            <FavouriteIcon
+            style={styles.selectionIconContainer}
+            onPress={() => this.singlePressItem(index)}>
+            <SelectionIcon
               iconSize={20}
               iconColor="white"
-              fav_status={item.fav_status}
+              longPressStatus={this.state.longPressStatus}
+              selectedStatus={this.state.filteredList[index].selectedStatus}
             />
           </TouchableOpacity>
         )}
+
+        {this.props.gridSize != 'CameraRoll' &&
+          this.state.longPressStatus == false && (
+            <TouchableOpacity
+              style={styles.favContainer}
+              onPress={() => {
+                console.log('Photo fav pressed');
+                this.props.favPhoto(this.props.photoArray, item.uri);
+              }}>
+              <FavouriteIcon
+                iconSize={20}
+                iconColor="white"
+                fav_status={item.fav_status}
+              />
+            </TouchableOpacity>
+          )}
       </View>
     );
   };

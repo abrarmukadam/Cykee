@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {GalleryIconColor, GlobalIconSize} from '../index';
-
+import styles from './styles';
 class GalleryIcon extends Component {
   render() {
     return (
@@ -9,6 +9,7 @@ class GalleryIcon extends Component {
         name={'ios-images'}
         size={GlobalIconSize}
         color={this.props.iconColor ? this.props.iconColor : GalleryIconColor}
+        // style={styles.GalleryIconStyle}
       />
     );
   }

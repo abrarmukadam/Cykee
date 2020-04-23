@@ -226,12 +226,15 @@ class CameraScreen extends PureComponent {
           <StatusBar hidden={true} />
 
           {!this.state.remountCamera && (
+            // {false && (
             <RNCamera
               ref={ref => (this.camera = ref)}
               // fixOrientation={false}
               style={[
                 styles.preview,
-                {height: this.props.aspectRatio ? '75%' : '100%'},
+                {
+                  height: this.props.aspectRatio ? '75%' : '100%',
+                },
               ]}
               type={this.props.cameraType ? 0 : 1} //back:0 , front:1
               flashMode={this.props.flashMode}

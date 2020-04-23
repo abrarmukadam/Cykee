@@ -9,7 +9,6 @@ import {
   Dimensions,
   StatusBar,
   Alert,
-  TouchableWithoutFeedback,
   Image,
 } from 'react-native';
 import Share from 'react-native-share';
@@ -19,7 +18,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CameraRoll from '@react-native-community/cameraroll';
 
 import Gallery from 'react-native-image-gallery';
-import Carousel from 'react-native-snap-carousel';
 import FastImage from 'react-native-fast-image';
 import GestureRecognizer from 'react-native-swipe-gestures';
 
@@ -203,7 +201,6 @@ class GalleryScreen extends Component {
               width: '100%',
               backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
             }}
-            // ImageResizeMode={'contain'}
             ImageResizeMode={ImageRatio >= 2 ? 'stretch' : 'contain'}
             images={this.state.photoArray}
             initialPage={this.state.index}

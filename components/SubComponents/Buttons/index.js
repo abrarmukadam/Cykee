@@ -15,13 +15,22 @@ import DeleteIcon from './DeleteIcon/DeleteIcon';
 import EditIcon from './EditIcon/EditIcon';
 import MoreIcon from './MoreIcon/MoreIcon';
 import BackButton from './BackButton/BackButton';
+import SelectionIcon from './SelectionIcon/SelectionIcon';
 
 //Gallery(Grid) view component
 import GridViewComponent from '../GridViewComponent/GridViewComponent';
 
 export {GridViewComponent};
 
-export {ShareIcon, FavouriteIcon, DeleteIcon, EditIcon, MoreIcon, BackButton};
+export {
+  ShareIcon,
+  FavouriteIcon,
+  DeleteIcon,
+  EditIcon,
+  MoreIcon,
+  BackButton,
+  SelectionIcon,
+};
 //Global constants
 const GlobalIconColor = 'white';
 const GlobalIconSize = 30;
