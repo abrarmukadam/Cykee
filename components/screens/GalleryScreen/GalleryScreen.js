@@ -1,11 +1,10 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 
 import {
   SafeAreaView,
   TouchableOpacity,
   View,
   Text,
-  ScrollView,
   Dimensions,
   StatusBar,
   Alert,
@@ -89,17 +88,17 @@ class GalleryScreen extends Component {
       temp = [...temp, newItem];
     });
     this.setState({photoArray: temp});
-    this.props.navigation.setOptions({
-      // headerTransparent: true,
-      // headerStyle: {
-      //   backgroundColor: '#0000',
-      // },
-      // headerTintColor: '#fff',
-      // headerTitleStyle: {
-      //   fontWeight: 'bold',
-      // },
-      // headerRight: () => this.rightHeaderButton,
-    });
+    // this.props.navigation.setOptions({
+    // headerTransparent: true,
+    // headerStyle: {
+    //   backgroundColor: '#0000',
+    // },
+    // headerTintColor: '#fff',
+    // headerTitleStyle: {
+    //   fontWeight: 'bold',
+    // },
+    // headerRight: () => this.rightHeaderButton,
+    // });
   }
   rightHeaderButton = (
     <TouchableOpacity
@@ -188,8 +187,6 @@ class GalleryScreen extends Component {
         this.state.photoArray[this.state.index].height /
         this.state.photoArray[this.state.index].width;
     } else ImageRatio = 1;
-    // console.log('height:', this.state.photoArray[this.state.index].height);
-    // console.log('width:', this.state.photoArray[this.state.index].width);
     return (
       <View style={styles.container}>
         <StatusBar hidden={!this.state.optionsAvailable} />
@@ -251,9 +248,6 @@ class GalleryScreen extends Component {
             config={config}
             style={{
               flex: 1,
-              // marginTop: 50,
-              // borderColor: 'red',
-              // borderWidth: 2,
             }}>
             <View
               style={{

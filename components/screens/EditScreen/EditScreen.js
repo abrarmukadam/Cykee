@@ -14,6 +14,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageRotate from 'react-native-image-rotate';
 import {Input} from 'react-native-elements';
+var RNFS = require('react-native-fs');
 
 import {
   GlobalIconColor,
@@ -36,14 +37,34 @@ class EditScreen extends Component {
     text: this.props.route.params.photo.caption,
   };
   backAction = () => {
-    Alert.alert('Discard changes ?', 'Are you sure you want to go back?', [
-      {
-        text: 'Cancel',
-        onPress: () => null,
-        style: 'cancel',
-      },
-      {text: 'YES', onPress: () => BackHandler.exitApp()},
-    ]);
+    const deletHeader = 'Discard changes ?';
+    const deletMessage = '';
+    if (
+      this.state.orignal_photo != this.state.photo ||
+      this.state.orignal_photo.caption != this.state.text
+    )
+      Alert.alert(
+        deletHeader,
+        deletMessage,
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {
+              return null;
+            },
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => {
+              this.props.navigation.goBack();
+            },
+          },
+        ],
+        {cancelable: false},
+      );
+    else this.props.navigation.goBack();
+
     return true;
   };
 
@@ -152,21 +173,30 @@ class EditScreen extends Component {
     let newPhoto = {};
     const temp = this.state.photo.source.uri.split('/');
     console.log('Photo saved in gallery');
-    CameraRoll.save(this.state.photo.source.uri, {
-      type: 'photo',
-      album: 'Cykee',
+    const d = new Date();
+    const newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
+    let nameToChange = temp[temp.length - 1];
+    let renamedURI = this.state.photo.source.uri.replace(nameToChange, newName);
+    RNFS.copyFile(this.state.photo.source.uri, renamedURI).then(() => {
+      CameraRoll.save(renamedURI, {
+        // CameraRoll.save(this.state.photo.source.uri, {
+        type: 'photo',
+        album: 'Cykee',
+      }).then(uri => {
+        console.log('uri:', uri);
+        let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+
+        newPhoto.height = this.state.photo.height;
+        newPhoto.width = this.state.photo.width;
+        newPhoto.fileName = newName;
+        newPhoto.caption = this.state.text;
+        // newPhoto.uri = galleryUri + newPhoto.fileName;
+        newPhoto.uri = uri;
+        console.log('Photo saved in gallery:', newPhoto);
+        this.props.addNewPhoto(newPhoto);
+        this.props.navigation.goBack();
+      });
     });
-
-    let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
-
-    newPhoto.height = this.state.photo.height;
-    newPhoto.width = this.state.photo.width;
-    newPhoto.fileName = temp[temp.length - 1];
-    newPhoto.caption = this.state.text;
-    newPhoto.uri = galleryUri + newPhoto.fileName;
-    console.log('Photo saved in gallery:', newPhoto);
-    this.props.addNewPhoto(newPhoto);
-    this.props.navigation.goBack();
   };
 
   render() {

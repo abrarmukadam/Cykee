@@ -15,6 +15,7 @@ import {RNCamera} from 'react-native-camera';
 import GalleryButton from './../../SubComponents/GalleryButton/GalleryButton';
 import CameraRoll from '@react-native-community/cameraroll';
 import VolumeControl, {VolumeControlEvents} from 'react-native-volume-control';
+var RNFS = require('react-native-fs');
 
 import {
   TakePicture,
@@ -132,18 +133,28 @@ class CameraScreen extends PureComponent {
       let newPhoto = {};
       const temp = data.uri.split('/');
       console.log('Photo saved in gallery');
-      CameraRoll.save(data.uri, {
-        type: 'photo',
-        album: 'Cykee',
-      }).then(uri => console.log('uri:', uri));
-      newPhoto.height = data.height;
-      newPhoto.width = data.width;
-      let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
-      newPhoto.fileName = temp[temp.length - 1];
-      newPhoto.caption = '';
-      newPhoto.uri = galleryUri + newPhoto.fileName;
-      console.log('Photo saved in gallery:', newPhoto);
-      this.props.addNewPhoto(newPhoto);
+      const d = new Date();
+      const newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
+      let nameToChange = temp[temp.length - 1];
+      let renamedURI = data.uri.replace(nameToChange, newName);
+      RNFS.copyFile(data.uri, renamedURI).then(() => {
+        CameraRoll.save(renamedURI, {
+          // CameraRoll.save(data.uri, {
+          type: 'photo',
+          album: 'Cykee',
+        }).then(uri => {
+          console.log('uri:', uri);
+          newPhoto.height = data.height;
+          newPhoto.width = data.width;
+          let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+          newPhoto.fileName = newName;
+          newPhoto.caption = '';
+          // newPhoto.uri = galleryUri + newPhoto.fileName;
+          newPhoto.uri = uri;
+          console.log('Photo saved in gallery:', newPhoto);
+          this.props.addNewPhoto(newPhoto);
+        });
+      });
     }
     this.camera.resumePreview();
     this.setState({focus: false});
