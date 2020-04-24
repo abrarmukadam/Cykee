@@ -16,6 +16,7 @@ import GalleryButton from './../../SubComponents/GalleryButton/GalleryButton';
 import CameraRoll from '@react-native-community/cameraroll';
 import VolumeControl, {VolumeControlEvents} from 'react-native-volume-control';
 var RNFS = require('react-native-fs');
+import SplashScreen from 'react-native-splash-screen';
 
 import {
   TakePicture,
@@ -67,6 +68,7 @@ class CameraScreen extends PureComponent {
     if (this.state.remountCamera) {
       setTimeout(() => {
         this.setState({remountCamera: false});
+        SplashScreen.hide();
       }, 100);
     }
   }
@@ -91,6 +93,8 @@ class CameraScreen extends PureComponent {
       'VolumeChanged',
       this.volumeEvent,
     );
+
+    SplashScreen.hide();
   }
   volumeEvent = event => {
     console.log('volume event ');

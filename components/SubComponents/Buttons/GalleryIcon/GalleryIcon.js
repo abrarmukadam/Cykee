@@ -6,7 +6,7 @@ class GalleryIcon extends Component {
   render() {
     return (
       <Icon
-        name={'ios-images'}
+        name={this.props.selectedStatus ? 'ios-images' : 'ios-images'}
         size={GlobalIconSize}
         color={this.props.iconColor ? this.props.iconColor : GalleryIconColor}
         // style={styles.GalleryIconStyle}

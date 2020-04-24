@@ -3,7 +3,9 @@ import EditScreen from './EditScreen';
 import {Actions} from '../../../Actions/index';
 
 const mapPropsToState = state => {
-  return {};
+  return {
+    photoArray: state.galleryReducer.photoArray || [],
+  };
 };
 
 const mapDispatchToProps = dispatch => {

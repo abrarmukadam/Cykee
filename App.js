@@ -19,15 +19,39 @@ import {default as EditScreen} from './components/screens/EditScreen/EditScreen.
 import {default as FavoriteScreen} from './components/screens/FavoriteScreen/FavoriteScreen.container';
 import {default as CameraRollScreen} from './components/screens/CameraRollScreen/CameraRollScreen';
 
+import {
+  FavouriteIcon,
+  GalleryIcon,
+} from './components/SubComponents/Buttons/index';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
+
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function GalleryTab(navigation) {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+
+          if (route.name === 'GridViewScreen') {
+            iconName = focused ? 'center-focus-strong' : 'center-focus-weak';
+            return <MaterialIcons name={iconName} size={size} color={color} />;
+          } else if (route.name === 'FavoriteScreen') {
+            return <FavouriteIcon fav_status={focused} iconColor={color} />;
+          } else if (route.name === 'CameraRollScreen') {
+            return <GalleryIcon selectedStatus={focused} iconColor={color} />;
+          }
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: '#c0ff02',
+        inactiveTintColor: 'gray',
+      }}>
       <Tab.Screen
         name="GridViewScreen"
         component={GridViewScreen}

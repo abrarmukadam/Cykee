@@ -6,6 +6,8 @@ export default StyleSheet.create({
     paddingVertical: 4,
     textAlign: 'center',
     color: 'white',
+    elevation: 100,
+    borderRadius: 0,
   },
   captionContainer: {
     position: 'absolute',

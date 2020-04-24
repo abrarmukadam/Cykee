@@ -32,9 +32,9 @@ class EditScreen extends Component {
     photo: this.props.route.params.photo,
     orignal_photo: this.props.route.params.photo,
     tempPhoto: this.props.route.params.photo,
+    text: this.props.route.params.photo.caption,
     prevPhoto: {},
     nextPhoto: {},
-    text: this.props.route.params.photo.caption,
   };
   backAction = () => {
     const deletHeader = 'Discard changes ?';
@@ -87,10 +87,13 @@ class EditScreen extends Component {
       });
       console.log('photo changed');
     }
-    if (prevState.photo.source.uri != this.state.photo.source.uri) {
-      //   this.setState({
-      //     prevPhoto: prevState.photo,
-      //   });
+    if (prevProps.photoArray != this.props.photoArray) {
+      this.setState({
+        photo: this.props.route.params.photo,
+        orignal_photo: this.props.route.params.photo,
+        tempPhoto: this.props.route.params.photo,
+        text: this.props.route.params.photo.caption,
+      });
     }
   }
 

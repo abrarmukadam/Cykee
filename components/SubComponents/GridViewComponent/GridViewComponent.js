@@ -252,7 +252,6 @@ class GridViewComponent extends PureComponent {
 
   renderItem = (item, itemSize) => {
     let index = this.state.filteredList.indexOf(item);
-
     return (
       <View
         style={[
