@@ -49,8 +49,8 @@ class PreviewImageScreen extends Component {
         newPhoto.width = data.width;
         newPhoto.fileName = newName;
         newPhoto.caption = this.state.text;
-        // newPhoto.uri = galleryUri + newPhoto.fileName;
-        newPhoto.uri = uri;
+        newPhoto.uri = galleryUri + newPhoto.fileName;
+        // newPhoto.uri = uri;
         console.log('Photo saved in gallery:', newPhoto);
         this.props.addNewPhoto(newPhoto);
         this.props.navigation.navigate('Home');
@@ -67,6 +67,11 @@ class PreviewImageScreen extends Component {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80,
     };
+    let ImageRatio = 1;
+    if (this.state.photo.height) {
+      ImageRatio = this.state.photo.height / this.state.photo.width;
+    } else ImageRatio = 1;
+
     return (
       // <SafeAreaView style={StyleSheet.absoluteFill}>
       <GestureRecognizer
@@ -83,7 +88,11 @@ class PreviewImageScreen extends Component {
               uri: this.state.photo.uri,
               priority: FastImage.priority.high,
             }}
-            resizeMode={FastImage.resizeMode.contain}
+            resizeMode={
+              ImageRatio >= 2
+                ? FastImage.resizeMode.stretch
+                : FastImage.resizeMode.contain
+            }
             style={StyleSheet.absoluteFill}
             // style={styles.image}
           />

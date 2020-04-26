@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react';
 import PhotoGrid from 'react-native-photo-grid';
 import {
   ScrollView,
+  RefreshControl,
   TextInput,
   View,
   Image,
@@ -17,12 +18,14 @@ import {
   SelectionIcon,
   ShareIcon,
   DeleteIcon,
+  CykeeColor,
 } from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Button} from 'react-native-elements';
 import Share from 'react-native-share';
 import CameraRoll from '@react-native-community/cameraroll';
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 import {
   GlobalIconColor,
@@ -135,6 +138,11 @@ class GridViewComponent extends PureComponent {
   };
 
   render() {
+    const config = {
+      velocityThreshold: 0.3,
+      directionalOffsetThreshold: 80,
+    };
+
     return (
       <View style={styles.container}>
         {this.state.longPressStatus && (
@@ -160,7 +168,14 @@ class GridViewComponent extends PureComponent {
             </TouchableOpacity>
           </View>
         )}
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              colors={[CykeeColor]}
+              onRefresh={() => this.props.onScrollDown()}
+            />
+          }
+          style={([styles.scrollViewStyle], {alwaysBounceVertical: true})}>
           {this.props.gridSize != 'CameraRoll' && (
             <View style={styles.searchContainer}>
               <Icon
@@ -273,8 +288,8 @@ class GridViewComponent extends PureComponent {
             this.longPressItem(index);
             console.log('longPress accepted');
           }}>
-          <Image
-            // resizeMode={FastImage.resizeMode.cover}
+          <FastImage
+            resizeMode={FastImage.resizeMode.cover}
             style={{flex: 1, borderRadius: 5, resizeMode: 'cover'}}
             source={{uri: item.uri}}
           />

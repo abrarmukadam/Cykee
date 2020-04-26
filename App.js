@@ -27,6 +27,7 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {Icon} from 'react-native-elements';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -39,12 +40,13 @@ function GalleryTab(navigation) {
           let iconName;
 
           if (route.name === 'GridViewScreen') {
-            iconName = focused ? 'center-focus-strong' : 'center-focus-weak';
+            iconName = focused ? 'crop-free' : 'crop-free';
             return <MaterialIcons name={iconName} size={size} color={color} />;
           } else if (route.name === 'FavoriteScreen') {
             return <FavouriteIcon fav_status={focused} iconColor={color} />;
           } else if (route.name === 'CameraRollScreen') {
-            return <GalleryIcon selectedStatus={focused} iconColor={color} />;
+            return <Icon name="grid" type="material-community" color={color} />;
+            // return <GalleryIcon selectedStatus={focused} iconColor={color} />;
           }
         },
       })}
@@ -108,6 +110,10 @@ function CameraStack(navigation) {
           title: 'Preview',
           headerTransparent: true,
           headerTintColor: 'white',
+          headerStyle: {
+            elevation: 100,
+            borderRadius: 0,
+          },
         }}
       />
       <Stack.Screen
@@ -130,7 +136,7 @@ function CameraStack(navigation) {
         name="GalleryTab"
         component={GalleryTab}
         options={{
-          title: 'Cykeee Gallery',
+          title: 'Gallery',
           gestureEnabled: true,
           gestureDirection: 'vertical',
         }}

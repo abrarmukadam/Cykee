@@ -30,6 +30,9 @@ class CameraRollScreen extends PureComponent {
       toBeDisplayed: photoArray,
     });
   };
+  onScrollDown = () => {
+    this.props.navigation.navigate('Home');
+  };
 
   render() {
     return (
@@ -37,6 +40,7 @@ class CameraRollScreen extends PureComponent {
         receivedArray={this.state.toBeDisplayed}
         onPressCard={this.onPressCard}
         gridSize={'CameraRoll'}
+        onScrollDown={this.onScrollDown}
       />
       // <View style={styles.container}>
       //   <Text style={styles.fontStyle}>

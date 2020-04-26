@@ -37,6 +37,7 @@ const GlobalIconSize = 30;
 const GlobalMediumIconSize = 40;
 const GlobalLargeIconSize = 80;
 const GalleryIconColor = '#444444';
+const CykeeColor = '#c0ff02';
 
 //Flash icons
 const flashIconName = [
@@ -54,4 +55,5 @@ export {
   GlobalLargeIconSize,
   flashIconName,
   GalleryIconColor,
+  CykeeColor,
 };

@@ -14,6 +14,8 @@ import CameraRoll from '@react-native-community/cameraroll';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageRotate from 'react-native-image-rotate';
 import {Input} from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
+
 var RNFS = require('react-native-fs');
 
 import {
@@ -150,6 +152,7 @@ class EditScreen extends Component {
       path: this.state.photo.source.uri,
     }).then(image => {
       image.uri = image.path;
+      image.source = {uri: image.path};
       this.setState({tempPhoto: image});
     });
   };
@@ -193,8 +196,8 @@ class EditScreen extends Component {
         newPhoto.width = this.state.photo.width;
         newPhoto.fileName = newName;
         newPhoto.caption = this.state.text;
-        // newPhoto.uri = galleryUri + newPhoto.fileName;
-        newPhoto.uri = uri;
+        newPhoto.uri = galleryUri + newPhoto.fileName;
+        // newPhoto.uri = uri;
         console.log('Photo saved in gallery:', newPhoto);
         this.props.addNewPhoto(newPhoto);
         this.props.navigation.goBack();
@@ -210,9 +213,12 @@ class EditScreen extends Component {
     return (
       <View style={styles.container2} disabled behavior="height">
         <StatusBar hidden={false} />
-
-        <Image
-          source={{uri: this.state.photo.source.uri}}
+        <FastImage
+          source={{
+            uri: this.state.photo.source.uri,
+            priority: FastImage.priority.high,
+          }}
+          resizeMode={FastImage.resizeMode.contain}
           style={styles.image}
         />
         <Icon

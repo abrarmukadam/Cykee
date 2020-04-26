@@ -114,6 +114,7 @@ class GalleryScreen extends Component {
   };
   onPressShare = item => {
     console.log('Share Pressed');
+    console.log(item.source.uri);
     const shareOptions = {
       type: 'image',
       url: item.source.uri,
@@ -164,7 +165,14 @@ class GalleryScreen extends Component {
 
             console.log('updatedPhotoArray:', updatedPhotoArray);
             this.props.deletePhotoFromList(updatedPhotoArray);
+
+            let newToBeDisplayed = [...this.props.route.params.toBeDisplayed];
+            newToBeDisplayed.splice(this.state.index, 1);
             console.log('photo deleted');
+            this.props.navigation.push('GalleryScreen', {
+              index: this.state.index ? this.state.index - 1 : 0,
+              toBeDisplayed: newToBeDisplayed,
+            });
           },
         },
       ],

@@ -63,4 +63,5 @@ export default StyleSheet.create({
     // alignItems: 'center',
   },
   shareIconText: {textAlign: 'center', alignContent: 'center', fontSize: 10},
+  // scrollViewStyle: {alwaysBounceVertical: true},
 });

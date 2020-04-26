@@ -31,6 +31,9 @@ class FavoriteScreen extends Component {
       toBeDisplayed: photoArray,
     });
   };
+  onScrollDown = () => {
+    this.props.navigation.navigate('Home');
+  };
 
   render() {
     return (
@@ -38,6 +41,7 @@ class FavoriteScreen extends Component {
         receivedArray={this.state.toBeDisplayed}
         onPressCard={this.onPressCard}
         gridSize={'Favorite'}
+        onScrollDown={this.onScrollDown}
       />
     );
   }

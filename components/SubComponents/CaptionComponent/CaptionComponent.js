@@ -8,7 +8,7 @@ class CaptionComponent extends Component {
     if (Caption != '')
       return (
         <SafeAreaView style={[styles.captionContainer, {position: 'relative'}]}>
-          {/* <SafeAreaView
+          <SafeAreaView
             style={[
               styles.captionContainer,
               {
@@ -19,7 +19,7 @@ class CaptionComponent extends Component {
             <Text style={[styles.captionFont, {color: '#0000'}]}>
               {this.props.caption}
             </Text>
-          </SafeAreaView> */}
+          </SafeAreaView>
           <SafeAreaView style={[styles.captionContainer]}>
             <Text style={[styles.captionFont, {color: 'white'}]}>
               {this.props.caption}

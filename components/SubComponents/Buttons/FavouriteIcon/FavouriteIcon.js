@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {GlobalIconSize, GalleryIconColor} from '../index';
+import {GlobalIconSize, GalleryIconColor, CykeeColor} from '../index';
 import {StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 class FavouriteIcon extends Component {
@@ -11,7 +11,13 @@ class FavouriteIcon extends Component {
         name={this.props.fav_status ? 'heart' : 'heart-outlined'}
         // color={this.props.fav_status ? 'grey' : 'white'}
         size={this.props.iconSize ? this.props.iconSize : GlobalIconSize}
-        color={this.props.iconColor ? this.props.iconColor : GalleryIconColor}
+        color={
+          this.props.fav_status
+            ? CykeeColor
+            : this.props.iconColor
+            ? this.props.iconColor
+            : GalleryIconColor
+        }
         // color={'pink'}
         style={styles.favStyle}
       />

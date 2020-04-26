@@ -9,6 +9,7 @@ import {
   StyleSheet,
   StatusBar,
   BackHandler,
+  Platform,
 } from 'react-native';
 import styles from './styles';
 import {RNCamera} from 'react-native-camera';
@@ -27,8 +28,6 @@ import {
   GalleryIcon,
 } from './../../SubComponents/Buttons/index';
 import GestureRecognizer from 'react-native-swipe-gestures';
-
-const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
 const PendingView = () => (
   <View
@@ -66,6 +65,9 @@ class CameraScreen extends PureComponent {
   };
   componentDidUpdate() {
     if (this.state.remountCamera) {
+      // PermissionsAndroid.request(
+      //   PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      // );
       setTimeout(() => {
         this.setState({remountCamera: false});
         SplashScreen.hide();
@@ -74,12 +76,23 @@ class CameraScreen extends PureComponent {
   }
   async componentDidMount() {
     console.log('MOUNTED');
-    PermissionsAndroid.requestMultiple([
-      PermissionsAndroid.PERMISSIONS.CAMERA,
+    PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-    ]);
-    this.camera.refreshAuthorizationStatus();
+    );
+    // PermissionsAndroid.requestMultiple([
+    //   PermissionsAndroid.PERMISSIONS.CAMERA,
+    //   PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+    // ]);
+
+    // const granted = await PermissionsAndroid.request(
+    //   PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+    //   {
+    //     title: 'AndoridPermissionExample App Camera Permission',
+    //     message: 'AndoridPermissionExample App needs access to your camera ',
+    //   },
+    // );
+
+    // this.camera.refreshAuthorizationStatus();
     const ratios = await this.camera.getSupportedRatiosAsync();
     console.log('this.props.aspectRatio', this.props.aspectRatio);
 
@@ -153,8 +166,8 @@ class CameraScreen extends PureComponent {
           let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
           newPhoto.fileName = newName;
           newPhoto.caption = '';
-          // newPhoto.uri = galleryUri + newPhoto.fileName;
-          newPhoto.uri = uri;
+          newPhoto.uri = galleryUri + newPhoto.fileName;
+          // newPhoto.uri = uri;
           console.log('Photo saved in gallery:', newPhoto);
           this.props.addNewPhoto(newPhoto);
         });
@@ -230,7 +243,7 @@ class CameraScreen extends PureComponent {
     return (
       <GestureRecognizer
         // onSwipe={(direction, state) => this.onSwipe(direction, state)}
-        onSwipeUp={() => this.props.navigation.navigate('GridViewScreen')}
+        onSwipeUp={() => this.props.navigation.navigate('GalleryTab')}
         onSwipeDown={() => BackHandler.exitApp()}
         onSwipeRight={() => this.onPressGalleryIcon()}
         config={config}
@@ -241,10 +254,8 @@ class CameraScreen extends PureComponent {
           <StatusBar hidden={true} />
 
           {!this.state.remountCamera && (
-            // {false && (
             <RNCamera
               ref={ref => (this.camera = ref)}
-              // fixOrientation={false}
               style={[
                 styles.preview,
                 {
@@ -286,7 +297,6 @@ class CameraScreen extends PureComponent {
                       <View style={{flex: 1}} />
                     </TouchableWithoutFeedback>
                     <View style={styles.CameraIconContainer}>
-                      {/* <View style={[styles.autoFocusBox]} /> */}
                       <FlashMode
                         flashIcon={this.props.flashMode}
                         onPressFlashMode={() => this.changeFlashMode()}
