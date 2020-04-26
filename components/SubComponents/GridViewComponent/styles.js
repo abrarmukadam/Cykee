@@ -56,6 +56,8 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-around',
+    position: 'absolute',
+    bottom: 0,
   },
   shareIconContainer: {
     justifyContent: 'flex-end',

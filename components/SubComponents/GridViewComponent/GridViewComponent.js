@@ -177,31 +177,7 @@ class GridViewComponent extends PureComponent {
             />
           }
           style={([styles.scrollViewStyle], {alwaysBounceVertical: true})}> */}
-        {this.props.gridSize != 'CameraRoll' && (
-          <View style={styles.searchContainer}>
-            <Icon
-              name="ios-search"
-              size={GlobalIconSize - 10}
-              color={'grey'}
-              style={{position: 'absolute', left: 10}}
-            />
 
-            <TextInput
-              style={styles.searchStyle}
-              placeholder={'Search Photo...'}
-              value={this.state.searchFilter}
-              placeholderTextColor={'silver'}
-              onChangeText={text => this.setState({searchFilter: text})}
-            />
-            {this.state.searchFilter != '' && (
-              <TouchableOpacity
-                style={{position: 'absolute', right: 30, padding: 4}}
-                onPress={() => this.setState({searchFilter: ''})}>
-                <Icon name="ios-close" size={GlobalIconSize} color={'grey'} />
-              </TouchableOpacity>
-            )}
-          </View>
-        )}
         <View style={styles.gridContainer}>
           {this.state.filteredList && (
             <PhotoGrid
@@ -212,10 +188,15 @@ class GridViewComponent extends PureComponent {
               renderHeader={this.renderHeader}
               renderItem={this.renderItem}
               onEndReached={this.props._handleLoadMore} //optional
+              refreshControl={
+                <RefreshControl
+                  colors={[CykeeColor]}
+                  onRefresh={() => this.props.onScrollDown()}
+                />
+              }
             />
           )}
         </View>
-        {/* </ScrollView> */}
         {this.state.longPressStatus && (
           <View style={styles.buttonContainerStyle}>
             <TouchableOpacity
@@ -232,11 +213,40 @@ class GridViewComponent extends PureComponent {
             </TouchableOpacity>
           </View>
         )}
+        {/* </ScrollView> */}
       </View>
     );
   }
   renderHeader = () => {
-    return <View />;
+    return (
+      // <View style={{flex: 1}}>
+      // {/* {this.props.gridSize != 'CameraRoll' && ( */}
+      <View style={styles.searchContainer}>
+        <Icon
+          name="ios-search"
+          size={GlobalIconSize - 10}
+          color={'grey'}
+          style={{position: 'absolute', left: 10}}
+        />
+
+        <TextInput
+          style={styles.searchStyle}
+          placeholder={'Search Photo...'}
+          value={this.state.searchFilter}
+          placeholderTextColor={'silver'}
+          onChangeText={text => this.setState({searchFilter: text})}
+        />
+        {this.state.searchFilter != '' && (
+          <TouchableOpacity
+            style={{position: 'absolute', right: 30, padding: 4}}
+            onPress={() => this.setState({searchFilter: ''})}>
+            <Icon name="ios-close" size={GlobalIconSize} color={'grey'} />
+          </TouchableOpacity>
+        )}
+      </View>
+      // )}
+      // </View>
+    );
   };
   longPressItem = index => {
     let filteredList = [...this.state.filteredList];
