@@ -34,6 +34,9 @@ class FavoriteScreen extends Component {
   onScrollDown = () => {
     this.props.navigation.navigate('Home');
   };
+  _handleLoadMore = () => {
+    console.log('end reached');
+  };
 
   render() {
     return (
@@ -42,6 +45,7 @@ class FavoriteScreen extends Component {
         onPressCard={this.onPressCard}
         gridSize={'Favorite'}
         onScrollDown={this.onScrollDown}
+        _handleLoadMore={this._handleLoadMore}
       />
     );
   }

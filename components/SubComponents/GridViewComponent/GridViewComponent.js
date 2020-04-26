@@ -19,6 +19,7 @@ import {
   ShareIcon,
   DeleteIcon,
   CykeeColor,
+  MoreIcon,
 } from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -168,51 +169,53 @@ class GridViewComponent extends PureComponent {
             </TouchableOpacity>
           </View>
         )}
-        <ScrollView
+        {/* <ScrollView
           refreshControl={
             <RefreshControl
               colors={[CykeeColor]}
               onRefresh={() => this.props.onScrollDown()}
             />
           }
-          style={([styles.scrollViewStyle], {alwaysBounceVertical: true})}>
-          {this.props.gridSize != 'CameraRoll' && (
-            <View style={styles.searchContainer}>
-              <Icon
-                name="ios-search"
-                size={GlobalIconSize - 10}
-                color={'grey'}
-                style={{position: 'absolute', left: 10}}
-              />
+          style={([styles.scrollViewStyle], {alwaysBounceVertical: true})}> */}
+        {this.props.gridSize != 'CameraRoll' && (
+          <View style={styles.searchContainer}>
+            <Icon
+              name="ios-search"
+              size={GlobalIconSize - 10}
+              color={'grey'}
+              style={{position: 'absolute', left: 10}}
+            />
 
-              <TextInput
-                style={styles.searchStyle}
-                placeholder={'Search Photo...'}
-                value={this.state.searchFilter}
-                placeholderTextColor={'silver'}
-                onChangeText={text => this.setState({searchFilter: text})}
-              />
-              {this.state.searchFilter != '' && (
-                <TouchableOpacity
-                  style={{position: 'absolute', right: 30, padding: 4}}
-                  onPress={() => this.setState({searchFilter: ''})}>
-                  <Icon name="ios-close" size={GlobalIconSize} color={'grey'} />
-                </TouchableOpacity>
-              )}
-            </View>
-          )}
-          <View style={styles.gridContainer}>
-            {this.state.filteredList && (
-              <PhotoGrid
-                data={this.state.filteredList}
-                itemsPerRow={3}
-                itemMargin={0}
-                renderHeader={this.renderHeader}
-                renderItem={this.renderItem}
-              />
+            <TextInput
+              style={styles.searchStyle}
+              placeholder={'Search Photo...'}
+              value={this.state.searchFilter}
+              placeholderTextColor={'silver'}
+              onChangeText={text => this.setState({searchFilter: text})}
+            />
+            {this.state.searchFilter != '' && (
+              <TouchableOpacity
+                style={{position: 'absolute', right: 30, padding: 4}}
+                onPress={() => this.setState({searchFilter: ''})}>
+                <Icon name="ios-close" size={GlobalIconSize} color={'grey'} />
+              </TouchableOpacity>
             )}
           </View>
-        </ScrollView>
+        )}
+        <View style={styles.gridContainer}>
+          {this.state.filteredList && (
+            <PhotoGrid
+              data={this.state.filteredList}
+              itemsPerRow={3}
+              itemMargin={0}
+              itemPaddingHorizontal={1}
+              renderHeader={this.renderHeader}
+              renderItem={this.renderItem}
+              onEndReached={this.props._handleLoadMore} //optional
+            />
+          )}
+        </View>
+        {/* </ScrollView> */}
         {this.state.longPressStatus && (
           <View style={styles.buttonContainerStyle}>
             <TouchableOpacity
@@ -232,7 +235,6 @@ class GridViewComponent extends PureComponent {
       </View>
     );
   }
-
   renderHeader = () => {
     return <View />;
   };

@@ -46,6 +46,10 @@ class GridViewScreen extends PureComponent {
   onScrollDown = () => {
     this.props.navigation.navigate('Home');
   };
+  _handleLoadMore = () => {
+    console.log('end reached');
+  };
+
   render() {
     console.log(this.state.searchFilter);
 
@@ -55,6 +59,7 @@ class GridViewScreen extends PureComponent {
         onPressCard={this.onPressCard}
         gridSize={'Cykee'}
         onScrollDown={this.onScrollDown}
+        _handleLoadMore={this._handleLoadMore}
       />
     );
   }
