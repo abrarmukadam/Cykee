@@ -50,7 +50,7 @@ export default StyleSheet.create({
   },
   saveButtonStyle: {
     position: 'absolute',
-    top: 20,
+    bottom: 60,
     right: 20,
     elevation: ELEVATION,
     borderWidth: BORDERWIDTH,

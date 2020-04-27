@@ -4,13 +4,13 @@ const {width: WIDTH, height: HEIGHT} = Dimensions.get('screen');
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     // height: '100%',
     // width: '100%',
-    // position: 'absolute',
-    // top: 0,
-    // bottom: 0,
-    // right: 0,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
     // backgroundColor: 'white',
     // justifyContent: 'center',
     // alignItems: 'center',

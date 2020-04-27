@@ -33,6 +33,6 @@
         android:text="Imprint your memories"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:textSize="18sp"
+        android:textSize="21sp"
         android:textStyle="bold" />
 </LinearLayout>

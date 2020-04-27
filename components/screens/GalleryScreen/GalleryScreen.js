@@ -17,6 +17,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CameraRoll from '@react-native-community/cameraroll';
 
 import Gallery from 'react-native-image-gallery';
+import GallerySwiper from 'react-native-gallery-swiper';
+
 import FastImage from 'react-native-fast-image';
 import GestureRecognizer from 'react-native-swipe-gestures';
 
@@ -35,6 +37,7 @@ import {
   GalleryIcon,
 } from '../../SubComponents/Buttons/index';
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
+const SCREEN_RATIO = HEIGHT / WIDTH;
 
 class GalleryScreen extends Component {
   constructor(props) {
@@ -189,24 +192,40 @@ class GalleryScreen extends Component {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80,
     };
-    let ImageRatio = 1;
-    if (this.state.photoArray[0]) {
-      ImageRatio =
-        this.state.photoArray[this.state.index].height /
-        this.state.photoArray[this.state.index].width;
-    } else ImageRatio = 1;
+    // let ImageRatio = 3;
+    // if (this.state.photoArray[0]) {
+    //   ImageRatio =
+    //     this.state.photoArray[this.state.index].height /
+    //     this.state.photoArray[this.state.index].width;
+    // } else ImageRatio = 1;
+    // console.log(ImageRatio);
+    // console.log('h', HEIGHT);
+    // console.log('w', WIDTH);
+    // console.log('ratio', SCREEN_RATIO);
+    // if (ImageRatio == SCREEN_RATIO)
+    //   console.log('TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE');
+
     return (
       <View style={styles.container}>
-        <StatusBar hidden={!this.state.optionsAvailable} />
+        <StatusBar hidden={true} />
+        {/* <StatusBar hidden={!this.state.optionsAvailable} /> */}
         {this.state.photoArray[0] && (
-          <Gallery
+          <GallerySwiper
             style={{
               // flex: 1,
               height: '100%',
               width: '100%',
               backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
             }}
-            ImageResizeMode={ImageRatio >= 2 ? 'stretch' : 'contain'}
+            // resizeMode={ImageRatio >= 2 ? 'stretch' : 'contain'}
+            resizeMode={
+              this.state.photoArray[this.state.index].height /
+                this.state.photoArray[this.state.index].width >=
+              SCREEN_RATIO
+                ? 'stretch'
+                : 'contain'
+            }
+            // resizeMode={'contain'}
             images={this.state.photoArray}
             initialPage={this.state.index}
             flatListProps={{
@@ -218,13 +237,48 @@ class GalleryScreen extends Component {
                 index,
               }),
             }}
+            initialNumToRender={4}
+            // sensitiveScroll={false}
+            // resistantStrHorizontal={500}
+            // resistantStrVertical={500}
             onSingleTapConfirmed={() =>
               this.setState({
                 optionsAvailable: !this.state.optionsAvailable,
               })
             }
             onPageSelected={index => this.setState({index: index})}
+            // pageMargin={5}
+            onSwipeUpReleased={() =>
+              this.onPressShare(this.state.photoArray[this.state.index])
+            }
+            onSwipeDownReleased={() => this.props.navigation.navigate('Home')}
           />
+          // <Gallery
+          //   style={{
+          //     // flex: 1,
+          //     height: '100%',
+          //     width: '100%',
+          //     backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
+          //   }}
+          //   ImageResizeMode={ImageRatio >= 2 ? 'stretch' : 'contain'}
+          //   images={this.state.photoArray}
+          //   initialPage={this.state.index}
+          //   flatListProps={{
+          //     initialNumToRender: this.state.index,
+          //     initialScrollIndex: this.state.index,
+          //     getItemLayout: (data, index) => ({
+          //       length: Dimensions.get('screen').width,
+          //       offset: Dimensions.get('screen').width * index,
+          //       index,
+          //     }),
+          //   }}
+          //   onSingleTapConfirmed={() =>
+          //     this.setState({
+          //       optionsAvailable: !this.state.optionsAvailable,
+          //     })
+          //   }
+          //   onPageSelected={index => this.setState({index: index})}
+          // />
         )}
 
         {this.state.optionsAvailable && (
@@ -286,28 +340,49 @@ class GalleryScreen extends Component {
                 <ShareIcon />
                 <Text style={styles.IconTextStyle}>Share</Text>
               </TouchableOpacity>
-
+              {this.props.route.params.navigatingFrom != 'CameraRollScreen' && (
+                <TouchableOpacity
+                  style={styles.IconContainer}
+                  onPress={() => {
+                    this.onPressFav(this.state.photoArray[this.state.index]);
+                  }}>
+                  <FavouriteIcon
+                    fav_status={
+                      this.state.photoArray[this.state.index]
+                        ? this.state.photoArray[this.state.index].fav_status
+                        : false
+                    }
+                  />
+                  <Text style={styles.IconTextStyle}>Favorite</Text>
+                </TouchableOpacity>
+              )}
               <TouchableOpacity
                 style={styles.IconContainer}
                 onPress={() => {
-                  this.onPressFav(this.state.photoArray[this.state.index]);
+                  const photo = this.state.photoArray[this.state.index];
+                  if (
+                    this.props.route.params.navigatingFrom != 'CameraRollScreen'
+                  )
+                    this.onPressEdit(photo);
+                  else {
+                    photo.uri = photo.source.uri;
+                    this.props.navigation.push('PreviewScreen', {
+                      photo: photo,
+                    });
+                  }
                 }}>
-                <FavouriteIcon
-                  fav_status={
-                    this.state.photoArray[this.state.index]
-                      ? this.state.photoArray[this.state.index].fav_status
-                      : false
+                <EditIcon
+                  iconName={
+                    this.props.route.params.navigatingFrom == 'CameraRollScreen'
+                      ? 'addToCykee'
+                      : 'Edit'
                   }
                 />
-                <Text style={styles.IconTextStyle}>Favorite</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.IconContainer}
-                onPress={() =>
-                  this.onPressEdit(this.state.photoArray[this.state.index])
-                }>
-                <EditIcon />
-                <Text style={styles.IconTextStyle}>Edit</Text>
+                <Text style={styles.IconTextStyle}>
+                  {this.props.route.params.navigatingFrom == 'CameraRollScreen'
+                    ? 'Add to Cykee'
+                    : 'Edit'}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.IconContainer}

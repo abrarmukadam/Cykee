@@ -11,6 +11,7 @@ class CameraRollScreen extends PureComponent {
     this.props.navigation.push('GalleryScreen', {
       index: index,
       toBeDisplayed: photoArray,
+      navigatingFrom: 'CameraRollScreen',
     });
   };
   onScrollDown = () => {
