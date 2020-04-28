@@ -5,6 +5,7 @@ import {Actions} from '../../../Actions/index';
 const mapPropsToState = state => {
   return {
     photoArray: state.galleryReducer.photoArray,
+    hideCaption: state.settingReducer.hideCaption,
   };
 };
 

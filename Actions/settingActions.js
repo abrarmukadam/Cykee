@@ -1,4 +1,10 @@
-import {FLASH_MODE, CAMERA_TYPE, TEXT_MODE, ASPECT_RATIO} from './actionTypes';
+import {
+  FLASH_MODE,
+  CAMERA_TYPE,
+  TEXT_MODE,
+  ASPECT_RATIO,
+  HIDE_CAPTION,
+} from './actionTypes';
 
 export function changeFlashMode(flashMode) {
   console.log('Change FlashMode called');
@@ -34,6 +40,15 @@ export function changeTextMode(textMode) {
     type: TEXT_MODE,
     payload: {
       textMode: textMode,
+    },
+  };
+}
+export function hideCaptionAction(hideCaption) {
+  console.log('Change hideCaptionAction called');
+  return {
+    type: HIDE_CAPTION,
+    payload: {
+      hideCaption: hideCaption,
     },
   };
 }

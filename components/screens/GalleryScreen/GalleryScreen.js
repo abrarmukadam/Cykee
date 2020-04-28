@@ -94,7 +94,7 @@ class GalleryScreen extends Component {
       };
       temp = [...temp, newItem];
     });
-    this.setState({photoArray: temp});
+    this.setState({photoArray: temp, showCapion: !this.props.hideCaption});
     // this.props.navigation.setOptions({
     // headerTransparent: true,
     // headerStyle: {

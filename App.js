@@ -20,7 +20,7 @@ import {default as GridViewScreen} from './components/screens/GridViewScreen/Gri
 import {default as EditScreen} from './components/screens/EditScreen/EditScreen.container';
 import {default as FavoriteScreen} from './components/screens/FavoriteScreen/FavoriteScreen.container';
 import {default as CameraRollScreen} from './components/screens/CameraRollScreen/CameraRollScreen';
-
+import {default as HideCaption} from './components/SubComponents/HideCaption/HideCaption.container';
 import {
   FavouriteIcon,
   GalleryIcon,
@@ -161,6 +161,14 @@ function CameraStack(navigation) {
           gestureDirection: 'vertical',
           cardStyleInterpolator:
             CardStyleInterpolators.forRevealFromBottomAndroid,
+          headerRight: () => (
+            <HideCaption />
+            // <Button
+            //   // onPress={() => Alert('This is a button!')}
+            //   title="Info"
+            //   color="black"
+            // />
+          ),
         }}
       />
 

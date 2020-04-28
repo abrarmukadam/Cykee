@@ -6,3 +6,5 @@ export const ASPECT_RATIO = 'ASPECT_RATIO';
 export const ADD_PHOTO = 'ADD_PHOTO';
 export const FAV_PHOTO = 'FAV_PHOTO';
 export const DELETE_PHOTO = 'DELETE_PHOTO';
+
+export const HIDE_CAPTION = 'HIDE_CAPTION';

@@ -2,18 +2,19 @@ import {connect} from 'react-redux';
 import GalleryScreen from './GalleryScreen';
 import {Actions} from '../../../Actions/index';
 
-const mapPropsToState = (state) => {
+const mapPropsToState = state => {
   return {
     photoArray: state.galleryReducer.photoArray,
+    hideCaption: state.settingReducer.hideCaption,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     favPhoto: (photoArray, photo_uri) => {
       return dispatch(Actions.galleryActions.favPhoto(photoArray, photo_uri));
     },
-    deletePhotoFromList: (newPhotoArray) => {
+    deletePhotoFromList: newPhotoArray => {
       return dispatch(
         Actions.galleryActions.deletePhotoFromList(newPhotoArray),
       );
@@ -21,4 +22,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapPropsToState, mapDispatchToProps)(GalleryScreen);
+export default connect(
+  mapPropsToState,
+  mapDispatchToProps,
+)(GalleryScreen);

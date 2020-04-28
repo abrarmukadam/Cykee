@@ -29,6 +29,7 @@ import {Button, Header} from 'react-native-elements';
 import Share from 'react-native-share';
 import CameraRoll from '@react-native-community/cameraroll';
 import GestureRecognizer from 'react-native-swipe-gestures';
+import {default as HideCaption} from '../HideCaption/HideCaption';
 
 import {
   GlobalIconColor,
@@ -308,7 +309,7 @@ class GridViewComponent extends PureComponent {
           />
         </TouchableOpacity>
 
-        {item.caption != '' && (
+        {item.caption != '' && this.props.hideCaption == false && (
           <View style={styles.captionContainer}>
             <Text
               style={[

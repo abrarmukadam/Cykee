@@ -41,8 +41,8 @@ const GlobalLargeIconSize = 80;
 const GalleryIconColor = '#444444';
 const CykeeColor = '#c0ff02';
 
-const CAPTION_SIZE = [20, 30, 40];
-const GRID_CAPTION_SIZE = [10, 12, 15];
+const CAPTION_SIZE = [15, 25, 30];
+const GRID_CAPTION_SIZE = [8, 10, 12];
 const CAPTION_FONT = ['serif', 'normal', 'sans-serif-thin', 'monospace'];
 //Flash icons
 const flashIconName = [
