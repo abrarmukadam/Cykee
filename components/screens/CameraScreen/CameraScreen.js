@@ -18,7 +18,6 @@ import CameraRoll from '@react-native-community/cameraroll';
 import VolumeControl, {VolumeControlEvents} from 'react-native-volume-control';
 var RNFS = require('react-native-fs');
 import SplashScreen from 'react-native-splash-screen';
-
 import {
   TakePicture,
   FlashMode,
@@ -28,7 +27,6 @@ import {
   GalleryIcon,
 } from './../../SubComponents/Buttons/index';
 import GestureRecognizer from 'react-native-swipe-gestures';
-
 const PendingView = () => (
   <View
     style={{
@@ -76,13 +74,11 @@ class CameraScreen extends PureComponent {
   }
   async componentDidMount() {
     console.log('MOUNTED');
-    PermissionsAndroid.request(
+    PermissionsAndroid.requestMultiple([
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-    );
-    // PermissionsAndroid.requestMultiple([
-    //   PermissionsAndroid.PERMISSIONS.CAMERA,
-    //   PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-    // ]);
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+    ]);
 
     // const granted = await PermissionsAndroid.request(
     //   PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
@@ -166,6 +162,7 @@ class CameraScreen extends PureComponent {
           let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
           newPhoto.fileName = newName;
           newPhoto.caption = '';
+          newPhoto.captionStyle = {captionSize: 0, captionFont: 0};
           newPhoto.uri = galleryUri + newPhoto.fileName;
           // newPhoto.uri = uri;
           console.log('Photo saved in gallery:', newPhoto);
@@ -288,7 +285,9 @@ class CameraScreen extends PureComponent {
                       style={[
                         styles.autoFocusBox,
                         drawFocusRingPosition,
-                        {borderColor: this.state.focus ? 'white' : '#0000'},
+                        {
+                          borderColor: this.state.focus ? 'white' : '#0000',
+                        },
                       ]}
                     />
 
@@ -307,7 +306,6 @@ class CameraScreen extends PureComponent {
                           this.props.changeTextMode(!this.props.textMode)
                         }
                       />
-
                       <AspectRatio
                         aspectIcon={this.props.aspectRatio}
                         onPressAspectRatio={() =>

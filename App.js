@@ -2,9 +2,11 @@
 
 import * as React from 'react';
 import 'react-native-gesture-handler';
-
+import {TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
+import {TransitionSpecs} from '@react-navigation/stack';
+import {CardStyleInterpolators} from '@react-navigation/stack';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -28,7 +30,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Icon} from 'react-native-elements';
-
+import {Button} from 'react-native';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -93,7 +95,7 @@ function CameraStack(navigation) {
         headerTintColor: 'red',
       }}
       screenOptions={{
-        animationEnabled: false,
+        animationEnabled: true,
       }}>
       <Stack.Screen
         name="Home"
@@ -101,6 +103,7 @@ function CameraStack(navigation) {
         component={CameraScreen}
         options={{
           headerShown: false,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       />
       <Stack.Screen
@@ -114,42 +117,68 @@ function CameraStack(navigation) {
             elevation: 100,
             borderRadius: 0,
           },
+          // animationEnabled: false,
+          cardStyleInterpolator:
+            CardStyleInterpolators.forFadeFromBottomAndroid,
         }}
       />
       <Stack.Screen
         name="GalleryScreen"
         component={GalleryScreen}
-        options={{
+        options={({navigation, route}) => ({
           title: '',
           // headerTransparent: true,
           statusBar: {
             drawBehind: true,
             visible: false,
           },
-
+          // headerRight: () => (
+          //   <TouchableOpacity
+          //     onPress={() => navigation.push('GalleryTab')}
+          //     style={{
+          //       flex: 4,
+          //       paddingRight: 10,
+          //       justifyContent: 'center',
+          //       alignItems: 'center',
+          //     }}>
+          //     <GalleryIcon iconColor="black" />
+          //   </TouchableOpacity>
+          // ),
           headerShown: false,
-          gestureEnabled: true,
-          gestureDirection: 'vertical',
-        }}
+          gestureEnabled: false,
+          // gestureDirection: 'vertical',
+          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+        })}
       />
       <Stack.Screen
         name="GalleryTab"
         component={GalleryTab}
         options={{
           title: 'Gallery',
+          headerShown: true,
+
           gestureEnabled: true,
           gestureDirection: 'vertical',
+          cardStyleInterpolator:
+            CardStyleInterpolators.forRevealFromBottomAndroid,
         }}
       />
 
       <Stack.Screen
         name="EditScreen"
         component={EditScreen}
-        headerMode="none"
         options={{
-          headerShown: false,
-          gestureEnabled: true,
-          gestureDirection: 'vertical',
+          title: 'Edit Image',
+          // headerTransparent: true,
+          headerTintColor: 'black',
+          headerStyle: {
+            elevation: 100,
+            borderRadius: 0,
+          },
+          gestureEnabled: false,
+          // gestureDirection: 'vertical',
+          cardStyleInterpolator:
+            CardStyleInterpolators.forFadeFromBottomAndroid,
         }}
       />
     </Stack.Navigator>

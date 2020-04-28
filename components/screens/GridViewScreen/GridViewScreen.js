@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
 import {default as GridViewComponent} from '../../SubComponents/GridViewComponent/GridViewComponent.container';
-
 class GridViewScreen extends PureComponent {
   constructor() {
     super();
@@ -13,6 +12,24 @@ class GridViewScreen extends PureComponent {
     this.setState({
       filteredList: this.props.photoArray,
     });
+
+    // this.props.navigation.setOptions({
+    //   // headerTransparent: true,
+    //   // headerStyle: {
+    //   //   backgroundColor: '#0000',
+    //   // },
+    //   // headerTintColor: '#fff',
+    //   // headerTitleStyle: {
+    //   //   fontWeight: 'bold',
+    //   // },
+    //   headerRight: () => (
+    //     <Button
+    //       // onPress={() => Alert('This is a button!')}
+    //       title="Info"
+    //       color="black"
+    //     />
+    //   ),
+    // });
   }
 
   componentDidUpdate(prevProps, prevState) {

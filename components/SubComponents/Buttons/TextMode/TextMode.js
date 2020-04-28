@@ -12,7 +12,10 @@ class TextMode extends Component {
         style={styles.TextModeStyle}>
         <Icon
           name={
-            this.props.textIcon ? 'closed-caption' : 'closed-caption-outline'
+            // this.props.textIcon ? 'closed-caption' : 'closed-caption-outline'
+            this.props.textIcon
+              ? 'comment-check-outline'
+              : 'comment-remove-outline'
           }
           size={GlobalIconSize}
           color={GlobalIconColor}

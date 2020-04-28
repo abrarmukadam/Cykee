@@ -13,7 +13,9 @@ import {
 import Share from 'react-native-share';
 
 import styles from './styles';
-import Icon from 'react-native-vector-icons/Ionicons';
+// import Icon from 'react-native-vector-icons/Ionicons';
+import {Icon} from 'react-native-elements';
+
 import CameraRoll from '@react-native-community/cameraroll';
 
 import Gallery from 'react-native-image-gallery';
@@ -61,6 +63,7 @@ class GalleryScreen extends Component {
           width: item.width,
           fav_status: item.fav_status,
           caption: item.caption,
+          captionStyle: item.captionStyle,
         };
         temp = [...temp, newItem];
         // item.dimension={{item.height,item.width}}
@@ -87,6 +90,7 @@ class GalleryScreen extends Component {
         width: item.width,
         fav_status: item.fav_status,
         caption: item.caption,
+        captionStyle: item.captionStyle,
       };
       temp = [...temp, newItem];
     });
@@ -111,7 +115,7 @@ class GalleryScreen extends Component {
     </TouchableOpacity>
   );
   onPressGallery = () => {
-    this.props.navigation.navigate('GalleryTab');
+    this.props.navigation.push('GalleryTab');
     // this.setState({index: 0});
     console.log('Gallery Pressed');
   };
@@ -210,57 +214,22 @@ class GalleryScreen extends Component {
         <StatusBar hidden={true} />
         {/* <StatusBar hidden={!this.state.optionsAvailable} /> */}
         {this.state.photoArray[0] && (
-          <GallerySwiper
-            style={{
-              // flex: 1,
-              height: '100%',
-              width: '100%',
-              backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
-            }}
-            // resizeMode={ImageRatio >= 2 ? 'stretch' : 'contain'}
-            resizeMode={
-              this.state.photoArray[this.state.index].height /
-                this.state.photoArray[this.state.index].width >=
-              SCREEN_RATIO
-                ? 'stretch'
-                : 'contain'
-            }
-            // resizeMode={'contain'}
-            images={this.state.photoArray}
-            initialPage={this.state.index}
-            flatListProps={{
-              initialNumToRender: this.state.index,
-              initialScrollIndex: this.state.index,
-              getItemLayout: (data, index) => ({
-                length: Dimensions.get('screen').width,
-                offset: Dimensions.get('screen').width * index,
-                index,
-              }),
-            }}
-            initialNumToRender={4}
-            // sensitiveScroll={false}
-            // resistantStrHorizontal={500}
-            // resistantStrVertical={500}
-            onSingleTapConfirmed={() =>
-              this.setState({
-                optionsAvailable: !this.state.optionsAvailable,
-              })
-            }
-            onPageSelected={index => this.setState({index: index})}
-            // pageMargin={5}
-            onSwipeUpReleased={() =>
-              this.onPressShare(this.state.photoArray[this.state.index])
-            }
-            onSwipeDownReleased={() => this.props.navigation.navigate('Home')}
-          />
-          // <Gallery
+          // <GallerySwiper
           //   style={{
           //     // flex: 1,
           //     height: '100%',
           //     width: '100%',
           //     backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
           //   }}
-          //   ImageResizeMode={ImageRatio >= 2 ? 'stretch' : 'contain'}
+          //   // resizeMode={ImageRatio >= 2 ? 'stretch' : 'contain'}
+          //   resizeMode={
+          //     this.state.photoArray[this.state.index].height /
+          //       this.state.photoArray[this.state.index].width >=
+          //     SCREEN_RATIO
+          //       ? 'stretch'
+          //       : 'contain'
+          //   }
+          //   // resizeMode={'contain'}
           //   images={this.state.photoArray}
           //   initialPage={this.state.index}
           //   flatListProps={{
@@ -272,13 +241,54 @@ class GalleryScreen extends Component {
           //       index,
           //     }),
           //   }}
+          //   initialNumToRender={4}
+          //   // sensitiveScroll={false}
+          //   // resistantStrHorizontal={500}
+          //   // resistantStrVertical={500}
           //   onSingleTapConfirmed={() =>
           //     this.setState({
           //       optionsAvailable: !this.state.optionsAvailable,
           //     })
           //   }
           //   onPageSelected={index => this.setState({index: index})}
+          //   // pageMargin={5}
+          //   onSwipeUpReleased={() =>
+          //     this.onPressShare(this.state.photoArray[this.state.index])
+          //   }
+          //   onSwipeDownReleased={() => this.props.navigation.navigate('Home')}
           // />
+          <Gallery
+            style={{
+              // flex: 1,
+              height: '100%',
+              width: '100%',
+              backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
+            }}
+            ImageResizeMode={
+              this.state.photoArray[this.state.index].height /
+                this.state.photoArray[this.state.index].width >
+              SCREEN_RATIO
+                ? 'stretch'
+                : 'contain'
+            }
+            images={this.state.photoArray}
+            initialPage={this.state.index}
+            flatListProps={{
+              initialNumToRender: this.state.index,
+              initialScrollIndex: this.state.index,
+              getItemLayout: (data, index) => ({
+                length: Dimensions.get('screen').width,
+                offset: Dimensions.get('screen').width * index,
+                index,
+              }),
+            }}
+            onSingleTapConfirmed={() =>
+              this.setState({
+                optionsAvailable: !this.state.optionsAvailable,
+              })
+            }
+            onPageSelected={index => this.setState({index: index})}
+          />
         )}
 
         {this.state.optionsAvailable && (
@@ -289,6 +299,7 @@ class GalleryScreen extends Component {
                 console.log('Back Pressed');
               }}>
               <Icon
+                type="ionicon"
                 name="md-arrow-back"
                 size={GlobalIconSize}
                 color={GalleryIconColor}
@@ -303,32 +314,49 @@ class GalleryScreen extends Component {
         )}
 
         <SafeAreaView style={styles.bottomContainer}>
-          <GestureRecognizer
-            // onSwipe={(direction, state) => this.onSwipe(direction, state)}
-            onSwipeUp={() => this.setState({showCapion: true})}
-            onSwipeDown={() => this.setState({showCapion: false})}
-            config={config}
+          <TouchableOpacity
+            onPress={() => this.setState({showCapion: !this.state.showCapion})}
             style={{
               flex: 1,
+              paddingTop: 10,
+              // borderColor: 'red',
+              borderWidth: 0.01,
+              justifyContent: 'space-between',
+              flexDirection: 'column',
             }}>
-            <View
-              style={{
-                flex: 1,
-                paddingTop: 60,
-                borderColor: '#0000',
-                borderWidth: 0.01,
-              }}>
-              {this.state.showCapion && (
+            <View>
+              <Icon
+                type="font-awesome"
+                name={
+                  this.state.showCapion
+                    ? ''
+                    : this.state.photoArray[this.state.index].caption
+                    ? 'angle-up'
+                    : ''
+                }
+                size={GlobalIconSize}
+                color="white"
+                // style={{position: 'absolute', top: 0}}
+              />
+            </View>
+            {this.state.showCapion && (
+              <View>
+                {/* <Text>ABC</Text> */}
                 <CaptionComponent
                   caption={
                     this.state.photoArray[this.state.index]
                       ? this.state.photoArray[this.state.index].caption
                       : ''
                   }
+                  captionStyle={
+                    this.state.photoArray[this.state.index]
+                      ? this.state.photoArray[this.state.index].captionStyle
+                      : {captionSize: 20, captionFont: 'normal'}
+                  }
                 />
-              )}
-            </View>
-          </GestureRecognizer>
+              </View>
+            )}
+          </TouchableOpacity>
 
           {this.state.optionsAvailable && (
             <SafeAreaView style={styles.bottomSubContainer}>

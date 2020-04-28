@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {SafeAreaView, Text} from 'react-native';
 import styles from './styles';
+
+import {CAPTION_FONT, CAPTION_SIZE} from '../Buttons/index';
+
 class CaptionComponent extends Component {
   state = {};
   render() {
@@ -16,12 +19,36 @@ class CaptionComponent extends Component {
                 backgroundColor: 'black',
               },
             ]}>
-            <Text style={[styles.captionFont, {color: '#0000'}]}>
+            <Text
+              style={[
+                styles.captionFont,
+                {
+                  color: '#0000',
+                  fontSize: this.props.captionStyle
+                    ? CAPTION_SIZE[this.props.captionStyle.captionSize]
+                    : 20,
+                  fontFamily: this.props.captionStyle
+                    ? CAPTION_FONT[this.props.captionStyle.captionFont]
+                    : 'normal',
+                },
+              ]}>
               {this.props.caption}
             </Text>
           </SafeAreaView>
           <SafeAreaView style={[styles.captionContainer]}>
-            <Text style={[styles.captionFont, {color: 'white'}]}>
+            <Text
+              style={[
+                styles.captionFont,
+                {
+                  color: 'white',
+                  fontSize: this.props.captionStyle
+                    ? CAPTION_SIZE[this.props.captionStyle.captionSize]
+                    : 20,
+                  fontFamily: this.props.captionStyle
+                    ? CAPTION_FONT[this.props.captionStyle.captionFont]
+                    : 'normal',
+                },
+              ]}>
               {this.props.caption}
             </Text>
           </SafeAreaView>

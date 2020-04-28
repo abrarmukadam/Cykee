@@ -16,6 +16,7 @@ import EditIcon from './EditIcon/EditIcon';
 import MoreIcon from './MoreIcon/MoreIcon';
 import BackButton from './BackButton/BackButton';
 import SelectionIcon from './SelectionIcon/SelectionIcon';
+import CheckCircle from './CheckCircle/CheckCircle';
 
 //Gallery(Grid) view component
 import GridViewComponent from '../GridViewComponent/GridViewComponent';
@@ -30,6 +31,7 @@ export {
   MoreIcon,
   BackButton,
   SelectionIcon,
+  CheckCircle,
 };
 //Global constants
 const GlobalIconColor = 'white';
@@ -39,6 +41,9 @@ const GlobalLargeIconSize = 80;
 const GalleryIconColor = '#444444';
 const CykeeColor = '#c0ff02';
 
+const CAPTION_SIZE = [20, 30, 40];
+const GRID_CAPTION_SIZE = [10, 12, 15];
+const CAPTION_FONT = ['serif', 'normal', 'sans-serif-thin', 'monospace'];
 //Flash icons
 const flashIconName = [
   //   //"FlashMode": {"off": 0, "on": 1, "torch": 2,"auto": 3, }
@@ -56,4 +61,7 @@ export {
   flashIconName,
   GalleryIconColor,
   CykeeColor,
+  CAPTION_SIZE,
+  GRID_CAPTION_SIZE,
+  CAPTION_FONT,
 };

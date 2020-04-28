@@ -7,24 +7,31 @@ import {
   BackHandler,
   KeyboardAvoidingView,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import styles from './styles';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {Icon} from 'react-native-elements';
 import CameraRoll from '@react-native-community/cameraroll';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageRotate from 'react-native-image-rotate';
 import {Input} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
+import {CykeeColor} from '../../SubComponents/Buttons/index';
 
 var RNFS = require('react-native-fs');
+const ICON_OPACITY = 0.7;
+const SIDE_ICON_COLOR = 'silver';
 
 import {
   GlobalIconColor,
   GlobalIconSize,
   GlobalMediumIconSize,
   GlobalLargeIconSize,
+  GalleryIconColor,
+  CheckCircle,
+  CAPTION_FONT,
+  CAPTION_SIZE,
 } from '../../SubComponents/Buttons/index';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 class EditScreen extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +42,8 @@ class EditScreen extends Component {
     orignal_photo: this.props.route.params.photo,
     tempPhoto: this.props.route.params.photo,
     text: this.props.route.params.photo.caption,
+    captionSize: this.props.route.params.photo.captionStyle.captionSize,
+    captionFont: this.props.route.params.photo.captionStyle.captionFont,
     prevPhoto: {},
     nextPhoto: {},
   };
@@ -75,6 +84,29 @@ class EditScreen extends Component {
       'hardwareBackPress',
       this.backAction,
     );
+
+    this.props.navigation.setOptions({
+      headerTransparent: true,
+      headerStyle: {
+        backgroundColor: '#0000',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerLeft: () => (
+        <Icon
+          type="ionicon"
+          name="ios-close"
+          underlayColor={'#0000'}
+          iconStyle={styles.elevationStyle}
+          size={GlobalIconSize}
+          color={GlobalIconColor}
+          containerStyle={styles.crossButtonStyle}
+          onPress={() => this.crossPressed()}
+        />
+      ),
+    });
   }
 
   componentWillUnmount() {
@@ -98,6 +130,20 @@ class EditScreen extends Component {
       });
     }
   }
+  captionSizePressed = () => {
+    if (this.state.captionSize >= 2) this.setState({captionSize: 0});
+    else this.setState({captionSize: this.state.captionSize + 1});
+    console.log('captionSize Pressed', this.state.captionSize);
+  };
+  captionFontPressed = () => {
+    if (this.state.captionFont >= 3) this.setState({captionFont: 0});
+    else
+      this.setState({
+        captionFont: this.state.captionFont + 1,
+      });
+
+    console.log('captionFont Pressed', this.state.captionFont);
+  };
 
   undoPressed = () => {
     console.log('Undo Pressed');
@@ -196,6 +242,10 @@ class EditScreen extends Component {
         newPhoto.width = this.state.photo.width;
         newPhoto.fileName = newName;
         newPhoto.caption = this.state.text;
+        newPhoto.captionStyle = {
+          captionSize: this.state.captionSize,
+          captionFont: this.state.captionFont,
+        };
         newPhoto.uri = galleryUri + newPhoto.fileName;
         // newPhoto.uri = uri;
         console.log('Photo saved in gallery:', newPhoto);
@@ -222,85 +272,148 @@ class EditScreen extends Component {
           style={styles.image}
         />
         <Icon
-          name="md-save"
-          size={GlobalMediumIconSize}
-          color={GlobalIconColor}
-          style={[
-            styles.saveButtonStyle,
-            {
-              opacity:
-                this.state.text == this.state.orignal_photo.caption &&
-                this.state.photo.source.uri ==
-                  this.state.orignal_photo.source.uri
-                  ? 0.5
-                  : 1,
-            },
-          ]}
-          disabled={
-            this.state.text == this.state.orignal_photo.caption &&
-            this.state.photo.source.uri == this.state.orignal_photo.source.uri
-              ? true
-              : false
-          }
-          onPress={() => this.savePhoto()}
-        />
-        <Icon
-          name="ios-close"
-          size={GlobalIconSize}
-          color={GlobalIconColor}
-          style={styles.crossButtonStyle}
-          onPress={() => this.crossPressed()}
-        />
-        <Icon
-          name="md-crop"
-          size={GlobalIconSize}
-          color={GlobalIconColor}
-          style={styles.cropButtonStyle}
-          onPress={() => this.cropPressed()}
-        />
-        <Icon
-          name="md-refresh"
-          size={GlobalIconSize}
-          color={GlobalIconColor}
-          style={styles.rotateButtonStyle}
-          onPress={() => this.rotatePressed()}
-        />
-        <Icon
+          type="ionicon"
           name="md-undo"
-          size={GlobalIconSize}
-          color={GlobalIconColor}
-          style={[
-            styles.undoButtonStyle,
-            {
-              opacity: this.state.prevPhoto.source ? 1 : 0.5,
-            },
+          size={GlobalIconSize - 10}
+          color={SIDE_ICON_COLOR}
+          underlayColor={'black'}
+          reverse={true}
+          reverseColor={CykeeColor}
+          containerStyle={[
+            styles.sideButtonStyle,
+            {top: 300, opacity: this.state.prevPhoto.source ? 1 : 0.5},
           ]}
+          disabledStyle={{backgroundColor: GalleryIconColor}}
           disabled={this.state.prevPhoto.source ? false : true}
           onPress={() => this.undoPressed()}
         />
         <Icon
+          type="ionicon"
           name="md-redo"
-          size={GlobalIconSize}
-          color={GlobalIconColor}
-          style={[
-            styles.redoButtonStyle,
-            {opacity: this.state.nextPhoto.source ? 1 : 0.5},
+          disabledStyle={{backgroundColor: GalleryIconColor}}
+          size={GlobalIconSize - 10}
+          color={SIDE_ICON_COLOR}
+          underlayColor={'black'}
+          reverse={true}
+          reverseColor={CykeeColor}
+          containerStyle={[
+            styles.sideButtonStyle,
+            {top: 360, opacity: this.state.nextPhoto.source ? 1 : 0.5},
           ]}
           disabled={this.state.nextPhoto.source ? false : true}
           onPress={() => this.redoPressed()}
         />
-        <KeyboardAvoidingView style={styles.textBoxContainer}>
-          <Input
+        <Icon
+          type="ionicon"
+          name="ios-crop"
+          size={GlobalIconSize - 10}
+          color={SIDE_ICON_COLOR}
+          underlayColor={'#0000'}
+          reverse={true}
+          reverseColor={CykeeColor}
+          containerStyle={[
+            styles.sideButtonStyle,
+            {top: 60, opacity: ICON_OPACITY},
+          ]}
+          onPress={() => this.cropPressed()}
+        />
+        <Icon
+          type="material-community"
+          name="rotate-right"
+          size={GlobalIconSize - 10}
+          color={SIDE_ICON_COLOR}
+          underlayColor={'black'}
+          reverse={true}
+          raised
+          // iconStyle={{size: 10}}
+          reverseColor={CykeeColor}
+          containerStyle={[
+            styles.sideButtonStyle,
+            {top: 120, opacity: ICON_OPACITY},
+          ]}
+          onPress={() => this.rotatePressed()}
+        />
+
+        <Icon
+          type="material-community"
+          name="format-size"
+          size={GlobalIconSize - 10}
+          color={SIDE_ICON_COLOR}
+          underlayColor={'black'}
+          reverse={true}
+          raised
+          reverseColor={CykeeColor}
+          containerStyle={[
+            styles.sideButtonStyle,
+            {top: 180, opacity: ICON_OPACITY},
+          ]}
+          onPress={() => this.captionSizePressed()}
+        />
+
+        <Icon
+          type="material-community"
+          name="format-font"
+          size={GlobalIconSize - 10}
+          color={SIDE_ICON_COLOR}
+          underlayColor={'black'}
+          reverse={true}
+          raised
+          // iconStyle={{size: 10}}
+          reverseColor={CykeeColor}
+          containerStyle={[
+            styles.sideButtonStyle,
+            {top: 240, opacity: ICON_OPACITY},
+          ]}
+          onPress={() => this.captionFontPressed()}
+        />
+        <KeyboardAvoidingView style={[styles.textBoxContainer, {opacity: 1}]}>
+          <TextInput
             containerStyle={{backgroundColor: 'black'}}
-            inputStyle={styles.textInputStyle}
+            style={[
+              styles.textInputStyle,
+              {
+                fontSize: CAPTION_SIZE[this.state.captionSize],
+                fontFamily: CAPTION_FONT[this.state.captionFont],
+              },
+            ]}
             placeholder={'Add a caption...'}
             placeholderTextColor="grey"
             value={this.state.text}
+            multiline
             // autoFocus
             onChangeText={text => this.setState({text})}
             autoCapitalize="none"
             padding={10}
           />
+          <View style={styles.saveButtonStyle}>
+            <TouchableOpacity
+              style={{
+                opacity:
+                  this.state.text == this.state.orignal_photo.caption &&
+                  this.state.photo.source.uri ==
+                    this.state.orignal_photo.source.uri &&
+                  this.state.orignal_photo.captionStyle.captionSize ==
+                    this.state.captionSize &&
+                  this.state.orignal_photo.captionStyle.captionFont ==
+                    this.state.captionFont
+                    ? 0.5
+                    : 1,
+              }}
+              disabled={
+                this.state.text == this.state.orignal_photo.caption &&
+                this.state.photo.source.uri ==
+                  this.state.orignal_photo.source.uri &&
+                this.state.orignal_photo.captionStyle.captionSize ==
+                  this.state.captionSize &&
+                this.state.orignal_photo.captionStyle.captionFont ==
+                  this.state.captionFont
+                  ? true
+                  : false
+              }
+              onPress={() => this.savePhoto()}>
+              <CheckCircle iconSize={60} />
+            </TouchableOpacity>
+          </View>
         </KeyboardAvoidingView>
       </View>
     );

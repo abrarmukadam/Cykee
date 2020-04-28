@@ -20,10 +20,12 @@ import {
   DeleteIcon,
   CykeeColor,
   MoreIcon,
+  GRID_CAPTION_SIZE,
+  CAPTION_FONT,
 } from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Button} from 'react-native-elements';
+import {Button, Header} from 'react-native-elements';
 import Share from 'react-native-share';
 import CameraRoll from '@react-native-community/cameraroll';
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -274,7 +276,6 @@ class GridViewComponent extends PureComponent {
         selectedArray: [...this.state.selectedArray, tempList[index]],
       });
     }
-    // this.props.navigation.push('GalleryScreen', {index: index});
   };
 
   renderItem = (item, itemSize) => {
@@ -309,7 +310,20 @@ class GridViewComponent extends PureComponent {
 
         {item.caption != '' && (
           <View style={styles.captionContainer}>
-            <Text style={styles.captionStyle}>{item.caption}</Text>
+            <Text
+              style={[
+                styles.captionStyle,
+                {
+                  fontSize: item.captionStyle
+                    ? GRID_CAPTION_SIZE[item.captionStyle.captionSize]
+                    : 20,
+                  fontFamily: item.captionStyle
+                    ? CAPTION_FONT[item.captionStyle.captionFont]
+                    : 'normal',
+                },
+              ]}>
+              {item.caption}
+            </Text>
           </View>
         )}
         {this.state.longPressStatus && (
