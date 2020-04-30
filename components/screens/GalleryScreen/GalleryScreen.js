@@ -305,11 +305,11 @@ class GalleryScreen extends Component {
                 color={GalleryIconColor}
               />
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => this.onPressGallery()}
               style={[styles.IconContainer, {flex: 0}]}>
               <GalleryIcon />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </SafeAreaView>
         )}
 

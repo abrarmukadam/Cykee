@@ -5,8 +5,16 @@ import CameraType from './CameraType/CameraType';
 import GalleryIcon from './GalleryIcon/GalleryIcon';
 import TextMode from './TextMode/TextMode';
 import AspectRatio from './AspectRatio/AspectRatio';
-
-export {TakePicture, FlashMode, CameraType, GalleryIcon, TextMode, AspectRatio};
+import NavigationCameraButton from './NavigationCameraButton/NavigationCameraButton';
+export {
+  TakePicture,
+  FlashMode,
+  CameraType,
+  GalleryIcon,
+  TextMode,
+  AspectRatio,
+  NavigationCameraButton,
+};
 
 //Gallery Screen Icons
 import ShareIcon from './ShareIcon/ShareIcon';
@@ -39,7 +47,9 @@ const GlobalIconSize = 30;
 const GlobalMediumIconSize = 40;
 const GlobalLargeIconSize = 80;
 const GalleryIconColor = '#444444';
+// const CykeeColor = '#c0ff02';
 const CykeeColor = '#c0ff02';
+const EDIT_ICON_COLOR = '#D6ED17FF';
 
 const CAPTION_SIZE = [15, 25, 30];
 const GRID_CAPTION_SIZE = [8, 10, 12];
@@ -64,4 +74,5 @@ export {
   CAPTION_SIZE,
   GRID_CAPTION_SIZE,
   CAPTION_FONT,
+  EDIT_ICON_COLOR,
 };

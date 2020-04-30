@@ -312,11 +312,11 @@ class CameraScreen extends PureComponent {
                           this.props.changeAspectRatio(!this.props.aspectRatio)
                         }
                       />
-                      <TouchableOpacity
+                      {/* <TouchableOpacity
                         onPress={() => this.onPressGallery()}
                         style={{marginTop: 10}}>
                         <GalleryIcon iconColor="white" />
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                     </View>
                   </View>
                 );
@@ -328,7 +328,7 @@ class CameraScreen extends PureComponent {
               photo_uri={
                 this.props.photoArray[0] ? this.props.photoArray[0].uri : ''
               }
-              onPressGalleryIcon={() => this.onPressGalleryIcon()}
+              onPressGalleryIcon={() => this.onPressGallery()}
             />
             <TakePicture
               onTakePicture={() => this.takePicture()}

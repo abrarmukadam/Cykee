@@ -11,7 +11,7 @@ class CheckCircle extends Component {
       <Icon
         name="ios-checkmark-circle"
         size={this.props.iconSize ? this.props.iconSize : 40}
-        color={CykeeColor}
+        color={this.props.iconColor ? this.props.iconColor : CykeeColor}
       />
       //   </TouchableOpacity>
     );

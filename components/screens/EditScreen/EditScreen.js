@@ -16,12 +16,12 @@ import ImagePicker from 'react-native-image-crop-picker';
 import ImageRotate from 'react-native-image-rotate';
 import {Input} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
-import {CykeeColor} from '../../SubComponents/Buttons/index';
+import {EDIT_ICON_COLOR} from '../../SubComponents/Buttons/index';
 
 var RNFS = require('react-native-fs');
-const ICON_OPACITY = 0.7;
-const SIDE_ICON_COLOR = 'silver';
-
+const ICON_OPACITY = 0.6;
+const SIDE_ICON_COLOR = '#606060ff';
+const CykeeColor = EDIT_ICON_COLOR;
 import {
   GlobalIconColor,
   GlobalIconSize,
@@ -46,6 +46,7 @@ class EditScreen extends Component {
     captionFont: this.props.route.params.photo.captionStyle.captionFont,
     prevPhoto: {},
     nextPhoto: {},
+    showEditOptions: true,
   };
   backAction = () => {
     const deletHeader = 'Discard changes ?';
@@ -273,7 +274,7 @@ class EditScreen extends Component {
         />
         <Icon
           type="ionicon"
-          name="md-undo"
+          name="ios-more"
           size={GlobalIconSize - 10}
           color={SIDE_ICON_COLOR}
           underlayColor={'black'}
@@ -281,94 +282,129 @@ class EditScreen extends Component {
           reverseColor={CykeeColor}
           containerStyle={[
             styles.sideButtonStyle,
-            {top: 300, opacity: this.state.prevPhoto.source ? 1 : 0.5},
+            {top: 10, opacity: ICON_OPACITY},
           ]}
-          disabledStyle={{backgroundColor: GalleryIconColor}}
-          disabled={this.state.prevPhoto.source ? false : true}
-          onPress={() => this.undoPressed()}
+          onPress={() =>
+            this.setState({showEditOptions: !this.state.showEditOptions})
+          }
         />
-        <Icon
-          type="ionicon"
-          name="md-redo"
-          disabledStyle={{backgroundColor: GalleryIconColor}}
-          size={GlobalIconSize - 10}
-          color={SIDE_ICON_COLOR}
-          underlayColor={'black'}
-          reverse={true}
-          reverseColor={CykeeColor}
-          containerStyle={[
-            styles.sideButtonStyle,
-            {top: 360, opacity: this.state.nextPhoto.source ? 1 : 0.5},
-          ]}
-          disabled={this.state.nextPhoto.source ? false : true}
-          onPress={() => this.redoPressed()}
-        />
-        <Icon
-          type="ionicon"
-          name="ios-crop"
-          size={GlobalIconSize - 10}
-          color={SIDE_ICON_COLOR}
-          underlayColor={'#0000'}
-          reverse={true}
-          reverseColor={CykeeColor}
-          containerStyle={[
-            styles.sideButtonStyle,
-            {top: 60, opacity: ICON_OPACITY},
-          ]}
-          onPress={() => this.cropPressed()}
-        />
-        <Icon
-          type="material-community"
-          name="rotate-right"
-          size={GlobalIconSize - 10}
-          color={SIDE_ICON_COLOR}
-          underlayColor={'black'}
-          reverse={true}
-          raised
-          // iconStyle={{size: 10}}
-          reverseColor={CykeeColor}
-          containerStyle={[
-            styles.sideButtonStyle,
-            {top: 120, opacity: ICON_OPACITY},
-          ]}
-          onPress={() => this.rotatePressed()}
-        />
+        {this.state.showEditOptions && this.state.prevPhoto.source && (
+          <Icon
+            type="ionicon"
+            name="md-undo"
+            size={GlobalIconSize - 10}
+            color={SIDE_ICON_COLOR}
+            // underlayColor={'black'}
+            reverse={true}
+            reverseColor={CykeeColor}
+            containerStyle={[
+              styles.sideButtonStyle,
+              {
+                top: 300,
+                opacity: ICON_OPACITY,
+                // opacity: this.state.prevPhoto.source ? 1 : 0.5
+              },
+            ]}
+            disabledStyle={{backgroundColor: GalleryIconColor}}
+            disabled={this.state.prevPhoto.source ? false : true}
+            onPress={() => this.undoPressed()}
+          />
+        )}
+        {this.state.showEditOptions && this.state.nextPhoto.source && (
+          <Icon
+            type="ionicon"
+            name="md-redo"
+            disabledStyle={{backgroundColor: GalleryIconColor}}
+            size={GlobalIconSize - 10}
+            color={SIDE_ICON_COLOR}
+            // underlayColor={'black'}
+            reverse={true}
+            reverseColor={CykeeColor}
+            containerStyle={[
+              styles.sideButtonStyle,
+              {
+                top: 300,
+                opacity: ICON_OPACITY,
+                // opacity: this.state.nextPhoto.source ? 1 : 0.5
+              },
+            ]}
+            disabled={this.state.nextPhoto.source ? false : true}
+            onPress={() => this.redoPressed()}
+          />
+        )}
+        {this.state.showEditOptions && (
+          <Icon
+            type="ionicon"
+            name="ios-crop"
+            size={GlobalIconSize - 10}
+            color={SIDE_ICON_COLOR}
+            underlayColor={'#0000'}
+            reverse={true}
+            reverseColor={CykeeColor}
+            containerStyle={[
+              styles.sideButtonStyle,
+              {top: 60, opacity: ICON_OPACITY},
+            ]}
+            onPress={() => this.cropPressed()}
+          />
+        )}
+        {this.state.showEditOptions && (
+          <Icon
+            type="material-community"
+            name="rotate-right"
+            size={GlobalIconSize - 10}
+            color={SIDE_ICON_COLOR}
+            underlayColor={'black'}
+            reverse={true}
+            raised
+            // iconStyle={{size: 10}}
+            reverseColor={CykeeColor}
+            containerStyle={[
+              styles.sideButtonStyle,
+              {top: 120, opacity: ICON_OPACITY},
+            ]}
+            onPress={() => this.rotatePressed()}
+          />
+        )}
+        {this.state.showEditOptions && (
+          <Icon
+            type="material-community"
+            name="format-size"
+            size={GlobalIconSize - 10}
+            color={SIDE_ICON_COLOR}
+            underlayColor={'black'}
+            reverse={true}
+            // raised
+            reverseColor={CykeeColor}
+            containerStyle={[
+              styles.sideButtonStyle,
+              {top: 180, opacity: ICON_OPACITY},
+            ]}
+            onPress={() => this.captionSizePressed()}
+          />
+        )}
+        {this.state.showEditOptions && (
+          <Icon
+            type="material-community"
+            name="format-font"
+            size={GlobalIconSize - 10}
+            color={SIDE_ICON_COLOR}
+            underlayColor={'black'}
+            reverse={true}
+            raised
+            // iconStyle={{size: 10}}
+            reverseColor={CykeeColor}
+            containerStyle={[
+              styles.sideButtonStyle,
+              {top: 240, opacity: ICON_OPACITY},
+            ]}
+            onPress={() => this.captionFontPressed()}
+          />
+        )}
 
-        <Icon
-          type="material-community"
-          name="format-size"
-          size={GlobalIconSize - 10}
-          color={SIDE_ICON_COLOR}
-          underlayColor={'black'}
-          reverse={true}
-          raised
-          reverseColor={CykeeColor}
-          containerStyle={[
-            styles.sideButtonStyle,
-            {top: 180, opacity: ICON_OPACITY},
-          ]}
-          onPress={() => this.captionSizePressed()}
-        />
-
-        <Icon
-          type="material-community"
-          name="format-font"
-          size={GlobalIconSize - 10}
-          color={SIDE_ICON_COLOR}
-          underlayColor={'black'}
-          reverse={true}
-          raised
-          // iconStyle={{size: 10}}
-          reverseColor={CykeeColor}
-          containerStyle={[
-            styles.sideButtonStyle,
-            {top: 240, opacity: ICON_OPACITY},
-          ]}
-          onPress={() => this.captionFontPressed()}
-        />
-        <KeyboardAvoidingView style={[styles.textBoxContainer, {opacity: 1}]}>
+        <KeyboardAvoidingView style={[styles.textBoxContainer, {opacity: 0.6}]}>
           <TextInput
-            containerStyle={{backgroundColor: 'black'}}
+            containerStyle={{backgroundColor: SIDE_ICON_COLOR}}
             style={[
               styles.textInputStyle,
               {

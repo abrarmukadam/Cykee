@@ -23,7 +23,7 @@ import {default as CameraRollScreen} from './components/screens/CameraRollScreen
 import {default as HideCaption} from './components/SubComponents/HideCaption/HideCaption.container';
 import {
   FavouriteIcon,
-  GalleryIcon,
+  NavigationCameraButton,
 } from './components/SubComponents/Buttons/index';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -48,8 +48,8 @@ function GalleryTab(navigation) {
             return <FavouriteIcon fav_status={focused} iconColor={color} />;
           } else if (route.name === 'CameraRollScreen') {
             return <Icon name="grid" type="material-community" color={color} />;
-            // return <GalleryIcon selectedStatus={focused} iconColor={color} />;
           }
+          // return <GalleryIcon selectedStatus={focused} iconColor={color} />;
         },
       })}
       tabBarOptions={{
@@ -75,6 +75,20 @@ function GalleryTab(navigation) {
         component={CameraRollScreen}
         options={{
           title: 'Camera Roll',
+        }}
+      />
+
+      <Tab.Screen
+        name="GodKnows"
+        component={() => {
+          null; //navigation.jumpTo('Home');
+        }}
+        options={{
+          title: '',
+          showLabel: false,
+          tabBarIcon: ({focused, color, size}) => {
+            return <NavigationCameraButton />;
+          },
         }}
       />
     </Tab.Navigator>

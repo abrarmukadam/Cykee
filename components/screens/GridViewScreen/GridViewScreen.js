@@ -77,6 +77,7 @@ class GridViewScreen extends PureComponent {
         gridSize={'Cykee'}
         onScrollDown={this.onScrollDown}
         _handleLoadMore={this._handleLoadMore}
+        onPressMenu={() => this.props.navigation.navigate('CameraRollScreen')}
       />
     );
   }

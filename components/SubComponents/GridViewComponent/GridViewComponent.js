@@ -24,8 +24,10 @@ import {
   CAPTION_FONT,
 } from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {Button, Header} from 'react-native-elements';
+// import Icon from 'react-native-vector-icons/Ionicons';
+
+import {Button, Icon, Header} from 'react-native-elements';
+
 import Share from 'react-native-share';
 import CameraRoll from '@react-native-community/cameraroll';
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -194,7 +196,9 @@ class GridViewComponent extends PureComponent {
               refreshControl={
                 <RefreshControl
                   colors={[CykeeColor]}
-                  onRefresh={() => this.props.onScrollDown()}
+                  onRefresh={() => this.componentDidMount()}
+                  refreshing={false}
+                  // onRefresh={() => this.props.onScrollDown()}
                 />
               }
             />
@@ -227,9 +231,10 @@ class GridViewComponent extends PureComponent {
       <View style={styles.searchContainer}>
         <Icon
           name="ios-search"
+          type="ionicon"
           size={GlobalIconSize - 10}
           color={'grey'}
-          style={{position: 'absolute', left: 10}}
+          containerStyle={{position: 'absolute', left: 10}}
         />
 
         <TextInput
@@ -243,7 +248,12 @@ class GridViewComponent extends PureComponent {
           <TouchableOpacity
             style={{position: 'absolute', right: 30, padding: 4}}
             onPress={() => this.setState({searchFilter: ''})}>
-            <Icon name="ios-close" size={GlobalIconSize} color={'grey'} />
+            <Icon
+              type="ionicon"
+              name="ios-close"
+              size={GlobalIconSize}
+              color={'grey'}
+            />
           </TouchableOpacity>
         )}
       </View>

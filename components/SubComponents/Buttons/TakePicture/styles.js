@@ -10,5 +10,6 @@ export default StyleSheet.create({
     // justifyContent:'flex-end',
     // alignSelf: 'center',
     marginBottom: 10,
+    alignItems: 'center',
   },
 });
