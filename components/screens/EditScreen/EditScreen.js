@@ -235,18 +235,17 @@ class EditScreen extends Component {
         saveMessage,
         [
           {
+            text: 'Replace',
+            onPress: () => {
+              this.savePhoto(true);
+              console.log('Replace');
+            },
+          },
+          {
             text: 'Duplicate',
             onPress: () => {
               console.log('Duplicate');
               this.savePhoto(false);
-            },
-          },
-          {
-            text: 'Replace',
-            onPress: () => {
-              this.savePhoto(true);
-
-              console.log('Replace');
             },
           },
         ],
