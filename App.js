@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import 'react-native-gesture-handler';
-import {TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {TransitionSpecs} from '@react-navigation/stack';
@@ -21,6 +20,7 @@ import {default as EditScreen} from './components/screens/EditScreen/EditScreen.
 import {default as FavoriteScreen} from './components/screens/FavoriteScreen/FavoriteScreen.container';
 import {default as CameraRollScreen} from './components/screens/CameraRollScreen/CameraRollScreen';
 import {default as HideCaption} from './components/SubComponents/HideCaption/HideCaption.container';
+import EmptyScreen from './components/screens/EmptyScreen/EmptyScreen';
 import {
   FavouriteIcon,
   NavigationCameraButton,
@@ -31,8 +31,11 @@ import {PersistGate} from 'redux-persist/integration/react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Icon} from 'react-native-elements';
 import {Button} from 'react-native';
+import {TouchableOpacity, View, Dimensions} from 'react-native';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const {width: WIDTH, height: HEIGHT} = Dimensions.get('screen');
 
 function GalleryTab(navigation) {
   return (
@@ -80,12 +83,12 @@ function GalleryTab(navigation) {
 
       <Tab.Screen
         name="GodKnows"
-        component={() => {
-          null; //navigation.jumpTo('Home');
-        }}
+        component={EmptyScreen}
         options={{
           title: '',
           showLabel: false,
+          gestureEnabled: false,
+
           tabBarIcon: ({focused, color, size}) => {
             return <NavigationCameraButton />;
           },
@@ -176,12 +179,9 @@ function CameraStack(navigation) {
           cardStyleInterpolator:
             CardStyleInterpolators.forRevealFromBottomAndroid,
           headerRight: () => (
-            <HideCaption />
-            // <Button
-            //   // onPress={() => Alert('This is a button!')}
-            //   title="Info"
-            //   color="black"
-            // />
+            <View>
+              <HideCaption />
+            </View>
           ),
         }}
       />

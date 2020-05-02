@@ -9,6 +9,16 @@ export default StyleSheet.create({
     // alignItems: 'center',
     marginHorizontal: 2,
   },
+  backGroundBackButtonStyle: {
+    // backgroundColor: 'red',
+    width: 72,
+    height: 42,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+  },
   headerTextStyle: {
     fontSize: 20,
     paddingHorizontal: 12,

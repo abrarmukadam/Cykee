@@ -222,36 +222,95 @@ class EditScreen extends Component {
     );
   };
 
-  savePhoto = () => {
+  onPressSave = () => {
+    console.log('SavePressed');
+    const saveHeader = 'Save changes ?';
+    const saveMessage = 'Do you want to replace or create a duplicate file?';
+    if (
+      this.state.orignal_photo != this.state.photo ||
+      this.state.orignal_photo.caption != this.state.text
+    )
+      Alert.alert(
+        saveHeader,
+        saveMessage,
+        [
+          {
+            text: 'Duplicate',
+            onPress: () => {
+              console.log('Duplicate');
+              this.savePhoto(false);
+            },
+          },
+          {
+            text: 'Replace',
+            onPress: () => {
+              this.savePhoto(true);
+
+              console.log('Replace');
+            },
+          },
+        ],
+        {cancelable: true},
+      );
+  };
+  savePhoto = photo_replace => {
     let newPhoto = {};
+    let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+
+    newPhoto.height = this.state.photo.height;
+    newPhoto.width = this.state.photo.width;
+    newPhoto.caption = this.state.text;
+    newPhoto.fav_status = this.state.orignal_photo.fav_status;
+    newPhoto.captionStyle = {
+      captionSize: this.state.captionSize,
+      captionFont: this.state.captionFont,
+    };
+
+    let oldTemp = this.state.orignal_photo.source.uri.split('/');
+    let oldName = oldTemp[oldTemp.length - 1];
+
     const temp = this.state.photo.source.uri.split('/');
     console.log('Photo saved in gallery');
+
     const d = new Date();
-    const newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
+    let newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
+
     let nameToChange = temp[temp.length - 1];
+
     let renamedURI = this.state.photo.source.uri.replace(nameToChange, newName);
+
     RNFS.copyFile(this.state.photo.source.uri, renamedURI).then(() => {
+      if (photo_replace) {
+        CameraRoll.deletePhotos([this.state.orignal_photo.source.uri]).then(
+          () => {
+            RNFS.copyFile(renamedURI, this.state.orignal_photo.source.uri).then(
+              () => {
+                CameraRoll.deletePhotos([renamedURI]);
+                renamedURI = this.state.orignal_photo.source.uri;
+                newName = oldName;
+              },
+            );
+          },
+        );
+      }
       CameraRoll.save(renamedURI, {
-        // CameraRoll.save(this.state.photo.source.uri, {
         type: 'photo',
         album: 'Cykee',
       }).then(uri => {
         console.log('uri:', uri);
-        let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
-
-        newPhoto.height = this.state.photo.height;
-        newPhoto.width = this.state.photo.width;
         newPhoto.fileName = newName;
-        newPhoto.caption = this.state.text;
-        newPhoto.captionStyle = {
-          captionSize: this.state.captionSize,
-          captionFont: this.state.captionFont,
-        };
         newPhoto.uri = galleryUri + newPhoto.fileName;
-        // newPhoto.uri = uri;
-        console.log('Photo saved in gallery:', newPhoto);
-        this.props.addNewPhoto(newPhoto);
-        this.props.navigation.goBack();
+
+        if (photo_replace) {
+          //delete old uri & replace in photoArray with photo
+          let index = this.props.route.params.index;
+          console.log(index);
+          let updatedPhotoArray = [...this.props.photoArray];
+          updatedPhotoArray[index] = newPhoto;
+          this.props.replacePhotoFromList(updatedPhotoArray);
+        } else this.props.addNewPhoto(newPhoto); //add to photoArray if Creating duplicate
+
+        this.props.navigation.navigate('GalleryTab');
       });
     });
   };
@@ -446,7 +505,7 @@ class EditScreen extends Component {
                   ? true
                   : false
               }
-              onPress={() => this.savePhoto()}>
+              onPress={() => this.onPressSave()}>
               <CheckCircle iconSize={60} />
             </TouchableOpacity>
           </View>

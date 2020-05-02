@@ -142,7 +142,12 @@ class GalleryScreen extends Component {
     this.props.favPhoto(this.props.photoArray, item.source.uri);
   };
   onPressEdit = item => {
-    this.props.navigation.navigate('EditScreen', {photo: item});
+    this.props.navigation.navigate('EditScreen', {
+      photo: item,
+      index: this.props.photoArray.indexOf(
+        this.state.toBeDisplayed[this.state.index],
+      ),
+    });
     console.log('Edit Pressed');
   };
   onPressDelete = index => {

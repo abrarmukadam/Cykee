@@ -48,16 +48,19 @@ class GridViewComponent extends PureComponent {
       filteredList: [],
       longPressStatus: false,
       selectedArray: 0,
+      refreshing: false,
     };
   }
   componentDidMount() {
+    console.log('componentDidMount in GridViewComponnet');
     this.setState({
       filteredList: this.props.receivedArray,
+      refreshing: false,
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('GridView did update called');
+    console.log('GridViewComponnet did update called');
 
     let filteredList = [];
     if (
@@ -65,6 +68,7 @@ class GridViewComponent extends PureComponent {
       prevProps.receivedArray != this.props.receivedArray ||
       prevProps.photoArray != this.props.photoArray
     ) {
+      console.log('updating data');
       filteredList = this.props.receivedArray.filter(List => {
         return (
           List.caption
@@ -75,6 +79,10 @@ class GridViewComponent extends PureComponent {
       this.setState({
         filteredList: filteredList,
       });
+      if (prevProps.photoArray != this.props.photoArray)
+        console.log(
+          'GridViewComponnet did update called and pasdajsfnjkasjk dkg k',
+        );
     }
   }
   onPressShare = () => {
@@ -196,8 +204,17 @@ class GridViewComponent extends PureComponent {
               refreshControl={
                 <RefreshControl
                   colors={[CykeeColor]}
-                  onRefresh={() => this.componentDidMount()}
-                  refreshing={false}
+                  onRefresh={() => {
+                    this.setState({refreshing: true});
+                    if (this.props.reloadPhotos) {
+                      console.log('runn');
+                      this.props.reloadPhotos();
+                    }
+                    this.setState({
+                      refreshing: false,
+                    });
+                  }}
+                  refreshing={this.state.refreshing}
                   // onRefresh={() => this.props.onScrollDown()}
                 />
               }
@@ -221,6 +238,11 @@ class GridViewComponent extends PureComponent {
           </View>
         )}
         {/* </ScrollView> */}
+        <TouchableOpacity
+          activeOpacity={0.2}
+          style={styles.backGroundBackButtonStyle}
+          onPress={this.props.EmptyScreenBackButton}
+        />
       </View>
     );
   }
