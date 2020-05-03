@@ -35,21 +35,7 @@ export default StyleSheet.create({
     elevation: ELEVATION,
     borderWidth: BORDERWIDTH,
   },
-  undoButtonStyle: {
-    backgroundColor: '#0000',
-    position: 'absolute',
-    top: 60,
-    right: WIDTH / 2,
-    elevation: ELEVATION,
-    borderWidth: BORDERWIDTH,
-  },
-  redoButtonStyle: {
-    position: 'absolute',
-    top: 60,
-    right: WIDTH / 2 - 50,
-    elevation: ELEVATION,
-    borderWidth: BORDERWIDTH,
-  },
+
   saveButtonStyle: {
     position: 'absolute',
     bottom: 20,
@@ -70,18 +56,15 @@ export default StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 6,
     textAlign: 'center',
+    width: '100%',
   },
   textBoxContainer: {
     flex: 1,
     width: '100%',
     position: 'absolute',
     bottom: 0,
-    paddingRight: 40,
-    // paddingBottom: 10,
-    // flexDirection: 'row',
-    backgroundColor: 'black',
+    // paddingRight: 40,
     justifyContent: 'flex-start',
     alignContent: 'flex-start',
-    opacity: 0.7,
   },
 });

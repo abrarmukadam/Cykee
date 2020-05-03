@@ -25,8 +25,36 @@ class GalleryButton extends Component {
         style={styles.IconContainer}
         onPress={() => this.props.onPressGalleryIcon()}>
         <FastImage
-          style={styles.ImageStyle}
-          source={{uri: this.props.photo_uri}}
+          style={[
+            styles.ImageStyle,
+            {
+              transform: [{rotate: '20deg'}],
+              left: 0,
+            },
+          ]}
+          source={{uri: this.props.photo_uri3}}
+          defaultSource={require('../../Images/no-image.png')}
+        />
+        <FastImage
+          style={[
+            styles.ImageStyle,
+            {
+              transform: [{rotate: '10deg'}],
+              left: 0,
+            },
+          ]}
+          source={{uri: this.props.photo_uri2}}
+          defaultSource={require('../../Images/no-image.png')}
+        />
+        <FastImage
+          style={[
+            styles.ImageStyle,
+            {
+              transform: [{rotate: '0deg'}],
+              left: 2,
+            },
+          ]}
+          source={{uri: this.props.photo_uri1}}
           defaultSource={require('../../Images/no-image.png')}
         />
       </TouchableOpacity>

@@ -216,7 +216,12 @@ class GalleryScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar hidden={true} />
+        {/* <StatusBar
+          hidden={false}
+          // backgroundColor={'black'}
+          // translucent
+        /> */}
+        {/* <StatusBar backgroundColor={'transparent'} translucent /> */}
         {/* <StatusBar hidden={!this.state.optionsAvailable} /> */}
         {this.state.photoArray[0] && (
           // <GallerySwiper
@@ -425,9 +430,10 @@ class GalleryScreen extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.IconContainer}
-                onPress={() => this.onPressMore()}>
-                <MoreIcon />
-                <Text style={styles.IconTextStyle}>More</Text>
+                onPress={() => this.props.navigation.goBack()}>
+                <GalleryIcon />
+
+                <Text style={styles.IconTextStyle}>Gallery</Text>
               </TouchableOpacity>
             </SafeAreaView>
           )}

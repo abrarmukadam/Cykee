@@ -32,7 +32,6 @@ export default StyleSheet.create({
     right: 0,
     paddingHorizontal: 4,
   },
-  fontButtonStyle: {alignItems: 'flex-end', justifyContent: 'flex-end'},
 
   textBoxContainer: {
     paddingVertical: 15,

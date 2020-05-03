@@ -4,6 +4,7 @@ import {
   TEXT_MODE,
   ASPECT_RATIO,
   HIDE_CAPTION,
+  CAMERA_ASPECT_RATIO,
 } from './actionTypes';
 
 export function changeFlashMode(flashMode) {
@@ -49,6 +50,15 @@ export function hideCaptionAction(hideCaption) {
     type: HIDE_CAPTION,
     payload: {
       hideCaption: hideCaption,
+    },
+  };
+}
+export function setCameraAspectRatio(ratio) {
+  console.log('Change hideCaptionAction called');
+  return {
+    type: CAMERA_ASPECT_RATIO,
+    payload: {
+      cameraAspectRatio: ratio,
     },
   };
 }

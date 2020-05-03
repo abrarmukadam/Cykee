@@ -79,14 +79,9 @@ class CameraRollScreen extends Component {
         gridSize={'CameraRoll'}
         onScrollDown={this.onScrollDown}
         _handleLoadMore={this._handleLoadMore}
-        EmptyScreenBackButton={() => this.props.navigation.goBack()}
+        EmptyScreenBackButton={() => this.props.navigation.navigate('Home')}
         reloadPhotos={() => this.reloadPhotos()}
       />
-      // <View style={styles.container}>
-      //   <Text style={styles.fontStyle}>
-      //     {`This is an empty CameraRollScreen app screen...\n start coding...`}
-      //   </Text>
-      // </View>
     );
   }
 }

@@ -14,7 +14,6 @@ import CameraRoll from '@react-native-community/cameraroll';
 import FastImage from 'react-native-fast-image';
 import GestureRecognizer from 'react-native-swipe-gestures';
 var RNFS = require('react-native-fs');
-import {Input} from 'react-native-elements';
 
 import {
   GlobalIconColor,
@@ -23,10 +22,11 @@ import {
   CykeeColor,
   CAPTION_FONT,
   CAPTION_SIZE,
+  FontButton,
+  FONT_ICON_COLOR,
+  FONT_ICON_OPACITY,
 } from '../../SubComponents/Buttons/index';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-const FONT_ICON_COLOR = 'silver';
-const ICON_OPACITY = 0.7;
 
 class PreviewImageScreen extends Component {
   constructor(props) {
@@ -38,6 +38,7 @@ class PreviewImageScreen extends Component {
     text: '',
     captionSize: 0,
     captionFont: 0,
+    saveInProgress: false,
   };
   captionSizePressed = () => {
     if (this.state.captionSize >= 2) this.setState({captionSize: 0});
@@ -55,6 +56,7 @@ class PreviewImageScreen extends Component {
   };
 
   savePhoto = data => {
+    this.setState({saveInProgress: true});
     let newPhoto = {};
     const temp = data.uri.split('/');
     console.log('Photo saved in gallery');
@@ -144,38 +146,61 @@ class PreviewImageScreen extends Component {
 
           <View style={styles.bottomContainer}>
             <View style={{flexDirection: 'row'}}>
-              <Icon
-                type="material-community"
-                name="format-size"
-                size={GlobalIconSize - 10}
-                color={FONT_ICON_COLOR}
-                underlayColor={'black'}
-                reverse={true}
-                raised
-                reverseColor={CykeeColor}
-                containerStyle={[
-                  styles.fontButtonStyle,
-                  {opacity: ICON_OPACITY},
-                ]}
-                onPress={() => this.captionSizePressed()}
-              />
-
-              <Icon
-                type="material-community"
-                name="format-font"
-                size={GlobalIconSize - 10}
-                color={FONT_ICON_COLOR}
-                underlayColor={'black'}
-                reverse={true}
-                raised
-                // iconStyle={{size: 10}}
-                reverseColor={CykeeColor}
-                containerStyle={[
-                  styles.fontButtonStyle,
-                  {opacity: ICON_OPACITY},
-                ]}
-                onPress={() => this.captionFontPressed()}
-              />
+              {this.state.showFontIcons && (
+                <Icon
+                  type={'entypo'}
+                  name={'chevron-small-right'}
+                  size={GlobalIconSize - 10}
+                  color={'#0000'}
+                  reverse
+                  reverseColor={CykeeColor}
+                  containerStyle={{
+                    opacity: FONT_ICON_OPACITY,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  onPress={() =>
+                    this.setState({
+                      showFontIcons: !this.state.showFontIcons,
+                    })
+                  }
+                />
+              )}
+              {!this.state.showFontIcons && (
+                <FontButton
+                  iconType="material-community"
+                  buttonName={'format-size'}
+                  handleOnPress={this.captionSizePressed}
+                />
+              )}
+              {!this.state.showFontIcons && (
+                <FontButton
+                  iconType="material-community"
+                  buttonName={'format-font'}
+                  handleOnPress={this.captionFontPressed}
+                />
+              )}
+              {!this.state.showFontIcons && (
+                <Icon
+                  type={'entypo'}
+                  name={'chevron-small-left'}
+                  size={GlobalIconSize - 10}
+                  color={'#0000'}
+                  reverseColor={CykeeColor}
+                  reverse
+                  containerStyle={{
+                    opacity: FONT_ICON_OPACITY,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginLeft: -10,
+                  }}
+                  onPress={() =>
+                    this.setState({
+                      showFontIcons: !this.state.showFontIcons,
+                    })
+                  }
+                />
+              )}
             </View>
             <View style={styles.textBoxContainer}>
               <TextInput
@@ -198,7 +223,9 @@ class PreviewImageScreen extends Component {
             </View>
           </View>
           <View style={styles.saveButtonStyle}>
-            <TouchableOpacity onPress={() => this.savePhoto(this.state.photo)}>
+            <TouchableOpacity
+              onPress={() => this.savePhoto(this.state.photo)}
+              disabled={this.state.saveInProgress}>
               <CheckCircle iconSize={70} />
             </TouchableOpacity>
           </View>

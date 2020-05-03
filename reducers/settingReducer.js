@@ -4,6 +4,7 @@ const defaultState = {
   cameraType: 1,
   aspectRatio: 0,
   hideCaption: false,
+  cameraAspectRatio: [],
 };
 import {
   FLASH_MODE,
@@ -12,6 +13,7 @@ import {
   ASPECT_RATIO,
   ADD_PHOTO,
   HIDE_CAPTION,
+  CAMERA_ASPECT_RATIO,
 } from '../Actions/actionTypes';
 
 export default function settingReducer(state = defaultState, action) {
@@ -44,6 +46,12 @@ export default function settingReducer(state = defaultState, action) {
       return {
         ...state,
         hideCaption: action.payload.hideCaption,
+      };
+    }
+    case CAMERA_ASPECT_RATIO: {
+      return {
+        ...state,
+        cameraAspectRatio: action.payload.cameraAspectRatio,
       };
     }
     default: {

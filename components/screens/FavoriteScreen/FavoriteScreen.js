@@ -46,7 +46,7 @@ class FavoriteScreen extends Component {
         gridSize={'Favorite'}
         onScrollDown={this.onScrollDown}
         _handleLoadMore={this._handleLoadMore}
-        EmptyScreenBackButton={() => this.props.navigation.goBack()}
+        EmptyScreenBackButton={() => this.props.navigation.navigate('Home')}
       />
     );
   }

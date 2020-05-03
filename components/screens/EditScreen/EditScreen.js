@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-  Image,
   View,
   TextInput,
   StatusBar,
@@ -14,24 +13,27 @@ import {Icon} from 'react-native-elements';
 import CameraRoll from '@react-native-community/cameraroll';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageRotate from 'react-native-image-rotate';
-import {Input} from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
-import {EDIT_ICON_COLOR} from '../../SubComponents/Buttons/index';
 
 var RNFS = require('react-native-fs');
-const ICON_OPACITY = 0.6;
-const SIDE_ICON_COLOR = '#606060ff';
+
 const CykeeColor = EDIT_ICON_COLOR;
 import {
   GlobalIconColor,
   GlobalIconSize,
-  GlobalMediumIconSize,
-  GlobalLargeIconSize,
   GalleryIconColor,
   CheckCircle,
   CAPTION_FONT,
   CAPTION_SIZE,
+  FontButton,
+  SIDE_ICON_COLOR,
+  EDIT_ICON_COLOR,
+  EditScreenButton,
+  FONT_ICON_OPACITY,
 } from '../../SubComponents/Buttons/index';
+
+const ICON_OPACITY = 0.6;
+
 class EditScreen extends Component {
   constructor(props) {
     super(props);
@@ -47,6 +49,7 @@ class EditScreen extends Component {
     prevPhoto: {},
     nextPhoto: {},
     showEditOptions: true,
+    saveInProgress: false,
   };
   backAction = () => {
     const deletHeader = 'Discard changes ?';
@@ -134,7 +137,6 @@ class EditScreen extends Component {
   captionSizePressed = () => {
     if (this.state.captionSize >= 2) this.setState({captionSize: 0});
     else this.setState({captionSize: this.state.captionSize + 1});
-    console.log('captionSize Pressed', this.state.captionSize);
   };
   captionFontPressed = () => {
     if (this.state.captionFont >= 3) this.setState({captionFont: 0});
@@ -142,12 +144,9 @@ class EditScreen extends Component {
       this.setState({
         captionFont: this.state.captionFont + 1,
       });
-
-    console.log('captionFont Pressed', this.state.captionFont);
   };
 
   undoPressed = () => {
-    console.log('Undo Pressed');
     this.setState({
       nextPhoto: this.state.tempPhoto,
       photo: this.state.prevPhoto,
@@ -160,11 +159,9 @@ class EditScreen extends Component {
       photo: this.state.nextPhoto,
       nextPhoto: {},
     });
-    console.log('redo Pressed');
   };
 
   crossPressed = () => {
-    console.log('crossPressed');
     const deletHeader = 'Discard changes ?';
     const deletMessage = '';
     if (
@@ -223,7 +220,6 @@ class EditScreen extends Component {
   };
 
   onPressSave = () => {
-    console.log('SavePressed');
     const saveHeader = 'Save changes ?';
     const saveMessage = 'Do you want to replace or create a duplicate file?';
     if (
@@ -253,6 +249,7 @@ class EditScreen extends Component {
       );
   };
   savePhoto = photo_replace => {
+    this.setState({saveInProgress: true});
     let newPhoto = {};
     let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
 
@@ -330,155 +327,133 @@ class EditScreen extends Component {
           resizeMode={FastImage.resizeMode.contain}
           style={styles.image}
         />
-        <Icon
-          type="ionicon"
-          name="ios-more"
-          size={GlobalIconSize - 10}
-          color={SIDE_ICON_COLOR}
-          underlayColor={'black'}
-          reverse={true}
-          reverseColor={CykeeColor}
-          containerStyle={[
-            styles.sideButtonStyle,
-            {top: 10, opacity: ICON_OPACITY},
-          ]}
-          onPress={() =>
-            this.setState({showEditOptions: !this.state.showEditOptions})
+
+        <EditScreenButton
+          iconType="ionicon"
+          iconName="ios-more"
+          topPosition={20}
+          handleOnPress={() =>
+            this.setState({
+              showEditOptions: !this.state.showEditOptions,
+            })
           }
         />
         {this.state.showEditOptions && this.state.prevPhoto.source && (
-          <Icon
-            type="ionicon"
-            name="md-undo"
-            size={GlobalIconSize - 10}
-            color={SIDE_ICON_COLOR}
-            // underlayColor={'black'}
-            reverse={true}
-            reverseColor={CykeeColor}
-            containerStyle={[
-              styles.sideButtonStyle,
-              {
-                top: 300,
-                opacity: ICON_OPACITY,
-                // opacity: this.state.prevPhoto.source ? 1 : 0.5
-              },
-            ]}
-            disabledStyle={{backgroundColor: GalleryIconColor}}
-            disabled={this.state.prevPhoto.source ? false : true}
-            onPress={() => this.undoPressed()}
+          <EditScreenButton
+            iconType="ionicon"
+            iconName="md-undo"
+            topPosition={170}
+            handleOnPress={this.undoPressed}
           />
         )}
         {this.state.showEditOptions && this.state.nextPhoto.source && (
-          <Icon
-            type="ionicon"
-            name="md-redo"
-            disabledStyle={{backgroundColor: GalleryIconColor}}
-            size={GlobalIconSize - 10}
-            color={SIDE_ICON_COLOR}
-            // underlayColor={'black'}
-            reverse={true}
-            reverseColor={CykeeColor}
-            containerStyle={[
-              styles.sideButtonStyle,
-              {
-                top: 300,
-                opacity: ICON_OPACITY,
-                // opacity: this.state.nextPhoto.source ? 1 : 0.5
-              },
-            ]}
-            disabled={this.state.nextPhoto.source ? false : true}
-            onPress={() => this.redoPressed()}
+          <EditScreenButton
+            iconType="ionicon"
+            iconName="md-redo"
+            topPosition={170}
+            handleOnPress={this.redoPressed}
           />
         )}
         {this.state.showEditOptions && (
-          <Icon
-            type="ionicon"
-            name="ios-crop"
-            size={GlobalIconSize - 10}
-            color={SIDE_ICON_COLOR}
-            underlayColor={'#0000'}
-            reverse={true}
-            reverseColor={CykeeColor}
-            containerStyle={[
-              styles.sideButtonStyle,
-              {top: 60, opacity: ICON_OPACITY},
-            ]}
-            onPress={() => this.cropPressed()}
+          <EditScreenButton
+            iconType="ionicon"
+            iconName="md-crop"
+            topPosition={70}
+            handleOnPress={this.cropPressed}
           />
         )}
         {this.state.showEditOptions && (
-          <Icon
-            type="material-community"
-            name="rotate-right"
-            size={GlobalIconSize - 10}
-            color={SIDE_ICON_COLOR}
-            underlayColor={'black'}
-            reverse={true}
-            raised
-            // iconStyle={{size: 10}}
-            reverseColor={CykeeColor}
-            containerStyle={[
-              styles.sideButtonStyle,
-              {top: 120, opacity: ICON_OPACITY},
-            ]}
-            onPress={() => this.rotatePressed()}
-          />
-        )}
-        {this.state.showEditOptions && (
-          <Icon
-            type="material-community"
-            name="format-size"
-            size={GlobalIconSize - 10}
-            color={SIDE_ICON_COLOR}
-            underlayColor={'black'}
-            reverse={true}
-            // raised
-            reverseColor={CykeeColor}
-            containerStyle={[
-              styles.sideButtonStyle,
-              {top: 180, opacity: ICON_OPACITY},
-            ]}
-            onPress={() => this.captionSizePressed()}
-          />
-        )}
-        {this.state.showEditOptions && (
-          <Icon
-            type="material-community"
-            name="format-font"
-            size={GlobalIconSize - 10}
-            color={SIDE_ICON_COLOR}
-            underlayColor={'black'}
-            reverse={true}
-            raised
-            // iconStyle={{size: 10}}
-            reverseColor={CykeeColor}
-            containerStyle={[
-              styles.sideButtonStyle,
-              {top: 240, opacity: ICON_OPACITY},
-            ]}
-            onPress={() => this.captionFontPressed()}
+          <EditScreenButton
+            iconType="material-community"
+            iconName="rotate-right"
+            topPosition={120}
+            handleOnPress={this.rotatePressed}
           />
         )}
 
-        <KeyboardAvoidingView style={[styles.textBoxContainer, {opacity: 0.6}]}>
-          <TextInput
-            containerStyle={{backgroundColor: SIDE_ICON_COLOR}}
-            style={[
-              styles.textInputStyle,
-              {
-                fontSize: CAPTION_SIZE[this.state.captionSize],
-                fontFamily: CAPTION_FONT[this.state.captionFont],
-              },
-            ]}
-            placeholder={'Add a caption...'}
-            placeholderTextColor="grey"
-            value={this.state.text}
-            multiline
-            // autoFocus
-            onChangeText={text => this.setState({text})}
-            autoCapitalize="none"
-            padding={10}
-          />
+        <KeyboardAvoidingView style={[styles.textBoxContainer]}>
+          <View style={{flexDirection: 'row'}}>
+            {this.state.showFontIcons && (
+              <Icon
+                type={'entypo'}
+                name={'chevron-small-right'}
+                size={GlobalIconSize - 10}
+                color={'#0000'}
+                reverse
+                reverseColor={CykeeColor}
+                containerStyle={{
+                  opacity: FONT_ICON_OPACITY,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                onPress={() =>
+                  this.setState({
+                    showFontIcons: !this.state.showFontIcons,
+                  })
+                }
+              />
+            )}
+            {!this.state.showFontIcons && (
+              <FontButton
+                iconType="material-community"
+                buttonName={'format-size'}
+                handleOnPress={this.captionSizePressed}
+              />
+            )}
+            {!this.state.showFontIcons && (
+              <FontButton
+                iconType="material-community"
+                buttonName={'format-font'}
+                handleOnPress={this.captionFontPressed}
+              />
+            )}
+            {!this.state.showFontIcons && (
+              <Icon
+                type={'entypo'}
+                name={'chevron-small-left'}
+                size={GlobalIconSize - 10}
+                color={'#0000'}
+                reverseColor={CykeeColor}
+                reverse
+                containerStyle={{
+                  opacity: FONT_ICON_OPACITY,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginLeft: -10,
+                }}
+                onPress={() =>
+                  this.setState({
+                    showFontIcons: !this.state.showFontIcons,
+                  })
+                }
+              />
+            )}
+          </View>
+
+          <View
+            style={{
+              width: '100%',
+              backgroundColor: 'black',
+              // opacity: 0.6,
+              paddingRight: 50,
+            }}>
+            <TextInput
+              style={[
+                styles.textInputStyle,
+                {
+                  fontSize: CAPTION_SIZE[this.state.captionSize],
+                  fontFamily: CAPTION_FONT[this.state.captionFont],
+                },
+              ]}
+              placeholder={'Add a caption...'}
+              placeholderTextColor="grey"
+              value={this.state.text}
+              multiline
+              onChangeText={text => this.setState({text})}
+              autoCapitalize="none"
+              padding={10}
+            />
+          </View>
           <View style={styles.saveButtonStyle}>
             <TouchableOpacity
               style={{
@@ -502,7 +477,7 @@ class EditScreen extends Component {
                 this.state.orignal_photo.captionStyle.captionFont ==
                   this.state.captionFont
                   ? true
-                  : false
+                  : this.state.saveInProgress //false
               }
               onPress={() => this.onPressSave()}>
               <CheckCircle iconSize={60} />

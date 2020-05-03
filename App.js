@@ -24,6 +24,7 @@ import EmptyScreen from './components/screens/EmptyScreen/EmptyScreen';
 import {
   FavouriteIcon,
   NavigationCameraButton,
+  CykeeColor,
 } from './components/SubComponents/Buttons/index';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -56,7 +57,7 @@ function GalleryTab(navigation) {
         },
       })}
       tabBarOptions={{
-        activeTintColor: '#c0ff02',
+        activeTintColor: CykeeColor,
         inactiveTintColor: 'gray',
       }}>
       <Tab.Screen

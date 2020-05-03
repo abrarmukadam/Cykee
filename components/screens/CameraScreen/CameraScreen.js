@@ -18,6 +18,8 @@ import CameraRoll from '@react-native-community/cameraroll';
 import VolumeControl, {VolumeControlEvents} from 'react-native-volume-control';
 var RNFS = require('react-native-fs');
 import SplashScreen from 'react-native-splash-screen';
+import {hideNavigationBar} from 'react-native-navigation-bar-color';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import {
   TakePicture,
   FlashMode,
@@ -25,6 +27,7 @@ import {
   TextMode,
   AspectRatio,
   GalleryIcon,
+  CykeeColor,
 } from './../../SubComponents/Buttons/index';
 import GestureRecognizer from 'react-native-swipe-gestures';
 const PendingView = () => (
@@ -42,9 +45,7 @@ class CameraScreen extends PureComponent {
     super(props);
   }
   state = {
-    asp: undefined,
     remountCamera: false,
-
     options: {
       quality: 1,
       base64: true,
@@ -63,17 +64,22 @@ class CameraScreen extends PureComponent {
   };
   componentDidUpdate() {
     if (this.state.remountCamera) {
-      // PermissionsAndroid.request(
-      //   PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      // );
       setTimeout(() => {
         this.setState({remountCamera: false});
         SplashScreen.hide();
-      }, 100);
+      }, 10);
     }
   }
   async componentDidMount() {
-    console.log('MOUNTED');
+    // hideNavigationBar();
+    // try {
+    //   const response = await changeNavigationBarColor('transparent');
+    //   console.log(response); // {success: true}
+    // } catch (e) {
+    //   console.log(e); // {success: false}
+    // }
+
+    console.log('CAMERASCREEN componentDidMount');
     PermissionsAndroid.requestMultiple([
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       PermissionsAndroid.PERMISSIONS.CAMERA,
@@ -88,15 +94,16 @@ class CameraScreen extends PureComponent {
     //   },
     // );
 
-    // this.camera.refreshAuthorizationStatus();
-    const ratios = await this.camera.getSupportedRatiosAsync();
-    console.log('this.props.aspectRatio', this.props.aspectRatio);
+    this.camera.refreshAuthorizationStatus();
+    if (this.props.cameraAspectRatio.length <= 1) {
+      const ratios = await this.camera.getSupportedRatiosAsync();
+      this.props.setCameraAspectRatio(ratios);
+      console.log('this.props.aspectRatio', this.props.cameraAspectRatio);
+    }
 
     this.setState({
       volume: await VolumeControl.getVolume(),
-      asp: ratios[ratios.length - 1],
     });
-    console.log(ratios[ratios.length - 1]);
 
     this.volEvent = VolumeControlEvents.addListener(
       'VolumeChanged',
@@ -106,7 +113,6 @@ class CameraScreen extends PureComponent {
     SplashScreen.hide();
   }
   volumeEvent = event => {
-    console.log('volume event ');
     if (this.state.volume >= event.volume) this.takePicture();
 
     this.setState({volume: event.volume});
@@ -114,13 +120,10 @@ class CameraScreen extends PureComponent {
 
   componenDidUnmount() {
     // remove event listener
-    console.log('CameraScreen unmount');
     this.volEvent.remove();
   }
   onPressGallery = () => {
     this.props.navigation.navigate('GalleryTab');
-    // this.setState({index: 0});
-    console.log('Gallery Pressed');
   };
   takeVideo = async () => {
     console.log('take video');
@@ -136,8 +139,6 @@ class CameraScreen extends PureComponent {
       mirrorImage: this.props.cameraType ? false : true, //0 = back , 1 = front
     };
     console.log('CLICK CLICK');
-    // const cam_options = this.state.options;
-    // cam_options.mirrorImage = this.props.cameraType ? false : true; //0 = back , 1 = front
     const data = await this.camera.takePictureAsync(options);
 
     if (this.props.textMode)
@@ -210,6 +211,7 @@ class CameraScreen extends PureComponent {
       clearInterval(intervalId);
     }, 2000);
   };
+
   onPressGalleryIcon = () =>
     this.props.navigation.navigate('GalleryScreen', {
       index: 0,
@@ -225,9 +227,9 @@ class CameraScreen extends PureComponent {
       });
     }
   };
+
   render() {
     console.log('Camera Screen Rendered');
-    console.log(this.state.asp);
     const drawFocusRingPosition = {
       top: this.state.autoFocusPoint.drawRectPosition.y - 32,
       left: this.state.autoFocusPoint.drawRectPosition.x - 32,
@@ -248,90 +250,92 @@ class CameraScreen extends PureComponent {
           flex: 1,
         }}>
         <View style={styles.container}>
-          <StatusBar hidden={true} />
+          {/* <StatusBar hidden={true} barStyle="light-content" /> */}
+          {/* <StatusBar translucent /> */}
+          <StatusBar backgroundColor={'transparent'} translucent />
+          {/* {!this.state.remountCamera && ( */}
+          <RNCamera
+            ref={ref => (this.camera = ref)}
+            style={{
+              height: this.props.aspectRatio ? '75%' : '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            type={this.props.cameraType ? 0 : 1} //back:0 , front:1
+            flashMode={this.props.flashMode}
+            onCameraReady={this.getCameraRatio}
+            ratio={
+              this.props.aspectRatio
+                ? '4:3'
+                : this.props.cameraAspectRatio[
+                    this.props.cameraAspectRatio.length - 1
+                  ]
+            }
+            autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
+            defaultOnFocusComponent={true}
+            autoFocus={true}
+            // onPictureTaken={() => console.log('onPictureTaken')}
+          >
+            {({camera, status, recordAudioPermissionStatus}) => {
+              if (status !== 'READY') {
+                console.log('NOT READY');
 
-          {!this.state.remountCamera && (
-            <RNCamera
-              ref={ref => (this.camera = ref)}
-              style={[
-                styles.preview,
-                {
-                  height: this.props.aspectRatio ? '75%' : '100%',
-                },
-              ]}
-              type={this.props.cameraType ? 0 : 1} //back:0 , front:1
-              flashMode={this.props.flashMode}
-              onCameraReady={this.getCameraRatio}
-              ratio={
-                // this.state.asp
-                this.props.aspectRatio ? '4:3' : this.state.asp
+                return <PendingView />;
               }
-              onStatusChange={status => {
-                console.log('STATUS CHANGE:', status);
-                console.log('this.state.asp:', this.state.asp);
-              }}
-              autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
-              defaultOnFocusComponent={true}
-              autoFocus={true}
-              onPictureTaken={() => console.log('onPictureTaken')}>
-              {({camera, status, recordAudioPermissionStatus}) => {
-                if (status !== 'READY') {
-                  console.log('NOT READY');
-                  return <PendingView />;
-                }
-                return (
-                  <View style={StyleSheet.absoluteFill}>
-                    <View
-                      style={[
-                        styles.autoFocusBox,
-                        drawFocusRingPosition,
-                        {
-                          borderColor: this.state.focus ? 'white' : '#0000',
-                        },
-                      ]}
-                    />
+              return (
+                <View style={StyleSheet.absoluteFill}>
+                  <View
+                    style={[
+                      styles.autoFocusBox,
+                      drawFocusRingPosition,
+                      {borderColor: this.state.focus ? 'white' : '#0000'},
+                    ]}
+                  />
+                  <TouchableWithoutFeedback
+                    onPress={event => this.touchToFocus(event)}>
+                    <View style={{flex: 1}} />
+                  </TouchableWithoutFeedback>
 
-                    <TouchableWithoutFeedback
-                      onPress={event => this.touchToFocus(event)}>
-                      <View style={{flex: 1}} />
-                    </TouchableWithoutFeedback>
-                    <View style={styles.CameraIconContainer}>
-                      <FlashMode
-                        flashIcon={this.props.flashMode}
-                        onPressFlashMode={() => this.changeFlashMode()}
-                      />
-                      <TextMode
-                        textIcon={this.props.textMode}
-                        onPressTextMode={() =>
-                          this.props.changeTextMode(!this.props.textMode)
-                        }
-                      />
-                      <AspectRatio
-                        aspectIcon={this.props.aspectRatio}
-                        onPressAspectRatio={() =>
-                          this.props.changeAspectRatio(!this.props.aspectRatio)
-                        }
-                      />
-                      {/* <TouchableOpacity
+                  <View style={styles.CameraIconContainer}>
+                    <FlashMode
+                      flashIcon={this.props.flashMode}
+                      onPressFlashMode={() => this.changeFlashMode()}
+                    />
+                    <TextMode
+                      textIcon={this.props.textMode}
+                      onPressTextMode={() =>
+                        this.props.changeTextMode(!this.props.textMode)
+                      }
+                    />
+                    <AspectRatio
+                      aspectIcon={this.props.aspectRatio}
+                      onPressAspectRatio={() =>
+                        this.props.changeAspectRatio(!this.props.aspectRatio)
+                      }
+                    />
+                    {/* <TouchableOpacity
                         onPress={() => this.onPressGallery()}
                         style={{marginTop: 10}}>
                         <GalleryIcon iconColor="white" />
                       </TouchableOpacity> */}
-                    </View>
                   </View>
-                );
-              }}
-            </RNCamera>
-          )}
+                </View>
+              );
+            }}
+          </RNCamera>
+          {/* )} */}
           <View style={styles.bottomContainer}>
             <GalleryButton
-              photo_uri={
+              photo_uri1={
                 this.props.photoArray[0] ? this.props.photoArray[0].uri : ''
               }
-              onPressGalleryIcon={() => {
-                console.log(this.props.photoArray[0].uri);
-                this.onPressGallery();
-              }}
+              photo_uri2={
+                this.props.photoArray[1] ? this.props.photoArray[1].uri : ''
+              }
+              photo_uri3={
+                this.props.photoArray[2] ? this.props.photoArray[2].uri : ''
+              }
+              onPressGalleryIcon={() => this.onPressGallery()}
             />
             <TakePicture
               onTakePicture={() => this.takePicture()}

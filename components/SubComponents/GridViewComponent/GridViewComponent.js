@@ -32,6 +32,8 @@ import Share from 'react-native-share';
 import CameraRoll from '@react-native-community/cameraroll';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import {default as HideCaption} from '../HideCaption/HideCaption';
+import {hideNavigationBar} from 'react-native-navigation-bar-color';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 import {
   GlobalIconColor,
@@ -51,12 +53,18 @@ class GridViewComponent extends PureComponent {
       refreshing: false,
     };
   }
-  componentDidMount() {
+  async componentDidMount() {
     console.log('componentDidMount in GridViewComponnet');
     this.setState({
       filteredList: this.props.receivedArray,
       refreshing: false,
     });
+    // try {
+    //   const response = await changeNavigationBarColor('white');
+    //   console.log(response); // {success: true}
+    // } catch (e) {
+    //   console.log(e); // {success: false}
+    // }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -79,10 +87,6 @@ class GridViewComponent extends PureComponent {
       this.setState({
         filteredList: filteredList,
       });
-      if (prevProps.photoArray != this.props.photoArray)
-        console.log(
-          'GridViewComponnet did update called and pasdajsfnjkasjk dkg k',
-        );
     }
   }
   onPressShare = () => {
@@ -159,6 +163,8 @@ class GridViewComponent extends PureComponent {
 
     return (
       <View style={styles.container}>
+        {/* <StatusBar hidden={true} /> */}
+
         {this.state.longPressStatus && (
           <View style={styles.headerStyle}>
             <Text style={styles.headerTextStyle}>
@@ -248,39 +254,40 @@ class GridViewComponent extends PureComponent {
   }
   renderHeader = () => {
     return (
-      // <View style={{flex: 1}}>
-      // {/* {this.props.gridSize != 'CameraRoll' && ( */}
-      <View style={styles.searchContainer}>
-        <Icon
-          name="ios-search"
-          type="ionicon"
-          size={GlobalIconSize - 10}
-          color={'grey'}
-          containerStyle={{position: 'absolute', left: 10}}
-        />
-
-        <TextInput
-          style={styles.searchStyle}
-          placeholder={'Search Photo...'}
-          value={this.state.searchFilter}
-          placeholderTextColor={'silver'}
-          onChangeText={text => this.setState({searchFilter: text})}
-        />
-        {this.state.searchFilter != '' && (
-          <TouchableOpacity
-            style={{position: 'absolute', right: 30, padding: 4}}
-            onPress={() => this.setState({searchFilter: ''})}>
+      <View style={{flex: 1}}>
+        {this.props.gridSize != 'CameraRoll' && (
+          <View style={styles.searchContainer}>
             <Icon
+              name="ios-search"
               type="ionicon"
-              name="ios-close"
-              size={GlobalIconSize}
+              size={GlobalIconSize - 10}
               color={'grey'}
+              containerStyle={{position: 'absolute', left: 10}}
             />
-          </TouchableOpacity>
+
+            <TextInput
+              style={styles.searchStyle}
+              placeholder={'Search Photo...'}
+              value={this.state.searchFilter}
+              placeholderTextColor={'silver'}
+              onChangeText={text => this.setState({searchFilter: text})}
+            />
+
+            {this.state.searchFilter != '' && (
+              <TouchableOpacity
+                style={{position: 'absolute', right: 30, padding: 4}}
+                onPress={() => this.setState({searchFilter: ''})}>
+                <Icon
+                  type="ionicon"
+                  name="ios-close"
+                  size={GlobalIconSize}
+                  color={'grey'}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
         )}
       </View>
-      // )}
-      // </View>
     );
   };
   longPressItem = index => {
@@ -324,8 +331,6 @@ class GridViewComponent extends PureComponent {
           },
         ]}
         key={this.state.filteredList.indexOf(item)}>
-        <StatusBar hidden={false} />
-
         <TouchableOpacity
           key={item.id}
           style={{flex: 1, activeOpacity: 0}}
@@ -334,8 +339,8 @@ class GridViewComponent extends PureComponent {
             this.longPressItem(index);
             console.log('longPress accepted');
           }}>
-          <FastImage
-            resizeMode={FastImage.resizeMode.cover}
+          <Image
+            // resizeMode={FastImage.resizeMode.cover}
             style={{flex: 1, borderRadius: 5, resizeMode: 'cover'}}
             source={{uri: item.uri}}
           />
