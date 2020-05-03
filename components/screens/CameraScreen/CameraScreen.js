@@ -28,6 +28,7 @@ import {
   AspectRatio,
   GalleryIcon,
   CykeeColor,
+  MoreIcon,
 } from './../../SubComponents/Buttons/index';
 import GestureRecognizer from 'react-native-swipe-gestures';
 const PendingView = () => (
@@ -52,6 +53,7 @@ class CameraScreen extends PureComponent {
       orientation: 'portrait',
       fixOrientation: true,
       volume: 0,
+      showIcons: true,
     },
     focus: false,
     autoFocusPoint: {
@@ -288,7 +290,9 @@ class CameraScreen extends PureComponent {
                     style={[
                       styles.autoFocusBox,
                       drawFocusRingPosition,
-                      {borderColor: this.state.focus ? 'white' : '#0000'},
+                      {
+                        borderColor: this.state.focus ? 'white' : '#0000',
+                      },
                     ]}
                   />
                   <TouchableWithoutFeedback
@@ -297,27 +301,40 @@ class CameraScreen extends PureComponent {
                   </TouchableWithoutFeedback>
 
                   <View style={styles.CameraIconContainer}>
-                    <FlashMode
-                      flashIcon={this.props.flashMode}
-                      onPressFlashMode={() => this.changeFlashMode()}
-                    />
-                    <TextMode
-                      textIcon={this.props.textMode}
-                      onPressTextMode={() =>
-                        this.props.changeTextMode(!this.props.textMode)
+                    <MoreIcon
+                      onPressMore={() =>
+                        this.setState({
+                          showIcons: !this.state.showIcons,
+                        })
                       }
                     />
-                    <AspectRatio
-                      aspectIcon={this.props.aspectRatio}
-                      onPressAspectRatio={() =>
-                        this.props.changeAspectRatio(!this.props.aspectRatio)
-                      }
-                    />
-                    {/* <TouchableOpacity
+                    {this.state.showIcons && (
+                      <View>
+                        <FlashMode
+                          flashIcon={this.props.flashMode}
+                          onPressFlashMode={() => this.changeFlashMode()}
+                        />
+                        <TextMode
+                          textIcon={this.props.textMode}
+                          onPressTextMode={() =>
+                            this.props.changeTextMode(!this.props.textMode)
+                          }
+                        />
+                        <AspectRatio
+                          aspectIcon={this.props.aspectRatio}
+                          onPressAspectRatio={() =>
+                            this.props.changeAspectRatio(
+                              !this.props.aspectRatio,
+                            )
+                          }
+                        />
+                        {/* <TouchableOpacity
                         onPress={() => this.onPressGallery()}
                         style={{marginTop: 10}}>
                         <GalleryIcon iconColor="white" />
                       </TouchableOpacity> */}
+                      </View>
+                    )}
                   </View>
                 </View>
               );

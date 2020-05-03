@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, Text} from 'react-native';
-import CameraRoll from '@react-native-community/cameraroll';
+import {TouchableOpacity} from 'react-native';
 import styles from './styles';
 import FastImage from 'react-native-fast-image';
 
@@ -9,17 +8,6 @@ class GalleryButton extends Component {
   componentDidMount() {}
 
   render() {
-    // CameraRoll.getPhotos({
-    //   first: 1,
-    //   groupName: 'Cykee',
-    // })
-    //   .then((r) => {
-    //     this.setState({photo: r.edges[0].node.image.uri});
-    //   })
-    //   .catch((err) => {
-    //     console.log('Error loading 1st image for Gallery Icon view');
-    //     //Error Loading Images
-    //   });
     return (
       <TouchableOpacity
         style={styles.IconContainer}
@@ -28,8 +16,8 @@ class GalleryButton extends Component {
           style={[
             styles.ImageStyle,
             {
-              transform: [{rotate: '20deg'}],
-              left: 0,
+              transform: [{rotate: '22deg'}],
+              left: 2,
             },
           ]}
           source={{uri: this.props.photo_uri3}}
@@ -39,8 +27,8 @@ class GalleryButton extends Component {
           style={[
             styles.ImageStyle,
             {
-              transform: [{rotate: '10deg'}],
-              left: 0,
+              transform: [{rotate: '12deg'}],
+              left: 2,
             },
           ]}
           source={{uri: this.props.photo_uri2}}
@@ -51,7 +39,7 @@ class GalleryButton extends Component {
             styles.ImageStyle,
             {
               transform: [{rotate: '0deg'}],
-              left: 2,
+              left: 0,
             },
           ]}
           source={{uri: this.props.photo_uri1}}

@@ -267,109 +267,84 @@ class GalleryScreen extends Component {
           //   }
           //   onSwipeDownReleased={() => this.props.navigation.navigate('Home')}
           // />
-          <Gallery
+          <View
             style={{
               // flex: 1,
               height: '100%',
               width: '100%',
+              psition: 'absolute',
+              bottom: 0,
               backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
-            }}
-            ImageResizeMode={
-              this.state.photoArray[this.state.index].height /
-                this.state.photoArray[this.state.index].width >
-              SCREEN_RATIO
-                ? 'stretch'
-                : 'contain'
-            }
-            images={this.state.photoArray}
-            initialPage={this.state.index}
-            flatListProps={{
-              initialNumToRender: this.state.index,
-              initialScrollIndex: this.state.index,
-              getItemLayout: (data, index) => ({
-                length: Dimensions.get('screen').width,
-                offset: Dimensions.get('screen').width * index,
-                index,
-              }),
-            }}
-            onSingleTapConfirmed={() =>
-              this.setState({
-                optionsAvailable: !this.state.optionsAvailable,
-              })
-            }
-            onPageSelected={index => this.setState({index: index})}
-          />
+            }}>
+            <Gallery
+              ImageResizeMode={
+                this.state.photoArray[this.state.index].height /
+                  this.state.photoArray[this.state.index].width >
+                SCREEN_RATIO
+                  ? 'stretch'
+                  : 'contain'
+              }
+              images={this.state.photoArray}
+              initialPage={this.state.index}
+              flatListProps={{
+                initialNumToRender: this.state.index,
+                initialScrollIndex: this.state.index,
+                getItemLayout: (data, index) => ({
+                  length: Dimensions.get('screen').width,
+                  offset: Dimensions.get('screen').width * index,
+                  index,
+                }),
+              }}
+              onSingleTapConfirmed={() =>
+                this.setState({
+                  optionsAvailable: !this.state.optionsAvailable,
+                })
+              }
+              onPageSelected={index => this.setState({index: index})}
+            />
+          </View>
         )}
 
-        {this.state.optionsAvailable && (
-          <SafeAreaView style={styles.topContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.goBack();
-                console.log('Back Pressed');
-              }}>
-              <Icon
-                type="ionicon"
-                name="md-arrow-back"
-                size={GlobalIconSize}
-                color={GalleryIconColor}
-              />
-            </TouchableOpacity>
-            {/* <TouchableOpacity
-              onPress={() => this.onPressGallery()}
-              style={[styles.IconContainer, {flex: 0}]}>
-              <GalleryIcon />
-            </TouchableOpacity> */}
-          </SafeAreaView>
-        )}
-
-        <SafeAreaView style={styles.bottomContainer}>
+        <View style={styles.bottomContainer}>
           <TouchableOpacity
             onPress={() => this.setState({showCapion: !this.state.showCapion})}
             style={{
-              flex: 1,
               paddingTop: 10,
-              // borderColor: 'red',
               borderWidth: 0.01,
               justifyContent: 'space-between',
               flexDirection: 'column',
             }}>
-            <View>
-              <Icon
-                type="font-awesome"
-                name={
-                  this.state.showCapion
-                    ? ''
-                    : this.state.photoArray[this.state.index].caption
-                    ? 'angle-up'
+            <Icon
+              type="font-awesome"
+              name={
+                this.state.showCapion
+                  ? ''
+                  : this.state.photoArray[this.state.index].caption
+                  ? 'angle-up'
+                  : ''
+              }
+              size={GlobalIconSize}
+              color="white"
+              // style={{position: 'absolute', top: 0}}
+            />
+            {this.state.showCapion && (
+              <CaptionComponent
+                caption={
+                  this.state.photoArray[this.state.index]
+                    ? this.state.photoArray[this.state.index].caption
                     : ''
                 }
-                size={GlobalIconSize}
-                color="white"
-                // style={{position: 'absolute', top: 0}}
+                captionStyle={
+                  this.state.photoArray[this.state.index]
+                    ? this.state.photoArray[this.state.index].captionStyle
+                    : {captionSize: 20, captionFont: 'normal'}
+                }
               />
-            </View>
-            {this.state.showCapion && (
-              <View>
-                {/* <Text>ABC</Text> */}
-                <CaptionComponent
-                  caption={
-                    this.state.photoArray[this.state.index]
-                      ? this.state.photoArray[this.state.index].caption
-                      : ''
-                  }
-                  captionStyle={
-                    this.state.photoArray[this.state.index]
-                      ? this.state.photoArray[this.state.index].captionStyle
-                      : {captionSize: 20, captionFont: 'normal'}
-                  }
-                />
-              </View>
             )}
           </TouchableOpacity>
 
           {this.state.optionsAvailable && (
-            <SafeAreaView style={styles.bottomSubContainer}>
+            <View style={styles.bottomSubContainer}>
               <TouchableOpacity
                 style={styles.IconContainer}
                 onPress={() =>
@@ -435,9 +410,30 @@ class GalleryScreen extends Component {
 
                 <Text style={styles.IconTextStyle}>Gallery</Text>
               </TouchableOpacity>
-            </SafeAreaView>
+            </View>
           )}
-        </SafeAreaView>
+        </View>
+        {this.state.optionsAvailable && (
+          <SafeAreaView style={styles.topContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.goBack();
+                console.log('Back Pressed');
+              }}>
+              <Icon
+                type="ionicon"
+                name="md-arrow-back"
+                size={GlobalIconSize}
+                color={'silver'}
+              />
+            </TouchableOpacity>
+            {/* <TouchableOpacity
+              onPress={() => this.onPressGallery()}
+              style={[styles.IconContainer, {flex: 0}]}>
+              <GalleryIcon />
+            </TouchableOpacity> */}
+          </SafeAreaView>
+        )}
       </View>
     );
   }

@@ -35,7 +35,7 @@ export default StyleSheet.create({
   CameraIconContainer: {
     // borderWidth: 1,
     position: 'absolute',
-    top: 0,
+    top: '15%',
     right: 0,
     marginBottom: 40,
     opacity: 0.8,

@@ -28,13 +28,13 @@ export default StyleSheet.create({
   },
   saveButtonStyle: {
     position: 'absolute',
-    bottom: 40,
-    right: 0,
+    bottom: 35,
+    right: '4%',
     paddingHorizontal: 4,
   },
 
   textBoxContainer: {
-    paddingVertical: 15,
+    paddingVertical: 10,
     backgroundColor: 'black',
     opacity: 0.7,
     width: '100%',

@@ -33,6 +33,7 @@ import {
 } from '../../SubComponents/Buttons/index';
 
 const ICON_OPACITY = 0.6;
+const TOP_REF = '10%';
 
 class EditScreen extends Component {
   constructor(props) {
@@ -55,8 +56,12 @@ class EditScreen extends Component {
     const deletHeader = 'Discard changes ?';
     const deletMessage = '';
     if (
-      this.state.orignal_photo != this.state.photo ||
-      this.state.orignal_photo.caption != this.state.text
+      this.state.text != this.state.orignal_photo.caption ||
+      this.state.photo.source.uri != this.state.orignal_photo.source.uri ||
+      this.state.orignal_photo.captionStyle.captionSize !=
+        this.state.captionSize ||
+      this.state.orignal_photo.captionStyle.captionFont !=
+        this.state.captionFont
     )
       Alert.alert(
         deletHeader,
@@ -223,8 +228,12 @@ class EditScreen extends Component {
     const saveHeader = 'Save changes ?';
     const saveMessage = 'Do you want to replace or create a duplicate file?';
     if (
-      this.state.orignal_photo != this.state.photo ||
-      this.state.orignal_photo.caption != this.state.text
+      this.state.text != this.state.orignal_photo.caption ||
+      this.state.photo.source.uri != this.state.orignal_photo.source.uri ||
+      this.state.orignal_photo.captionStyle.captionSize !=
+        this.state.captionSize ||
+      this.state.orignal_photo.captionStyle.captionFont !=
+        this.state.captionFont
     )
       Alert.alert(
         saveHeader,
@@ -318,7 +327,7 @@ class EditScreen extends Component {
     // console.log('Photo:', this.state.photo.uri);
     return (
       <View style={styles.container2} disabled behavior="height">
-        <StatusBar hidden={false} />
+        {/* <StatusBar hidden={false} /> */}
         <FastImage
           source={{
             uri: this.state.photo.source.uri,
@@ -327,50 +336,50 @@ class EditScreen extends Component {
           resizeMode={FastImage.resizeMode.contain}
           style={styles.image}
         />
-
-        <EditScreenButton
-          iconType="ionicon"
-          iconName="ios-more"
-          topPosition={20}
-          handleOnPress={() =>
-            this.setState({
-              showEditOptions: !this.state.showEditOptions,
-            })
-          }
-        />
-        {this.state.showEditOptions && this.state.prevPhoto.source && (
+        <View style={{position: 'absolute', top: '10%', right: -10}}>
           <EditScreenButton
             iconType="ionicon"
-            iconName="md-undo"
-            topPosition={170}
-            handleOnPress={this.undoPressed}
+            iconName="ios-more"
+            topPosition={20}
+            handleOnPress={() =>
+              this.setState({
+                showEditOptions: !this.state.showEditOptions,
+              })
+            }
           />
-        )}
-        {this.state.showEditOptions && this.state.nextPhoto.source && (
-          <EditScreenButton
-            iconType="ionicon"
-            iconName="md-redo"
-            topPosition={170}
-            handleOnPress={this.redoPressed}
-          />
-        )}
-        {this.state.showEditOptions && (
-          <EditScreenButton
-            iconType="ionicon"
-            iconName="md-crop"
-            topPosition={70}
-            handleOnPress={this.cropPressed}
-          />
-        )}
-        {this.state.showEditOptions && (
-          <EditScreenButton
-            iconType="material-community"
-            iconName="rotate-right"
-            topPosition={120}
-            handleOnPress={this.rotatePressed}
-          />
-        )}
-
+          {this.state.showEditOptions && this.state.prevPhoto.source && (
+            <EditScreenButton
+              iconType="ionicon"
+              iconName="md-undo"
+              topPosition={170}
+              handleOnPress={this.undoPressed}
+            />
+          )}
+          {this.state.showEditOptions && this.state.nextPhoto.source && (
+            <EditScreenButton
+              iconType="ionicon"
+              iconName="md-redo"
+              topPosition={170}
+              handleOnPress={this.redoPressed}
+            />
+          )}
+          {this.state.showEditOptions && (
+            <EditScreenButton
+              iconType="ionicon"
+              iconName="md-crop"
+              topPosition={70}
+              handleOnPress={this.cropPressed}
+            />
+          )}
+          {this.state.showEditOptions && (
+            <EditScreenButton
+              iconType="material-community"
+              iconName="rotate-right"
+              topPosition={120}
+              handleOnPress={this.rotatePressed}
+            />
+          )}
+        </View>
         <KeyboardAvoidingView style={[styles.textBoxContainer]}>
           <View style={{flexDirection: 'row'}}>
             {this.state.showFontIcons && (
