@@ -8,6 +8,10 @@ class CameraRollScreen extends Component {
   state = {toBeDisplayed: [], page_info: {}};
 
   componentDidMount() {
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.reloadPhotos();
+    });
+
     CameraRoll.getPhotos({
       first: 50,
       assetType: 'Photos',
@@ -29,6 +33,9 @@ class CameraRollScreen extends Component {
       .catch(err => {
         //Error Loading Images
       });
+  }
+  componenDidUnmount() {
+    this.focusListener.remove();
   }
   onPressCard = (index, photoArray) => {
     this.props.navigation.push('GalleryScreen', {
@@ -72,6 +79,7 @@ class CameraRollScreen extends Component {
   };
 
   render() {
+    console.log('Render-camera roll');
     return (
       <GridViewComponent
         receivedArray={this.state.toBeDisplayed}

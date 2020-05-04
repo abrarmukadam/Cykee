@@ -168,23 +168,35 @@ class GalleryScreen extends Component {
         {
           text: 'OK',
           onPress: () => {
-            CameraRoll.deletePhotos([this.state.photoArray[index].source.uri]);
-            let updatedPhotoArray = [...this.props.photoArray];
-            let deleteIndex = this.props.photoArray.indexOf(
-              this.state.toBeDisplayed[index], //item to be deleted should match the item in photoArray Props
-            );
-            updatedPhotoArray.splice(deleteIndex, 1);
+            if (this.props.route.params.navigatingFrom == 'CameraRollScreen')
+              CameraRoll.deletePhotos([
+                this.state.photoArray[index].source.uri,
+              ]).then(() => {
+                this.props.navigation.navigate('GalleryTab');
+              });
+            else {
+              let updatedPhotoArray = [...this.props.photoArray];
+              let deleteIndex = this.props.photoArray.indexOf(
+                this.state.toBeDisplayed[index], //item to be deleted should match the item in photoArray Props
+              );
+              updatedPhotoArray.splice(deleteIndex, 1);
 
-            console.log('updatedPhotoArray:', updatedPhotoArray);
-            this.props.deletePhotoFromList(updatedPhotoArray);
+              console.log('updatedPhotoArray:', updatedPhotoArray);
+              this.props.deletePhotoFromList(updatedPhotoArray);
 
-            let newToBeDisplayed = [...this.props.route.params.toBeDisplayed];
-            newToBeDisplayed.splice(this.state.index, 1);
-            console.log('photo deleted');
-            this.props.navigation.push('GalleryScreen', {
-              index: this.state.index ? this.state.index - 1 : 0,
-              toBeDisplayed: newToBeDisplayed,
-            });
+              let newToBeDisplayed = [...this.props.route.params.toBeDisplayed];
+              newToBeDisplayed.splice(this.state.index, 1);
+              console.log('photo deleted');
+              CameraRoll.deletePhotos([
+                this.state.photoArray[index].source.uri,
+              ]).then(() => {
+                // this.props.navigation.push('GalleryScreen', {
+                //   index: this.state.index ? this.state.index - 1 : 0,
+                //   toBeDisplayed: newToBeDisplayed,
+                // });
+                this.props.navigation.goBack();
+              });
+            }
           },
         },
       ],
@@ -284,6 +296,22 @@ class GalleryScreen extends Component {
                   ? 'stretch'
                   : 'contain'
               }
+              errorComponent={() => (
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    style={{
+                      flex: 1,
+                      resizeMode: 'center',
+                    }}
+                    source={require('../../Images/no-image.png')}
+                  />
+                </View>
+              )}
               images={this.state.photoArray}
               initialPage={this.state.index}
               flatListProps={{
