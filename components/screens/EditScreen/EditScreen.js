@@ -7,6 +7,8 @@ import {
   KeyboardAvoidingView,
   Alert,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import styles from './styles';
 import {Icon} from 'react-native-elements';
@@ -328,14 +330,16 @@ class EditScreen extends Component {
     return (
       <View style={styles.container2} disabled behavior="height">
         {/* <StatusBar hidden={false} /> */}
-        <FastImage
-          source={{
-            uri: this.state.photo.source.uri,
-            priority: FastImage.priority.high,
-          }}
-          resizeMode={FastImage.resizeMode.contain}
-          style={styles.image}
-        />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <FastImage
+            source={{
+              uri: this.state.photo.source.uri,
+              priority: FastImage.priority.high,
+            }}
+            resizeMode={FastImage.resizeMode.contain}
+            style={styles.image}
+          />
+        </TouchableWithoutFeedback>
         <View style={{position: 'absolute', top: '10%', right: -10}}>
           <EditScreenButton
             iconType="ionicon"

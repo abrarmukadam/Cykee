@@ -6,9 +6,10 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import styles from './styles';
-// import Icon from 'react-native-vector-icons/Ionicons';
 import {Icon} from 'react-native-elements';
 import CameraRoll from '@react-native-community/cameraroll';
 import FastImage from 'react-native-fast-image';
@@ -122,19 +123,21 @@ class PreviewImageScreen extends Component {
         }}>
         <StatusBar hidden={false} />
         <KeyboardAvoidingView style={styles.container}>
-          <FastImage
-            source={{
-              uri: this.state.photo.uri,
-              priority: FastImage.priority.high,
-            }}
-            resizeMode={
-              ImageRatio >= 2
-                ? FastImage.resizeMode.stretch
-                : FastImage.resizeMode.contain
-            }
-            style={StyleSheet.absoluteFill}
-            // style={styles.image}
-          />
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <FastImage
+              source={{
+                uri: this.state.photo.uri,
+                priority: FastImage.priority.high,
+              }}
+              resizeMode={
+                ImageRatio >= 2
+                  ? FastImage.resizeMode.stretch
+                  : FastImage.resizeMode.contain
+              }
+              style={StyleSheet.absoluteFill}
+              // style={styles.image}
+            />
+          </TouchableWithoutFeedback>
           {/* <Image source={{uri: abx}} style={styles.image} /> */}
           {/* <Icon
           name="ios-close"
