@@ -258,6 +258,7 @@ class EditScreen extends Component {
         ],
         {cancelable: true},
       );
+    else this.props.navigation.goBack();
   };
   savePhoto = photo_replace => {
     this.setState({saveInProgress: true});
@@ -468,31 +469,7 @@ class EditScreen extends Component {
             />
           </View>
           <View style={styles.saveButtonStyle}>
-            <TouchableOpacity
-              style={{
-                opacity:
-                  this.state.text == this.state.orignal_photo.caption &&
-                  this.state.photo.source.uri ==
-                    this.state.orignal_photo.source.uri &&
-                  this.state.orignal_photo.captionStyle.captionSize ==
-                    this.state.captionSize &&
-                  this.state.orignal_photo.captionStyle.captionFont ==
-                    this.state.captionFont
-                    ? 0.5
-                    : 1,
-              }}
-              disabled={
-                this.state.text == this.state.orignal_photo.caption &&
-                this.state.photo.source.uri ==
-                  this.state.orignal_photo.source.uri &&
-                this.state.orignal_photo.captionStyle.captionSize ==
-                  this.state.captionSize &&
-                this.state.orignal_photo.captionStyle.captionFont ==
-                  this.state.captionFont
-                  ? true
-                  : this.state.saveInProgress //false
-              }
-              onPress={() => this.onPressSave()}>
+            <TouchableOpacity onPress={() => this.onPressSave()}>
               <CheckCircle iconSize={60} />
             </TouchableOpacity>
           </View>

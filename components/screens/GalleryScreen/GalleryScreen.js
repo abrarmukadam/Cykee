@@ -9,6 +9,7 @@ import {
   StatusBar,
   Alert,
   Image,
+  ToastAndroid,
 } from 'react-native';
 import Share from 'react-native-share';
 
@@ -70,6 +71,10 @@ class GalleryScreen extends Component {
       });
       this.setState({photoArray: temp});
       console.log('did update');
+    }
+    if (prevProps.photoArray[0] == this.props.photoArray[1]) {
+      console.log('ADDED TO CYKEE GALLERY');
+      ToastAndroid.show('Added to Cykee Gallery !', ToastAndroid.SHORT);
     }
     // if (this.props.route.params.index != prevProps.route.params.index) {
     //   this.setState({index: this.props.route.params.index});
@@ -410,6 +415,7 @@ class GalleryScreen extends Component {
                     this.props.navigation.push('PreviewScreen', {
                       photo: photo,
                     });
+                    console.log('EDIT DONE & RETURNED');
                   }
                 }}>
                 <EditIcon

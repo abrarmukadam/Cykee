@@ -68,8 +68,6 @@ class GridViewComponent extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('GridViewComponnet did update called');
-
     let filteredList = [];
     if (
       prevState.searchFilter != this.state.searchFilter ||
