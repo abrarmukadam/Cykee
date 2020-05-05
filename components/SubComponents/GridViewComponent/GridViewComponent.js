@@ -45,12 +45,14 @@ import {
 class GridViewComponent extends PureComponent {
   constructor(props) {
     super(props);
+
     this.state = {
       searchFilter: '',
       filteredList: [],
       longPressStatus: false,
       selectedArray: 0,
       refreshing: false,
+      selectedArrayLength: 0,
     };
   }
   async componentDidMount() {
@@ -68,6 +70,7 @@ class GridViewComponent extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log('grid vview did update');
     let filteredList = [];
     if (
       prevState.searchFilter != this.state.searchFilter ||
@@ -166,7 +169,7 @@ class GridViewComponent extends PureComponent {
         {this.state.longPressStatus && (
           <View style={styles.headerStyle}>
             <Text style={styles.headerTextStyle}>
-              {this.state.selectedArray.length} Item selected
+              {this.state.selectedArrayLength} Item selected
             </Text>
             <TouchableOpacity
               onPress={() => this.setState({longPressStatus: false})}
@@ -299,19 +302,27 @@ class GridViewComponent extends PureComponent {
       longPressStatus: true,
       filteredList: filteredList,
       selectedArray: [filteredList[index]],
+      selectedArrayLength: 1,
     });
   };
 
   singlePressItem = index => {
-    if (this.state.longPressStatus == false)
+    if (this.state.longPressStatus == false) {
       this.props.onPressCard(index, this.state.filteredList);
-    else if (this.state.longPressStatus == true) {
+      this.setState({pressed: false});
+    } else if (this.state.longPressStatus == true) {
       let tempList = [...this.state.filteredList];
       tempList[index].selectedStatus = !tempList[index].selectedStatus;
+      let count = 0;
+      tempList.map(item => {
+        if (item.selectedStatus == true) count = count + 1;
+      });
 
       this.setState({
         filteredList: tempList,
         selectedArray: [...this.state.selectedArray, tempList[index]],
+        selectedArrayLength: count,
+        pressed: false,
       });
     }
   };
@@ -330,9 +341,15 @@ class GridViewComponent extends PureComponent {
         ]}
         key={this.state.filteredList.indexOf(item)}>
         <TouchableOpacity
+          disabled={this.state.pressed}
           key={item.id}
           style={{flex: 1, activeOpacity: 0}}
-          onPress={() => this.singlePressItem(index)}
+          onPress={() => {
+            if (!this.state.pressed) {
+              this.setState({pressed: true});
+              this.singlePressItem(index);
+            }
+          }}
           onLongPress={() => {
             this.longPressItem(index);
             console.log('longPress accepted');

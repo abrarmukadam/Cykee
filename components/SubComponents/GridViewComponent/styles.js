@@ -65,8 +65,11 @@ export default StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
+    // alignSelf: 'flex-start',
     position: 'absolute',
+    paddingHorizontal: '20%',
+    paddingBottom: 4,
     bottom: 0,
   },
   shareIconContainer: {
