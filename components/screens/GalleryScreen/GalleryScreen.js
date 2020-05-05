@@ -338,14 +338,15 @@ class GalleryScreen extends Component {
           </View>
         )}
 
-        <View style={styles.bottomContainer}>
+        <View style={[styles.bottomContainer]}>
           <TouchableOpacity
             onPress={() => this.setState({showCapion: !this.state.showCapion})}
             style={{
-              paddingTop: 10,
+              // paddingTop: 10,
               borderWidth: 0.01,
               justifyContent: 'space-between',
               flexDirection: 'column',
+              flex: 1,
             }}>
             <Icon
               type="font-awesome"

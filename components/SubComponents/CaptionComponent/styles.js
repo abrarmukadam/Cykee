@@ -10,8 +10,8 @@ export default StyleSheet.create({
     borderRadius: 0,
   },
   captionContainer: {
-    position: 'absolute',
-    bottom: 0,
+    // position: 'absolute',
+    // bottom: 0,
     alignContent: 'center',
     justifyContent: 'center',
     width: '100%',

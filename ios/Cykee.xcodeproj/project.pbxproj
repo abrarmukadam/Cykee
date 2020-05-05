@@ -37,6 +37,12 @@
 		97713540E29048649DA6988E /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F34ACBFAD4DA49608FFA0249 /* SimpleLineIcons.ttf */; };
 		58C234F094FA47C9B35A5466 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 740B69426E7045EA892601EB /* Zocial.ttf */; };
 		BB5E717A1EAA45EEACAB30F9 /* libRNVolumeSlider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F38565F31BC44D983409EDD /* libRNVolumeSlider.a */; };
+		8E94A5FB0B244471B44EAA12 /* comic-sans-ms.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A612CFC421D4F32889B8E31 /* comic-sans-ms.ttf */; };
+		0FFBD4661E2B43BF91BD0A39 /* arial-ce.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AB8D7A7EA2D14C2B8A68C8CB /* arial-ce.ttf */; };
+		DC1CF75709894A9AAB9003C8 /* zapfino.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B3DA5912E6F4717BECFF463 /* zapfino.ttf */; };
+		AF0673D233A043A48CA511B7 /* amatic-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A3A41DAFD08441BB5D77357 /* amatic-regular.ttf */; };
+		6658BB0EAB00401EBA994E64 /* caveat-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2911A1F9F9F04BDF996A041F /* caveat-regular.ttf */; };
+		829FC76DD3BC4683B1D22BE1 /* times-roman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 916E8CB571564CF9814BE10D /* times-roman.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +108,12 @@
 		740B69426E7045EA892601EB /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		EBD8B61CA19E4458B4AA7C74 /* RNVolumeSlider.xcodeproj */ = {isa = PBXFileReference; name = "RNVolumeSlider.xcodeproj"; path = "../node_modules/react-native-volume-slider/ios/RNVolumeSlider.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		4F38565F31BC44D983409EDD /* libRNVolumeSlider.a */ = {isa = PBXFileReference; name = "libRNVolumeSlider.a"; path = "libRNVolumeSlider.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		2A612CFC421D4F32889B8E31 /* comic-sans-ms.ttf */ = {isa = PBXFileReference; name = "comic-sans-ms.ttf"; path = "../assets/fonts/comic-sans-ms.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AB8D7A7EA2D14C2B8A68C8CB /* arial-ce.ttf */ = {isa = PBXFileReference; name = "arial-ce.ttf"; path = "../assets/fonts/arial-ce.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2B3DA5912E6F4717BECFF463 /* zapfino.ttf */ = {isa = PBXFileReference; name = "zapfino.ttf"; path = "../assets/fonts/zapfino.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9A3A41DAFD08441BB5D77357 /* amatic-regular.ttf */ = {isa = PBXFileReference; name = "amatic-regular.ttf"; path = "../assets/fonts/amatic-regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2911A1F9F9F04BDF996A041F /* caveat-regular.ttf */ = {isa = PBXFileReference; name = "caveat-regular.ttf"; path = "../assets/fonts/caveat-regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		916E8CB571564CF9814BE10D /* times-roman.ttf */ = {isa = PBXFileReference; name = "times-roman.ttf"; path = "../assets/fonts/times-roman.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +216,12 @@
 				299B20FD525E41D29899A807 /* Octicons.ttf */,
 				F34ACBFAD4DA49608FFA0249 /* SimpleLineIcons.ttf */,
 				740B69426E7045EA892601EB /* Zocial.ttf */,
+				2A612CFC421D4F32889B8E31 /* comic-sans-ms.ttf */,
+				AB8D7A7EA2D14C2B8A68C8CB /* arial-ce.ttf */,
+				2B3DA5912E6F4717BECFF463 /* zapfino.ttf */,
+				9A3A41DAFD08441BB5D77357 /* amatic-regular.ttf */,
+				2911A1F9F9F04BDF996A041F /* caveat-regular.ttf */,
+				916E8CB571564CF9814BE10D /* times-roman.ttf */,
 			);
 			name = Resources;
 			path = "";
@@ -417,6 +435,12 @@
 				433D22FFC37146E08AB874C2 /* Octicons.ttf in Resources */,
 				97713540E29048649DA6988E /* SimpleLineIcons.ttf in Resources */,
 				58C234F094FA47C9B35A5466 /* Zocial.ttf in Resources */,
+				8E94A5FB0B244471B44EAA12 /* comic-sans-ms.ttf in Resources */,
+				0FFBD4661E2B43BF91BD0A39 /* arial-ce.ttf in Resources */,
+				DC1CF75709894A9AAB9003C8 /* zapfino.ttf in Resources */,
+				AF0673D233A043A48CA511B7 /* amatic-regular.ttf in Resources */,
+				6658BB0EAB00401EBA994E64 /* caveat-regular.ttf in Resources */,
+				829FC76DD3BC4683B1D22BE1 /* times-roman.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

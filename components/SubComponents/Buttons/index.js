@@ -59,9 +59,14 @@ const FONT_ICON_COLOR = 'silver';
 const FONT_ICON_OPACITY = 0.7;
 const SIDE_ICON_COLOR = '#606060ff';
 
-const CAPTION_SIZE = [15, 25, 30];
-const GRID_CAPTION_SIZE = [8, 10, 12];
-const CAPTION_FONT = ['serif', 'normal', 'sans-serif-thin', 'monospace'];
+const CAPTION_SIZE = [18, 25, 35];
+const GRID_CAPTION_SIZE = [10, 12, 14];
+const CAPTION_FONT = [
+  'normal',
+  'times-roman',
+  'caveat-regular',
+  'amatic-regular',
+];
 
 //Flash icons
 const flashIconName = [

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import {View, Text} from 'react-native';
 import styles from './styles';
 
 import {CAPTION_FONT, CAPTION_SIZE} from '../Buttons/index';
@@ -10,13 +10,15 @@ class CaptionComponent extends Component {
     const Caption = this.props.caption ? this.props.caption : '';
     if (Caption != '')
       return (
-        <SafeAreaView style={[styles.captionContainer, {position: 'relative'}]}>
-          <SafeAreaView
+        <View>
+          <View
             style={[
               styles.captionContainer,
               {
                 opacity: 0.6,
                 backgroundColor: 'black',
+                position: 'absolute',
+                bottom: 0,
               },
             ]}>
             <Text
@@ -34,8 +36,8 @@ class CaptionComponent extends Component {
               ]}>
               {this.props.caption}
             </Text>
-          </SafeAreaView>
-          <SafeAreaView style={[styles.captionContainer]}>
+          </View>
+          <View style={[styles.captionContainer]}>
             <Text
               style={[
                 styles.captionFont,
@@ -51,15 +53,11 @@ class CaptionComponent extends Component {
               ]}>
               {this.props.caption}
             </Text>
-          </SafeAreaView>
-        </SafeAreaView>
+          </View>
+        </View>
       );
     else
-      return (
-        <SafeAreaView
-          style={[styles.captionContainer, {position: 'relative'}]}
-        />
-      );
+      return <View style={[styles.captionContainer, {position: 'relative'}]} />;
   }
 }
 
