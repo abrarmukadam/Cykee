@@ -25,6 +25,7 @@ import {
   FavouriteIcon,
   NavigationCameraButton,
   CykeeColor,
+  TAB_BAR_COLOR,
 } from './components/SubComponents/Buttons/index';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -59,6 +60,8 @@ function GalleryTab(navigation) {
       tabBarOptions={{
         activeTintColor: CykeeColor,
         inactiveTintColor: 'gray',
+        activeBackgroundColor: TAB_BAR_COLOR,
+        inactiveBackgroundColor: TAB_BAR_COLOR,
       }}>
       <Tab.Screen
         name="GridViewScreen"
@@ -174,7 +177,7 @@ function CameraStack(navigation) {
         options={{
           title: 'Gallery',
           headerShown: true,
-
+          headerStyle: {backgroundColor: TAB_BAR_COLOR},
           gestureEnabled: true,
           gestureDirection: 'vertical',
           cardStyleInterpolator:

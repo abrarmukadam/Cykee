@@ -29,6 +29,7 @@ import {CaptionComponent} from '../../index';
 import {
   GlobalIconColor,
   GlobalIconSize,
+  TEXT_BUTTON_COLOR,
   GalleryIconColor,
 } from '../../SubComponents/Buttons/index';
 import {
@@ -72,7 +73,10 @@ class GalleryScreen extends Component {
       this.setState({photoArray: temp});
       console.log('did update');
     }
-    if (prevProps.photoArray[0] == this.props.photoArray[1]) {
+    if (
+      prevProps.photoArray[0] == this.props.photoArray[1] &&
+      this.props.photoArray[0]
+    ) {
       console.log('ADDED TO CYKEE GALLERY');
       ToastAndroid.show('Added to Cykee Gallery !', ToastAndroid.SHORT);
     }
@@ -182,6 +186,7 @@ class GalleryScreen extends Component {
               CameraRoll.deletePhotos([
                 this.state.photoArray[index].source.uri,
               ]).then(() => {
+                console.log('File delete success-CAMERA ROLL');
                 this.props.navigation.navigate('GalleryTab');
               });
             else {
@@ -197,9 +202,12 @@ class GalleryScreen extends Component {
               let newToBeDisplayed = [...this.props.route.params.toBeDisplayed];
               newToBeDisplayed.splice(this.state.index, 1);
               console.log('photo deleted');
+              console.log(this.state.photoArray[index].source.uri);
               CameraRoll.deletePhotos([
                 this.state.photoArray[index].source.uri,
               ]).then(() => {
+                console.log('File delete success-CYKEE');
+
                 // this.props.navigation.push('GalleryScreen', {
                 //   index: this.state.index ? this.state.index - 1 : 0,
                 //   toBeDisplayed: newToBeDisplayed,
@@ -348,7 +356,7 @@ class GalleryScreen extends Component {
             onPress={() => this.setState({showCapion: !this.state.showCapion})}
             style={{
               // paddingTop: 10,
-              borderWidth: 0.01,
+              // borderWidth: 0.01,
               justifyContent: 'space-between',
               flexDirection: 'column',
               flex: 1,
@@ -464,7 +472,7 @@ class GalleryScreen extends Component {
                 type="ionicon"
                 name="md-arrow-back"
                 size={GlobalIconSize}
-                color={'silver'}
+                color={TEXT_BUTTON_COLOR}
               />
             </TouchableOpacity>
             {/* <TouchableOpacity

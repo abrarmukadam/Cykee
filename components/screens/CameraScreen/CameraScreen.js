@@ -28,6 +28,7 @@ import {
   AspectRatio,
   GalleryIcon,
   CykeeColor,
+  TAB_BAR_COLOR,
   MoreIcon,
 } from './../../SubComponents/Buttons/index';
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -74,12 +75,12 @@ class CameraScreen extends PureComponent {
   }
   async componentDidMount() {
     // hideNavigationBar();
-    // try {
-    //   const response = await changeNavigationBarColor('transparent');
-    //   console.log(response); // {success: true}
-    // } catch (e) {
-    //   console.log(e); // {success: false}
-    // }
+    try {
+      const response = await changeNavigationBarColor(TAB_BAR_COLOR);
+      console.log(response); // {success: true}
+    } catch (e) {
+      console.log(e); // {success: false}
+    }
 
     console.log('CAMERASCREEN componentDidMount');
     PermissionsAndroid.requestMultiple([

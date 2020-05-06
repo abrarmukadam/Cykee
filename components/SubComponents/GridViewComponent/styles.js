@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-
+import {BACKGROUND_COLOR, SEARCH_BAR_COLOR} from '../Buttons/index';
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('screen');
 
 export default StyleSheet.create({
@@ -8,6 +8,7 @@ export default StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     marginHorizontal: 2,
+    backgroundColor: BACKGROUND_COLOR,
   },
   backGroundBackButtonStyle: {
     // backgroundColor: 'red',
@@ -49,7 +50,7 @@ export default StyleSheet.create({
   },
   gridContainer: {height: '100%', width: '100%'},
   searchContainer: {
-    backgroundColor: 'white',
+    backgroundColor: SEARCH_BAR_COLOR,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',

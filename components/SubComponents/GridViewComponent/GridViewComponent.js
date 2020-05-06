@@ -22,6 +22,8 @@ import {
   MoreIcon,
   GRID_CAPTION_SIZE,
   CAPTION_FONT,
+  TEXT_BUTTON_COLOR,
+  BACKGROUND_COLOR,
 } from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 // import Icon from 'react-native-vector-icons/Ionicons';
@@ -61,6 +63,7 @@ class GridViewComponent extends PureComponent {
       filteredList: this.props.receivedArray,
       refreshing: false,
     });
+
     // try {
     //   const response = await changeNavigationBarColor('white');
     //   console.log(response); // {success: true}
@@ -78,6 +81,9 @@ class GridViewComponent extends PureComponent {
       prevProps.receivedArray != this.props.receivedArray ||
       prevProps.photoArray != this.props.photoArray
     ) {
+      if (prevProps.receivedArray != this.props.receivedArray)
+        console.log('receivedArray not same');
+
       console.log('updating data');
       filteredList = this.props.receivedArray.filter(List => {
         return (
@@ -185,7 +191,11 @@ class GridViewComponent extends PureComponent {
                 onPress={() => this.setState({longPressStatus: false})}
                 title="Cancel"
                 type="clear"
-                buttonStyle={{width: 100, height: 40}}
+                titleStyle={{color: TEXT_BUTTON_COLOR}}
+                buttonStyle={{
+                  width: 100,
+                  height: 40,
+                }}
               />
             </TouchableOpacity>
           </View>
@@ -309,6 +319,8 @@ class GridViewComponent extends PureComponent {
 
   singlePressItem = index => {
     if (this.state.longPressStatus == false) {
+      this.props.photo_selected();
+
       this.props.onPressCard(index, this.state.filteredList);
     } else if (this.state.longPressStatus == true) {
       let tempList = [...this.state.filteredList];
@@ -341,7 +353,6 @@ class GridViewComponent extends PureComponent {
         key={this.state.filteredList.indexOf(item)}
         disabled={this.props.galleryReducer.status.isLoading}
         onPress={() => {
-          this.props.photo_selected();
           this.singlePressItem(index);
         }}
         onLongPress={() => {
@@ -397,7 +408,7 @@ class GridViewComponent extends PureComponent {
               }}>
               <FavouriteIcon
                 iconSize={20}
-                iconColor="white"
+                iconColor={BACKGROUND_COLOR}
                 fav_status={item.fav_status}
               />
             </TouchableOpacity>

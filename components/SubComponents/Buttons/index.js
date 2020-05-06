@@ -45,19 +45,48 @@ export {
   FontButton,
   EditScreenButton,
 };
+
 //Global constants
-const GlobalIconColor = 'white';
 const GlobalIconSize = 30;
 const GlobalMediumIconSize = 40;
 const GlobalLargeIconSize = 80;
+export {GlobalMediumIconSize, GlobalIconSize, GlobalLargeIconSize};
+//Colors
 // const GalleryIconColor = '#444444';
+
+const GlobalIconColor = 'white';
 const GalleryIconColor = 'gray';
-// const CykeeColor = '#c0ff02';
+
 const CykeeColor = '#c0ff02';
+
+// const TAB_BAR_COLOR = '#F9F9ED'; //Ivory
+const TAB_BAR_COLOR = 'white'; //Ivory
+// const BACKGROUND_COLOR = '#FEFEF4'; //Ivory lighter version
+// const BACKGROUND_COLOR = '#FEFEF4'; //Ivory lighter version
+const BACKGROUND_COLOR = '#FeFeFa'; //Ivory lighter version
+const SIDE_ICON_COLOR = '#606060ff';
+// const SIDE_ICON_COLOR = '#606060ff';
 const EDIT_ICON_COLOR = '#D6ED17FF';
+const SEARCH_BAR_COLOR = '#FeFeFa';
+
 const FONT_ICON_COLOR = 'silver';
 const FONT_ICON_OPACITY = 0.7;
-const SIDE_ICON_COLOR = '#606060ff';
+
+const TEXT_BUTTON_COLOR = '#AC92A6'; //LILAC LUSTER
+
+export {
+  GalleryIconColor,
+  GlobalIconColor,
+  CykeeColor,
+  TAB_BAR_COLOR,
+  EDIT_ICON_COLOR,
+  FONT_ICON_COLOR,
+  FONT_ICON_OPACITY,
+  SIDE_ICON_COLOR,
+  TEXT_BUTTON_COLOR,
+  BACKGROUND_COLOR,
+  SEARCH_BAR_COLOR,
+};
 
 const CAPTION_SIZE = [18, 25, 35];
 const GRID_CAPTION_SIZE = [10, 12, 14];
@@ -76,20 +105,4 @@ const flashIconName = [
   'flashlight',
   'flash-auto',
 ];
-
-export {
-  GlobalIconColor,
-  GlobalMediumIconSize,
-  GlobalIconSize,
-  GlobalLargeIconSize,
-  flashIconName,
-  GalleryIconColor,
-  CykeeColor,
-  CAPTION_SIZE,
-  GRID_CAPTION_SIZE,
-  CAPTION_FONT,
-  EDIT_ICON_COLOR,
-  FONT_ICON_COLOR,
-  FONT_ICON_OPACITY,
-  SIDE_ICON_COLOR,
-};
+export {flashIconName, CAPTION_SIZE, GRID_CAPTION_SIZE, CAPTION_FONT};

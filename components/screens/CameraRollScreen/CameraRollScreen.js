@@ -8,6 +8,7 @@ class CameraRollScreen extends Component {
   state = {toBeDisplayed: [], page_info: {}};
 
   componentDidMount() {
+    console.log('mounting camera roll screen');
     this.focusListener = this.props.navigation.addListener('focus', () => {
       this.reloadPhotos();
     });
@@ -50,7 +51,28 @@ class CameraRollScreen extends Component {
   reloadPhotos = () => {
     console.log('reloaded');
     // this.setState({toBeDisplayed: 0, page_info: {}});
-    this.componentDidMount();
+
+    CameraRoll.getPhotos({
+      first: 50,
+      assetType: 'Photos',
+      // after: 0,
+      Album: 'Camera',
+    })
+      .then(r => {
+        let temp = [];
+        r.edges.map((p, i) => {
+          p.node.image.source = p.node.image.uri;
+          p.node.image.caption = '';
+          return (temp = [...temp, p.node.image]);
+        });
+        this.setState({
+          page_info: r.page_info,
+          toBeDisplayed: temp,
+        });
+      })
+      .catch(err => {
+        //Error Loading Images
+      });
   };
   _handleLoadMore = () => {
     CameraRoll.getPhotos({

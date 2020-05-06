@@ -2,6 +2,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('screen');
 
+import {TAB_BAR_COLOR} from '../../SubComponents/Buttons/index';
 export default StyleSheet.create({
   container: {
     // flex: 1,
@@ -28,7 +29,8 @@ export default StyleSheet.create({
     width: '100%',
   },
   bottomSubContainer: {
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
+    backgroundColor: TAB_BAR_COLOR,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

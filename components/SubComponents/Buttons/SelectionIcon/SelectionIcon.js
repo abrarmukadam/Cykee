@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
-import {GlobalIconSize, GalleryIconColor} from '../index';
+import {
+  GlobalIconSize,
+  GalleryIconColor,
+  TEXT_BUTTON_COLOR,
+  CykeeColor,
+} from '../index';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 class SelectionIcon extends Component {
@@ -14,7 +19,7 @@ class SelectionIcon extends Component {
             : 'ios-radio-button-off'
         }
         size={this.props.iconSize ? this.props.iconSize : GlobalIconSize}
-        color={this.props.selectedStatus ? 'dodgerblue' : 'white'}
+        color={this.props.selectedStatus ? CykeeColor : 'white'}
       />
     );
   }
