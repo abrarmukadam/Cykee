@@ -1,6 +1,19 @@
-import {ADD_PHOTO, FAV_PHOTO, DELETE_PHOTO} from '../Actions/actionTypes';
+import {
+  ADD_PHOTO,
+  FAV_PHOTO,
+  DELETE_PHOTO,
+  SELECT_PHOTO,
+  PHOTO_LOADED,
+} from '../Actions/actionTypes';
 
-const defaultState = {photoArray: []};
+const defaultState = {
+  photoArray: [],
+  status: {
+    isLoading: false,
+    isLoaded: false,
+    isFailed: false,
+  },
+};
 
 export default function galleryReducer(state = defaultState, action) {
   switch (action.type) {
@@ -20,6 +33,26 @@ export default function galleryReducer(state = defaultState, action) {
       return {
         ...state,
         photoArray: [...action.payload.updatedPhotoArray],
+      };
+    }
+    case SELECT_PHOTO: {
+      return {
+        ...state,
+        status: {
+          isLoading: true,
+          isLoaded: false,
+          isFailed: false,
+        },
+      };
+    }
+    case PHOTO_LOADED: {
+      return {
+        ...state,
+        status: {
+          isLoading: false,
+          isLoaded: true,
+          isFailed: false,
+        },
       };
     }
     default:

@@ -85,6 +85,10 @@ class GalleryScreen extends Component {
     //     headerShown: this.state.optionsAvailable ? true : false,
     //   });
   }
+  componentWillUnmount() {
+    console.log('UNMOUNT');
+    this.props.photo_loaded();
+  }
   componentDidMount() {
     console.log('did mount');
     let temp = [];
@@ -100,6 +104,7 @@ class GalleryScreen extends Component {
       temp = [...temp, newItem];
     });
     this.setState({photoArray: temp, showCapion: !this.props.hideCaption});
+
     // this.props.navigation.setOptions({
     // headerTransparent: true,
     // headerStyle: {

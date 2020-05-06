@@ -19,6 +19,9 @@ const mapDispatchToProps = dispatch => {
         Actions.galleryActions.deletePhotoFromList(newPhotoArray),
       );
     },
+    photo_loaded: () => {
+      return dispatch(Actions.galleryActions.photo_loaded());
+    },
   };
 };
 

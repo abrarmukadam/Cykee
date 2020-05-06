@@ -1,4 +1,10 @@
-import {ADD_PHOTO, FAV_PHOTO, DELETE_PHOTO} from './actionTypes';
+import {
+  ADD_PHOTO,
+  FAV_PHOTO,
+  DELETE_PHOTO,
+  SELECT_PHOTO,
+  PHOTO_LOADED,
+} from './actionTypes';
 
 export function addPhotoToList(newPhoto) {
   return {
@@ -19,7 +25,7 @@ export function deletePhotoFromList(newPhotoArray) {
 export function favPhoto(photoArray, photo_uri) {
   console.log('favPhoto run');
 
-  photoArray.map((photo) => {
+  photoArray.map(photo => {
     if (photo.uri == photo_uri) {
       // console.log(photo.fav_status);
       photo.fav_status = !photo.fav_status;
@@ -32,5 +38,17 @@ export function favPhoto(photoArray, photo_uri) {
     payload: {
       updatedPhotoArray: photoArray,
     },
+  };
+}
+export function photo_selected() {
+  console.log('photo_selected run');
+  return {
+    type: SELECT_PHOTO,
+  };
+}
+export function photo_loaded() {
+  console.log('photo_loaded run');
+  return {
+    type: PHOTO_LOADED,
   };
 }

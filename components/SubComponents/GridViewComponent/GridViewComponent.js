@@ -67,6 +67,7 @@ class GridViewComponent extends PureComponent {
     // } catch (e) {
     //   console.log(e); // {success: false}
     // }
+    this.props.photo_loaded();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -309,7 +310,6 @@ class GridViewComponent extends PureComponent {
   singlePressItem = index => {
     if (this.state.longPressStatus == false) {
       this.props.onPressCard(index, this.state.filteredList);
-      this.setState({pressed: false});
     } else if (this.state.longPressStatus == true) {
       let tempList = [...this.state.filteredList];
       tempList[index].selectedStatus = !tempList[index].selectedStatus;
@@ -322,7 +322,6 @@ class GridViewComponent extends PureComponent {
         filteredList: tempList,
         selectedArray: [...this.state.selectedArray, tempList[index]],
         selectedArrayLength: count,
-        pressed: false,
       });
     }
   };
@@ -330,7 +329,7 @@ class GridViewComponent extends PureComponent {
   renderItem = (item, itemSize) => {
     let index = this.state.filteredList.indexOf(item);
     return (
-      <View
+      <TouchableOpacity
         style={[
           styles.cardStyle,
           {
@@ -339,27 +338,23 @@ class GridViewComponent extends PureComponent {
             height: this.props.gridSize == 'CameraRoll' ? 100 : 200,
           },
         ]}
-        key={this.state.filteredList.indexOf(item)}>
-        <TouchableOpacity
-          disabled={this.state.pressed}
-          key={item.id}
-          style={{flex: 1, activeOpacity: 0}}
-          onPress={() => {
-            if (!this.state.pressed) {
-              this.setState({pressed: true});
-              this.singlePressItem(index);
-            }
-          }}
-          onLongPress={() => {
-            this.longPressItem(index);
-            console.log('longPress accepted');
-          }}>
+        key={this.state.filteredList.indexOf(item)}
+        disabled={this.props.galleryReducer.status.isLoading}
+        onPress={() => {
+          this.props.photo_selected();
+          this.singlePressItem(index);
+        }}
+        onLongPress={() => {
+          this.longPressItem(index);
+          console.log('longPress accepted');
+        }}>
+        <View style={{flex: 1, activeOpacity: 0}}>
           <Image
             // resizeMode={FastImage.resizeMode.cover}
             style={{flex: 1, borderRadius: 5, resizeMode: 'cover'}}
             source={{uri: item.uri}}
           />
-        </TouchableOpacity>
+        </View>
 
         {item.caption != '' && this.props.hideCaption == false && (
           <View style={styles.captionContainer}>
@@ -407,7 +402,7 @@ class GridViewComponent extends PureComponent {
               />
             </TouchableOpacity>
           )}
-      </View>
+      </TouchableOpacity>
     );
   };
 }

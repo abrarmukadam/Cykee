@@ -6,6 +6,7 @@ const mapPropsToState = state => {
   return {
     photoArray: state.galleryReducer.photoArray,
     hideCaption: state.settingReducer.hideCaption,
+    galleryReducer: state.galleryReducer,
   };
 };
 
@@ -18,6 +19,12 @@ const mapDispatchToProps = dispatch => {
       return dispatch(
         Actions.galleryActions.deletePhotoFromList(newPhotoArray),
       );
+    },
+    photo_selected: () => {
+      return dispatch(Actions.galleryActions.photo_selected());
+    },
+    photo_loaded: () => {
+      return dispatch(Actions.galleryActions.photo_loaded());
     },
   };
 };
