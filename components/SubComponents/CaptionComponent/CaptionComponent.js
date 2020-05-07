@@ -10,12 +10,13 @@ class CaptionComponent extends Component {
     const Caption = this.props.caption ? this.props.caption : '';
     if (Caption != '')
       return (
-        <View>
+        <View syle={{opacity: 0.1}}>
           <View
             style={[
               styles.captionContainer,
               {
                 opacity: 0.6,
+
                 backgroundColor: 'black',
                 position: 'absolute',
                 bottom: 0,

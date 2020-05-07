@@ -32,8 +32,13 @@ import {PersistGate} from 'redux-persist/integration/react';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Icon} from 'react-native-elements';
-import {Button} from 'react-native';
-import {TouchableOpacity, View, Dimensions} from 'react-native';
+import {
+  TouchableOpacity,
+  View,
+  Dimensions,
+  Animated,
+  Easing,
+} from 'react-native';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -101,6 +106,44 @@ function GalleryTab(navigation) {
     </Tab.Navigator>
   );
 }
+const expandingTransition_config = {
+  animation: 'timing',
+  config: {
+    duration: 250, // These are optional, so feel free to modify them as you see fit.
+    easing: Easing.inOut(Easing.ease),
+    timing: Animated.timing,
+  },
+};
+const expandingTransition = ({current, next, index, closing, layouts}) => {
+  const opacity = Animated.add(
+    current.progress,
+    next ? next.progress : 0,
+  ).interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1],
+  });
+  const height = Animated.add(
+    current.progress,
+    next ? next.progress : 0,
+  ).interpolate({
+    inputRange: [0, 1],
+    outputRange: [layouts.screen.height, 0],
+  });
+  const width = Animated.add(
+    current.progress,
+    next ? next.progress : 0,
+  ).interpolate({
+    inputRange: [0, 1],
+    outputRange: [-layouts.screen.width, 0],
+  });
+
+  return {
+    cardStyle: {
+      transform: [{translateX: width, translateY: height}],
+      opacity: opacity,
+    },
+  };
+};
 
 function CameraStack(navigation) {
   return (
@@ -112,6 +155,7 @@ function CameraStack(navigation) {
           drawBehind: true,
           visible: false,
         },
+        // cardStyleInterpolator: forFade,
 
         headerTintColor: 'red',
       }}
@@ -139,8 +183,9 @@ function CameraStack(navigation) {
             borderRadius: 0,
           },
           // animationEnabled: false,
-          cardStyleInterpolator:
-            CardStyleInterpolators.forFadeFromBottomAndroid,
+          // cardStyleInterpolator:
+          //   CardStyleInterpolators.forFadeFromBottomAndroid,
+          // cardStyleInterpolator: forFade,
         }}
       />
       <Stack.Screen
@@ -167,6 +212,7 @@ function CameraStack(navigation) {
           // ),
           headerShown: false,
           gestureEnabled: false,
+
           // gestureDirection: 'vertical',
           cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
         })}
@@ -180,8 +226,14 @@ function CameraStack(navigation) {
           headerStyle: {backgroundColor: TAB_BAR_COLOR},
           gestureEnabled: true,
           gestureDirection: 'vertical',
-          cardStyleInterpolator:
-            CardStyleInterpolators.forRevealFromBottomAndroid,
+          transitionSpec: {
+            open: expandingTransition_config,
+            close: expandingTransition_config,
+          },
+          cardStyleInterpolator: expandingTransition,
+
+          // cardStyleInterpolator:
+          //   CardStyleInterpolators.forRevealFromBottomAndroid,
           headerRight: () => (
             <View>
               <HideCaption />
@@ -203,6 +255,7 @@ function CameraStack(navigation) {
           },
           gestureEnabled: false,
           // gestureDirection: 'vertical',
+          // cardStyleInterpolator: forFade,
           cardStyleInterpolator:
             CardStyleInterpolators.forFadeFromBottomAndroid,
         }}

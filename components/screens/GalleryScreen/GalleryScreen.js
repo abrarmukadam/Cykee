@@ -23,7 +23,7 @@ import Gallery from 'react-native-image-gallery';
 import GallerySwiper from 'react-native-gallery-swiper';
 
 import FastImage from 'react-native-fast-image';
-import GestureRecognizer from 'react-native-swipe-gestures';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 import {CaptionComponent} from '../../index';
 import {
@@ -231,6 +231,7 @@ class GalleryScreen extends Component {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80,
     };
+
     // let ImageRatio = 3;
     // if (this.state.photoArray[0]) {
     //   ImageRatio =
@@ -254,49 +255,6 @@ class GalleryScreen extends Component {
         {/* <StatusBar backgroundColor={'transparent'} translucent /> */}
         {/* <StatusBar hidden={!this.state.optionsAvailable} /> */}
         {this.state.photoArray[0] && (
-          // <GallerySwiper
-          //   style={{
-          //     // flex: 1,
-          //     height: '100%',
-          //     width: '100%',
-          //     backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
-          //   }}
-          //   // resizeMode={ImageRatio >= 2 ? 'stretch' : 'contain'}
-          //   resizeMode={
-          //     this.state.photoArray[this.state.index].height /
-          //       this.state.photoArray[this.state.index].width >=
-          //     SCREEN_RATIO
-          //       ? 'stretch'
-          //       : 'contain'
-          //   }
-          //   // resizeMode={'contain'}
-          //   images={this.state.photoArray}
-          //   initialPage={this.state.index}
-          //   flatListProps={{
-          //     initialNumToRender: this.state.index,
-          //     initialScrollIndex: this.state.index,
-          //     getItemLayout: (data, index) => ({
-          //       length: Dimensions.get('screen').width,
-          //       offset: Dimensions.get('screen').width * index,
-          //       index,
-          //     }),
-          //   }}
-          //   initialNumToRender={4}
-          //   // sensitiveScroll={false}
-          //   // resistantStrHorizontal={500}
-          //   // resistantStrVertical={500}
-          //   onSingleTapConfirmed={() =>
-          //     this.setState({
-          //       optionsAvailable: !this.state.optionsAvailable,
-          //     })
-          //   }
-          //   onPageSelected={index => this.setState({index: index})}
-          //   // pageMargin={5}
-          //   onSwipeUpReleased={() =>
-          //     this.onPressShare(this.state.photoArray[this.state.index])
-          //   }
-          //   onSwipeDownReleased={() => this.props.navigation.navigate('Home')}
-          // />
           <View
             style={{
               // flex: 1,
@@ -306,7 +264,85 @@ class GalleryScreen extends Component {
               bottom: 0,
               backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
             }}>
-            <Gallery
+            <GallerySwiper
+              style={{
+                // flex: 1,
+                height: '100%',
+                width: '100%',
+              }}
+              // resizeMode={ImageRatio >= 2 ? 'stretch' : 'contain'}
+              resizeMode={
+                this.state.photoArray[this.state.index].height /
+                  this.state.photoArray[this.state.index].width >
+                SCREEN_RATIO
+                  ? 'stretch'
+                  : 'contain'
+              }
+              errorComponent={() => (
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    style={{
+                      flex: 1,
+                      resizeMode: 'center',
+                    }}
+                    source={require('../../Images/no-image.png')}
+                  />
+                </View>
+              )}
+              // resizeMode={'contain'}
+              images={this.state.photoArray}
+              initialPage={this.state.index}
+              flatListProps={{
+                initialNumToRender: this.state.index,
+                initialScrollIndex: this.state.index,
+                getItemLayout: (data, index) => ({
+                  length: Dimensions.get('screen').width,
+                  offset: Dimensions.get('screen').width * index,
+                  index,
+                }),
+              }}
+              initialNumToRender={4}
+              // sensitiveScroll={false}
+              onSingleTapConfirmed={() =>
+                this.setState({
+                  optionsAvailable: !this.state.optionsAvailable,
+                })
+              }
+              onPageSelected={index => this.setState({index: index})}
+              // pageMargin={5}
+              // onSwipeUpReleased={() =>
+              //   this.onPressShare(this.state.photoArray[this.state.index])
+              // }
+              onSwipeDownReleased={
+                () => console.log('swipe down and release')
+                // this.props.navigation.navigate('Home')
+              }
+              onTransformGestureReleased={(transform, index) => {
+                if (transform.translateX > 0)
+                  console.log('translateX:', transform.translateX);
+                if (transform.translateY > 0)
+                  console.log('translateY:', transform.translateY);
+              }}
+              onViewTransformed={(transform, index) => {
+                if (transform.translateX > 0)
+                  console.log(
+                    'onViewTransformed translateX:',
+                    transform.translateX,
+                  );
+                if (transform.translateY > 0)
+                  console.log(
+                    'onViewTransformed translateY:',
+                    transform.translateY,
+                  );
+              }}
+            />
+
+            {/* <Gallery
               ImageResizeMode={
                 this.state.photoArray[this.state.index].height /
                   this.state.photoArray[this.state.index].width >
@@ -347,7 +383,18 @@ class GalleryScreen extends Component {
                 })
               }
               onPageSelected={index => this.setState({index: index})}
-            />
+            /> */}
+            {/* <GestureRecognizer
+              onSwipe={(direction, state) => console.log('gesture detected')}
+              onSwipeUp={state => console.log('gesture onSwipeUp')}
+              onSwipeDown={state => console.log('gesture onSwipeDown')}
+              config={config}
+              style={{
+                flex: 1,
+                position: 'absolute',
+                bottom: 0,
+              }}
+            /> */}
           </View>
         )}
 
