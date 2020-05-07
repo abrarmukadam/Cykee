@@ -9,6 +9,13 @@ class GridViewScreen extends PureComponent {
     };
   }
   componentDidMount() {
+    this.screenLoadListener = this.props.navigation.addListener(
+      'tabPress',
+      e => {
+        this.props.screen_mounted('GridViewScreen');
+      },
+    );
+
     this.setState({
       filteredList: this.props.photoArray,
     });
@@ -40,6 +47,8 @@ class GridViewScreen extends PureComponent {
       prevState.searchFilter != this.state.searchFilter ||
       prevProps.photoArray != this.props.photoArray
     ) {
+      this.props.screen_mounted('GridViewScreen');
+
       filteredList = this.props.photoArray.filter(List => {
         return (
           List.caption
@@ -51,6 +60,13 @@ class GridViewScreen extends PureComponent {
         filteredList: filteredList,
       });
     }
+  }
+  componenDidUnmount() {
+    console.log('un-mount');
+    this.props.screen_mounted('');
+
+    this.screenLoadListener.remove();
+    // this.blurListener.remove();
   }
 
   onPressCard = (index, photoArray) => {

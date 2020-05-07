@@ -5,6 +5,7 @@ import {Actions} from '../../../Actions/index';
 const mapPropsToState = state => {
   return {
     hideCaption: state.settingReducer.hideCaption,
+    screenMounted: state.galleryReducer.screenMounted,
   };
 };
 

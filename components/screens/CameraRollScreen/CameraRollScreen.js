@@ -8,6 +8,13 @@ class CameraRollScreen extends Component {
   state = {toBeDisplayed: [], page_info: {}};
 
   componentDidMount() {
+    this.screenLoadListener = this.props.navigation.addListener(
+      'tabPress',
+      e => {
+        this.props.screen_mounted('CameraRollScreen');
+      },
+    );
+
     console.log('mounting camera roll screen');
     this.focusListener = this.props.navigation.addListener('focus', () => {
       this.reloadPhotos();
@@ -36,7 +43,11 @@ class CameraRollScreen extends Component {
       });
   }
   componenDidUnmount() {
+    console.log('un-mount');
+    this.props.screen_mounted('');
+
     this.focusListener.remove();
+    this.screenLoadListener.remove();
   }
   onPressCard = (index, photoArray) => {
     this.props.navigation.push('GalleryScreen', {
@@ -49,6 +60,8 @@ class CameraRollScreen extends Component {
     this.props.navigation.navigate('Home');
   };
   reloadPhotos = () => {
+    this.props.screen_mounted('CameraRollScreen');
+
     console.log('reloaded');
     // this.setState({toBeDisplayed: 0, page_info: {}});
 

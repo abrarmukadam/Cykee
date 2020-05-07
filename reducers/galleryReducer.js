@@ -4,6 +4,7 @@ import {
   DELETE_PHOTO,
   SELECT_PHOTO,
   PHOTO_LOADED,
+  SCREEN_MOUNTED,
 } from '../Actions/actionTypes';
 
 const defaultState = {
@@ -13,6 +14,7 @@ const defaultState = {
     isLoaded: false,
     isFailed: false,
   },
+  screenMounted: '',
 };
 
 export default function galleryReducer(state = defaultState, action) {
@@ -53,6 +55,12 @@ export default function galleryReducer(state = defaultState, action) {
           isLoaded: true,
           isFailed: false,
         },
+      };
+    }
+    case SCREEN_MOUNTED: {
+      return {
+        ...state,
+        screenMounted: action.payload.screenMounted,
       };
     }
     default:

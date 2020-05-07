@@ -318,10 +318,7 @@ class GalleryScreen extends Component {
               // onSwipeUpReleased={() =>
               //   this.onPressShare(this.state.photoArray[this.state.index])
               // }
-              onSwipeDownReleased={
-                () => console.log('swipe down and release')
-                // this.props.navigation.navigate('Home')
-              }
+              onSwipeDownReleased={() => this.props.navigation.goBack()}
               onTransformGestureReleased={(transform, index) => {
                 if (transform.translateX > 0)
                   console.log('translateX:', transform.translateX);

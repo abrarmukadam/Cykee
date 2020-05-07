@@ -12,3 +12,4 @@ export const HIDE_CAPTION = 'HIDE_CAPTION';
 
 export const SELECT_PHOTO = 'SELECT_PHOTO';
 export const PHOTO_LOADED = 'PHOTO_LOADED';
+export const SCREEN_MOUNTED = 'SCREEN_MOUNTED';

@@ -1,5 +1,6 @@
 import {connect} from 'react-redux';
 import FavoriteScreen from './FavoriteScreen';
+import {Actions} from '../../../Actions/index';
 
 const mapPropsToState = state => {
   return {
@@ -8,7 +9,11 @@ const mapPropsToState = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    screen_mounted: screenMounted => {
+      return dispatch(Actions.galleryActions.screen_mounted(screenMounted));
+    },
+  };
 };
 
 export default connect(

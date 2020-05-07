@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {Button} from 'react-native-elements';
 import {CykeeColor, TEXT_BUTTON_COLOR} from '../Buttons/index';
 
@@ -9,6 +9,12 @@ class HideCaption extends Component {
   }
   state = {};
   render() {
+    console.log('screenMounted:', this.props.screenMounted);
+    console.log('screenMounted:', this.props.screenMounted);
+    console.log('screenMounted:', this.props.screenMounted);
+    console.log('screenMounted:', this.props.screenMounted);
+    console.log('screenMounted:', this.props.screenMounted);
+    if (this.props.screenMounted == 'CameraRollScreen') return <View />;
     return (
       <Button
         title={this.props.hideCaption ? 'Show Caption' : 'Hide Caption'}

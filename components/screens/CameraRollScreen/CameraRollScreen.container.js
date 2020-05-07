@@ -1,5 +1,6 @@
 import {connect} from 'react-redux';
 import CameraRollScreen from './CameraRollScreen';
+import {Actions} from '../../../Actions/index';
 
 const mapPropsToState = state => {
   return {
@@ -8,7 +9,11 @@ const mapPropsToState = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    screen_mounted: screenMounted => {
+      return dispatch(Actions.galleryActions.screen_mounted(screenMounted));
+    },
+  };
 };
 
 export default connect(

@@ -18,7 +18,7 @@ import {default as GalleryScreen} from './components/screens/GalleryScreen/Galle
 import {default as GridViewScreen} from './components/screens/GridViewScreen/GridViewScreen.container';
 import {default as EditScreen} from './components/screens/EditScreen/EditScreen.container';
 import {default as FavoriteScreen} from './components/screens/FavoriteScreen/FavoriteScreen.container';
-import {default as CameraRollScreen} from './components/screens/CameraRollScreen/CameraRollScreen';
+import {default as CameraRollScreen} from './components/screens/CameraRollScreen/CameraRollScreen.container';
 import {default as HideCaption} from './components/SubComponents/HideCaption/HideCaption.container';
 import EmptyScreen from './components/screens/EmptyScreen/EmptyScreen';
 import {
@@ -35,6 +35,7 @@ import {Icon} from 'react-native-elements';
 import {
   TouchableOpacity,
   View,
+  Text,
   Dimensions,
   Animated,
   Easing,
@@ -198,18 +199,6 @@ function CameraStack(navigation) {
             drawBehind: true,
             visible: false,
           },
-          // headerRight: () => (
-          //   <TouchableOpacity
-          //     onPress={() => navigation.push('GalleryTab')}
-          //     style={{
-          //       flex: 4,
-          //       paddingRight: 10,
-          //       justifyContent: 'center',
-          //       alignItems: 'center',
-          //     }}>
-          //     <GalleryIcon iconColor="black" />
-          //   </TouchableOpacity>
-          // ),
           headerShown: false,
           gestureEnabled: false,
 
@@ -220,7 +209,7 @@ function CameraStack(navigation) {
       <Stack.Screen
         name="GalleryTab"
         component={GalleryTab}
-        options={{
+        options={({navigation, route}) => ({
           title: 'Gallery',
           headerShown: true,
           headerStyle: {backgroundColor: TAB_BAR_COLOR},
@@ -239,7 +228,7 @@ function CameraStack(navigation) {
               <HideCaption />
             </View>
           ),
-        }}
+        })}
       />
 
       <Stack.Screen

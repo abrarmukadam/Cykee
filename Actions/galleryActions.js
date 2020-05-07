@@ -4,6 +4,7 @@ import {
   DELETE_PHOTO,
   SELECT_PHOTO,
   PHOTO_LOADED,
+  SCREEN_MOUNTED,
 } from './actionTypes';
 
 export function addPhotoToList(newPhoto) {
@@ -50,5 +51,14 @@ export function photo_loaded() {
   console.log('photo_loaded run');
   return {
     type: PHOTO_LOADED,
+  };
+}
+export function screen_mounted(screenMounted) {
+  console.log('screen_mounted run');
+  return {
+    type: SCREEN_MOUNTED,
+    payload: {
+      screenMounted: screenMounted,
+    },
   };
 }

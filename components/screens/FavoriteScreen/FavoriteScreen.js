@@ -8,6 +8,12 @@ class FavoriteScreen extends Component {
     toBeDisplayed: [],
   };
   componentDidMount() {
+    this.screenLoadListener = this.props.navigation.addListener(
+      'tabPress',
+      e => {
+        this.props.screen_mounted('FavoriteScreen');
+      },
+    );
     const filteredList = this.props.photoArray.filter(List => {
       return List.fav_status == true;
     });
@@ -18,11 +24,19 @@ class FavoriteScreen extends Component {
       prevState.searchFilter != this.state.searchFilter ||
       prevProps.photoArray != this.props.photoArray
     ) {
+      this.props.screen_mounted('FavoriteScreen');
+
       const filteredList = this.props.photoArray.filter(List => {
         return List.fav_status == true;
       });
       this.setState({toBeDisplayed: filteredList});
     }
+  }
+  componenDidUnmount() {
+    console.log('un-mount');
+    this.props.screen_mounted('');
+
+    this.screenLoadListener.remove();
   }
 
   onPressCard = (index, photoArray) => {
