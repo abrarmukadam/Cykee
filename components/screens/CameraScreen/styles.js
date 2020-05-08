@@ -6,8 +6,7 @@ const BORDERWIDTH = 0;
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
+    ...StyleSheet.absoluteFill,
     backgroundColor: 'black',
   },
   preview: {

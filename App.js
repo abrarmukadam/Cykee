@@ -26,6 +26,7 @@ import {
   NavigationCameraButton,
   CykeeColor,
   TAB_BAR_COLOR,
+  HEADER_TITLE_COLOR,
 } from './components/SubComponents/Buttons/index';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -213,6 +214,7 @@ function CameraStack(navigation) {
           title: 'Gallery',
           headerShown: true,
           headerStyle: {backgroundColor: TAB_BAR_COLOR},
+          headerTitleStyle: {fontSize: 24, color: HEADER_TITLE_COLOR},
           gestureEnabled: true,
           gestureDirection: 'vertical',
           transitionSpec: {
@@ -242,6 +244,8 @@ function CameraStack(navigation) {
             elevation: 100,
             borderRadius: 0,
           },
+          headerTitleStyle: {fontSize: 24},
+
           gestureEnabled: false,
           // gestureDirection: 'vertical',
           // cardStyleInterpolator: forFade,

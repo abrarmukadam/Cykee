@@ -21,6 +21,19 @@ import SplashScreen from 'react-native-splash-screen';
 import {hideNavigationBar} from 'react-native-navigation-bar-color';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import {
+  BallIndicator,
+  BarIndicator,
+  DotIndicator,
+  MaterialIndicator,
+  PacmanIndicator,
+  PulseIndicator,
+  SkypeIndicator,
+  UIActivityIndicator,
+  WaveIndicator,
+} from 'react-native-indicators';
+import {BlurView} from '@react-native-community/blur';
+
+import {
   TakePicture,
   FlashMode,
   CameraType,
@@ -30,17 +43,31 @@ import {
   CykeeColor,
   TAB_BAR_COLOR,
   MoreIcon,
+  BACKGROUND_COLOR,
 } from './../../SubComponents/Buttons/index';
 import GestureRecognizer from 'react-native-swipe-gestures';
 const PendingView = () => (
   <View
     style={{
+      flex: 1,
+      // backgroundColor: {BACKGROUND_COLOR},
       backgroundColor: 'black',
       justifyContent: 'center',
       alignItems: 'center',
     }}>
-    <ActivityIndicator />
+    <StatusBar backgroundColor={'transparent'} translucent />
+
+    {/* <UIActivityIndicator color={'#0000'} /> */}
+    <UIActivityIndicator color={CykeeColor} />
   </View>
+);
+const BlurLoadingView = () => (
+  <BlurView
+    style={StyleSheet.absoluteFill}
+    blurType="light"
+    blurAmount={30}
+    reducedTransparencyFallbackColor={CykeeColor}
+  />
 );
 class CameraScreen extends PureComponent {
   constructor(props) {
@@ -67,14 +94,29 @@ class CameraScreen extends PureComponent {
   };
   componentDidUpdate() {
     if (this.state.remountCamera) {
+      console.log('CameraScreen-didUpdate-remountCamera');
       setTimeout(() => {
         this.setState({remountCamera: false});
         SplashScreen.hide();
       }, 10);
     }
+    if (this.state.showLoadingScreen) {
+      console.log('CameraScreen-didUpdate-showLoadingScreen');
+      setTimeout(() => {
+        console.log('timer running');
+        this.setState({showLoadingScreen: false});
+      }, 50);
+    }
+    if (this.state.showBlurScreen) {
+      console.log('CameraScreen-didUpdate-showBlurScreen');
+      setTimeout(() => {
+        this.setState({showBlurScreen: false});
+      }, 600);
+    }
   }
   async componentDidMount() {
     // hideNavigationBar();
+    console.log('CameraScreen componentDidMount');
     try {
       const response = await changeNavigationBarColor(TAB_BAR_COLOR);
       console.log(response); // {success: true}
@@ -82,7 +124,6 @@ class CameraScreen extends PureComponent {
       console.log(e); // {success: false}
     }
 
-    console.log('CAMERASCREEN componentDidMount');
     PermissionsAndroid.requestMultiple([
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       PermissionsAndroid.PERMISSIONS.CAMERA,
@@ -114,6 +155,7 @@ class CameraScreen extends PureComponent {
     );
 
     SplashScreen.hide();
+    this.setState({showLoadingScreen: false, showBlurScreen: false});
   }
   volumeEvent = event => {
     if (this.state.volume >= event.volume) this.takePicture();
@@ -122,6 +164,8 @@ class CameraScreen extends PureComponent {
   };
 
   componenDidUnmount() {
+    console.log('CameraScreen componenDidUnmount');
+
     // remove event listener
     this.volEvent.remove();
   }
@@ -232,7 +276,10 @@ class CameraScreen extends PureComponent {
   };
 
   render() {
-    console.log('Camera Screen Rendered');
+    if (this.state.showLoadingScreen) return <PendingView />;
+    // if (this.state.showLoadingScreen) return <BlurLoadingView />;
+
+    console.log('CameraScreen render');
     const drawFocusRingPosition = {
       top: this.state.autoFocusPoint.drawRectPosition.y - 32,
       left: this.state.autoFocusPoint.drawRectPosition.x - 32,
@@ -241,7 +288,6 @@ class CameraScreen extends PureComponent {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80,
     };
-
     return (
       <GestureRecognizer
         // onSwipe={(direction, state) => this.onSwipe(direction, state)}
@@ -249,9 +295,7 @@ class CameraScreen extends PureComponent {
         onSwipeDown={() => BackHandler.exitApp()}
         onSwipeRight={() => this.onPressGalleryIcon()}
         config={config}
-        style={{
-          flex: 1,
-        }}>
+        style={StyleSheet.absoluteFill}>
         <View style={styles.container}>
           {/* <StatusBar hidden={true} barStyle="light-content" /> */}
           {/* <StatusBar translucent /> */}
@@ -282,8 +326,7 @@ class CameraScreen extends PureComponent {
             {({camera, status, recordAudioPermissionStatus}) => {
               if (status !== 'READY') {
                 console.log('NOT READY');
-
-                return <PendingView />;
+                return <BlurLoadingView />;
               }
               return (
                 <View style={StyleSheet.absoluteFill}>
@@ -323,11 +366,15 @@ class CameraScreen extends PureComponent {
                         />
                         <AspectRatio
                           aspectIcon={this.props.aspectRatio}
-                          onPressAspectRatio={() =>
+                          onPressAspectRatio={() => {
+                            this.setState({
+                              // showBlurScreen: true,
+                              showLoadingScreen: true,
+                            });
                             this.props.changeAspectRatio(
                               !this.props.aspectRatio,
-                            )
-                          }
+                            );
+                          }}
                         />
                         {/* <TouchableOpacity
                         onPress={() => this.onPressGallery()}
@@ -360,12 +407,14 @@ class CameraScreen extends PureComponent {
               onTakeVideo={() => this.takeVideo()}
             />
             <CameraType
-              onPressCameraType={() =>
-                this.props.changeCameraType(!this.props.cameraType)
-              }
+              onPressCameraType={() => {
+                this.setState({showBlurScreen: true});
+                this.props.changeCameraType(!this.props.cameraType);
+              }}
             />
           </View>
         </View>
+        {this.state.showBlurScreen && <BlurLoadingView />}
       </GestureRecognizer>
     );
   }

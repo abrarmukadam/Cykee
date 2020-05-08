@@ -73,7 +73,7 @@ const FONT_ICON_COLOR = 'silver';
 const FONT_ICON_OPACITY = 0.7;
 
 const TEXT_BUTTON_COLOR = '#AC92A6'; //LILAC LUSTER
-
+const HEADER_TITLE_COLOR = 'black';
 export {
   GalleryIconColor,
   GlobalIconColor,
@@ -86,6 +86,7 @@ export {
   TEXT_BUTTON_COLOR,
   BACKGROUND_COLOR,
   SEARCH_BAR_COLOR,
+  HEADER_TITLE_COLOR,
 };
 
 const CAPTION_SIZE = [18, 25, 35];
