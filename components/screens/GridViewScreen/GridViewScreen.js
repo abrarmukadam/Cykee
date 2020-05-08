@@ -9,6 +9,8 @@ class GridViewScreen extends PureComponent {
     };
   }
   componentDidMount() {
+    this.props.screen_mounted('GridViewScreen');
+
     this.screenLoadListener = this.props.navigation.addListener(
       'tabPress',
       e => {

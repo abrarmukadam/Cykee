@@ -8,6 +8,8 @@ class FavoriteScreen extends Component {
     toBeDisplayed: [],
   };
   componentDidMount() {
+    this.props.screen_mounted('FavoriteScreen');
+
     this.screenLoadListener = this.props.navigation.addListener(
       'tabPress',
       e => {

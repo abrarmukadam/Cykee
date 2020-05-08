@@ -81,8 +81,14 @@ class GridViewComponent extends PureComponent {
       prevProps.receivedArray != this.props.receivedArray ||
       prevProps.photoArray != this.props.photoArray
     ) {
-      if (prevProps.receivedArray != this.props.receivedArray)
+      if (this.props.gridSize == 'CameraRoll') {
+        this.setState({
+          selectedArray: 0,
+          selectedArrayLength: 0,
+          longPressStatus: false,
+        });
         console.log('receivedArray not same');
+      }
 
       console.log('updating data');
       filteredList = this.props.receivedArray.filter(List => {
@@ -345,11 +351,11 @@ class GridViewComponent extends PureComponent {
         style={[
           styles.cardStyle,
           {
-            activeOpacity: 0,
             marginRight: 2,
             height: this.props.gridSize == 'CameraRoll' ? 100 : 200,
           },
         ]}
+        activeOpacity={0.8}
         key={this.state.filteredList.indexOf(item)}
         disabled={this.props.galleryReducer.status.isLoading}
         onPress={() => {

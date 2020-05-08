@@ -214,7 +214,7 @@ function CameraStack(navigation) {
           title: 'Gallery',
           headerShown: true,
           headerStyle: {backgroundColor: TAB_BAR_COLOR},
-          headerTitleStyle: {fontSize: 24, color: HEADER_TITLE_COLOR},
+          headerTitleStyle: {fontSize: 28, color: HEADER_TITLE_COLOR},
           gestureEnabled: true,
           gestureDirection: 'vertical',
           transitionSpec: {
