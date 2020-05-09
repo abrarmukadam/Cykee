@@ -209,6 +209,7 @@ class CameraScreen extends PureComponent {
           newPhoto.caption = '';
           newPhoto.captionStyle = {captionSize: 0, captionFont: 0};
           newPhoto.uri = galleryUri + newPhoto.fileName;
+          newPhoto.creationDate = d;
           // newPhoto.uri = uri;
           console.log('Photo saved in gallery from CameraScreen:', newPhoto);
           this.props.addNewPhoto(newPhoto);

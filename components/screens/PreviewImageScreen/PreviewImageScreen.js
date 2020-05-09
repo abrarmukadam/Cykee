@@ -74,6 +74,7 @@ class PreviewImageScreen extends Component {
     newPhoto.width = data.width;
     newPhoto.fileName = newName;
     newPhoto.caption = this.state.text;
+    newPhoto.creationDate = d;
     newPhoto.captionStyle = {
       captionSize: this.state.captionSize,
       captionFont: this.state.captionFont,

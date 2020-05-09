@@ -270,6 +270,7 @@ class EditScreen extends Component {
     newPhoto.width = this.state.photo.width;
     newPhoto.caption = this.state.text;
     newPhoto.fav_status = this.state.orignal_photo.fav_status;
+    newPhoto.creationDate = this.state.orignal_photo.creationDate;
     newPhoto.captionStyle = {
       captionSize: this.state.captionSize,
       captionFont: this.state.captionFont,
@@ -315,8 +316,10 @@ class EditScreen extends Component {
           let updatedPhotoArray = [...this.props.photoArray];
           updatedPhotoArray[index] = newPhoto;
           this.props.replacePhotoFromList(updatedPhotoArray);
-        } else this.props.addNewPhoto(newPhoto); //add to photoArray if Creating duplicate
-
+        } else {
+          newPhoto.creationDate = d;
+          this.props.addNewPhoto(newPhoto); //add to photoArray if Creating duplicate
+        }
         this.props.navigation.navigate('GalleryTab');
       });
     });
