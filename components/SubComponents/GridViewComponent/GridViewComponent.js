@@ -335,13 +335,18 @@ class GridViewComponent extends PureComponent {
       let tempList = [...this.state.filteredList];
       tempList[index].selectedStatus = !tempList[index].selectedStatus;
       let count = 0;
+      let tempSelectedArray = [];
       tempList.map(item => {
-        if (item.selectedStatus == true) count = count + 1;
+        if (item.selectedStatus == true) {
+          count = count + 1;
+          tempSelectedArray = [...tempSelectedArray, item];
+        }
       });
 
       this.setState({
         filteredList: tempList,
-        selectedArray: [...this.state.selectedArray, tempList[index]],
+        // selectedArray: [...this.state.selectedArray, tempList[]],
+        selectedArray: tempSelectedArray,
         selectedArrayLength: count,
       });
     }
