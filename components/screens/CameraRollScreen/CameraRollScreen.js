@@ -69,7 +69,7 @@ class CameraRollScreen extends Component {
       first: 50,
       assetType: 'Photos',
       // after: 0,
-      Album: 'Camera',
+      // groupName: 'Camera',
     })
       .then(r => {
         let temp = [];

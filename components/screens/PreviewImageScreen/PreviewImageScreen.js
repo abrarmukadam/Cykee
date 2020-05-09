@@ -59,40 +59,42 @@ class PreviewImageScreen extends Component {
   savePhoto = data => {
     this.setState({saveInProgress: true});
     let newPhoto = {};
-    const temp = data.uri.split('/');
-    console.log('Photo saved in gallery');
 
     const d = new Date();
     const newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
+
+    const temp = data.uri.split('/');
     let nameToChange = temp[temp.length - 1];
+    let currentAlbumName = temp[temp.length - 2];
     let renamedURI = data.uri.replace(nameToChange, newName);
-    RNFS.copyFile(data.uri, renamedURI).then(() => {
-      CameraRoll.save(renamedURI, {
-        // CameraRoll.save(this.state.photo.uri, {
+    let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+    let tempGalleryUri = 'file:///storage/emulated/0/Pictures/' + newName;
+    let destinationUri = '';
+    newPhoto.height = data.height;
+    newPhoto.width = data.width;
+    newPhoto.fileName = newName;
+    newPhoto.caption = this.state.text;
+    newPhoto.captionStyle = {
+      captionSize: this.state.captionSize,
+      captionFont: this.state.captionFont,
+    };
+    newPhoto.uri = galleryUri + newPhoto.fileName;
+
+    if (currentAlbumName == 'Cykee') {
+      console.log('Photo already in Cykee Gallery');
+      destinationUri = tempGalleryUri;
+    } else {
+      console.log('Photo in other gallery');
+      destinationUri = renamedURI;
+    }
+    RNFS.copyFile(data.uri, destinationUri).then(() => {
+      CameraRoll.save(destinationUri, {
         type: 'photo',
         album: 'Cykee',
       }).then(uri => {
-        console.log('uri:', uri);
-        let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
-
-        newPhoto.height = data.height;
-        newPhoto.width = data.width;
-        newPhoto.fileName = newName;
-        newPhoto.caption = this.state.text;
-        newPhoto.captionStyle = {
-          captionSize: this.state.captionSize,
-          captionFont: this.state.captionFont,
-        };
-
-        newPhoto.uri = galleryUri + newPhoto.fileName;
-        // newPhoto.uri = uri;
-        console.log('Photo saved in gallery:', newPhoto);
         this.props.addNewPhoto(newPhoto);
-        // this.props.navigation.navigate('Home');
+        if (currentAlbumName == 'Cykee') RNFS.unlink(tempGalleryUri);
         this.props.navigation.goBack();
-        console.log('height', newPhoto.height);
-        console.log('width', newPhoto.width);
-        console.log(newPhoto.height / newPhoto.width);
       });
     });
   };
@@ -112,9 +114,7 @@ class PreviewImageScreen extends Component {
     } else ImageRatio = 1;
 
     return (
-      // <SafeAreaView style={StyleSheet.absoluteFill}>
       <GestureRecognizer
-        // onSwipe={(direction, state) => this.onSwipe(direction, state)}
         onSwipeDown={() => this.onSwipeDown()}
         config={config}
         style={{
@@ -138,14 +138,6 @@ class PreviewImageScreen extends Component {
               // style={styles.image}
             />
           </TouchableWithoutFeedback>
-          {/* <Image source={{uri: abx}} style={styles.image} /> */}
-          {/* <Icon
-          name="ios-close"
-          size={GlobalIconSize}
-          color={GlobalIconColor}
-          style={styles.crossButtonStyle}
-          onPress={() => this.props.navigation.navigate('Home')}
-        /> */}
 
           <View style={styles.bottomContainer}>
             <View style={{flexDirection: 'row'}}>
@@ -234,7 +226,6 @@ class PreviewImageScreen extends Component {
           </View>
         </KeyboardAvoidingView>
       </GestureRecognizer>
-      // </SafeAreaView>
     );
   }
 }

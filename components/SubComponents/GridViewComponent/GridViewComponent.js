@@ -128,6 +128,7 @@ class GridViewComponent extends PureComponent {
 
   onPressDelete = () => {
     console.log('Delete Pressed');
+    console.log(this.state.selectedArray);
     const deletHeader = 'Delete Photo ?';
     const deletMessage = 'Do you wish to Delete the selected Photo?';
     Alert.alert(
@@ -149,17 +150,19 @@ class GridViewComponent extends PureComponent {
               deleteItems = [...deleteItems, item.uri];
             });
             CameraRoll.deletePhotos(deleteItems);
-            let updatedPhotoArray = [...this.props.photoArray];
+            if (this.props.gridSize != 'CameraRoll') {
+              let updatedPhotoArray = [...this.props.photoArray];
 
-            this.state.selectedArray.map(item => {
-              let deleteIndex = updatedPhotoArray.indexOf(
-                item, //item to be deleted should match the item in photoArray Props
-              );
-              updatedPhotoArray.splice(deleteIndex, 1);
-            });
+              this.state.selectedArray.map(item => {
+                let deleteIndex = updatedPhotoArray.indexOf(
+                  item, //item to be deleted should match the item in photoArray Props
+                );
+                updatedPhotoArray.splice(deleteIndex, 1);
+              });
 
-            console.log('updatedPhotoArray:', updatedPhotoArray);
-            this.props.deletePhotoFromList(updatedPhotoArray);
+              console.log('updatedPhotoArray:', updatedPhotoArray);
+              this.props.deletePhotoFromList(updatedPhotoArray);
+            }
             this.setState({longPressStatus: false});
             console.log('photo deleted');
           },
@@ -326,7 +329,7 @@ class GridViewComponent extends PureComponent {
   singlePressItem = index => {
     if (this.state.longPressStatus == false) {
       this.props.photo_selected();
-
+      console.log('card Pressed:', this.state.filteredList[index].uri);
       this.props.onPressCard(index, this.state.filteredList);
     } else if (this.state.longPressStatus == true) {
       let tempList = [...this.state.filteredList];

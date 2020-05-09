@@ -193,18 +193,15 @@ class CameraScreen extends PureComponent {
     else {
       let newPhoto = {};
       const temp = data.uri.split('/');
-      console.log('Photo saved in gallery');
       const d = new Date();
       const newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
       let nameToChange = temp[temp.length - 1];
       let renamedURI = data.uri.replace(nameToChange, newName);
       RNFS.copyFile(data.uri, renamedURI).then(() => {
         CameraRoll.save(renamedURI, {
-          // CameraRoll.save(data.uri, {
           type: 'photo',
           album: 'Cykee',
         }).then(uri => {
-          console.log('uri:', uri);
           newPhoto.height = data.height;
           newPhoto.width = data.width;
           let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
@@ -213,7 +210,7 @@ class CameraScreen extends PureComponent {
           newPhoto.captionStyle = {captionSize: 0, captionFont: 0};
           newPhoto.uri = galleryUri + newPhoto.fileName;
           // newPhoto.uri = uri;
-          console.log('Photo saved in gallery:', newPhoto);
+          console.log('Photo saved in gallery from CameraScreen:', newPhoto);
           this.props.addNewPhoto(newPhoto);
         });
       });
@@ -276,10 +273,9 @@ class CameraScreen extends PureComponent {
   };
 
   render() {
-    if (this.state.showLoadingScreen) return <PendingView />;
-    // if (this.state.showLoadingScreen) return <BlurLoadingView />;
-
     console.log('CameraScreen render');
+    if (this.state.showLoadingScreen) return <PendingView />;
+
     const drawFocusRingPosition = {
       top: this.state.autoFocusPoint.drawRectPosition.y - 32,
       left: this.state.autoFocusPoint.drawRectPosition.x - 32,
@@ -290,17 +286,15 @@ class CameraScreen extends PureComponent {
     };
     return (
       <GestureRecognizer
-        // onSwipe={(direction, state) => this.onSwipe(direction, state)}
-        onSwipeUp={() => this.props.navigation.navigate('GalleryTab')}
+        onSwipeRight={() => this.props.navigation.navigate('GalleryTab')}
         onSwipeDown={() => BackHandler.exitApp()}
-        onSwipeRight={() => this.onPressGalleryIcon()}
+        onSwipeUp={() => this.onPressGalleryIcon()}
         config={config}
         style={StyleSheet.absoluteFill}>
         <View style={styles.container}>
           {/* <StatusBar hidden={true} barStyle="light-content" /> */}
           {/* <StatusBar translucent /> */}
           <StatusBar backgroundColor={'transparent'} translucent />
-          {/* {!this.state.remountCamera && ( */}
           <RNCamera
             ref={ref => (this.camera = ref)}
             style={{
@@ -368,7 +362,6 @@ class CameraScreen extends PureComponent {
                           aspectIcon={this.props.aspectRatio}
                           onPressAspectRatio={() => {
                             this.setState({
-                              // showBlurScreen: true,
                               showLoadingScreen: true,
                             });
                             this.props.changeAspectRatio(
@@ -376,11 +369,6 @@ class CameraScreen extends PureComponent {
                             );
                           }}
                         />
-                        {/* <TouchableOpacity
-                        onPress={() => this.onPressGallery()}
-                        style={{marginTop: 10}}>
-                        <GalleryIcon iconColor="white" />
-                      </TouchableOpacity> */}
                       </View>
                     )}
                   </View>
@@ -388,7 +376,6 @@ class CameraScreen extends PureComponent {
               );
             }}
           </RNCamera>
-          {/* )} */}
           <View style={styles.bottomContainer}>
             <GalleryButton
               photo_uri1={

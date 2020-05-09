@@ -30,10 +30,11 @@ export default StyleSheet.create({
 
   crossButtonStyle: {
     position: 'absolute',
-    top: 20,
+    top: 18,
     left: 20,
     elevation: ELEVATION,
     borderWidth: BORDERWIDTH,
+    alignItems: 'center',
   },
 
   saveButtonStyle: {

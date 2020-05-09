@@ -103,7 +103,8 @@ class EditScreen extends Component {
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
+        fontSize: 24,
       },
       headerLeft: () => (
         <Icon
@@ -274,15 +275,13 @@ class EditScreen extends Component {
       captionFont: this.state.captionFont,
     };
 
-    let oldTemp = this.state.orignal_photo.source.uri.split('/');
-    let oldName = oldTemp[oldTemp.length - 1];
-
-    const temp = this.state.photo.source.uri.split('/');
-    console.log('Photo saved in gallery');
+    let orignal_temp = this.state.orignal_photo.source.uri.split('/');
+    let orignalName = orignal_temp[orignal_temp.length - 1];
 
     const d = new Date();
     let newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
 
+    const temp = this.state.photo.source.uri.split('/');
     let nameToChange = temp[temp.length - 1];
 
     let renamedURI = this.state.photo.source.uri.replace(nameToChange, newName);
@@ -295,7 +294,7 @@ class EditScreen extends Component {
               () => {
                 CameraRoll.deletePhotos([renamedURI]);
                 renamedURI = this.state.orignal_photo.source.uri;
-                newName = oldName;
+                newName = orignalName;
               },
             );
           },
