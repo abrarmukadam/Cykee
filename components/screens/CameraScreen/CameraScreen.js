@@ -32,6 +32,7 @@ import {
   WaveIndicator,
 } from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
+import moment from 'moment';
 
 import {
   TakePicture,
@@ -209,7 +210,12 @@ class CameraScreen extends PureComponent {
           newPhoto.caption = '';
           newPhoto.captionStyle = {captionSize: 0, captionFont: 0};
           newPhoto.uri = galleryUri + newPhoto.fileName;
-          newPhoto.creationDate = d;
+          // console.log('d:', d);
+          newPhoto.creationDate = [
+            moment().format('MMM DD, YYYY'),
+            moment().format('HH:mm:ss'),
+          ];
+          // newPhoto.creationDate = moment().format();
           // newPhoto.uri = uri;
           console.log('Photo saved in gallery from CameraScreen:', newPhoto);
           this.props.addNewPhoto(newPhoto);
@@ -274,6 +280,15 @@ class CameraScreen extends PureComponent {
   };
 
   render() {
+    // const d_t = new Date();
+    // const d_t_full = `${d_t.getFullYear()}${d_t.getMonth()}${d_t.getDate()}${d_t.getHours()}${d_t.getMinutes()}${d_t.getSeconds()}${d_t.getMilliseconds()}`;
+    // console.log(d_t);
+    // console.log(d_t_full);
+    // // let date_time2 = new Date();
+    // let date_time2 = d_t.getFullYear();
+    // console.log('date_time2:', date_time2);
+    // let date_time = '2020-05-09T19:34:30.094Z';
+    // let a = date_time.getFullYear();
     console.log('CameraScreen render');
     if (this.state.showLoadingScreen) return <PendingView />;
 

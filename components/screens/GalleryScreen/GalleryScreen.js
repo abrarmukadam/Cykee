@@ -66,6 +66,7 @@ class GalleryScreen extends Component {
           fav_status: item.fav_status,
           caption: item.caption,
           captionStyle: item.captionStyle,
+          creationDate: item.creationDate || [' ', ' '],
         };
         temp = [...temp, newItem];
         // item.dimension={{item.height,item.width}}
@@ -104,6 +105,7 @@ class GalleryScreen extends Component {
         fav_status: item.fav_status,
         caption: item.caption,
         captionStyle: item.captionStyle,
+        creationDate: item.creationDate || [' ', ' '],
       };
       temp = [...temp, newItem];
     });
@@ -227,6 +229,12 @@ class GalleryScreen extends Component {
   };
 
   render() {
+    if (this.state.photoArray[this.state.index]) {
+      console.log(
+        'date:',
+        this.state.photoArray[this.state.index].creationDate,
+      );
+    }
     const config = {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80,
@@ -243,7 +251,6 @@ class GalleryScreen extends Component {
     // console.log('w', WIDTH);
     // console.log('ratio', SCREEN_RATIO);
     // if (ImageRatio == SCREEN_RATIO)
-    //   console.log('TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE');
 
     return (
       <View style={styles.container}>
@@ -506,8 +513,9 @@ class GalleryScreen extends Component {
           )}
         </View>
         {this.state.optionsAvailable && (
-          <SafeAreaView style={styles.topContainer}>
+          <View style={styles.topContainer}>
             <TouchableOpacity
+              style={styles.backButtonStyle}
               onPress={() => {
                 this.props.navigation.goBack();
                 console.log('Back Pressed');
@@ -516,15 +524,32 @@ class GalleryScreen extends Component {
                 type="ionicon"
                 name="md-arrow-back"
                 size={GlobalIconSize}
-                color={TEXT_BUTTON_COLOR}
+                color={'black'}
               />
             </TouchableOpacity>
+            <View
+              style={{
+                alignSelf: 'flex-end',
+                // height: 40,
+                // width: 100,
+              }}>
+              <Text style={styles.dateStyle}>
+                {this.state.photoArray[this.state.index]
+                  ? this.state.photoArray[this.state.index].creationDate[0]
+                  : ' '}
+              </Text>
+              <Text style={styles.timeStyle}>
+                {this.state.photoArray[this.state.index]
+                  ? this.state.photoArray[this.state.index].creationDate[1]
+                  : ' '}
+              </Text>
+            </View>
             {/* <TouchableOpacity
               onPress={() => this.onPressGallery()}
               style={[styles.IconContainer, {flex: 0}]}>
               <GalleryIcon />
             </TouchableOpacity> */}
-          </SafeAreaView>
+          </View>
         )}
       </View>
     );

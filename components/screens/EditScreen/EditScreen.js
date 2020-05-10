@@ -16,7 +16,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageRotate from 'react-native-image-rotate';
 import FastImage from 'react-native-fast-image';
-
+import moment from 'moment';
 var RNFS = require('react-native-fs');
 
 const CykeeColor = EDIT_ICON_COLOR;
@@ -317,7 +317,10 @@ class EditScreen extends Component {
           updatedPhotoArray[index] = newPhoto;
           this.props.replacePhotoFromList(updatedPhotoArray);
         } else {
-          newPhoto.creationDate = d;
+          newPhoto.creationDate = [
+            moment().format('MMM DD, YYYY'),
+            moment().format('HH:mm:ss'),
+          ];
           this.props.addNewPhoto(newPhoto); //add to photoArray if Creating duplicate
         }
         this.props.navigation.navigate('GalleryTab');

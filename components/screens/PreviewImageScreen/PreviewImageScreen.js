@@ -15,7 +15,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 import FastImage from 'react-native-fast-image';
 import GestureRecognizer from 'react-native-swipe-gestures';
 var RNFS = require('react-native-fs');
-
+import moment from 'moment';
 import {
   GlobalIconColor,
   GlobalIconSize,
@@ -62,6 +62,10 @@ class PreviewImageScreen extends Component {
 
     const d = new Date();
     const newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
+    newPhoto.creationDate = [
+      moment().format('MMM DD, YYYY'),
+      moment().format('HH:mm:ss'),
+    ];
 
     const temp = data.uri.split('/');
     let nameToChange = temp[temp.length - 1];
@@ -74,7 +78,6 @@ class PreviewImageScreen extends Component {
     newPhoto.width = data.width;
     newPhoto.fileName = newName;
     newPhoto.caption = this.state.text;
-    newPhoto.creationDate = d;
     newPhoto.captionStyle = {
       captionSize: this.state.captionSize,
       captionFont: this.state.captionFont,

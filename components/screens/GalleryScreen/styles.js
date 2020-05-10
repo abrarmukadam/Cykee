@@ -10,16 +10,28 @@ export default StyleSheet.create({
     // width: '100%',
     ...StyleSheet.absoluteFillObject,
   },
-
+  backButtonStyle: {
+    // flex: 1,
+    // borderWidth: 1,
+    // alignSelf: 'flex',
+    justifyContent: 'flex-end',
+    paddingBottom: 4,
+  },
   topContainer: {
     flex: 1,
-    // height: '80%',
     position: 'absolute',
-    top: '5%',
+    top: 0,
+    height: '12%',
+    // paddingTop: '10%',
+    backgroundColor: TAB_BAR_COLOR,
+    width: '100%',
     // paddingVertical: 4,
     paddingHorizontal: 14,
     borderWidth: 0.01,
     elevation: 90,
+    justifyContent: 'space-between',
+    // alignItems: 'center',
+    flexDirection: 'row',
   },
   bottomContainer: {
     flex: 0,
@@ -75,5 +87,15 @@ export default StyleSheet.create({
     opacity: 0.6,
     width: '100%',
     borderRadius: 5,
+  },
+  dateStyle: {
+    fontWeight: '500',
+    color: 'black',
+    fontSize: 18,
+  },
+  timeStyle: {
+    fontWeight: '600',
+    color: 'grey',
+    fontSize: 14,
   },
 });
