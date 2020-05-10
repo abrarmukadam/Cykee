@@ -4,7 +4,6 @@ import * as React from 'react';
 import 'react-native-gesture-handler';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
-import {TransitionSpecs} from '@react-navigation/stack';
 import {CardStyleInterpolators} from '@react-navigation/stack';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -179,6 +178,7 @@ function CameraStack(navigation) {
         options={{
           title: 'Preview',
           headerTransparent: true,
+          headerTitleStyle: {fontSize: 24, color: 'white'},
           headerTintColor: 'white',
           headerStyle: {
             elevation: 100,
@@ -214,7 +214,7 @@ function CameraStack(navigation) {
           title: 'Gallery',
           headerShown: true,
           headerStyle: {backgroundColor: TAB_BAR_COLOR},
-          headerTitleStyle: {fontSize: 28, color: HEADER_TITLE_COLOR},
+          headerTitleStyle: {fontSize: 24, color: HEADER_TITLE_COLOR},
           gestureEnabled: true,
           gestureDirection: 'vertical',
           transitionSpec: {

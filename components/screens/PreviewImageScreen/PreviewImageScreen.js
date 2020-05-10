@@ -8,6 +8,8 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
+  PermissionsAndroid,
+  TouchableOpacity,
 } from 'react-native';
 import styles from './styles';
 import {Icon} from 'react-native-elements';
@@ -26,8 +28,10 @@ import {
   FontButton,
   FONT_ICON_COLOR,
   FONT_ICON_OPACITY,
+  GalleryIconColor,
+  TAB_BAR_COLOR,
 } from '../../SubComponents/Buttons/index';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 class PreviewImageScreen extends Component {
   constructor(props) {
@@ -41,6 +45,34 @@ class PreviewImageScreen extends Component {
     captionFont: 0,
     saveInProgress: false,
   };
+
+  componentDidMount() {
+    changeNavigationBarColor('black');
+
+    this.props.navigation.setOptions({
+      headerLeft: () => this.leftHeaderButton,
+    });
+  }
+  componentWillUnmount() {
+    if (this.props.route.params.navigatingFrom != 'CameraRoll')
+      changeNavigationBarColor('transparent');
+    else changeNavigationBarColor(TAB_BAR_COLOR);
+  }
+  leftHeaderButton = (
+    <TouchableOpacity
+      onPress={() => this.props.navigation.goBack()}
+      style={{paddingLeft: 20}}
+      // style={[styles.IconContainer, {flex: 0}]}
+    >
+      <Icon
+        type="ionicon"
+        name="md-close"
+        size={GlobalIconSize}
+        color={'white'}
+      />
+    </TouchableOpacity>
+  );
+
   captionSizePressed = () => {
     if (this.state.captionSize >= 2) this.setState({captionSize: 0});
     else this.setState({captionSize: this.state.captionSize + 1});
@@ -64,7 +96,7 @@ class PreviewImageScreen extends Component {
     const newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
     newPhoto.creationDate = [
       moment().format('MMM DD, YYYY'),
-      moment().format('HH:mm:ss'),
+      moment().format('hh:mm:ss a'),
     ];
 
     const temp = data.uri.split('/');

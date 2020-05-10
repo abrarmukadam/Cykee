@@ -24,6 +24,7 @@ import GallerySwiper from 'react-native-gallery-swiper';
 
 import FastImage from 'react-native-fast-image';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
+import {hideNavigationBar} from 'react-native-navigation-bar-color';
 
 import {CaptionComponent} from '../../index';
 import {
@@ -31,6 +32,7 @@ import {
   GlobalIconSize,
   TEXT_BUTTON_COLOR,
   GalleryIconColor,
+  TAB_BAR_COLOR,
 } from '../../SubComponents/Buttons/index';
 import {
   ShareIcon,
@@ -40,6 +42,8 @@ import {
   MoreIcon,
   GalleryIcon,
 } from '../../SubComponents/Buttons/index';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
+
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 const SCREEN_RATIO = HEIGHT / WIDTH;
 
@@ -93,8 +97,9 @@ class GalleryScreen extends Component {
   componentWillUnmount() {
     console.log('UNMOUNT');
     this.props.photo_loaded();
+    changeNavigationBarColor(TAB_BAR_COLOR);
   }
-  componentDidMount() {
+  async componentDidMount() {
     console.log('did mount');
     let temp = [];
     this.state.toBeDisplayed.map(item => {
@@ -122,6 +127,14 @@ class GalleryScreen extends Component {
     // },
     // headerRight: () => this.rightHeaderButton,
     // });
+    try {
+      const response = await changeNavigationBarColor('transparent');
+      const response1 = await changeNavigationBarColor(TAB_BAR_COLOR);
+      // const response = await changeNavigationBarColor('#0000');
+      console.log(response); // {success: true}
+    } catch (e) {
+      console.log(e); // {success: false}
+    }
   }
   rightHeaderButton = (
     <TouchableOpacity
@@ -229,6 +242,8 @@ class GalleryScreen extends Component {
   };
 
   render() {
+    // hideNavigationBar();
+
     if (this.state.photoArray[this.state.index]) {
       console.log(
         'date:',
@@ -315,11 +330,14 @@ class GalleryScreen extends Component {
               }}
               initialNumToRender={4}
               // sensitiveScroll={false}
-              onSingleTapConfirmed={() =>
+              onSingleTapConfirmed={() => {
                 this.setState({
                   optionsAvailable: !this.state.optionsAvailable,
-                })
-              }
+                });
+                changeNavigationBarColor(
+                  !this.state.optionsAvailable ? 'black' : TAB_BAR_COLOR,
+                );
+              }}
               onPageSelected={index => this.setState({index: index})}
               // pageMargin={5}
               // onSwipeUpReleased={() =>
@@ -479,6 +497,7 @@ class GalleryScreen extends Component {
                     photo.uri = photo.source.uri;
                     this.props.navigation.push('PreviewScreen', {
                       photo: photo,
+                      navigatingFrom: 'CameraRoll',
                     });
                     console.log('EDIT DONE & RETURNED');
                   }
@@ -521,9 +540,9 @@ class GalleryScreen extends Component {
                 console.log('Back Pressed');
               }}>
               <Icon
-                type="ionicon"
-                name="md-arrow-back"
-                size={GlobalIconSize}
+                type="feather"
+                name="arrow-left"
+                size={GlobalIconSize - 4}
                 color={'black'}
               />
             </TouchableOpacity>

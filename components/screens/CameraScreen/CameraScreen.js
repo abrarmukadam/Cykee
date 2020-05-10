@@ -20,17 +20,7 @@ var RNFS = require('react-native-fs');
 import SplashScreen from 'react-native-splash-screen';
 import {hideNavigationBar} from 'react-native-navigation-bar-color';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
-import {
-  BallIndicator,
-  BarIndicator,
-  DotIndicator,
-  MaterialIndicator,
-  PacmanIndicator,
-  PulseIndicator,
-  SkypeIndicator,
-  UIActivityIndicator,
-  WaveIndicator,
-} from 'react-native-indicators';
+import {UIActivityIndicator} from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
 import moment from 'moment';
 
@@ -59,7 +49,7 @@ const PendingView = () => (
     <StatusBar backgroundColor={'transparent'} translucent />
 
     {/* <UIActivityIndicator color={'#0000'} /> */}
-    <UIActivityIndicator color={CykeeColor} />
+    <UIActivityIndicator color={'#0000'} />
   </View>
 );
 const BlurLoadingView = () => (
@@ -116,28 +106,14 @@ class CameraScreen extends PureComponent {
     }
   }
   async componentDidMount() {
-    // hideNavigationBar();
     console.log('CameraScreen componentDidMount');
     try {
-      const response = await changeNavigationBarColor(TAB_BAR_COLOR);
+      const response = await changeNavigationBarColor('transparent');
+      // const response = await changeNavigationBarColor('#0000');
       console.log(response); // {success: true}
     } catch (e) {
       console.log(e); // {success: false}
     }
-
-    PermissionsAndroid.requestMultiple([
-      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      PermissionsAndroid.PERMISSIONS.CAMERA,
-      PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-    ]);
-
-    // const granted = await PermissionsAndroid.request(
-    //   PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-    //   {
-    //     title: 'AndoridPermissionExample App Camera Permission',
-    //     message: 'AndoridPermissionExample App needs access to your camera ',
-    //   },
-    // );
 
     this.camera.refreshAuthorizationStatus();
     if (this.props.cameraAspectRatio.length <= 1) {
@@ -146,14 +122,14 @@ class CameraScreen extends PureComponent {
       console.log('this.props.aspectRatio', this.props.cameraAspectRatio);
     }
 
-    this.setState({
-      volume: await VolumeControl.getVolume(),
-    });
+    // this.setState({
+    //   volume: await VolumeControl.getVolume(),
+    // });
 
-    this.volEvent = VolumeControlEvents.addListener(
-      'VolumeChanged',
-      this.volumeEvent,
-    );
+    // this.volEvent = VolumeControlEvents.addListener(
+    //   'VolumeChanged',
+    //   this.volumeEvent,
+    // );
 
     SplashScreen.hide();
     this.setState({showLoadingScreen: false, showBlurScreen: false});
@@ -168,7 +144,7 @@ class CameraScreen extends PureComponent {
     console.log('CameraScreen componenDidUnmount');
 
     // remove event listener
-    this.volEvent.remove();
+    // this.volEvent.remove();
   }
   onPressGallery = () => {
     this.props.navigation.navigate('GalleryTab');
@@ -213,7 +189,7 @@ class CameraScreen extends PureComponent {
           // console.log('d:', d);
           newPhoto.creationDate = [
             moment().format('MMM DD, YYYY'),
-            moment().format('HH:mm:ss'),
+            moment().format('hh:mm:ss a'),
           ];
           // newPhoto.creationDate = moment().format();
           // newPhoto.uri = uri;
@@ -280,6 +256,8 @@ class CameraScreen extends PureComponent {
   };
 
   render() {
+    // hideNavigationBar();
+
     // const d_t = new Date();
     // const d_t_full = `${d_t.getFullYear()}${d_t.getMonth()}${d_t.getDate()}${d_t.getHours()}${d_t.getMinutes()}${d_t.getSeconds()}${d_t.getMilliseconds()}`;
     // console.log(d_t);
@@ -290,6 +268,7 @@ class CameraScreen extends PureComponent {
     // let date_time = '2020-05-09T19:34:30.094Z';
     // let a = date_time.getFullYear();
     console.log('CameraScreen render');
+
     if (this.state.showLoadingScreen) return <PendingView />;
 
     const drawFocusRingPosition = {
@@ -331,11 +310,15 @@ class CameraScreen extends PureComponent {
             autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
             defaultOnFocusComponent={true}
             autoFocus={true}
-            // onPictureTaken={() => console.log('onPictureTaken')}
-          >
+            onPictureTaken={() =>
+              PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+              )
+            }>
             {({camera, status, recordAudioPermissionStatus}) => {
               if (status !== 'READY') {
                 console.log('NOT READY');
+
                 return <BlurLoadingView />;
               }
               return (

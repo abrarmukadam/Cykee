@@ -18,6 +18,8 @@ import ImageRotate from 'react-native-image-rotate';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 var RNFS = require('react-native-fs');
+import {hideNavigationBar} from 'react-native-navigation-bar-color';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 const CykeeColor = EDIT_ICON_COLOR;
 import {
@@ -32,6 +34,7 @@ import {
   EDIT_ICON_COLOR,
   EditScreenButton,
   FONT_ICON_OPACITY,
+  TAB_BAR_COLOR,
 } from '../../SubComponents/Buttons/index';
 
 const ICON_OPACITY = 0.6;
@@ -91,6 +94,8 @@ class EditScreen extends Component {
   };
 
   componentDidMount() {
+    changeNavigationBarColor('black');
+
     this.backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       this.backAction,
@@ -122,6 +127,8 @@ class EditScreen extends Component {
   }
 
   componentWillUnmount() {
+    changeNavigationBarColor(TAB_BAR_COLOR);
+
     this.backHandler.remove();
   }
 
@@ -319,7 +326,7 @@ class EditScreen extends Component {
         } else {
           newPhoto.creationDate = [
             moment().format('MMM DD, YYYY'),
-            moment().format('HH:mm:ss'),
+            moment().format('hh:mm:ss a'),
           ];
           this.props.addNewPhoto(newPhoto); //add to photoArray if Creating duplicate
         }

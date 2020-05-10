@@ -15,7 +15,7 @@ export default StyleSheet.create({
     // borderWidth: 1,
     // alignSelf: 'flex',
     justifyContent: 'flex-end',
-    paddingBottom: 4,
+    paddingBottom: 8,
   },
   topContainer: {
     flex: 1,
@@ -32,6 +32,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     // alignItems: 'center',
     flexDirection: 'row',
+    paddingBottom: 6,
   },
   bottomContainer: {
     flex: 0,

@@ -24,6 +24,7 @@ import {
   CAPTION_FONT,
   TEXT_BUTTON_COLOR,
   BACKGROUND_COLOR,
+  TAB_BAR_COLOR,
 } from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 // import Icon from 'react-native-vector-icons/Ionicons';
@@ -63,6 +64,13 @@ class GridViewComponent extends PureComponent {
       filteredList: this.props.receivedArray,
       refreshing: false,
     });
+    try {
+      const response = await changeNavigationBarColor(TAB_BAR_COLOR);
+      // const response = await changeNavigationBarColor('#0000');
+      console.log(response); // {success: true}
+    } catch (e) {
+      console.log(e); // {success: false}
+    }
 
     // try {
     //   const response = await changeNavigationBarColor('white');
@@ -71,6 +79,10 @@ class GridViewComponent extends PureComponent {
     //   console.log(e); // {success: false}
     // }
     this.props.photo_loaded();
+  }
+  componentWillUnmount() {
+    console.log('UNMOUNTED');
+    changeNavigationBarColor('transparent');
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -181,6 +193,7 @@ class GridViewComponent extends PureComponent {
     return (
       <View style={styles.container}>
         {/* <StatusBar hidden={true} /> */}
+        <StatusBar backgroundColor={'transparent'} translucent />
 
         {this.state.longPressStatus && (
           <View style={styles.headerStyle}>
