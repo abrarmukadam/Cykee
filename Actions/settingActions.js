@@ -5,6 +5,7 @@ import {
   ASPECT_RATIO,
   HIDE_CAPTION,
   CAMERA_ASPECT_RATIO,
+  HIDE_CAMERA_SETTINGS,
 } from './actionTypes';
 
 export function changeFlashMode(flashMode) {
@@ -59,6 +60,15 @@ export function setCameraAspectRatio(ratio) {
     type: CAMERA_ASPECT_RATIO,
     payload: {
       cameraAspectRatio: ratio,
+    },
+  };
+}
+export function hideCameraSettings(hideSettings) {
+  console.log('Change hideCameraSettings called');
+  return {
+    type: HIDE_CAMERA_SETTINGS,
+    payload: {
+      hideCameraSettingsIcons: hideSettings,
     },
   };
 }

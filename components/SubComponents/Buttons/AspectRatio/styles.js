@@ -11,11 +11,19 @@ export default StyleSheet.create({
     // right: 20,
     // alignSelf: 'center',
     // marginBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   TextStyle: {
     // fontSize: GlobalIconSize - 10,
-    fontSize: 20,
+    position: 'absolute',
+    // top: 0,
+    right: 40,
+    fontSize: 10,
     color: 'white',
+    fontWeight: '500',
+    // fontFamily: '',
+
     // color: GlobalIconColor,
   },
 });

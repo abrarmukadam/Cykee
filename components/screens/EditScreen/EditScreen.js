@@ -137,6 +137,7 @@ class EditScreen extends Component {
       this.setState({
         photo: this.state.tempPhoto,
         prevPhoto: prevState.photo,
+        nextPhoto: {},
       });
       console.log('photo changed');
     }

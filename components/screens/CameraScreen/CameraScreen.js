@@ -72,7 +72,6 @@ class CameraScreen extends PureComponent {
       orientation: 'portrait',
       fixOrientation: true,
       volume: 0,
-      showIcons: true,
     },
     focus: false,
     autoFocusPoint: {
@@ -103,6 +102,13 @@ class CameraScreen extends PureComponent {
       setTimeout(() => {
         this.setState({showBlurScreen: false});
       }, 600);
+    }
+    if (this.state.showIconName) {
+      console.log('CameraScreen-didUpdate-showIconName');
+      setTimeout(() => {
+        console.log('timer running');
+        this.setState({showIconName: false});
+      }, 3000);
     }
   }
   async componentDidMount() {
@@ -336,45 +342,51 @@ class CameraScreen extends PureComponent {
                     onPress={event => this.touchToFocus(event)}>
                     <View style={{flex: 1}} />
                   </TouchableWithoutFeedback>
-
-                  <View style={styles.CameraIconContainer}>
-                    <MoreIcon
-                      onPressMore={() =>
-                        this.setState({
-                          showIcons: !this.state.showIcons,
-                        })
-                      }
-                    />
-                    {this.state.showIcons && (
-                      <View>
-                        <FlashMode
-                          flashIcon={this.props.flashMode}
-                          onPressFlashMode={() => this.changeFlashMode()}
-                        />
-                        <TextMode
-                          textIcon={this.props.textMode}
-                          onPressTextMode={() =>
-                            this.props.changeTextMode(!this.props.textMode)
-                          }
-                        />
-                        <AspectRatio
-                          aspectIcon={this.props.aspectRatio}
-                          onPressAspectRatio={() => {
-                            this.setState({
-                              showLoadingScreen: true,
-                            });
-                            this.props.changeAspectRatio(
-                              !this.props.aspectRatio,
-                            );
-                          }}
-                        />
-                      </View>
-                    )}
-                  </View>
                 </View>
               );
             }}
           </RNCamera>
+          <View
+            style={[
+              styles.CameraIconContainer,
+              // {borderWidth: this.props.hideCameraSettingsIcons ? 0.5 : 0},
+            ]}>
+            {this.props.hideCameraSettingsIcons && (
+              <View>
+                <AspectRatio
+                  aspectIcon={this.props.aspectRatio}
+                  onPressAspectRatio={() => {
+                    this.setState({
+                      showLoadingScreen: true,
+                    });
+                    this.props.changeAspectRatio(!this.props.aspectRatio);
+                  }}
+                  showIconName={this.state.showIconName}
+                />
+                <TextMode
+                  textIcon={this.props.textMode}
+                  onPressTextMode={() =>
+                    this.props.changeTextMode(!this.props.textMode)
+                  }
+                  showIconName={this.state.showIconName}
+                />
+                <FlashMode
+                  flashIcon={this.props.flashMode}
+                  onPressFlashMode={() => this.changeFlashMode()}
+                  showIconName={this.state.showIconName}
+                />
+              </View>
+            )}
+            <MoreIcon
+              expandOptions={this.props.hideCameraSettingsIcons}
+              onPressMore={() => {
+                this.props.hideCameraSettings(
+                  !this.props.hideCameraSettingsIcons,
+                );
+                this.setState({showIconName: true});
+              }}
+            />
+          </View>
           <View style={styles.bottomContainer}>
             <GalleryButton
               photo_uri1={

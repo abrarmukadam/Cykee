@@ -1,17 +1,21 @@
 import React, {Component} from 'react';
-import {GlobalIconSize, GlobalIconColor} from '../index';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {GlobalIconSize, GlobalIconColor, CykeeColor} from '../index';
+import {Icon} from 'react-native-elements';
 
 class MoreIcon extends Component {
   state = {};
   render() {
     return (
       <Icon
-        name="ios-more"
-        size={GlobalIconSize}
-        color={GlobalIconColor}
+        name={this.props.expandOptions ? 'downcircleo' : 'upcircleo'}
+        type="antdesign"
+        size={30}
+        color={this.props.expandOptions ? 'white' : 'white'}
+        containerStyle={{paddingBottom: 15, opacity: 0.7}}
         onPress={() => this.props.onPressMore()}
-        style={{paddingVertical: 10}}
+        // reverse
+        reverseColor={'white'}
+        // raised
       />
     );
   }

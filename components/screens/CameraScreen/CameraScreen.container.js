@@ -9,6 +9,7 @@ const mapPropsToState = state => {
     textMode: state.settingReducer.textMode || 0,
     aspectRatio: state.settingReducer.aspectRatio || 0,
     cameraAspectRatio: state.settingReducer.cameraAspectRatio || [],
+    hideCameraSettingsIcons: state.settingReducer.hideCameraSettingsIcons,
     photoArray: state.galleryReducer.photoArray,
   };
 };
@@ -32,6 +33,9 @@ const mapDispatchToProps = dispatch => {
     },
     setCameraAspectRatio: ratio => {
       return dispatch(Actions.settingActions.setCameraAspectRatio(ratio));
+    },
+    hideCameraSettings: hide_status => {
+      return dispatch(Actions.settingActions.hideCameraSettings(hide_status));
     },
   };
 };

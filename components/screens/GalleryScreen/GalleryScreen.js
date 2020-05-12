@@ -255,16 +255,16 @@ class GalleryScreen extends Component {
       directionalOffsetThreshold: 80,
     };
 
-    // let ImageRatio = 3;
-    // if (this.state.photoArray[0]) {
-    //   ImageRatio =
-    //     this.state.photoArray[this.state.index].height /
-    //     this.state.photoArray[this.state.index].width;
-    // } else ImageRatio = 1;
-    // console.log(ImageRatio);
-    // console.log('h', HEIGHT);
-    // console.log('w', WIDTH);
-    // console.log('ratio', SCREEN_RATIO);
+    let ImageRatio = 3;
+    if (this.state.photoArray[0]) {
+      ImageRatio =
+        this.state.photoArray[this.state.index].height /
+        this.state.photoArray[this.state.index].width;
+    } else ImageRatio = 1;
+    console.log(ImageRatio);
+    console.log('h', HEIGHT);
+    console.log('w', WIDTH);
+    console.log('ratio', SCREEN_RATIO);
     // if (ImageRatio == SCREEN_RATIO)
 
     return (
@@ -280,7 +280,7 @@ class GalleryScreen extends Component {
           <View
             style={{
               // flex: 1,
-              height: '100%',
+              height: '101%',
               width: '100%',
               psition: 'absolute',
               bottom: 0,
@@ -292,14 +292,16 @@ class GalleryScreen extends Component {
                 height: '100%',
                 width: '100%',
               }}
-              // resizeMode={ImageRatio >= 2 ? 'stretch' : 'contain'}
-              resizeMode={
-                this.state.photoArray[this.state.index].height /
-                  this.state.photoArray[this.state.index].width >
-                SCREEN_RATIO
-                  ? 'stretch'
-                  : 'contain'
-              }
+              resizeMode={'contain'}
+              // resizeMode={
+              //   this.props.route.params.navigatingFrom == 'CameraRollScreen'
+              //     ? 'contain'
+              //     : this.state.photoArray[this.state.index].height /
+              //         this.state.photoArray[this.state.index].width >
+              //       SCREEN_RATIO
+              //     ? 'stretch'
+              //     : 'contain'
+              // }
               errorComponent={() => (
                 <View
                   style={{

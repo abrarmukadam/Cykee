@@ -27,6 +27,7 @@ import SelectionIcon from './SelectionIcon/SelectionIcon';
 import CheckCircle from './CheckCircle/CheckCircle';
 import FontButton from './FontButton/FontButton';
 import EditScreenButton from './EditScreenButton/EditScreenButton';
+import TimerButton from './TimerButton/TimerButton';
 
 //Gallery(Grid) view component
 import GridViewComponent from '../GridViewComponent/GridViewComponent';
@@ -44,6 +45,7 @@ export {
   CheckCircle,
   FontButton,
   EditScreenButton,
+  TimerButton,
 };
 
 //Global constants

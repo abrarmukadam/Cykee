@@ -9,11 +9,6 @@ class HideCaption extends Component {
   }
   state = {};
   render() {
-    console.log('screenMounted:', this.props.screenMounted);
-    console.log('screenMounted:', this.props.screenMounted);
-    console.log('screenMounted:', this.props.screenMounted);
-    console.log('screenMounted:', this.props.screenMounted);
-    console.log('screenMounted:', this.props.screenMounted);
     if (this.props.screenMounted == 'CameraRollScreen') return <View />;
     return (
       <Button

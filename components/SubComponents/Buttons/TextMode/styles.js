@@ -10,5 +10,16 @@ export default StyleSheet.create({
     // right: 20,
     // // alignSelf: 'flex-end',
     paddingVertical: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  TextStyle: {
+    position: 'absolute',
+    // top: 0,
+    right: 40,
+    fontSize: 10,
+    fontWeight: '500',
+
+    color: 'white',
   },
 });

@@ -1,4 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
+import {CykeeColor} from '../../SubComponents/Buttons';
 
 const {width: WIDTH} = Dimensions.get('window');
 const ELEVATION = 100;
@@ -34,18 +35,21 @@ export default StyleSheet.create({
   CameraIconContainer: {
     // borderWidth: 1,
     position: 'absolute',
-    bottom: '12%',
+    bottom: '16%',
     right: 0,
-    marginBottom: 40,
-    opacity: 0.8,
-    width: 60,
+    marginBottom: 44,
+    // opacity: 0.8,
+    // width: 60,
     elevation: ELEVATION,
     borderWidth: BORDERWIDTH,
     alignItems: 'center',
     marginRight: 4,
     justifyContent: 'space-around',
-    paddingVertical: 20,
+    padding: 20,
     flexDirection: 'column-reverse',
+    // borderWidth: 0.2,
+    borderColor: CykeeColor,
+    borderRadius: 50,
   },
   autoFocusBox: {
     position: 'absolute',
