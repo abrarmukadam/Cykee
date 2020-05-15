@@ -36,6 +36,8 @@ import {
   FONT_ICON_OPACITY,
   FONT_ICON_COLOR,
   TAB_BAR_COLOR,
+  EditIconsComponent,
+  FontIconsComponent,
 } from '../../SubComponents/Buttons/index';
 
 const ICON_OPACITY = 0.6;
@@ -368,103 +370,23 @@ class EditScreen extends Component {
           />
         </TouchableWithoutFeedback>
         {this.state.showIcons && (
-          <View
-            style={{
-              position: 'absolute',
-              bottom: '20%',
-              right: -10,
-              flexDirection: 'column-reverse',
-            }}>
-            {this.state.showEditOptions && (
-              <EditScreenButton
-                iconType="ionicon"
-                iconName="md-crop"
-                // topPosition={70}
-                handleOnPress={this.cropPressed}
-              />
-            )}
-            {this.state.showEditOptions && (
-              <EditScreenButton
-                iconType="material-community"
-                iconName="rotate-right"
-                // topPosition={120}
-                handleOnPress={this.rotatePressed}
-              />
-            )}
-            {this.state.showEditOptions && this.state.prevPhoto.source && (
-              <EditScreenButton
-                iconType="ionicon"
-                iconName="md-undo"
-                // topPosition={170}
-                handleOnPress={this.undoPressed}
-              />
-            )}
-            {this.state.showEditOptions && this.state.nextPhoto.source && (
-              <EditScreenButton
-                iconType="ionicon"
-                iconName="md-redo"
-                // topPosition={170}
-                handleOnPress={this.redoPressed}
-              />
-            )}
-
-            <EditScreenButton
-              iconType="entypo"
-              iconName={
-                this.state.showEditOptions
-                  ? 'chevron-small-down'
-                  : 'chevron-small-up'
-              }
-              // topPosition={20}
-              handleOnPress={() =>
-                this.setState({
-                  showEditOptions: !this.state.showEditOptions,
-                })
-              }
-            />
-          </View>
+          <EditIconsComponent
+            showEditOptions={this.state.showEditOptions}
+            cropPressed={this.cropPressed}
+            rotatePressed={this.rotatePressed}
+            undoPressed={this.undoPressed}
+            redoPressed={this.redoPressed}
+            prevPhoto={this.state.prevPhoto}
+            nextPhoto={this.state.nextPhoto}
+          />
         )}
         <KeyboardAvoidingView style={[styles.textBoxContainer]}>
           {this.state.showIcons && (
-            <View style={{flexDirection: 'row'}}>
-              {!this.state.showFontIcons && (
-                <FontButton
-                  iconType="material-community"
-                  buttonName={'format-size'}
-                  handleOnPress={this.captionSizePressed}
-                />
-              )}
-              {!this.state.showFontIcons && (
-                <FontButton
-                  iconType="material-community"
-                  buttonName={'format-font'}
-                  handleOnPress={this.captionFontPressed}
-                />
-              )}
-              <Icon
-                type={'entypo'}
-                name={
-                  this.state.showFontIcons
-                    ? 'chevron-small-right'
-                    : 'chevron-small-left'
-                }
-                size={GlobalIconSize - 10}
-                color={this.state.showFontIcons ? FONT_ICON_COLOR : '#0000'}
-                reverseColor={CykeeColor}
-                reverse
-                containerStyle={{
-                  opacity: FONT_ICON_OPACITY,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginLeft: this.state.showFontIcons ? 0 : -10,
-                }}
-                onPress={() =>
-                  this.setState({
-                    showFontIcons: !this.state.showFontIcons,
-                  })
-                }
-              />
-            </View>
+            <FontIconsComponent
+              showFontIcons={this.props.showFontIcons}
+              captionFontPressed={this.captionFontPressed}
+              captionSizePressed={this.captionSizePressed}
+            />
           )}
 
           <View
@@ -489,6 +411,7 @@ class EditScreen extends Component {
               onChangeText={text => this.setState({text})}
               autoCapitalize="none"
               padding={10}
+              onBlur={() => this.setState({showIcons: true})}
             />
           </View>
           <View style={styles.saveButtonStyle}>

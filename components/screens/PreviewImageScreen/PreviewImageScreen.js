@@ -14,6 +14,9 @@ import {
 import styles from './styles';
 import {Icon} from 'react-native-elements';
 import CameraRoll from '@react-native-community/cameraroll';
+import ImagePicker from 'react-native-image-crop-picker';
+import ImageRotate from 'react-native-image-rotate';
+
 import FastImage from 'react-native-fast-image';
 import GestureRecognizer from 'react-native-swipe-gestures';
 var RNFS = require('react-native-fs');
@@ -30,6 +33,8 @@ import {
   FONT_ICON_OPACITY,
   GalleryIconColor,
   TAB_BAR_COLOR,
+  EditIconsComponent,
+  FontIconsComponent,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
@@ -40,11 +45,15 @@ class PreviewImageScreen extends Component {
 
   state = {
     photo: this.props.route.params.photo,
+    tempPhoto: this.props.route.params.photo,
     text: '',
     captionSize: 0,
     captionFont: 0,
     saveInProgress: false,
     showIcons: true,
+    showEditOptions: true,
+    prevPhoto: {},
+    nextPhoto: {},
   };
 
   componentDidMount() {
@@ -58,6 +67,17 @@ class PreviewImageScreen extends Component {
     if (this.props.route.params.navigatingFrom != 'CameraRoll')
       changeNavigationBarColor('transparent');
     else changeNavigationBarColor(TAB_BAR_COLOR);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.tempPhoto.uri != this.state.tempPhoto.uri) {
+      this.setState({
+        photo: this.state.tempPhoto,
+        prevPhoto: prevState.photo,
+        nextPhoto: {},
+      });
+      console.log('photo changed');
+    }
   }
   leftHeaderButton = (
     <TouchableOpacity
@@ -140,6 +160,49 @@ class PreviewImageScreen extends Component {
     console.log('DOWN SWIPE');
     this.savePhoto(this.state.photo);
   };
+  undoPressed = () => {
+    this.setState({
+      nextPhoto: this.state.tempPhoto,
+      photo: this.state.prevPhoto,
+      prevPhoto: {},
+    });
+  };
+  redoPressed = () => {
+    this.setState({
+      prevPhoto: this.state.photo,
+      photo: this.state.nextPhoto,
+      nextPhoto: {},
+    });
+  };
+  rotatePressed = () => {
+    let DisplayedPhoto = {};
+    console.log(this.state.photo.uri);
+    ImageRotate.rotateImage(
+      this.state.photo.uri,
+      90,
+      uri => {
+        DisplayedPhoto.source = {uri: uri};
+        DisplayedPhoto.uri = uri;
+        DisplayedPhoto.height = this.state.photo.width;
+        DisplayedPhoto.width = this.state.photo.heightl;
+        this.setState({tempPhoto: DisplayedPhoto});
+      },
+      error => {
+        console.error(error);
+      },
+    );
+  };
+  cropPressed = () => {
+    ImagePicker.openCropper({
+      freeStyleCropEnabled: true,
+      path: this.state.photo.uri,
+    }).then(image => {
+      image.uri = image.path;
+      image.source = {uri: image.path};
+      this.setState({tempPhoto: image});
+    });
+  };
+
   render() {
     const config = {
       velocityThreshold: 0.3,
@@ -177,56 +240,31 @@ class PreviewImageScreen extends Component {
                 uri: this.state.photo.uri,
                 priority: FastImage.priority.high,
               }}
-              resizeMode={
-                ImageRatio >= 2
-                  ? FastImage.resizeMode.stretch
-                  : FastImage.resizeMode.contain
-              }
+              resizeMode={FastImage.resizeMode.contain}
               style={StyleSheet.absoluteFill}
               // style={styles.image}
             />
           </TouchableWithoutFeedback>
-
+          {this.state.showIcons && (
+            <EditIconsComponent
+              showEditOptions={this.state.showEditOptions}
+              cropPressed={this.cropPressed}
+              rotatePressed={this.rotatePressed}
+              undoPressed={this.undoPressed}
+              redoPressed={this.redoPressed}
+              prevPhoto={this.state.prevPhoto}
+              nextPhoto={this.state.nextPhoto}
+            />
+          )}
           <View style={styles.bottomContainer}>
-            <View style={{flexDirection: 'row'}}>
-              {!this.state.showFontIcons && (
-                <FontButton
-                  iconType="material-community"
-                  buttonName={'format-size'}
-                  handleOnPress={this.captionSizePressed}
-                />
-              )}
-              {!this.state.showFontIcons && (
-                <FontButton
-                  iconType="material-community"
-                  buttonName={'format-font'}
-                  handleOnPress={this.captionFontPressed}
-                />
-              )}
-              <Icon
-                type={'entypo'}
-                name={
-                  this.state.showFontIcons
-                    ? 'chevron-small-right'
-                    : 'chevron-small-left'
-                }
-                size={GlobalIconSize - 10}
-                color={this.state.showFontIcons ? FONT_ICON_COLOR : '#0000'}
-                reverseColor={CykeeColor}
-                reverse
-                containerStyle={{
-                  opacity: FONT_ICON_OPACITY,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginLeft: this.state.showFontIcons ? 0 : -10,
-                }}
-                onPress={() =>
-                  this.setState({
-                    showFontIcons: !this.state.showFontIcons,
-                  })
-                }
+            {this.state.showIcons && (
+              <FontIconsComponent
+                showFontIcons={this.props.showFontIcons}
+                captionFontPressed={this.captionFontPressed}
+                captionSizePressed={this.captionSizePressed}
               />
-            </View>
+            )}
+
             <View style={styles.textBoxContainer}>
               <TextInput
                 style={[
@@ -244,6 +282,7 @@ class PreviewImageScreen extends Component {
                 onChangeText={text => this.setState({text})}
                 autoCapitalize="none"
                 padding={10}
+                onBlur={() => this.setState({showIcons: true})}
               />
             </View>
           </View>

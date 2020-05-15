@@ -1,29 +1,65 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {View, Text} from 'react-native';
+import {EditScreenButton} from '../Buttons/index';
+import styles from './styles';
 
 class EditIconsComponent extends Component {
-  state = {};
+  state = {
+    showEditOptions: this.props.showEditOptions,
+  };
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.fontStyle}>
-          {`This is an empty app...\n start coding...`}
-        </Text>
+        {this.state.showEditOptions && (
+          <EditScreenButton
+            iconType="ionicon"
+            iconName="md-crop"
+            // topPosition={70}
+            handleOnPress={this.props.cropPressed}
+          />
+        )}
+        {this.state.showEditOptions && (
+          <EditScreenButton
+            iconType="material-community"
+            iconName="rotate-right"
+            // topPosition={120}
+            handleOnPress={this.props.rotatePressed}
+          />
+        )}
+        {this.state.showEditOptions && this.props.prevPhoto.source && (
+          <EditScreenButton
+            iconType="ionicon"
+            iconName="md-undo"
+            // topPosition={170}
+            handleOnPress={this.props.undoPressed}
+          />
+        )}
+        {this.state.showEditOptions && this.props.nextPhoto.source && (
+          <EditScreenButton
+            iconType="ionicon"
+            iconName="md-redo"
+            // topPosition={170}
+            handleOnPress={this.props.redoPressed}
+          />
+        )}
+
+        <EditScreenButton
+          iconType="entypo"
+          iconName={
+            this.state.showEditOptions
+              ? 'chevron-small-down'
+              : 'chevron-small-up'
+          }
+          // topPosition={20}
+          handleOnPress={() =>
+            this.setState({
+              showEditOptions: !this.state.showEditOptions,
+            })
+          }
+        />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  fontStyle: {
-    fontSize: 20,
-    textAlign: 'center',
-  },
-});
 
 export default EditIconsComponent;
