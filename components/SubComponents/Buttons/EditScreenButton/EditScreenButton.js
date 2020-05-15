@@ -23,7 +23,11 @@ class EditScreenButton extends Component {
         reverseColor={CykeeColor}
         containerStyle={[
           styles.sideButtonStyle,
-          {top: this.props.topPosition, opacity: FONT_ICON_OPACITY},
+          {
+            position: this.props.topPosition ? 'absolute' : 'relative',
+            top: this.props.topPosition ? this.props.topPosition : 0,
+            opacity: FONT_ICON_OPACITY,
+          },
         ]}
         onPress={() => this.props.handleOnPress()}
       />
@@ -35,7 +39,6 @@ export default EditScreenButton;
 
 const styles = StyleSheet.create({
   sideButtonStyle: {
-    position: 'absolute',
     top: 60,
     right: 20,
   },

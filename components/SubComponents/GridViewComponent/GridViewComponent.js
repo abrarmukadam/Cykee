@@ -20,6 +20,7 @@ import {
   DeleteIcon,
   CykeeColor,
   MoreIcon,
+  EditScreenButton,
   GRID_CAPTION_SIZE,
   CAPTION_FONT,
   TEXT_BUTTON_COLOR,
@@ -99,7 +100,12 @@ class GridViewComponent extends PureComponent {
           selectedArrayLength: 0,
           longPressStatus: false,
         });
-        console.log('receivedArray not same');
+        // if (prevProps.receivedArray != this.props.receivedArray)
+        //   console.log(
+        //     'receivedArray not same',
+        //     prevProps.receivedArray,
+        //     this.props.receivedArray,
+        //   );
       }
 
       console.log('updating data');
@@ -263,18 +269,34 @@ class GridViewComponent extends PureComponent {
         </View>
         {this.state.longPressStatus && (
           <View style={styles.buttonContainerStyle}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.shareIconContainer}
-              onPress={() => this.onPressShare()}>
-              <ShareIcon iconSize={24} />
-              <Text style={styles.shareIconText}>Share</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+              onPress={() => this.onPressShare()}> */}
+            <View style={{position: 'absolute', bottom: 60, right: 0}}>
+              <EditScreenButton
+                iconType="simple-line-icon"
+                iconName="share"
+                // topPosition={20}
+                handleOnPress={() => this.onPressShare()}
+              />
+            </View>
+            <View style={{position: 'absolute', bottom: 0}}>
+              <EditScreenButton
+                iconType="evilicon"
+                iconName="trash"
+                // topPosition={80}
+                handleOnPress={() => this.onPressDelete()}
+              />
+            </View>
+            {/* <ShareIcon iconSize={24} /> */}
+            {/* <Text style={styles.shareIconText}>Share</Text> */}
+            {/* </TouchableOpacity> */}
+            {/* <TouchableOpacity
               style={styles.shareIconContainer}
               onPress={() => this.onPressDelete()}>
               <DeleteIcon iconSize={30} />
               <Text style={styles.shareIconText}>Delete</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         )}
         {/* </ScrollView> */}
@@ -387,8 +409,8 @@ class GridViewComponent extends PureComponent {
           console.log('longPress accepted');
         }}>
         <View style={{flex: 1, activeOpacity: 0}}>
-          <Image
-            // resizeMode={FastImage.resizeMode.cover}
+          <FastImage
+            resizeMode={FastImage.resizeMode.cover}
             style={{flex: 1, borderRadius: 5, resizeMode: 'cover'}}
             source={{uri: item.uri}}
           />

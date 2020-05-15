@@ -44,6 +44,7 @@ class PreviewImageScreen extends Component {
     captionSize: 0,
     captionFont: 0,
     saveInProgress: false,
+    showIcons: true,
   };
 
   componentDidMount() {
@@ -159,7 +160,18 @@ class PreviewImageScreen extends Component {
         }}>
         <StatusBar hidden={false} />
         <KeyboardAvoidingView style={styles.container}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <TouchableWithoutFeedback
+            onPress={Keyboard.dismiss}
+            onPressIn={() => {
+              //   Keyboard.dismiss;
+              this.props.navigation.setOptions({
+                headerShown: !this.state.showIcons,
+              });
+
+              this.setState({
+                showIcons: !this.state.showIcons,
+              });
+            }}>
             <FastImage
               source={{
                 uri: this.state.photo.uri,
@@ -177,26 +189,6 @@ class PreviewImageScreen extends Component {
 
           <View style={styles.bottomContainer}>
             <View style={{flexDirection: 'row'}}>
-              {this.state.showFontIcons && (
-                <Icon
-                  type={'entypo'}
-                  name={'chevron-small-right'}
-                  size={GlobalIconSize - 10}
-                  color={'#0000'}
-                  reverse
-                  reverseColor={CykeeColor}
-                  containerStyle={{
-                    opacity: FONT_ICON_OPACITY,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  onPress={() =>
-                    this.setState({
-                      showFontIcons: !this.state.showFontIcons,
-                    })
-                  }
-                />
-              )}
               {!this.state.showFontIcons && (
                 <FontButton
                   iconType="material-community"
@@ -211,27 +203,29 @@ class PreviewImageScreen extends Component {
                   handleOnPress={this.captionFontPressed}
                 />
               )}
-              {!this.state.showFontIcons && (
-                <Icon
-                  type={'entypo'}
-                  name={'chevron-small-left'}
-                  size={GlobalIconSize - 10}
-                  color={'#0000'}
-                  reverseColor={CykeeColor}
-                  reverse
-                  containerStyle={{
-                    opacity: FONT_ICON_OPACITY,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginLeft: -10,
-                  }}
-                  onPress={() =>
-                    this.setState({
-                      showFontIcons: !this.state.showFontIcons,
-                    })
-                  }
-                />
-              )}
+              <Icon
+                type={'entypo'}
+                name={
+                  this.state.showFontIcons
+                    ? 'chevron-small-right'
+                    : 'chevron-small-left'
+                }
+                size={GlobalIconSize - 10}
+                color={this.state.showFontIcons ? FONT_ICON_COLOR : '#0000'}
+                reverseColor={CykeeColor}
+                reverse
+                containerStyle={{
+                  opacity: FONT_ICON_OPACITY,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginLeft: this.state.showFontIcons ? 0 : -10,
+                }}
+                onPress={() =>
+                  this.setState({
+                    showFontIcons: !this.state.showFontIcons,
+                  })
+                }
+              />
             </View>
             <View style={styles.textBoxContainer}>
               <TextInput

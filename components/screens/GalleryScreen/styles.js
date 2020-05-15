@@ -98,5 +98,6 @@ export default StyleSheet.create({
     fontWeight: '600',
     color: 'grey',
     fontSize: 14,
+    alignSelf: 'flex-end',
   },
 });

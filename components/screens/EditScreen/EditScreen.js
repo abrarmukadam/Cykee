@@ -34,6 +34,7 @@ import {
   EDIT_ICON_COLOR,
   EditScreenButton,
   FONT_ICON_OPACITY,
+  FONT_ICON_COLOR,
   TAB_BAR_COLOR,
 } from '../../SubComponents/Buttons/index';
 
@@ -56,6 +57,7 @@ class EditScreen extends Component {
     nextPhoto: {},
     showEditOptions: true,
     saveInProgress: false,
+    showIcons: true,
   };
   backAction = () => {
     const deletHeader = 'Discard changes ?';
@@ -344,7 +346,18 @@ class EditScreen extends Component {
     return (
       <View style={styles.container2} disabled behavior="height">
         {/* <StatusBar hidden={false} /> */}
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <TouchableWithoutFeedback
+          onPress={Keyboard.dismiss}
+          onPressIn={() => {
+            //   Keyboard.dismiss;
+            this.props.navigation.setOptions({
+              headerShown: !this.state.showIcons,
+            });
+
+            this.setState({
+              showIcons: !this.state.showIcons,
+            });
+          }}>
           <FastImage
             source={{
               uri: this.state.photo.source.uri,
@@ -354,108 +367,105 @@ class EditScreen extends Component {
             style={styles.image}
           />
         </TouchableWithoutFeedback>
-        <View style={{position: 'absolute', top: '10%', right: -10}}>
-          <EditScreenButton
-            iconType="ionicon"
-            iconName="ios-more"
-            topPosition={20}
-            handleOnPress={() =>
-              this.setState({
-                showEditOptions: !this.state.showEditOptions,
-              })
-            }
-          />
-          {this.state.showEditOptions && this.state.prevPhoto.source && (
-            <EditScreenButton
-              iconType="ionicon"
-              iconName="md-undo"
-              topPosition={170}
-              handleOnPress={this.undoPressed}
-            />
-          )}
-          {this.state.showEditOptions && this.state.nextPhoto.source && (
-            <EditScreenButton
-              iconType="ionicon"
-              iconName="md-redo"
-              topPosition={170}
-              handleOnPress={this.redoPressed}
-            />
-          )}
-          {this.state.showEditOptions && (
-            <EditScreenButton
-              iconType="ionicon"
-              iconName="md-crop"
-              topPosition={70}
-              handleOnPress={this.cropPressed}
-            />
-          )}
-          {this.state.showEditOptions && (
-            <EditScreenButton
-              iconType="material-community"
-              iconName="rotate-right"
-              topPosition={120}
-              handleOnPress={this.rotatePressed}
-            />
-          )}
-        </View>
-        <KeyboardAvoidingView style={[styles.textBoxContainer]}>
-          <View style={{flexDirection: 'row'}}>
-            {this.state.showFontIcons && (
-              <Icon
-                type={'entypo'}
-                name={'chevron-small-right'}
-                size={GlobalIconSize - 10}
-                color={'#0000'}
-                reverse
-                reverseColor={CykeeColor}
-                containerStyle={{
-                  opacity: FONT_ICON_OPACITY,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                onPress={() =>
-                  this.setState({
-                    showFontIcons: !this.state.showFontIcons,
-                  })
-                }
+        {this.state.showIcons && (
+          <View
+            style={{
+              position: 'absolute',
+              bottom: '20%',
+              right: -10,
+              flexDirection: 'column-reverse',
+            }}>
+            {this.state.showEditOptions && (
+              <EditScreenButton
+                iconType="ionicon"
+                iconName="md-crop"
+                // topPosition={70}
+                handleOnPress={this.cropPressed}
               />
             )}
-            {!this.state.showFontIcons && (
-              <FontButton
+            {this.state.showEditOptions && (
+              <EditScreenButton
                 iconType="material-community"
-                buttonName={'format-size'}
-                handleOnPress={this.captionSizePressed}
+                iconName="rotate-right"
+                // topPosition={120}
+                handleOnPress={this.rotatePressed}
               />
             )}
-            {!this.state.showFontIcons && (
-              <FontButton
-                iconType="material-community"
-                buttonName={'format-font'}
-                handleOnPress={this.captionFontPressed}
+            {this.state.showEditOptions && this.state.prevPhoto.source && (
+              <EditScreenButton
+                iconType="ionicon"
+                iconName="md-undo"
+                // topPosition={170}
+                handleOnPress={this.undoPressed}
               />
             )}
-            {!this.state.showFontIcons && (
-              <Icon
-                type={'entypo'}
-                name={'chevron-small-left'}
-                size={GlobalIconSize - 10}
-                color={'#0000'}
-                reverseColor={CykeeColor}
-                reverse
-                containerStyle={{
-                  opacity: FONT_ICON_OPACITY,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginLeft: -10,
-                }}
-                onPress={() =>
-                  this.setState({
-                    showFontIcons: !this.state.showFontIcons,
-                  })
-                }
+            {this.state.showEditOptions && this.state.nextPhoto.source && (
+              <EditScreenButton
+                iconType="ionicon"
+                iconName="md-redo"
+                // topPosition={170}
+                handleOnPress={this.redoPressed}
               />
             )}
+
+            <EditScreenButton
+              iconType="entypo"
+              iconName={
+                this.state.showEditOptions
+                  ? 'chevron-small-down'
+                  : 'chevron-small-up'
+              }
+              // topPosition={20}
+              handleOnPress={() =>
+                this.setState({
+                  showEditOptions: !this.state.showEditOptions,
+                })
+              }
+            />
           </View>
+        )}
+        <KeyboardAvoidingView style={[styles.textBoxContainer]}>
+          {this.state.showIcons && (
+            <View style={{flexDirection: 'row'}}>
+              {!this.state.showFontIcons && (
+                <FontButton
+                  iconType="material-community"
+                  buttonName={'format-size'}
+                  handleOnPress={this.captionSizePressed}
+                />
+              )}
+              {!this.state.showFontIcons && (
+                <FontButton
+                  iconType="material-community"
+                  buttonName={'format-font'}
+                  handleOnPress={this.captionFontPressed}
+                />
+              )}
+              <Icon
+                type={'entypo'}
+                name={
+                  this.state.showFontIcons
+                    ? 'chevron-small-right'
+                    : 'chevron-small-left'
+                }
+                size={GlobalIconSize - 10}
+                color={this.state.showFontIcons ? FONT_ICON_COLOR : '#0000'}
+                reverseColor={CykeeColor}
+                reverse
+                containerStyle={{
+                  opacity: FONT_ICON_OPACITY,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginLeft: this.state.showFontIcons ? 0 : -10,
+                }}
+                onPress={() =>
+                  this.setState({
+                    showFontIcons: !this.state.showFontIcons,
+                  })
+                }
+              />
+            </View>
+          )}
 
           <View
             style={{

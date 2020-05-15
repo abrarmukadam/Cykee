@@ -5,19 +5,46 @@ import CameraRoll from '@react-native-community/cameraroll';
 import {default as GridViewComponent} from '../../SubComponents/GridViewComponent/GridViewComponent.container';
 
 class CameraRollScreen extends Component {
-  state = {toBeDisplayed: [], page_info: {}};
+  state = {toBeDisplayed: [], toBeDisplayed2: [], page_info: {}};
 
   componentDidMount() {
     this.screenLoadListener = this.props.navigation.addListener(
       'tabPress',
       e => {
+        console.log('CameraRoll Screen did-Mount');
         this.props.screen_mounted('CameraRollScreen');
       },
     );
 
     console.log('mounting camera roll screen');
     this.focusListener = this.props.navigation.addListener('focus', () => {
-      this.reloadPhotos();
+      console.log('focus');
+      this.setState({returnedStatus: true});
+      if (this.state.returnedStatus) {
+        console.log('returned status true');
+        CameraRoll.getPhotos({
+          after: this.state.page_info ? this.state.page_info.end_cursor : 0,
+          assetType: 'Photos',
+          // after: 0,
+          Album: 'Camera',
+        })
+          .then(r => {
+            let temp = [];
+            r.edges.map((p, i) => {
+              p.node.image.source = p.node.image.uri;
+              p.node.image.caption = '';
+              return (temp = [...temp, p.node.image]);
+            });
+            this.setState({
+              // page_info2: r.page_info,
+              toBeDisplayed2: temp,
+            });
+          })
+          .catch(err => {
+            //Error Loading Images
+          });
+      }
+      // this.reloadPhotos();
     });
 
     CameraRoll.getPhotos({
@@ -36,12 +63,26 @@ class CameraRollScreen extends Component {
         this.setState({
           page_info: r.page_info,
           toBeDisplayed: temp,
+          toBeDisplayed2: temp,
         });
       })
       .catch(err => {
         //Error Loading Images
       });
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.returnedStatus == true) {
+      if (this.state.toBeDisplayed2 != this.state.toBeDisplayed) {
+        console.log('this.state.toBeDisplayed2 != this.state.toBeDisplayed');
+        console.log(this.state.toBeDisplayed);
+        console.log(this.state.toBeDisplayed2);
+        // this.reloadPhotos();
+      }
+      this.setState({returnedStatus: false});
+    }
+  }
+
   componenDidUnmount() {
     console.log('un-mount');
     this.props.screen_mounted('');
@@ -62,7 +103,7 @@ class CameraRollScreen extends Component {
   reloadPhotos = () => {
     this.props.screen_mounted('CameraRollScreen');
 
-    console.log('reloaded');
+    console.log('photos reloaded');
     // this.setState({toBeDisplayed: 0, page_info: {}});
 
     CameraRoll.getPhotos({
@@ -81,6 +122,7 @@ class CameraRollScreen extends Component {
         this.setState({
           page_info: r.page_info,
           toBeDisplayed: temp,
+          toBeDisplayed2: temp,
         });
       })
       .catch(err => {
@@ -88,6 +130,7 @@ class CameraRollScreen extends Component {
       });
   };
   _handleLoadMore = () => {
+    console.log('loading more photos');
     CameraRoll.getPhotos({
       first: 50,
       assetType: 'Photos',
@@ -104,6 +147,7 @@ class CameraRollScreen extends Component {
         this.setState({
           page_info: r.page_info,
           toBeDisplayed: this.state.toBeDisplayed.concat(temp),
+          toBeDisplayed2: this.state.toBeDisplayed.concat(temp),
         });
       })
       .catch(err => {

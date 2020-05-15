@@ -31,8 +31,9 @@ import TimerButton from './TimerButton/TimerButton';
 
 //Gallery(Grid) view component
 import GridViewComponent from '../GridViewComponent/GridViewComponent';
+import EditIconsComponent from '../EditIconsComponent/EditIconsComponent';
 
-export {GridViewComponent};
+export {GridViewComponent, EditIconsComponent};
 
 export {
   ShareIcon,

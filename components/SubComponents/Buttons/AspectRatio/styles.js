@@ -11,9 +11,14 @@ export default StyleSheet.create({
     // right: 20,
     // alignSelf: 'center',
     // marginBottom: 10,
+    justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
+    borderWidth: 0.5,
+    borderColor: GlobalIconColor,
+    paddingVertical: 2,
   },
+
   TextStyle: {
     // fontSize: GlobalIconSize - 10,
     position: 'absolute',
