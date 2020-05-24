@@ -9,33 +9,34 @@ class TagDisplayComponent extends Component {
   }
   render() {
     if (this.props.tagsArray)
-      return (
-        <View style={styles.container}>
-          {this.props.tagsArray.map(item => {
-            return (
-              <View>
-                <View style={styles.tagStyle}>
-                  <Text style={[styles.fontStyle, {color: '#0000'}]}>
-                    {item}
-                  </Text>
+      if (this.props.tagsArray[0] != '')
+        return (
+          <View style={styles.container}>
+            {this.props.tagsArray.map(item => {
+              return (
+                <View>
+                  <View style={styles.tagStyle}>
+                    <Text style={[styles.fontStyle, {color: '#0000'}]}>
+                      {item}
+                    </Text>
+                  </View>
+                  <View
+                    style={[
+                      styles.tagStyle,
+                      {
+                        position: 'absolute',
+                        opacity: 1,
+                        backgroundColor: '#0000',
+                      },
+                    ]}>
+                    <Text style={styles.fontStyle}>{item}</Text>
+                  </View>
                 </View>
-                <View
-                  style={[
-                    styles.tagStyle,
-                    {
-                      position: 'absolute',
-                      opacity: 1,
-                      backgroundColor: '#0000',
-                    },
-                  ]}>
-                  <Text style={styles.fontStyle}>{item}</Text>
-                </View>
-              </View>
-            );
-          })}
-        </View>
-      );
-    else return <View />;
+              );
+            })}
+          </View>
+        );
+      else return <View />;
   }
 }
 

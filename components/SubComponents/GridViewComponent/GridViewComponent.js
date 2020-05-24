@@ -30,6 +30,7 @@ import {
   TAB_BAR_COLOR,
   TagIcon,
   TagDisplayComponent,
+  SearchedTagsComponent,
 } from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 // import Icon from 'react-native-vector-icons/Ionicons';
@@ -128,12 +129,14 @@ class GridViewComponent extends Component {
           else searchFilter = searchFilter.substr(1);
 
           console.log('searchFilter', searchFilter);
-          if (List.tagsArray[0]) {
-            let tagsArray = List.tagsArray.toString();
-            return (
-              tagsArray.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1
-            );
-          }
+          if (List.tagsArray)
+            if (List.tagsArray[0]) {
+              let tagsArray = List.tagsArray.toString();
+              return (
+                tagsArray.toLowerCase().indexOf(searchFilter.toLowerCase()) !==
+                -1
+              );
+            }
         });
 
       this.setState({
@@ -379,6 +382,15 @@ class GridViewComponent extends Component {
             )}
           </View>
         )}
+        <View style={styles.searchTagsStyle}>
+          {this.state.searchFilter[0] == '#' && (
+            <SearchedTagsComponent
+              searchFilter={this.state.searchFilter}
+              filteredList={this.state.filteredList}
+              changeSearchFilter={item => this.setState({searchFilter: item})}
+            />
+          )}
+        </View>
       </View>
     );
   };

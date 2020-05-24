@@ -38,7 +38,8 @@ class TagComponent extends Component {
         updateState={this.updateTagState}
         tags={this.state.tags}
         placeholder={'Add tag...'}
-        label="Press comma & space to add more tags"
+        label="Press space to add more tags"
+        // label="Press comma & space to add more tags"
         labelStyle={{color: '#fff', opacity: 0.5}}
         placeholderTextColor="grey"
         // tagTextStyle={[styles.textInputStyle]}
@@ -49,7 +50,7 @@ class TagComponent extends Component {
         tagStyle={styles.tag}
         tagTextStyle={styles.tagTextStyle}
         tagsViewStyle={styles.tagsViewStyle}
-        keysForTag={', '}
+        keysForTag={' '}
         // autoCorrect={false}
       />
     );

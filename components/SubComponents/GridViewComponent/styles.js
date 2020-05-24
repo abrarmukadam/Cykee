@@ -73,6 +73,14 @@ export default StyleSheet.create({
     // width: WIDTH - 60,
     // borderWidth: 1,
   },
+  searchTagsStyle: {
+    // height: 50,
+    width: '100%',
+    // borderWidth: 1,
+    // borderColor: 'red',
+    paddingVertical: 4,
+    // justifyContent:'center'
+  },
   favContainer: {
     position: 'absolute',
     top: 2,

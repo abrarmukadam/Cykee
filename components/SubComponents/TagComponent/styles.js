@@ -29,8 +29,8 @@ export default StyleSheet.create({
     // position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'blue',
-    borderWidth: 1,
+    // borderColor: 'blue',
+    // borderWidth: 1,
     left: -20,
     bottom: 70,
     borderRadius: 40,
@@ -51,12 +51,15 @@ export default StyleSheet.create({
   tag: {
     backgroundColor: 'white',
     height: 24,
+    marginHorizontal: 2,
+    // paddingHorizontal: 0,
   },
   tagTextStyle: {
     color: 'white',
     fontSize: 12,
   },
   tagsViewStyle: {
+    marginRight: 70,
     // backgroundColor: 'green',
   },
 });

@@ -40,6 +40,8 @@ export default StyleSheet.create({
     width: '100%',
     // position: 'absolute',
     // bottom: 0,
+    // borderWidth: 1,
+    // borderColor: 'red',
   },
   textInputStyle: {
     // flex: 1,

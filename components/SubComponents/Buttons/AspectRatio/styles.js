@@ -14,7 +14,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 0.2,
+    // borderWidth: 0.2,
     borderColor: 'white',
     paddingVertical: 2,
   },
