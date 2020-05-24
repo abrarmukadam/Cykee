@@ -544,16 +544,20 @@ class GridViewComponent extends Component {
                   fav_status={item.fav_status}
                 />
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.setState({showTags: !this.state.showTags})}>
-                {item.tagsArray && !this.state.showTags && (
-                  <TagIcon
-                    iconSize={20}
-                    iconColor={BACKGROUND_COLOR}
-                    // fav_status={item.fav_status}
-                  />
-                )}
-              </TouchableOpacity>
+              {item.tagsArray && (
+                <TouchableOpacity
+                  onPress={() =>
+                    this.setState({showTags: !this.state.showTags})
+                  }>
+                  {!this.state.showTags && !item.tagsArray[0] == false && (
+                    <TagIcon
+                      iconSize={20}
+                      iconColor={BACKGROUND_COLOR}
+                      // fav_status={item.fav_status}
+                    />
+                  )}
+                </TouchableOpacity>
+              )}
             </View>
           )}
       </TouchableOpacity>
