@@ -154,6 +154,7 @@ class CameraScreen extends PureComponent {
   }
   onPressGallery = () => {
     this.props.navigation.navigate('GalleryTab');
+    // this.props.navigation.navigate('GridViewScreen');
   };
   takeVideo = async () => {
     console.log('take video');
@@ -190,6 +191,7 @@ class CameraScreen extends PureComponent {
           let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
           newPhoto.fileName = newName;
           newPhoto.caption = '';
+          newPhoto.tagsArray = [];
           newPhoto.captionStyle = {captionSize: 0, captionFont: 0};
           newPhoto.uri = galleryUri + newPhoto.fileName;
           // console.log('d:', d);

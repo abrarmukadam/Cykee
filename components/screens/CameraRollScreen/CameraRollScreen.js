@@ -18,6 +18,8 @@ class CameraRollScreen extends Component {
 
     console.log('mounting camera roll screen');
     this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.props.screen_mounted('CameraRollScreen');
+
       console.log('focus');
       this.setState({returnedStatus: true});
       if (this.state.returnedStatus) {

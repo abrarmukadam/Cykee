@@ -35,8 +35,11 @@ import {
   TAB_BAR_COLOR,
   EditIconsComponent,
   FontIconsComponent,
+  TagComponent,
+  TagDisplayComponent,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import {set} from 'react-native-reanimated';
 
 class PreviewImageScreen extends Component {
   constructor(props) {
@@ -54,6 +57,8 @@ class PreviewImageScreen extends Component {
     showEditOptions: true,
     prevPhoto: {},
     nextPhoto: {},
+    tagText: '',
+    tagsArray: [],
   };
 
   componentDidMount() {
@@ -131,6 +136,7 @@ class PreviewImageScreen extends Component {
     newPhoto.width = data.width;
     newPhoto.fileName = newName;
     newPhoto.caption = this.state.text;
+    newPhoto.tagsArray = this.state.tagsArray;
     newPhoto.captionStyle = {
       captionSize: this.state.captionSize,
       captionFont: this.state.captionFont,
@@ -202,7 +208,13 @@ class PreviewImageScreen extends Component {
       this.setState({tempPhoto: image});
     });
   };
-
+  tagPressed = () => {
+    this.setState({tagPressed: !this.state.tagPressed});
+  };
+  tagsArrayChanged = tagsArray => {
+    this.setState({tagsArray});
+    // console.log(tagsArray);
+  };
   render() {
     const config = {
       velocityThreshold: 0.3,
@@ -246,6 +258,18 @@ class PreviewImageScreen extends Component {
             />
           </TouchableWithoutFeedback>
           {this.state.showIcons && (
+            <TouchableOpacity
+              onPress={() => this.setState({tagPressed: true})}
+              style={{
+                position: 'absolute',
+                top: 80,
+                left: 20,
+                // flexWrap: 'wrap',
+              }}>
+              <TagDisplayComponent tagsArray={this.state.tagsArray} />
+            </TouchableOpacity>
+          )}
+          {this.state.showIcons && (
             <EditIconsComponent
               showEditOptions={this.state.showEditOptions}
               cropPressed={this.cropPressed}
@@ -262,28 +286,40 @@ class PreviewImageScreen extends Component {
                 showFontIcons={this.props.showFontIcons}
                 captionFontPressed={this.captionFontPressed}
                 captionSizePressed={this.captionSizePressed}
+                tagPressed={this.tagPressed}
+                enterTag={this.state.tagPressed}
               />
             )}
 
             <View style={styles.textBoxContainer}>
-              <TextInput
-                style={[
-                  styles.textInputStyle,
-                  {
-                    fontSize: CAPTION_SIZE[this.state.captionSize],
-                    fontFamily: CAPTION_FONT[this.state.captionFont],
-                  },
-                ]}
-                placeholder={'Add a caption...'}
-                placeholderTextColor="grey"
-                value={this.state.text}
-                multiline
-                // autoFocus
-                onChangeText={text => this.setState({text})}
-                autoCapitalize="none"
-                padding={10}
-                onBlur={() => this.setState({showIcons: true})}
-              />
+              {!this.state.tagPressed && (
+                <TextInput
+                  style={[
+                    styles.textInputStyle,
+                    {
+                      fontSize: CAPTION_SIZE[this.state.captionSize],
+                      fontFamily: CAPTION_FONT[this.state.captionFont],
+                    },
+                  ]}
+                  placeholder={'Add a caption...'}
+                  placeholderTextColor="grey"
+                  value={this.state.text}
+                  multiline
+                  // autoFocus
+                  onChangeText={text => {
+                    this.setState({text});
+                  }}
+                  autoCapitalize="none"
+                  padding={10}
+                  onBlur={() => this.setState({showIcons: true})}
+                />
+              )}
+              {this.state.tagPressed && (
+                <TagComponent
+                  tagsArrayChanged={this.tagsArrayChanged}
+                  tagsArray={this.state.tagsArray}
+                />
+              )}
             </View>
           </View>
           <View style={styles.saveButtonStyle}>

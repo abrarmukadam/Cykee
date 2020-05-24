@@ -9,23 +9,40 @@ import {
   GlobalIconSize,
   FONT_ICON_COLOR,
   FONT_ICON_OPACITY,
+  TagComponent,
 } from '../Buttons/index';
 
 class FontIconsComponent extends Component {
   state = {
     showFontIcons: this.props.showFontIcons,
+    // enterTag: false,
   };
+  componentDidMount() {
+    console.log('FontIconsComponent DID MOUNT');
+  }
+
   render() {
+    console.log('FontIconsComponent Rendered');
     return (
       <View style={{flexDirection: 'row'}}>
         {!this.state.showFontIcons && (
+          <View style={{flexDirection: 'column-reverse'}}>
+            <FontButton
+              iconType="material-community"
+              buttonName={this.props.enterTag ? 'tag' : 'tag-outline'}
+              handleOnPress={this.props.tagPressed}
+            />
+          </View>
+        )}
+
+        {!this.state.showFontIcons && !this.props.enterTag && (
           <FontButton
             iconType="material-community"
             buttonName={'format-size'}
             handleOnPress={this.props.captionSizePressed}
           />
         )}
-        {!this.state.showFontIcons && (
+        {!this.state.showFontIcons && !this.props.enterTag && (
           <FontButton
             iconType="material-community"
             buttonName={'format-font'}

@@ -10,6 +10,8 @@ import {
   Alert,
   Image,
   ToastAndroid,
+  Animated,
+  Easing,
 } from 'react-native';
 import Share from 'react-native-share';
 
@@ -41,8 +43,10 @@ import {
   EditIcon,
   MoreIcon,
   GalleryIcon,
+  TagDisplayComponent,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
+// import {SharedElement} from 'react-navigation-shared-element';
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 const SCREEN_RATIO = HEIGHT / WIDTH;
@@ -63,6 +67,7 @@ class GalleryScreen extends Component {
     if (prevProps.photoArray != this.props.photoArray) {
       let temp = [];
       this.state.toBeDisplayed.map(item => {
+        console.log(item.tagsArray);
         let newItem = {
           source: {uri: item.uri},
           height: item.height,
@@ -71,6 +76,7 @@ class GalleryScreen extends Component {
           caption: item.caption,
           captionStyle: item.captionStyle,
           creationDate: item.creationDate || [' ', ' '],
+          tagsArray: item.tagsArray || [],
         };
         temp = [...temp, newItem];
         // item.dimension={{item.height,item.width}}
@@ -111,6 +117,7 @@ class GalleryScreen extends Component {
         caption: item.caption,
         captionStyle: item.captionStyle,
         creationDate: item.creationDate || [' ', ' '],
+        tagsArray: item.tagsArray || [],
       };
       temp = [...temp, newItem];
     });
@@ -243,13 +250,6 @@ class GalleryScreen extends Component {
 
   render() {
     // hideNavigationBar();
-
-    if (this.state.photoArray[this.state.index]) {
-      console.log(
-        'date:',
-        this.state.photoArray[this.state.index].creationDate,
-      );
-    }
     const config = {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80,
@@ -261,10 +261,6 @@ class GalleryScreen extends Component {
         this.state.photoArray[this.state.index].height /
         this.state.photoArray[this.state.index].width;
     } else ImageRatio = 1;
-    console.log(ImageRatio);
-    console.log('h', HEIGHT);
-    console.log('w', WIDTH);
-    console.log('ratio', SCREEN_RATIO);
     // if (ImageRatio == SCREEN_RATIO)
 
     return (
@@ -282,10 +278,16 @@ class GalleryScreen extends Component {
               // flex: 1,
               height: '101%',
               width: '100%',
-              psition: 'absolute',
-              bottom: 0,
+              // psition: 'absolute',
+              // bottom: 0,
               backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
             }}>
+            {/* <Image
+              style={{flex: 1}}
+              source={{
+                uri: this.props.photoArray[this.props.route.params.index].uri,
+              }}
+            /> */}
             <GallerySwiper
               style={{
                 // flex: 1,
@@ -548,6 +550,15 @@ class GalleryScreen extends Component {
                 color={'black'}
               />
             </TouchableOpacity>
+            <View style={styles.tagStyle}>
+              <TagDisplayComponent
+                tagsArray={
+                  this.state.photoArray[this.state.index]
+                    ? this.state.photoArray[this.state.index].tagsArray
+                    : ['']
+                }
+              />
+            </View>
             <View
               style={{
                 alignSelf: 'flex-end',

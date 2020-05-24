@@ -3,8 +3,11 @@
 import * as React from 'react';
 import 'react-native-gesture-handler';
 import {createStackNavigator} from '@react-navigation/stack';
+import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {CardStyleInterpolators} from '@react-navigation/stack';
+// import {TransitionPresets} from '@react-navigation/stack';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -115,6 +118,70 @@ const expandingTransition_config = {
     timing: Animated.timing,
   },
 };
+
+const sharedElementTransition_config = {
+  animation: 'timing',
+  config: {
+    duration: 350, // These are optional, so feel free to modify them as you see fit.
+    easing: Easing.inOut(Easing.ease),
+    timing: Animated.timing,
+  },
+};
+const slidingExitTransition = ({current, next, index, closing, layouts}) => {
+  const opacity = Animated.add(
+    current.progress,
+    next ? next.progress : 0,
+  ).interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, 0],
+  });
+  return {
+    // cardStyle: {
+    opacity: opacity,
+    // },
+  };
+};
+const sharedElementExitTransition = ({
+  current,
+  next,
+  index,
+  closing,
+  layouts,
+}) => {
+  const opacity = Animated.add(
+    current.progress,
+    next ? next.progress : 0,
+  ).interpolate({
+    inputRange: [0, 0.95, 1],
+    outputRange: [0, 0, 1],
+  });
+  return {
+    cardStyle: {
+      opacity: opacity,
+    },
+  };
+};
+const sharedElementEntryTransition = ({
+  current,
+  next,
+  index,
+  closing,
+  layouts,
+}) => {
+  const height = Animated.add(
+    current.progress,
+    next ? next.progress : 0,
+  ).interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [100, 100, 0],
+  });
+  return {
+    cardStyle: {
+      transform: [{translateY: height}],
+    },
+  };
+};
+
 const expandingTransition = ({current, next, index, closing, layouts}) => {
   const opacity = Animated.add(
     current.progress,
@@ -150,6 +217,7 @@ function CameraStack(navigation) {
   return (
     <Stack.Navigator
       initialRouteName="Home"
+      // mode="modal"
       // headerMode="none"
       options={{
         statusBar: {
@@ -160,17 +228,53 @@ function CameraStack(navigation) {
 
         headerTintColor: 'red',
       }}
-      screenOptions={{
-        animationEnabled: true,
-      }}>
+      // screenOptions={{
+      //   animationEnabled: false,
+      // }}
+      //
+    >
       <Stack.Screen
         name="Home"
         headerMode="none"
         component={CameraScreen}
         options={{
           headerShown: false,
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          // transitionSpec: {
+          //   open: expandingTransition,
+          //   close: sharedElementExitTransition,
+          // },
+          // cardStyleInterpolator: expandingTransition,
+          // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
+      />
+
+      <Stack.Screen
+        // name="GridViewScreen"
+        name="GalleryTab"
+        component={GalleryTab}
+        // component={GridViewScreen}
+        options={({navigation, route}) => ({
+          title: 'Gallery',
+          headerShown: true,
+          headerStyle: {backgroundColor: TAB_BAR_COLOR},
+          headerTitleStyle: {fontSize: 24, color: HEADER_TITLE_COLOR},
+          gestureEnabled: true,
+          gestureDirection: 'vertical',
+
+          // transitionSpec: {
+          //   open: expandingTransition_config,
+          //   close: sharedElementTransition_config,
+          // },
+          // cardStyleInterpolator: expandingTransition,
+
+          // cardStyleInterpolator:
+          //   CardStyleInterpolators.forRevealFromBottomAndroid,
+          headerRight: () => (
+            <View>
+              <HideCaption />
+            </View>
+          ),
+        })}
       />
       <Stack.Screen
         name="PreviewScreen"
@@ -190,6 +294,7 @@ function CameraStack(navigation) {
           // cardStyleInterpolator: forFade,
         }}
       />
+
       <Stack.Screen
         name="GalleryScreen"
         component={GalleryScreen}
@@ -204,32 +309,14 @@ function CameraStack(navigation) {
           gestureEnabled: false,
 
           // gestureDirection: 'vertical',
-          cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-        })}
-      />
-      <Stack.Screen
-        name="GalleryTab"
-        component={GalleryTab}
-        options={({navigation, route}) => ({
-          title: 'Gallery',
-          headerShown: true,
-          headerStyle: {backgroundColor: TAB_BAR_COLOR},
-          headerTitleStyle: {fontSize: 24, color: HEADER_TITLE_COLOR},
-          gestureEnabled: true,
-          gestureDirection: 'vertical',
           transitionSpec: {
-            open: expandingTransition_config,
+            open: sharedElementTransition_config,
             close: expandingTransition_config,
           },
-          cardStyleInterpolator: expandingTransition,
+          cardStyleInterpolator: sharedElementExitTransition,
+          // cardStyleInterpolator: expandingTransition,
 
-          // cardStyleInterpolator:
-          //   CardStyleInterpolators.forRevealFromBottomAndroid,
-          headerRight: () => (
-            <View>
-              <HideCaption />
-            </View>
-          ),
+          // ...TransitionPresets.ModalPresentationIOS,
         })}
       />
 
@@ -249,8 +336,8 @@ function CameraStack(navigation) {
           gestureEnabled: false,
           // gestureDirection: 'vertical',
           // cardStyleInterpolator: forFade,
-          cardStyleInterpolator:
-            CardStyleInterpolators.forFadeFromBottomAndroid,
+          // cardStyleInterpolator:
+          //   CardStyleInterpolators.forFadeFromBottomAndroid,
         }}
       />
     </Stack.Navigator>

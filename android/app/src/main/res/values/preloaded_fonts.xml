@@ -2,5 +2,6 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/amatica_sc</item>
+        <item>@font/coda</item>
     </array>
 </resources>

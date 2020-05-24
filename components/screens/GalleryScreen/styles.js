@@ -92,12 +92,24 @@ export default StyleSheet.create({
   dateStyle: {
     fontWeight: '500',
     color: 'black',
-    fontSize: 18,
+    fontSize: 16,
   },
   timeStyle: {
     fontWeight: '600',
     color: 'grey',
-    fontSize: 14,
+    fontSize: 12,
     alignSelf: 'flex-end',
+  },
+  tagStyle: {
+    // flexWrap: 'wrap',
+    width: 145,
+    // paddingTop: 2,
+    height: 50,
+    // borderWidth: 1,
+    alignSelf: 'flex-end',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    alignContent: 'flex-start',
+    flexDirection: 'row',
   },
 });

@@ -1,6 +1,6 @@
 import {StyleSheet, Dimensions} from 'react-native';
 import {BACKGROUND_COLOR, SEARCH_BAR_COLOR} from '../Buttons/index';
-const {width: WIDTH, height: HEIGHT} = Dimensions.get('screen');
+const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
@@ -37,6 +37,11 @@ export default StyleSheet.create({
     color: 'white',
     textAlign: 'center',
   },
+  tagsContainer: {
+    position: 'absolute',
+    top: 0,
+    width: '60%',
+  },
   captionContainer: {
     position: 'absolute',
     bottom: 0,
@@ -57,19 +62,29 @@ export default StyleSheet.create({
     // borderRadius: 25,
     marginBottom: 2,
     paddingHorizontal: 30,
+    // height: 48,
   },
-  searchStyle: {paddingStart: 10, color: 'black', width: WIDTH - 100},
-  favContainer: {position: 'absolute', top: 2, right: 2},
+  searchStyle: {
+    paddingStart: 10,
+    color: 'black',
+    // width: '92%',
+    marginRight: 20,
+    flex: 1,
+    // width: WIDTH - 60,
+    // borderWidth: 1,
+  },
+  favContainer: {
+    position: 'absolute',
+    top: 2,
+    right: 2,
+    flexDirection: 'row-reverse',
+  },
   selectionIconContainer: {position: 'absolute', bottom: 12, right: 2},
   buttonContainerStyle: {
     flex: 0,
-    // width: '100%',
-    // backgroundColor: 'white',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
-    // alignSelf: 'flex-start',
     position: 'absolute',
-    // paddingHorizontal: '20%',
     paddingBottom: 4,
     right: -10,
     bottom: 105,

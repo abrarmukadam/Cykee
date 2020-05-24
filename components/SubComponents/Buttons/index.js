@@ -28,13 +28,22 @@ import CheckCircle from './CheckCircle/CheckCircle';
 import FontButton from './FontButton/FontButton';
 import EditScreenButton from './EditScreenButton/EditScreenButton';
 import TimerButton from './TimerButton/TimerButton';
+import TagIcon from './TagIcon/TagIcon';
 
 //Gallery(Grid) view component
 import GridViewComponent from '../GridViewComponent/GridViewComponent';
 import EditIconsComponent from '../EditIconsComponent/EditIconsComponent';
 import FontIconsComponent from '../FontIconsComponent/FontIconsComponent';
+import TagComponent from '../TagComponent/TagComponent';
+import TagDisplayComponent from '../TagDisplayComponent/TagDisplayComponent';
 
-export {GridViewComponent, EditIconsComponent, FontIconsComponent};
+export {
+  GridViewComponent,
+  EditIconsComponent,
+  FontIconsComponent,
+  TagComponent,
+  TagDisplayComponent,
+};
 
 export {
   ShareIcon,
@@ -48,6 +57,7 @@ export {
   FontButton,
   EditScreenButton,
   TimerButton,
+  TagIcon,
 };
 
 //Global constants

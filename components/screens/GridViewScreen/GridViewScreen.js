@@ -72,7 +72,7 @@ class GridViewScreen extends PureComponent {
   }
 
   onPressCard = (index, photoArray) => {
-    this.props.navigation.push('GalleryScreen', {
+    this.props.navigation.navigate('GalleryScreen', {
       index: index,
       toBeDisplayed: photoArray,
     });
