@@ -12,21 +12,27 @@ class SearchedTagsComponent extends Component {
     searchFilter: this.props.searchFilter,
   };
 
+  componentDidMount() {
+    let filteredList = this.filterByProperty(
+      this.props.filteredList,
+      this.state.searchFilter,
+    );
+    this.setState({filteredList});
+  }
   filterByProperty = (array, value) => {
     var filtered = [];
-    var filtered2 = [];
-    let temp = [];
     let check = '';
     if (value.length > 1) check = value.substr(1);
     // if (value.length > 1) check = 'a';
     for (let i = 0; i < array.length; i++) {
       if (array[i].tagsArray)
-        temp = array[i].tagsArray.filter(item => {
-          return item.toLowerCase().indexOf(check.toLowerCase()) !== -1;
+        array[i].tagsArray.filter(item => {
+          if (item.toLowerCase().indexOf(check.toLowerCase()) !== -1)
+            filtered.push(item);
+
+          // return item.toLowerCase().indexOf(check.toLowerCase()) !== -1;
         });
-      filtered.push(temp.toString());
     }
-    filtered2 = filtered.toString();
     let uniq = [...new Set(filtered)]; // remove copies
 
     return uniq;
@@ -61,7 +67,6 @@ class SearchedTagsComponent extends Component {
                 onPress={() => {
                   this.setState({searchFilter: item});
                   this.props.changeSearchFilter(item);
-                  console.log(item);
                 }}>
                 <Text style={styles.fontStyle}>{item}</Text>
               </TouchableOpacity>
