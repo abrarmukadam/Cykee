@@ -280,8 +280,10 @@ function CameraStack(navigation) {
         name="PreviewScreen"
         component={PreviewImageScreen}
         options={{
-          title: 'Preview',
+          title: '',
+
           headerTransparent: true,
+          // headerShown: false,
           headerTitleStyle: {fontSize: 24, color: 'white'},
           headerTintColor: 'white',
           headerStyle: {

@@ -29,6 +29,7 @@ import FontButton from './FontButton/FontButton';
 import EditScreenButton from './EditScreenButton/EditScreenButton';
 import TimerButton from './TimerButton/TimerButton';
 import TagIcon from './TagIcon/TagIcon';
+import TagSettingButton from './TagSettingButton/TagSettingButton';
 
 //Gallery(Grid) view component
 import GridViewComponent from '../GridViewComponent/GridViewComponent';
@@ -60,6 +61,7 @@ export {
   EditScreenButton,
   TimerButton,
   TagIcon,
+  TagSettingButton,
 };
 
 //Global constants

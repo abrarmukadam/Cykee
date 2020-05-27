@@ -60,10 +60,10 @@ class SearchedTagsComponent extends Component {
                 style={styles.tagStyle}
                 onPress={() => {
                   this.setState({searchFilter: item});
-                  this.props.changeSearchFilter('#' + item);
+                  this.props.changeSearchFilter(item);
                   console.log(item);
                 }}>
-                <Text style={styles.fontStyle}>#{item}</Text>
+                <Text style={styles.fontStyle}>{item}</Text>
               </TouchableOpacity>
             );
           })}

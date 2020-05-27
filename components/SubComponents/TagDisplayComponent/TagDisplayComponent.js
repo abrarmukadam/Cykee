@@ -8,6 +8,7 @@ class TagDisplayComponent extends Component {
     console.log('tagsArray', this.props.tagsArray);
   }
   render() {
+    console.log('auto:', this.props.autoTagActive);
     if (this.props.tagsArray)
       if (this.props.tagsArray[0] != '')
         return (
@@ -16,7 +17,18 @@ class TagDisplayComponent extends Component {
               return (
                 <View>
                   <View style={styles.tagStyle}>
-                    <Text style={[styles.fontStyle, {color: '#0000'}]}>
+                    <Text
+                      style={[
+                        styles.fontStyle,
+                        {
+                          color: '#0000',
+                          fontWeight:
+                            item == this.props.autoTagActive
+                              ? 'bold'
+                              : 'normal',
+                          fontSize: item == this.props.autoTagActive ? 12 : 11,
+                        },
+                      ]}>
                       {item}
                     </Text>
                   </View>
@@ -29,7 +41,19 @@ class TagDisplayComponent extends Component {
                         backgroundColor: '#0000',
                       },
                     ]}>
-                    <Text style={styles.fontStyle}>{item}</Text>
+                    <Text
+                      style={[
+                        styles.fontStyle,
+                        {
+                          fontWeight:
+                            item == this.props.autoTagActive
+                              ? 'bold'
+                              : 'normal',
+                          fontSize: item == this.props.autoTagActive ? 12 : 11,
+                        },
+                      ]}>
+                      {item}
+                    </Text>
                   </View>
                 </View>
               );

@@ -9,7 +9,11 @@ class TextMode extends Component {
     return (
       <View style={styles.TextModeStyle}>
         <Text style={styles.TextStyle}>
-          {this.props.showIconName ? 'Caption Mode' : ''}
+          {this.props.showIconName
+            ? this.props.textIcon
+              ? 'Caption On'
+              : 'Caption Off'
+            : ''}
         </Text>
 
         <TouchableOpacity onPress={() => this.props.onPressTextMode()}>

@@ -11,6 +11,8 @@ const mapPropsToState = state => {
     cameraAspectRatio: state.settingReducer.cameraAspectRatio || [],
     hideCameraSettingsIcons: state.settingReducer.hideCameraSettingsIcons,
     photoArray: state.galleryReducer.photoArray,
+    autoTagValue: state.settingReducer.autoTagValue || '',
+    autoTagEnabled: state.settingReducer.autoTagEnabled || false,
   };
 };
 
@@ -36,6 +38,12 @@ const mapDispatchToProps = dispatch => {
     },
     hideCameraSettings: hide_status => {
       return dispatch(Actions.settingActions.hideCameraSettings(hide_status));
+    },
+    setAutoTagEnabled: autoTagEnabled => {
+      return dispatch(Actions.settingActions.setAutoTagEnabled(autoTagEnabled));
+    },
+    autoTagSetting: autoTag => {
+      return dispatch(Actions.settingActions.autoTagSetting(autoTag));
     },
   };
 };

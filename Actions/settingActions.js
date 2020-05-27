@@ -6,6 +6,8 @@ import {
   HIDE_CAPTION,
   CAMERA_ASPECT_RATIO,
   HIDE_CAMERA_SETTINGS,
+  AUTO_TAG_SETTING,
+  SET_AUTO_TAG_ENABLED,
 } from './actionTypes';
 
 export function changeFlashMode(flashMode) {
@@ -69,6 +71,24 @@ export function hideCameraSettings(hideSettings) {
     type: HIDE_CAMERA_SETTINGS,
     payload: {
       hideCameraSettingsIcons: hideSettings,
+    },
+  };
+}
+export function setAutoTagEnabled(autoTagEnabled) {
+  console.log('Change autoTagEnabled called');
+  return {
+    type: SET_AUTO_TAG_ENABLED,
+    payload: {
+      autoTagEnabled: autoTagEnabled,
+    },
+  };
+}
+export function autoTagSetting(autoTagValue) {
+  console.log('Change autoTagEnabled called');
+  return {
+    type: AUTO_TAG_SETTING,
+    payload: {
+      autoTagValue: autoTagValue,
     },
   };
 }

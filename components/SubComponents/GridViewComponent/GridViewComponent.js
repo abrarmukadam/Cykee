@@ -109,35 +109,35 @@ class GridViewComponent extends Component {
         //   );
       }
       console.log('updating data');
-      if (this.state.searchFilter[0] != '#')
-        filteredList = this.props.receivedArray.filter(List => {
-          let newString = '';
-          if (List.tagsArray)
-            newString = List.caption + ' ' + List.tagsArray.toString();
-          else newString = List.caption;
-          return (
-            newString
-              .toLowerCase()
-              .indexOf(this.state.searchFilter.toLowerCase()) !== -1
-          );
-        });
-      else
-        filteredList = this.props.receivedArray.filter(List => {
-          let searchFilter = this.state.searchFilter;
-          console.log('searchFilterBefore', searchFilter);
-          if (searchFilter.length <= 1) searchFilter = '';
-          else searchFilter = searchFilter.substr(1);
+      // if (this.state.searchFilter[0] != '#')
+      filteredList = this.props.receivedArray.filter(List => {
+        let newString = '';
+        if (List.tagsArray)
+          newString = List.caption + ' ' + List.tagsArray.toString();
+        else newString = List.caption;
+        return (
+          newString
+            .toLowerCase()
+            .indexOf(this.state.searchFilter.toLowerCase()) !== -1
+        );
+      });
+      // else
+      //   filteredList = this.props.receivedArray.filter(List => {
+      //     let searchFilter = this.state.searchFilter;
+      //     console.log('searchFilterBefore', searchFilter);
+      //     if (searchFilter.length <= 1) searchFilter = '';
+      //     else searchFilter = searchFilter.substr(1);
 
-          console.log('searchFilter', searchFilter);
-          if (List.tagsArray)
-            if (List.tagsArray[0]) {
-              let tagsArray = List.tagsArray.toString();
-              return (
-                tagsArray.toLowerCase().indexOf(searchFilter.toLowerCase()) !==
-                -1
-              );
-            }
-        });
+      //     console.log('searchFilter', searchFilter);
+      //     if (List.tagsArray)
+      //       if (List.tagsArray[0]) {
+      //         let tagsArray = List.tagsArray.toString();
+      //         return (
+      //           tagsArray.toLowerCase().indexOf(searchFilter.toLowerCase()) !==
+      //           -1
+      //         );
+      //       }
+      //   });
 
       this.setState({
         filteredList: filteredList,

@@ -23,6 +23,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import {UIActivityIndicator} from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
 import moment from 'moment';
+import DialogInput from 'react-native-dialog-input';
 
 import {
   TakePicture,
@@ -35,6 +36,7 @@ import {
   TAB_BAR_COLOR,
   MoreIcon,
   BACKGROUND_COLOR,
+  TagSettingButton,
 } from './../../SubComponents/Buttons/index';
 import GestureRecognizer from 'react-native-swipe-gestures';
 const PendingView = () => (
@@ -60,6 +62,7 @@ const BlurLoadingView = () => (
     reducedTransparencyFallbackColor={CykeeColor}
   />
 );
+
 class CameraScreen extends PureComponent {
   constructor(props) {
     super(props);
@@ -81,6 +84,7 @@ class CameraScreen extends PureComponent {
         y: Dimensions.get('window').height * 0.5 - 32,
       },
     },
+    showTagDialog: false,
   };
   componentDidUpdate() {
     if (this.state.remountCamera) {
@@ -172,9 +176,10 @@ class CameraScreen extends PureComponent {
     console.log('CLICK CLICK');
     const data = await this.camera.takePictureAsync(options);
 
-    if (this.props.textMode)
+    if (this.props.textMode) {
+      this.setState({showTagDialog: false});
       this.props.navigation.navigate('PreviewScreen', {photo: data});
-    else {
+    } else {
       let newPhoto = {};
       const temp = data.uri.split('/');
       const d = new Date();
@@ -191,7 +196,11 @@ class CameraScreen extends PureComponent {
           let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
           newPhoto.fileName = newName;
           newPhoto.caption = '';
-          newPhoto.tagsArray = [];
+          newPhoto.tagsArray = this.props.autoTagEnabled
+            ? this.props.autoTagValue.length
+              ? [this.props.autoTagValue]
+              : []
+            : [];
           newPhoto.captionStyle = {captionSize: 0, captionFont: 0};
           newPhoto.uri = galleryUri + newPhoto.fileName;
           // console.log('d:', d);
@@ -230,7 +239,7 @@ class CameraScreen extends PureComponent {
       x = pageY / screenHeight;
       y = -(pageX / screenWidth) + 1;
     }
-
+    this.props.hideCameraSettings(false);
     this.setState({
       focus: true,
       autoFocusPoint: {
@@ -262,6 +271,32 @@ class CameraScreen extends PureComponent {
       });
     }
   };
+  EnterAutoTag = () => (
+    <DialogInput
+      isDialogVisible={
+        // true
+        this.state.showTagDialog
+      }
+      title={'Auto Tag'}
+      message={'Set Tag for your upcoming photos'}
+      hintInput={'Enter Tag...'}
+      submitInput={input => {
+        let inputTagText = input;
+        if (inputTagText[0] != '#' && inputTagText.length)
+          inputTagText = '#' + input;
+        else if (inputTagText[0] == '#' && inputTagText.length <= 1)
+          inputTagText = '';
+        this.props.autoTagSetting(inputTagText);
+        this.setState({showTagDialog: false});
+      }}
+      initValueTextInput={this.props.autoTagValue}
+      closeDialog={() => {
+        this.setState({inputTagText: ''});
+        this.setState({showTagDialog: false});
+        // this.showDialog(false);
+      }}
+    />
+  );
 
   render() {
     // hideNavigationBar();
@@ -348,11 +383,7 @@ class CameraScreen extends PureComponent {
               );
             }}
           </RNCamera>
-          <View
-            style={[
-              styles.CameraIconContainer,
-              // {borderWidth: this.props.hideCameraSettingsIcons ? 0.5 : 0},
-            ]}>
+          <View style={[styles.CameraIconContainer, {borderWidth: 0}]}>
             {this.props.hideCameraSettingsIcons && (
               <View>
                 <AspectRatio
@@ -377,7 +408,46 @@ class CameraScreen extends PureComponent {
                   onPressFlashMode={() => this.changeFlashMode()}
                   showIconName={this.state.showIconName}
                 />
+                {this.props.autoTagEnabled &&
+                  // this.props.autoTagValue.length <= 1 &&
+                  this.state.showTagDialog &&
+                  this.EnterAutoTag()}
+
+                {/* <EnterAutoTag /> */}
               </View>
+            )}
+
+            {!(
+              !this.props.hideCameraSettingsIcons && !this.props.autoTagEnabled
+            ) && (
+              <TagSettingButton
+                showIconName={this.state.showIconName}
+                onPressAutoTagSetting={() => {
+                  if (
+                    this.props.autoTagValue.length <= 1 &&
+                    !this.props.autoTagEnabled
+                  )
+                    this.setState({
+                      showTagDialog: true,
+                    });
+                  else
+                    this.setState({
+                      showTagDialog: false,
+                    });
+
+                  this.props.setAutoTagEnabled(!this.props.autoTagEnabled);
+                }}
+                onPressTagName={() => {
+                  this.setState({showTagDialog: true});
+                  // this.EnterAutoTag();
+                }}
+                tagIconEnabled={this.props.autoTagEnabled}
+                autoTagValue={
+                  this.props.autoTagValue
+                    ? this.props.autoTagValue
+                    : 'No Tag set'
+                }
+              />
             )}
             <MoreIcon
               expandOptions={this.props.hideCameraSettingsIcons}

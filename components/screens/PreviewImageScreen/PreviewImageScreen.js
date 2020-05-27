@@ -39,7 +39,7 @@ import {
   TagDisplayComponent,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
-import {set} from 'react-native-reanimated';
+import ToggleSwitch from 'toggle-switch-react-native';
 
 class PreviewImageScreen extends Component {
   constructor(props) {
@@ -58,7 +58,11 @@ class PreviewImageScreen extends Component {
     prevPhoto: {},
     nextPhoto: {},
     tagText: '',
-    tagsArray: [],
+    tagsArray: this.props.autoTagEnabled
+      ? this.props.autoTagValue.length
+        ? [this.props.autoTagValue]
+        : []
+      : [],
   };
 
   componentDidMount() {
@@ -213,6 +217,7 @@ class PreviewImageScreen extends Component {
   };
   tagsArrayChanged = tagsArray => {
     this.setState({tagsArray});
+    this.props.autoTagSetting(tagsArray[0]);
     // console.log(tagsArray);
   };
   render() {
@@ -266,7 +271,12 @@ class PreviewImageScreen extends Component {
                 left: 20,
                 // flexWrap: 'wrap',
               }}>
-              <TagDisplayComponent tagsArray={this.state.tagsArray} />
+              <TagDisplayComponent
+                tagsArray={this.state.tagsArray}
+                autoTagActive={
+                  this.props.autoTagEnabled ? this.props.autoTagValue : ''
+                }
+              />
             </TouchableOpacity>
           )}
           {this.state.showIcons && (
@@ -292,6 +302,23 @@ class PreviewImageScreen extends Component {
             )}
 
             <View style={styles.textBoxContainer}>
+              {this.state.tagPressed && (
+                <ToggleSwitch
+                  isOn={this.props.autoTagEnabled}
+                  onColor={CykeeColor}
+                  offColor="grey"
+                  label={`Enable auto-Tag ${
+                    this.state.tagsArray[0] && this.props.autoTagEnabled
+                      ? `'${this.state.tagsArray[0]}'`
+                      : ''
+                  }`}
+                  labelStyle={{color: 'white', fontWeight: '900'}}
+                  size="small"
+                  onToggle={() =>
+                    this.props.setAutoTagEnabled(!this.props.autoTagEnabled)
+                  }
+                />
+              )}
               {!this.state.tagPressed && (
                 <TextInput
                   style={[

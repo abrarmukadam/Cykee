@@ -6,6 +6,7 @@ const defaultState = {
   hideCaption: false,
   cameraAspectRatio: [],
   hideCameraSettingsIcons: false,
+  autoTagValue: '',
 };
 import {
   FLASH_MODE,
@@ -16,6 +17,8 @@ import {
   HIDE_CAPTION,
   CAMERA_ASPECT_RATIO,
   HIDE_CAMERA_SETTINGS,
+  SET_AUTO_TAG_ENABLED,
+  AUTO_TAG_SETTING,
 } from '../Actions/actionTypes';
 
 export default function settingReducer(state = defaultState, action) {
@@ -60,6 +63,18 @@ export default function settingReducer(state = defaultState, action) {
       return {
         ...state,
         hideCameraSettingsIcons: action.payload.hideCameraSettingsIcons,
+      };
+    }
+    case AUTO_TAG_SETTING: {
+      return {
+        ...state,
+        autoTagValue: action.payload.autoTagValue,
+      };
+    }
+    case SET_AUTO_TAG_ENABLED: {
+      return {
+        ...state,
+        autoTagEnabled: action.payload.autoTagEnabled,
       };
     }
     default: {
