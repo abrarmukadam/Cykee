@@ -258,8 +258,8 @@ function CameraStack(navigation) {
           headerShown: true,
           headerStyle: {backgroundColor: TAB_BAR_COLOR},
           headerTitleStyle: {fontSize: 24, color: HEADER_TITLE_COLOR},
-          gestureEnabled: true,
-          gestureDirection: 'vertical',
+          // gestureEnabled: true,
+          // gestureDirection: 'vertical',
 
           // transitionSpec: {
           //   open: expandingTransition_config,

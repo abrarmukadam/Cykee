@@ -38,6 +38,7 @@ import FontIconsComponent from '../FontIconsComponent/FontIconsComponent';
 import TagComponent from '../TagComponent/TagComponent';
 import TagDisplayComponent from '../TagDisplayComponent/TagDisplayComponent';
 import SearchedTagsComponent from '../SearchedTagsComponent/SearchedTagsComponent';
+import SearchPhotoComponent from '../SearchPhotoComponent/SearchPhotoComponent';
 
 export {
   GridViewComponent,
@@ -46,6 +47,7 @@ export {
   TagComponent,
   TagDisplayComponent,
   SearchedTagsComponent,
+  SearchPhotoComponent,
 };
 
 export {

@@ -49,6 +49,7 @@ import {
   GlobalIconSize,
   GlobalMediumIconSize,
   GlobalLargeIconSize,
+  SearchPhotoComponent,
 } from '../../SubComponents/Buttons/index';
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('screen');
 const {width: WIDTH_W, height: HEIGHT_W} = Dimensions.get('window');
@@ -348,39 +349,11 @@ class GridViewComponent extends Component {
     return (
       <View style={{flex: 1}}>
         {this.props.gridSize != 'CameraRoll' && (
-          <View style={styles.searchContainer}>
-            <Icon
-              name="ios-search"
-              type="ionicon"
-              size={GlobalIconSize - 10}
-              color={'grey'}
-              containerStyle={{position: 'absolute', left: 10}}
-            />
-
-            <TextInput
-              style={styles.searchStyle}
-              placeholder={'Search Photo... by Caption or #Tag'}
-              value={this.state.searchFilter}
-              placeholderTextColor={'silver'}
-              onChangeText={text => this.setState({searchFilter: text})}
-            />
-
-            {this.state.searchFilter != '' && (
-              <TouchableOpacity
-                style={{position: 'absolute', right: 20, mpadding: 8}}
-                onPress={() => {
-                  console.log('cross pressed');
-                  this.setState({searchFilter: ''});
-                }}>
-                <Icon
-                  type="ionicon"
-                  name="ios-close"
-                  size={GlobalIconSize}
-                  color={'grey'}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
+          <SearchPhotoComponent
+            searchFilter={this.state.searchFilter}
+            onChangeSearchFilter={searchFilter => this.setState({searchFilter})}
+            //
+          />
         )}
         <View style={styles.searchTagsStyle}>
           {this.state.searchFilter[0] == '#' && (

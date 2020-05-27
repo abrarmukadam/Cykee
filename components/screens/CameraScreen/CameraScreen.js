@@ -10,6 +10,7 @@ import {
   StatusBar,
   BackHandler,
   Platform,
+  ToastAndroid,
 } from 'react-native';
 import styles from './styles';
 import {RNCamera} from 'react-native-camera';
@@ -87,12 +88,21 @@ class CameraScreen extends PureComponent {
     showTagDialog: false,
   };
   componentDidUpdate() {
+    if (this.state.hideFlashScreen)
+      setTimeout(() => {
+        this.setState({hideFlashScreen: false});
+        SplashScreen.hide();
+      }, 20);
+
     if (this.state.remountCamera) {
       console.log('CameraScreen-didUpdate-remountCamera');
       setTimeout(() => {
+        ToastAndroid.show('Initializing Settings !', ToastAndroid.SHORT);
+
         this.setState({remountCamera: false});
-        SplashScreen.hide();
-      }, 10);
+        // this.forceUpdate();
+        // SplashScreen.hide();
+      }, 100);
     }
     if (this.state.showLoadingScreen) {
       console.log('CameraScreen-didUpdate-showLoadingScreen');
@@ -125,12 +135,13 @@ class CameraScreen extends PureComponent {
       console.log(e); // {success: false}
     }
 
-    this.camera.refreshAuthorizationStatus();
-    if (this.props.cameraAspectRatio.length <= 1) {
-      const ratios = await this.camera.getSupportedRatiosAsync();
-      this.props.setCameraAspectRatio(ratios);
-      console.log('this.props.aspectRatio', this.props.cameraAspectRatio);
-    }
+    // this.camera.refreshAuthorizationStatus();
+    // if (this.props.cameraAspectRatio.length <= 1) {
+    //   const ratios = await this.camera.getSupportedRatiosAsync();
+    //   this.props.setCameraAspectRatio(ratios);
+    //   console.log('this.props.aspectRatio', this.props.cameraAspectRatio);
+    //   console.log('remountCamerae', this.state.remountCamera);
+    // }
 
     // this.setState({
     //   volume: await VolumeControl.getVolume(),
@@ -263,13 +274,28 @@ class CameraScreen extends PureComponent {
     });
 
   getCameraRatio = async () => {
-    if (!this.state.asp && this.camera) {
+    if (
+      this.props.cameraAspectRatio.length <= 1 &&
+      this.state.remountCamera == false
+    ) {
       const ratios = await this.camera.getSupportedRatiosAsync();
-      this.setState({
-        asp: ratios[ratios.length - 1],
-        remountCamera: true,
-      });
+      this.props.setCameraAspectRatio(ratios);
+      console.log('this.props.aspectRatio', this.props.cameraAspectRatio);
+      console.log('remountCamerae', this.state.remountCamera);
+      this.setState({remountCamera: true, hideFlashScreen: true});
+      console.log('remountCamerae', this.state.remountCamera);
+      console.log('remountCamerae', this.state.remountCamera);
+      console.log('remountCamerae', this.state.remountCamera);
     }
+
+    // if (!this.state.asp && this.camera) {
+    //   const ratios = await this.camera.getSupportedRatiosAsync();
+    //   console.log('getCameraRatio');
+    //   this.setState({
+    //     asp: ratios[ratios.length - 1],
+    //     remountCamera: true,
+    //   });
+    // }
   };
   EnterAutoTag = () => (
     <DialogInput
@@ -299,6 +325,8 @@ class CameraScreen extends PureComponent {
   );
 
   render() {
+    console.log('remountCamerae-render', this.state.remountCamera);
+
     // hideNavigationBar();
 
     // const d_t = new Date();
@@ -333,56 +361,59 @@ class CameraScreen extends PureComponent {
           {/* <StatusBar hidden={true} barStyle="light-content" /> */}
           {/* <StatusBar translucent /> */}
           <StatusBar backgroundColor={'transparent'} translucent />
-          <RNCamera
-            ref={ref => (this.camera = ref)}
-            style={{
-              height: this.props.aspectRatio ? '75%' : '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            type={this.props.cameraType ? 0 : 1} //back:0 , front:1
-            flashMode={this.props.flashMode}
-            onCameraReady={this.getCameraRatio}
-            ratio={
-              this.props.aspectRatio
-                ? '4:3'
-                : this.props.cameraAspectRatio[
-                    this.props.cameraAspectRatio.length - 1
-                  ]
-            }
-            autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
-            defaultOnFocusComponent={true}
-            autoFocus={true}
-            onPictureTaken={() =>
-              PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-              )
-            }>
-            {({camera, status, recordAudioPermissionStatus}) => {
-              if (status !== 'READY') {
-                console.log('NOT READY');
-
-                return <BlurLoadingView />;
+          {!this.state.remountCamera && (
+            <RNCamera
+              ref={ref => (this.camera = ref)}
+              style={{
+                height: this.props.aspectRatio ? '75%' : '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              type={this.props.cameraType ? 0 : 1} //back:0 , front:1
+              flashMode={this.props.flashMode}
+              onCameraReady={this.getCameraRatio}
+              // onCameraReady={() => this.setState({hideFlashScreen: true})}
+              ratio={
+                this.props.aspectRatio
+                  ? '4:3'
+                  : this.props.cameraAspectRatio[
+                      this.props.cameraAspectRatio.length - 1
+                    ]
               }
-              return (
-                <View style={StyleSheet.absoluteFill}>
-                  <View
-                    style={[
-                      styles.autoFocusBox,
-                      drawFocusRingPosition,
-                      {
-                        borderColor: this.state.focus ? 'white' : '#0000',
-                      },
-                    ]}
-                  />
-                  <TouchableWithoutFeedback
-                    onPress={event => this.touchToFocus(event)}>
-                    <View style={{flex: 1}} />
-                  </TouchableWithoutFeedback>
-                </View>
-              );
-            }}
-          </RNCamera>
+              autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
+              defaultOnFocusComponent={true}
+              autoFocus={true}
+              onPictureTaken={() =>
+                PermissionsAndroid.request(
+                  PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                )
+              }>
+              {({camera, status, recordAudioPermissionStatus}) => {
+                if (status !== 'READY') {
+                  console.log('NOT READY');
+
+                  return <BlurLoadingView />;
+                }
+                return (
+                  <View style={StyleSheet.absoluteFill}>
+                    <View
+                      style={[
+                        styles.autoFocusBox,
+                        drawFocusRingPosition,
+                        {
+                          borderColor: this.state.focus ? 'white' : '#0000',
+                        },
+                      ]}
+                    />
+                    <TouchableWithoutFeedback
+                      onPress={event => this.touchToFocus(event)}>
+                      <View style={{flex: 1}} />
+                    </TouchableWithoutFeedback>
+                  </View>
+                );
+              }}
+            </RNCamera>
+          )}
           <View style={[styles.CameraIconContainer, {borderWidth: 0}]}>
             {this.props.hideCameraSettingsIcons && (
               <View>

@@ -5,7 +5,6 @@ class GridViewScreen extends PureComponent {
     super();
     this.state = {
       searchFilter: '',
-      filteredList: [],
     };
   }
   componentDidMount() {
@@ -17,10 +16,6 @@ class GridViewScreen extends PureComponent {
         this.props.screen_mounted('GridViewScreen');
       },
     );
-
-    this.setState({
-      filteredList: this.props.photoArray,
-    });
 
     // this.props.navigation.setOptions({
     //   // headerTransparent: true,
@@ -44,23 +39,11 @@ class GridViewScreen extends PureComponent {
   componentDidUpdate(prevProps, prevState) {
     console.log('GridView did update called');
 
-    let filteredList = [];
     if (
       prevState.searchFilter != this.state.searchFilter ||
       prevProps.photoArray != this.props.photoArray
     ) {
       this.props.screen_mounted('GridViewScreen');
-
-      filteredList = this.props.photoArray.filter(List => {
-        return (
-          List.caption
-            .toLowerCase()
-            .indexOf(this.state.searchFilter.toLowerCase()) !== -1
-        );
-      });
-      this.setState({
-        filteredList: filteredList,
-      });
     }
   }
   componenDidUnmount() {
