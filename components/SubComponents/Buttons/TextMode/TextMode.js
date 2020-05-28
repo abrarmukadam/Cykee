@@ -5,18 +5,39 @@ import {GlobalIconColor, GlobalIconSize} from '../index';
 import styles from './styles';
 
 class TextMode extends Component {
+  constructor(props) {
+    super(props);
+  }
+  state = {
+    showIconName: this.props.showIconName,
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.showIconName != this.state.showIconName) {
+    }
+  }
   render() {
     return (
       <View style={styles.TextModeStyle}>
         <Text style={styles.TextStyle}>
-          {this.props.showIconName
+          {this.state.showIconName
             ? this.props.textIcon
               ? 'Caption On'
               : 'Caption Off'
             : ''}
         </Text>
 
-        <TouchableOpacity onPress={() => this.props.onPressTextMode()}>
+        <TouchableOpacity
+          onPress={() => {
+            this.setState({showIconName: true});
+            setTimeout(() => {
+              // console.log('timer running');
+              this.setState({
+                showIconName: false,
+              });
+            }, 2000);
+            this.props.onPressTextMode();
+          }}>
           <Icon
             name={
               this.props.textIcon ? 'closed-caption' : 'closed-caption-outline'

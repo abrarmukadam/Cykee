@@ -16,6 +16,7 @@ class EditIconsComponent extends Component {
             iconName="md-crop"
             // topPosition={70}
             handleOnPress={this.props.cropPressed}
+            buttonText={'Crop'}
           />
         )}
         {this.state.showEditOptions && (
@@ -23,6 +24,7 @@ class EditIconsComponent extends Component {
             iconType="material-community"
             iconName="rotate-right"
             // topPosition={120}
+            buttonText={'Rotate'}
             handleOnPress={this.props.rotatePressed}
           />
         )}
@@ -30,6 +32,7 @@ class EditIconsComponent extends Component {
           <EditScreenButton
             iconType="ionicon"
             iconName="md-undo"
+            buttonText={'Undo'}
             // topPosition={170}
             handleOnPress={this.props.undoPressed}
           />
@@ -38,6 +41,7 @@ class EditIconsComponent extends Component {
           <EditScreenButton
             iconType="ionicon"
             iconName="md-redo"
+            buttonText={'Redo'}
             // topPosition={170}
             handleOnPress={this.props.redoPressed}
           />

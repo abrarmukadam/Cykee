@@ -24,13 +24,21 @@ class FontIconsComponent extends Component {
   render() {
     console.log('FontIconsComponent Rendered');
     return (
-      <View style={{flexDirection: 'row'}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'flex-end',
+          // borderColor: 'green',
+          // borderWidth: 1,
+          marginBottom: -6,
+        }}>
         {!this.state.showFontIcons && (
           <View style={{flexDirection: 'column-reverse'}}>
             <FontButton
               iconType="material-community"
               buttonName={this.props.enterTag ? 'tag' : 'tag-outline'}
               handleOnPress={this.props.tagPressed}
+              buttonText={'Tag'}
             />
           </View>
         )}
@@ -40,6 +48,7 @@ class FontIconsComponent extends Component {
             iconType="material-community"
             buttonName={'format-size'}
             handleOnPress={this.props.captionSizePressed}
+            buttonText={'Size'}
           />
         )}
         {!this.state.showFontIcons && !this.props.enterTag && (
@@ -47,6 +56,7 @@ class FontIconsComponent extends Component {
             iconType="material-community"
             buttonName={'format-font'}
             handleOnPress={this.props.captionFontPressed}
+            buttonText={'Font'}
           />
         )}
         <Icon

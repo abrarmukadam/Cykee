@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {
   GlobalIconSize,
@@ -10,27 +10,43 @@ import {
 } from '../index';
 
 class EditScreenButton extends Component {
-  state = {};
+  state = {showIconName: true};
+
+  componentDidMount() {
+    setTimeout(() => {
+      console.log('timer running');
+      this.setState({
+        showIconName: false,
+      });
+    }, 2000);
+  }
+
   render() {
     return (
-      <Icon
-        type={this.props.iconType}
-        name={this.props.iconName}
-        size={GlobalIconSize - 10}
-        color={SIDE_ICON_COLOR}
-        underlayColor={'black'}
-        reverse={true}
-        reverseColor={CykeeColor}
-        containerStyle={[
-          styles.sideButtonStyle,
-          {
-            position: this.props.topPosition ? 'absolute' : 'relative',
-            top: this.props.topPosition ? this.props.topPosition : 0,
-            opacity: FONT_ICON_OPACITY,
-          },
-        ]}
-        onPress={() => this.props.handleOnPress()}
-      />
+      <View style={styles.container}>
+        {this.state.showIconName && (
+          <Text style={styles.textStyle}>{this.props.buttonText}</Text>
+        )}
+
+        <Icon
+          type={this.props.iconType}
+          name={this.props.iconName}
+          size={GlobalIconSize - 10}
+          color={SIDE_ICON_COLOR}
+          underlayColor={'black'}
+          reverse={true}
+          reverseColor={CykeeColor}
+          containerStyle={[
+            styles.sideButtonStyle,
+            {
+              // position: this.props.topPosition ? 'absolute' : 'relative',
+              top: this.props.topPosition ? this.props.topPosition : 0,
+              opacity: FONT_ICON_OPACITY,
+            },
+          ]}
+          onPress={() => this.props.handleOnPress()}
+        />
+      </View>
     );
   }
 }
@@ -38,8 +54,11 @@ class EditScreenButton extends Component {
 export default EditScreenButton;
 
 const styles = StyleSheet.create({
-  sideButtonStyle: {
-    top: 60,
-    right: 20,
+  sideButtonStyle: {},
+  container: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
+  textStyle: {fontSize: 10, color: 'white'},
 });

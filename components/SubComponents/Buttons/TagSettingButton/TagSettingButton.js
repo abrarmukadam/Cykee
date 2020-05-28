@@ -14,7 +14,9 @@ class TagSettingButton extends Component {
             justifyContent: 'center',
           }}
           onPress={() => {
-            if (this.props.tagIconEnabled) this.props.onPressTagName();
+            if (this.props.tagIconEnabled) {
+              this.props.onPressTagName();
+            }
           }}>
           <Text style={styles.TextStyle}>
             {this.props.showIconName
