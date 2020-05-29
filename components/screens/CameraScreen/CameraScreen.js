@@ -90,6 +90,7 @@ class CameraScreen extends PureComponent {
   componentDidUpdate() {
     if (this.state.hideFlashScreen)
       setTimeout(() => {
+        console.log('Timer:this.state.hideFlashScreen');
         this.setState({hideFlashScreen: false});
         SplashScreen.hide();
       }, 20);
@@ -98,6 +99,7 @@ class CameraScreen extends PureComponent {
       console.log('CameraScreen-didUpdate-remountCamera');
       setTimeout(() => {
         ToastAndroid.show('Initializing Settings !', ToastAndroid.SHORT);
+        console.log('Timer:this.state.remountCamera');
 
         this.setState({remountCamera: false});
         // this.forceUpdate();
@@ -107,20 +109,21 @@ class CameraScreen extends PureComponent {
     if (this.state.showLoadingScreen) {
       console.log('CameraScreen-didUpdate-showLoadingScreen');
       setTimeout(() => {
-        console.log('timer running');
+        console.log('Timer:this.state.showLoadingScreen');
         this.setState({showLoadingScreen: false});
       }, 50);
     }
     if (this.state.showBlurScreen) {
       console.log('CameraScreen-didUpdate-showBlurScreen');
       setTimeout(() => {
+        console.log('Timer:this.state.showBlurScreen');
         this.setState({showBlurScreen: false});
       }, 600);
     }
     if (this.state.showIconName) {
       console.log('CameraScreen-didUpdate-showIconName');
       setTimeout(() => {
-        console.log('timer running');
+        console.log('Timer:this.state.showIconName');
         this.setState({showIconName: false});
       }, 3000);
     }
@@ -168,6 +171,8 @@ class CameraScreen extends PureComponent {
     // this.volEvent.remove();
   }
   onPressGallery = () => {
+    changeNavigationBarColor(TAB_BAR_COLOR);
+
     this.props.navigation.navigate('GalleryTab');
     // this.props.navigation.navigate('GridViewScreen');
   };

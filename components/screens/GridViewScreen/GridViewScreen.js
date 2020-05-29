@@ -1,5 +1,9 @@
 import React, {PureComponent} from 'react';
 import {default as GridViewComponent} from '../../SubComponents/GridViewComponent/GridViewComponent.container';
+import {View} from 'react-native';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
+
+import {TAB_BAR_COLOR} from '../../SubComponents/Buttons/index';
 class GridViewScreen extends PureComponent {
   constructor() {
     super();
@@ -9,6 +13,9 @@ class GridViewScreen extends PureComponent {
   }
   componentDidMount() {
     this.props.screen_mounted('GridViewScreen');
+
+    // const response = await changeNavigationBarColor('#0000');
+    // console.log(response); // {success: true}
 
     this.screenLoadListener = this.props.navigation.addListener(
       'tabPress',
@@ -72,6 +79,7 @@ class GridViewScreen extends PureComponent {
     console.log(this.state.searchFilter);
 
     return (
+      // <View />
       <GridViewComponent
         receivedArray={this.props.photoArray}
         onPressCard={this.onPressCard}

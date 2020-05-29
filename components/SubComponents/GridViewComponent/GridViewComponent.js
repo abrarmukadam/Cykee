@@ -219,7 +219,7 @@ class GridViewComponent extends Component {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80,
     };
-
+    // return <View />;
     return (
       <View style={styles.container}>
         {/* <StatusBar hidden={true} /> */}

@@ -11,6 +11,14 @@ class TextMode extends Component {
   state = {
     showIconName: this.props.showIconName,
   };
+  componentDidMount() {
+    setTimeout(() => {
+      // console.log('timer running');
+      this.setState({
+        showIconName: false,
+      });
+    }, 2000);
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.showIconName != this.state.showIconName) {
