@@ -18,17 +18,8 @@ const mapPropsToState = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeFlashMode: flashMode => {
-      return dispatch(Actions.settingActions.changeFlashMode(flashMode));
-    },
     changeCameraType: cameraType => {
       return dispatch(Actions.settingActions.changeCameraType(cameraType));
-    },
-    changeAspectRatio: aspectRatio => {
-      return dispatch(Actions.settingActions.changeAspectRatio(aspectRatio));
-    },
-    changeTextMode: textMode => {
-      return dispatch(Actions.settingActions.changeTextMode(textMode));
     },
     addNewPhoto: newPhoto => {
       return dispatch(Actions.galleryActions.addPhotoToList(newPhoto));
@@ -38,12 +29,6 @@ const mapDispatchToProps = dispatch => {
     },
     hideCameraSettings: hide_status => {
       return dispatch(Actions.settingActions.hideCameraSettings(hide_status));
-    },
-    setAutoTagEnabled: autoTagEnabled => {
-      return dispatch(Actions.settingActions.setAutoTagEnabled(autoTagEnabled));
-    },
-    autoTagSetting: autoTag => {
-      return dispatch(Actions.settingActions.autoTagSetting(autoTag));
     },
   };
 };

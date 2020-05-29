@@ -39,6 +39,7 @@ import TagComponent from '../TagComponent/TagComponent';
 import TagDisplayComponent from '../TagDisplayComponent/TagDisplayComponent';
 import SearchedTagsComponent from '../SearchedTagsComponent/SearchedTagsComponent';
 import SearchPhotoComponent from '../SearchPhotoComponent/SearchPhotoComponent';
+import CameraSettingComponent from '../CameraSettingComponent/CameraSettingComponent.container';
 
 export {
   GridViewComponent,
@@ -48,6 +49,7 @@ export {
   TagDisplayComponent,
   SearchedTagsComponent,
   SearchPhotoComponent,
+  CameraSettingComponent,
 };
 
 export {
