@@ -30,13 +30,19 @@ class FontIconsComponent extends Component {
           alignItems: 'flex-end',
           // borderColor: 'green',
           // borderWidth: 1,
-          marginBottom: -6,
+          marginBottom: -4,
         }}>
         {!this.state.showFontIcons && (
           <View style={{flexDirection: 'column-reverse'}}>
             <FontButton
               iconType="material-community"
-              buttonName={this.props.enterTag ? 'tag' : 'tag-outline'}
+              buttonName={
+                this.props.tagsArray
+                  ? 'tag'
+                  : this.props.enterTag
+                  ? 'tag'
+                  : 'tag-outline'
+              }
               handleOnPress={this.props.tagPressed}
               buttonText={'Tag'}
             />

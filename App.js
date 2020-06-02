@@ -326,7 +326,7 @@ function CameraStack(navigation) {
         name="EditScreen"
         component={EditScreen}
         options={{
-          title: 'Edit Image',
+          title: 'Edit',
           // headerTransparent: true,
           headerTintColor: 'black',
           headerStyle: {

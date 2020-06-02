@@ -11,7 +11,7 @@ export default StyleSheet.create({
 
     bottom: '25%',
     right: 10,
-    flexDirection: 'column-reverse',
+    // flexDirection: 'column-reverse',
   },
   CameraIconContainer: {
     // borderWidth: 1,
@@ -26,11 +26,19 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 8,
     justifyContent: 'space-around',
-    paddingTop: 20,
+    // paddingTop: 20,
     // paddingRight: 20,
     flexDirection: 'column-reverse',
     // borderWidth: 0.2,
     borderColor: CykeeColor,
     // borderRadius: 50,
+  },
+  HidingIconContainer: {
+    paddingVertical: 20,
+    elevation: ELEVATION,
+    borderWidth: BORDERWIDTH,
+    alignItems: 'flex-end',
+    justifyContent: 'space-around',
+    borderColor: CykeeColor,
   },
 });

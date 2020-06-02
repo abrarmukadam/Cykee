@@ -41,7 +41,9 @@ class EditScreenButton extends Component {
             {
               // position: this.props.topPosition ? 'absolute' : 'relative',
               top: this.props.topPosition ? this.props.topPosition : 0,
-              opacity: FONT_ICON_OPACITY,
+              opacity: this.props.iconOpacity
+                ? this.props.iconOpacity
+                : FONT_ICON_OPACITY,
             },
           ]}
           onPress={() => this.props.handleOnPress()}

@@ -9,9 +9,12 @@ class FlashMode extends Component {
   render() {
     return (
       <View style={styles.FlashModeStyle}>
-        <Text style={styles.TextStyle}>
-          {this.props.showIconName ? 'Flash' : ''}
-        </Text>
+        {this.props.showIconName && (
+          <Text style={styles.TextStyle}>
+            {/* {this.props.showIconName ? 'Flash' : ''} */}
+            Flash
+          </Text>
+        )}
         <TouchableOpacity onPress={() => this.props.onPressFlashMode()}>
           <Icon
             name={flashIconName[this.props.flashIcon]}

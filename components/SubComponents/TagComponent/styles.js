@@ -49,7 +49,7 @@ export default StyleSheet.create({
     fontFamily: 'normal',
   },
   tag: {
-    backgroundColor: 'white',
+    backgroundColor: 'silver',
     height: 24,
     marginHorizontal: 2,
     // paddingHorizontal: 0,

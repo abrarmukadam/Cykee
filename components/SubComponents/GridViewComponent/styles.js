@@ -21,7 +21,7 @@ export default StyleSheet.create({
     right: 0,
   },
   headerTextStyle: {
-    fontSize: 20,
+    fontSize: 16,
     paddingHorizontal: 12,
   },
   headerStyle: {
@@ -59,7 +59,7 @@ export default StyleSheet.create({
     width: '100%',
     // borderWidth: 1,
     // borderColor: 'red',
-    paddingVertical: 4,
+    // paddingVertical: 4,
     // justifyContent:'center'
   },
   favContainer: {
@@ -76,7 +76,7 @@ export default StyleSheet.create({
     position: 'absolute',
     paddingBottom: 4,
     right: -10,
-    bottom: 105,
+    bottom: 50,
   },
   shareIconContainer: {
     justifyContent: 'flex-end',

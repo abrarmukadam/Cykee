@@ -16,7 +16,9 @@ class AspectRatio extends Component {
           <Icon
             name={this.props.aspectIcon ? 'resize-full-screen' : 'resize-100-'}
             // name={this.props.aspectIcon ? 'size-fullscreen' : 'size-actual'}
-            size={this.props.aspectIcon ? GlobalIconSize : GlobalIconSize - 6}
+            size={
+              this.props.aspectIcon ? GlobalIconSize - 6 : GlobalIconSize - 6
+            }
             // size={GlobalIconSize - 6}
             color={GlobalIconColor}
           />

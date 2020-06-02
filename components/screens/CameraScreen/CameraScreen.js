@@ -374,6 +374,7 @@ class CameraScreen extends PureComponent {
             </RNCamera>
           )}
           {/* {this.props.hideCameraSettingsIcons && ( */}
+          {/* <View style={{borderColor: 'yellow', borderWidth: 1, flex: 1}}> */}
           <CameraSettingComponent
             //
             onPressAspectRatio={() =>
@@ -382,6 +383,7 @@ class CameraScreen extends PureComponent {
               })
             }
           />
+          {/* </View> */}
           {/* )} */}
 
           <View style={styles.bottomContainer}>

@@ -38,6 +38,8 @@ import {
   TAB_BAR_COLOR,
   EditIconsComponent,
   FontIconsComponent,
+  TagComponent,
+  TagDisplayComponent,
 } from '../../SubComponents/Buttons/index';
 
 const ICON_OPACITY = 0.6;
@@ -60,6 +62,7 @@ class EditScreen extends Component {
     showEditOptions: true,
     saveInProgress: false,
     showIcons: true,
+    tagsArray: this.props.route.params.photo.tagsArray || [],
   };
   backAction = () => {
     const deletHeader = 'Discard changes ?';
@@ -70,7 +73,8 @@ class EditScreen extends Component {
       this.state.orignal_photo.captionStyle.captionSize !=
         this.state.captionSize ||
       this.state.orignal_photo.captionStyle.captionFont !=
-        this.state.captionFont
+        this.state.captionFont ||
+      this.state.orignal_photo.tagsArray != this.state.tagsArray
     )
       Alert.alert(
         deletHeader,
@@ -116,19 +120,64 @@ class EditScreen extends Component {
         fontSize: 24,
       },
       headerLeft: () => (
-        <Icon
-          type="ionicon"
-          name="ios-close"
-          underlayColor={'#0000'}
-          iconStyle={styles.elevationStyle}
-          size={GlobalIconSize}
-          color={GlobalIconColor}
-          containerStyle={styles.crossButtonStyle}
+        <TouchableOpacity
           onPress={() => this.crossPressed()}
-        />
+          // style={{paddingLeft: 20}}
+          style={{
+            // paddingLeft: 20,
+            marginLeft: 20,
+          }}
+          // style={[styles.IconContainer, {flex: 0}]}
+        >
+          <View
+            style={{
+              backgroundColor: 'grey',
+              paddingHorizontal: 7,
+              borderRadius: 20,
+              opacity: 0.2,
+            }}>
+            <Icon
+              type="ionicon"
+              name="md-close"
+              size={GlobalIconSize}
+              color={'white'}
+            />
+          </View>
+          <View
+            style={{
+              paddingHorizontal: 7,
+              borderRadius: 20,
+              position: 'absolute',
+            }}>
+            <Icon
+              type="ionicon"
+              name="md-close"
+              size={GlobalIconSize}
+              color={'white'}
+            />
+          </View>
+        </TouchableOpacity>
+        // <Icon
+        //   type="ionicon"
+        //   name="ios-close"
+        //   underlayColor={'#0000'}
+        //   iconStyle={styles.elevationStyle}
+        //   size={GlobalIconSize}
+        //   color={GlobalIconColor}
+        //   containerStyle={styles.crossButtonStyle}
+        //   onPress={() => this.crossPressed()}
+        // />
       ),
     });
   }
+  tagPressed = () => {
+    this.setState({tagPressed: !this.state.tagPressed});
+  };
+  tagsArrayChanged = tagsArray => {
+    this.setState({tagsArray});
+    // this.props.autoTagSetting(tagsArray[0]);
+    // console.log(tagsArray);
+  };
 
   componentWillUnmount() {
     changeNavigationBarColor(TAB_BAR_COLOR);
@@ -241,28 +290,29 @@ class EditScreen extends Component {
 
   onPressSave = () => {
     const saveHeader = 'Save changes ?';
-    const saveMessage = 'Do you want to replace or create a duplicate file?';
+    const saveMessage = 'Update existing photo or Add as new photo?';
     if (
       this.state.text != this.state.orignal_photo.caption ||
       this.state.photo.source.uri != this.state.orignal_photo.source.uri ||
       this.state.orignal_photo.captionStyle.captionSize !=
         this.state.captionSize ||
       this.state.orignal_photo.captionStyle.captionFont !=
-        this.state.captionFont
+        this.state.captionFont ||
+      this.state.orignal_photo.tagsArray != this.state.tagsArray
     )
       Alert.alert(
         saveHeader,
         saveMessage,
         [
           {
-            text: 'Replace',
+            text: 'Update',
             onPress: () => {
               this.savePhoto(true);
               console.log('Replace');
             },
           },
           {
-            text: 'Duplicate',
+            text: 'Add',
             onPress: () => {
               console.log('Duplicate');
               this.savePhoto(false);
@@ -274,6 +324,8 @@ class EditScreen extends Component {
     else this.props.navigation.goBack();
   };
   savePhoto = photo_replace => {
+    this.props.navigation.navigate('GalleryTab');
+
     this.setState({saveInProgress: true});
     let newPhoto = {};
     let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
@@ -287,6 +339,7 @@ class EditScreen extends Component {
       captionSize: this.state.captionSize,
       captionFont: this.state.captionFont,
     };
+    newPhoto.tagsArray = this.state.tagsArray;
 
     let orignal_temp = this.state.orignal_photo.source.uri.split('/');
     let orignalName = orignal_temp[orignal_temp.length - 1];
@@ -335,7 +388,6 @@ class EditScreen extends Component {
           ];
           this.props.addNewPhoto(newPhoto); //add to photoArray if Creating duplicate
         }
-        this.props.navigation.navigate('GalleryTab');
       });
     });
   };
@@ -386,6 +438,9 @@ class EditScreen extends Component {
               showFontIcons={this.props.showFontIcons}
               captionFontPressed={this.captionFontPressed}
               captionSizePressed={this.captionSizePressed}
+              tagPressed={this.tagPressed}
+              enterTag={this.state.tagPressed}
+              tagsArray={this.state.tagsArray}
             />
           )}
 
@@ -396,23 +451,31 @@ class EditScreen extends Component {
               // opacity: 0.6,
               paddingRight: 50,
             }}>
-            <TextInput
-              style={[
-                styles.textInputStyle,
-                {
-                  fontSize: CAPTION_SIZE[this.state.captionSize],
-                  fontFamily: CAPTION_FONT[this.state.captionFont],
-                },
-              ]}
-              placeholder={'Add a caption...'}
-              placeholderTextColor="grey"
-              value={this.state.text}
-              multiline
-              onChangeText={text => this.setState({text})}
-              autoCapitalize="none"
-              padding={10}
-              onBlur={() => this.setState({showIcons: true})}
-            />
+            {!this.state.tagPressed && (
+              <TextInput
+                style={[
+                  styles.textInputStyle,
+                  {
+                    fontSize: CAPTION_SIZE[this.state.captionSize],
+                    fontFamily: CAPTION_FONT[this.state.captionFont],
+                  },
+                ]}
+                placeholder={'Add a caption...'}
+                placeholderTextColor="grey"
+                value={this.state.text}
+                multiline
+                onChangeText={text => this.setState({text})}
+                autoCapitalize="none"
+                padding={10}
+                onBlur={() => this.setState({showIcons: true})}
+              />
+            )}
+            {this.state.tagPressed && (
+              <TagComponent
+                tagsArrayChanged={this.tagsArrayChanged}
+                tagsArray={this.state.tagsArray}
+              />
+            )}
           </View>
           <View style={styles.saveButtonStyle}>
             <TouchableOpacity onPress={() => this.onPressSave()}>
@@ -420,6 +483,22 @@ class EditScreen extends Component {
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
+        {this.state.showIcons && (
+          <TouchableOpacity
+            onPress={() => this.setState({tagPressed: true})}
+            style={{
+              position: 'absolute',
+              top: 80,
+              left: 20,
+              // borderColor: 'red',
+              // borderWidth: 1,
+              // flexWrap: 'wrap',
+            }}>
+            <TagDisplayComponent
+              tagsArray={this.state.tagsArray ? this.state.tagsArray : ['']}
+            />
+          </TouchableOpacity>
+        )}
       </View>
     );
   }

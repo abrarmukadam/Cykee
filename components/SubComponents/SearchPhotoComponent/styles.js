@@ -20,6 +20,8 @@ export default StyleSheet.create({
     // borderRadius: 25,
     marginBottom: 2,
     paddingHorizontal: 10,
+    // borderWidth: 1,
+    // borderColor: 'red',
     // height: 48,
   },
 });

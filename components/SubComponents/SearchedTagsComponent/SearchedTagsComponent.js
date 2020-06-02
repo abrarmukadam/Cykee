@@ -84,6 +84,8 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // horizontal: true,
     flexDirection: 'row',
+    // borderWidth: 1,
+    // borderColor: 'red',
   },
   fontStyle: {
     fontSize: 14,
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginHorizontal: 2,
     paddingHorizontal: 6,
+    paddingVertical: 4,
   },
 });
 

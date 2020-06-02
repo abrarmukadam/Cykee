@@ -27,14 +27,11 @@ class TextMode extends Component {
   render() {
     return (
       <View style={styles.TextModeStyle}>
-        <Text style={styles.TextStyle}>
-          {this.state.showIconName
-            ? this.props.textIcon
-              ? 'Caption On'
-              : 'Caption Off'
-            : ''}
-        </Text>
-
+        {this.state.showIconName && (
+          <Text style={styles.TextStyle}>
+            {this.props.textIcon ? 'Caption On' : 'Caption Off'}
+          </Text>
+        )}
         <TouchableOpacity
           onPress={() => {
             this.setState({showIconName: true});

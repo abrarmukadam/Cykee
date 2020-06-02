@@ -172,7 +172,7 @@ class GridViewComponent extends Component {
     console.log('Delete Pressed');
     console.log(this.state.selectedArray);
     const deletHeader = 'Delete Photo ?';
-    const deletMessage = 'Do you wish to Delete the selected Photo?';
+    const deletMessage = 'This photo will be deleted from the album.';
     Alert.alert(
       deletHeader,
       deletMessage,
@@ -185,7 +185,7 @@ class GridViewComponent extends Component {
           style: 'cancel',
         },
         {
-          text: 'OK',
+          text: 'Delete',
           onPress: () => {
             let deleteItems = [];
             this.state.selectedArray.map(item => {
@@ -296,18 +296,20 @@ class GridViewComponent extends Component {
             {/* <TouchableOpacity
               style={styles.shareIconContainer}
               onPress={() => this.onPressShare()}> */}
-            <View style={{position: 'absolute', bottom: 60, right: 0}}>
+            <View style={{position: 'absolute', bottom: 60, right: 20}}>
               <EditScreenButton
                 iconType="simple-line-icon"
                 iconName="share"
+                iconOpacity={0.8}
                 // topPosition={20}
                 handleOnPress={() => this.onPressShare()}
               />
             </View>
-            <View style={{position: 'absolute', bottom: 0, right: 0}}>
+            <View style={{position: 'absolute', bottom: 0, right: 20}}>
               <EditScreenButton
                 iconType="evilicon"
                 iconName="trash"
+                iconOpacity={0.8}
                 // topPosition={80}
                 handleOnPress={() => this.onPressDelete()}
               />
@@ -426,6 +428,7 @@ class GridViewComponent extends Component {
         selectedArray: tempSelectedArray,
         selectedArrayLength: count,
       });
+      if (count == 0) this.setState({longPressStatus: false});
     }
   };
 

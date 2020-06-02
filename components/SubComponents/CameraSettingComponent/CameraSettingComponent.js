@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {View, Animated} from 'react-native';
 import {
   AspectRatio,
   TextMode,
@@ -18,9 +18,17 @@ class CameraSettingComponent extends Component {
   state = {
     showTagDialog: false,
     showIconName: true,
+    // animationOpen: new Animated.Value(0),
   };
+  componentDidMount() {
+    // Animated.timing(this.state.animation, {
+    //   toValue: 1,
+    //   duration: 400,
+    //   // useNativeDriver: true,
+    // }).start();
+  }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.showIconName) {
       console.log('CameraScreen-didUpdate-showIconName');
       setTimeout(() => {
@@ -28,6 +36,12 @@ class CameraSettingComponent extends Component {
         this.setState({showIconName: false});
       }, 3000);
     }
+    // if (this.props.hideCameraSettingsIcons) {
+    //   Animated.timing(this.state.animationOpen, {
+    //     toValue: 1,
+    //     duration: 1000,
+    //   }).start();
+    // }
   }
   changeFlashMode = () => {
     //"FlashMode": {"auto": 3, "off": 0, "on": 1, "torch": 2}
@@ -64,72 +78,87 @@ class CameraSettingComponent extends Component {
   );
   render() {
     return (
-      <View style={[styles.CameraIconContainer, {borderWidth: 0}]}>
-        {this.props.hideCameraSettingsIcons && (
-          <View>
-            <AspectRatio
-              aspectIcon={this.props.aspectRatio}
-              onPressAspectRatio={() => {
-                this.props.onPressAspectRatio();
-                this.props.changeAspectRatio(!this.props.aspectRatio);
-              }}
-              showIconName={this.state.showIconName}
-            />
-            <TextMode
-              textIcon={this.props.textMode}
-              onPressTextMode={() =>
-                this.props.changeTextMode(!this.props.textMode)
-              }
-              showIconName={this.state.showIconName}
-            />
-            <FlashMode
-              flashIcon={this.props.flashMode}
-              onPressFlashMode={() => this.changeFlashMode()}
-              showIconName={this.state.showIconName}
-            />
-            {this.props.autoTagEnabled &&
-              // this.props.autoTagValue.length <= 1 &&
-              this.state.showTagDialog &&
-              this.EnterAutoTag()}
-          </View>
-        )}
-        {!(
-          !this.props.hideCameraSettingsIcons && !this.props.autoTagEnabled
-        ) && (
-          <TagSettingButton
-            showIconName={this.state.showIconName}
-            onPressAutoTagSetting={() => {
-              if (
-                this.props.autoTagValue.length <= 1 &&
-                !this.props.autoTagEnabled
-              )
-                this.setState({
-                  showTagDialog: true,
-                });
-              else
-                this.setState({
-                  showTagDialog: false,
-                });
-
-              this.props.setAutoTagEnabled(!this.props.autoTagEnabled);
-            }}
-            onPressTagName={() => {
-              this.setState({showTagDialog: true});
-              // this.EnterAutoTag();
-            }}
-            tagIconEnabled={this.props.autoTagEnabled}
-            autoTagValue={
-              this.props.autoTagValue ? this.props.autoTagValue : 'No Tag set'
-            }
-          />
-        )}
+      <View
+        style={[
+          styles.CameraIconContainer,
+          {
+            // borderWidth: 1,
+            // borderColor: 'green',
+          },
+        ]}>
         <MoreIcon
           expandOptions={this.props.hideCameraSettingsIcons}
           onPressMore={() => {
-            this.setState({showIconName: true});
+            if (!this.props.hideCameraSettingsIcons)
+              this.setState({showIconName: true});
             this.props.hideCameraSettings(!this.props.hideCameraSettingsIcons);
           }}
         />
+        <View
+          style={[
+            styles.HidingIconContainer,
+            // {borderWidth: 1, borderColor: 'red'},
+          ]}>
+          {!(
+            !this.props.hideCameraSettingsIcons && !this.props.autoTagEnabled
+          ) && (
+            <TagSettingButton
+              showIconName={this.state.showIconName}
+              onPressAutoTagSetting={() => {
+                if (
+                  this.props.autoTagValue.length <= 1 &&
+                  !this.props.autoTagEnabled
+                )
+                  this.setState({
+                    showTagDialog: true,
+                  });
+                else
+                  this.setState({
+                    showTagDialog: false,
+                  });
+
+                this.props.setAutoTagEnabled(!this.props.autoTagEnabled);
+              }}
+              onPressTagName={() => {
+                this.setState({showTagDialog: true});
+                // this.EnterAutoTag();
+              }}
+              tagIconEnabled={this.props.autoTagEnabled}
+              autoTagValue={
+                this.props.autoTagValue ? this.props.autoTagValue : 'No Tag set'
+              }
+            />
+          )}
+
+          {this.props.hideCameraSettingsIcons && (
+            <View>
+              <AspectRatio
+                aspectIcon={this.props.aspectRatio}
+                onPressAspectRatio={() => {
+                  this.props.onPressAspectRatio();
+                  this.props.changeAspectRatio(!this.props.aspectRatio);
+                }}
+                showIconName={this.state.showIconName}
+              />
+              <TextMode
+                textIcon={this.props.textMode}
+                onPressTextMode={() =>
+                  this.props.changeTextMode(!this.props.textMode)
+                }
+                showIconName={this.state.showIconName}
+              />
+              <FlashMode
+                flashIcon={this.props.flashMode}
+                onPressFlashMode={() => this.changeFlashMode()}
+                showIconName={this.state.showIconName}
+              />
+              {this.props.autoTagEnabled &&
+                // this.props.autoTagValue.length <= 1 &&
+                this.state.showTagDialog &&
+                this.EnterAutoTag()}
+            </View>
+          )}
+        </View>
       </View>
     );
   }

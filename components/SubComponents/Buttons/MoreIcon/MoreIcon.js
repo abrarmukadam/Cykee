@@ -7,7 +7,7 @@ class MoreIcon extends Component {
   render() {
     return (
       <Icon
-        name={this.props.expandOptions ? 'downcircleo' : 'upcircleo'}
+        name={this.props.expandOptions ? 'closecircleo' : 'upcircleo'}
         type="antdesign"
         size={30}
         color={this.props.expandOptions ? 'white' : 'white'}
@@ -16,6 +16,7 @@ class MoreIcon extends Component {
         // reverse
         reverseColor={'white'}
         // raised
+        underlayColor={'#0000'}
       />
     );
   }

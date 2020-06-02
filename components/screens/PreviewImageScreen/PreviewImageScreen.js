@@ -91,15 +91,40 @@ class PreviewImageScreen extends Component {
   leftHeaderButton = (
     <TouchableOpacity
       onPress={() => this.props.navigation.goBack()}
-      style={{paddingLeft: 20}}
+      // style={{paddingLeft: 20}}
+      style={{
+        // paddingLeft: 20,
+        marginLeft: 20,
+      }}
       // style={[styles.IconContainer, {flex: 0}]}
     >
-      <Icon
-        type="ionicon"
-        name="md-close"
-        size={GlobalIconSize}
-        color={'white'}
-      />
+      <View
+        style={{
+          backgroundColor: 'grey',
+          paddingHorizontal: 7,
+          borderRadius: 20,
+          opacity: 0.2,
+        }}>
+        <Icon
+          type="ionicon"
+          name="md-close"
+          size={GlobalIconSize}
+          color={'white'}
+        />
+      </View>
+      <View
+        style={{
+          paddingHorizontal: 7,
+          borderRadius: 20,
+          position: 'absolute',
+        }}>
+        <Icon
+          type="ionicon"
+          name="md-close"
+          size={GlobalIconSize}
+          color={'white'}
+        />
+      </View>
     </TouchableOpacity>
   );
 
@@ -298,6 +323,7 @@ class PreviewImageScreen extends Component {
                 captionSizePressed={this.captionSizePressed}
                 tagPressed={this.tagPressed}
                 enterTag={this.state.tagPressed}
+                tagsArray={this.props.autoTagEnabled}
               />
             )}
 
