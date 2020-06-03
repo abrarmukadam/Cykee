@@ -224,7 +224,24 @@ class GridViewComponent extends Component {
       <View style={styles.container}>
         {/* <StatusBar hidden={true} /> */}
         <StatusBar backgroundColor={'transparent'} translucent />
-
+        <View>
+          {this.props.gridSize != 'CameraRoll' && (
+            <SearchPhotoComponent
+              searchFilter={this.state.searchFilter}
+              onChangeSearchFilter={searchFilter =>
+                this.setState({searchFilter})
+              }
+              //
+            />
+          )}
+          {this.state.searchFilter[0] == '#' && (
+            <SearchedTagsComponent
+              searchFilter={this.state.searchFilter}
+              filteredList={this.state.filteredList}
+              changeSearchFilter={item => this.setState({searchFilter: item})}
+            />
+          )}
+        </View>
         {this.state.longPressStatus && (
           <View style={styles.headerStyle}>
             <Text style={styles.headerTextStyle}>
@@ -349,25 +366,18 @@ class GridViewComponent extends Component {
   }
   renderHeader = () => {
     return (
-      <View style={{flex: 1}}>
-        {this.props.gridSize != 'CameraRoll' && (
-          <SearchPhotoComponent
-            searchFilter={this.state.searchFilter}
-            onChangeSearchFilter={searchFilter => this.setState({searchFilter})}
-            //
-          />
-        )}
-        <View style={styles.searchTagsStyle}>
-          {this.state.searchFilter[0] == '#' && (
-            <SearchedTagsComponent
-              searchFilter={this.state.searchFilter}
-              filteredList={this.state.filteredList}
-              changeSearchFilter={item => this.setState({searchFilter: item})}
-            />
-          )}
-        </View>
+      <View style={[styles.searchTagsStyle]}>
+        {/* {this.state.searchFilter[0] == '#' && ( */}
+        {/* <SearchedTagsComponent
+          searchFilter={this.state.searchFilter}
+          filteredList={this.state.filteredList}
+          changeSearchFilter={item => this.setState({searchFilter: item})}
+        /> */}
+        {/* )} */}
       </View>
     );
+
+    return <View />;
   };
   longPressItem = index => {
     let filteredList = [...this.state.filteredList];

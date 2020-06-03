@@ -61,6 +61,7 @@ export default StyleSheet.create({
     // borderColor: 'red',
     // paddingVertical: 4,
     // justifyContent:'center'
+    backgroundColor: SEARCH_BAR_COLOR,
   },
   favContainer: {
     position: 'absolute',

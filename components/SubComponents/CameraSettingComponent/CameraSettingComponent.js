@@ -121,6 +121,8 @@ class CameraSettingComponent extends Component {
               }}
               onPressTagName={() => {
                 this.setState({showTagDialog: true});
+                this.props.hideCameraSettings(true);
+
                 // this.EnterAutoTag();
               }}
               tagIconEnabled={this.props.autoTagEnabled}

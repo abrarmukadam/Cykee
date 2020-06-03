@@ -5,6 +5,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 
 import {GlobalIconSize} from '../Buttons/index';
@@ -20,41 +21,64 @@ class SearchPhotoComponent extends Component {
   render() {
     console.log('search rendered');
     return (
-      <View style={styles.searchContainer}>
-        <Icon
-          name="ios-search"
-          type="ionicon"
-          size={GlobalIconSize - 10}
-          color={'grey'}
-          containerStyle={{marginHorizontal: 4}}
-        />
-        <TextInput
+      <ScrollView
+        keyboardShouldPersistTaps={'handled'}
+        // style={styles.searchContainer}
+      >
+        <View style={styles.searchContainer}>
+          <Icon
+            name="ios-search"
+            type="ionicon"
+            size={GlobalIconSize - 10}
+            color={'grey'}
+            containerStyle={{marginHorizontal: 4}}
+          />
+          <TextInput
+            style={styles.searchStyle}
+            placeholder={'Search Photo...by Caption or #Tag'}
+            value={this.props.searchFilter}
+            placeholderTextColor={'silver'}
+            onChangeText={text => this.props.onChangeSearchFilter(text)}
+          />
+          {/* <Input
           style={styles.searchStyle}
           placeholder={'Search Photo...by Caption or #Tag'}
-          value={this.props.searchFilter}
           placeholderTextColor={'silver'}
+          value={this.props.searchFilter}
           onChangeText={text => this.props.onChangeSearchFilter(text)}
-        />
-
-        {this.props.searchFilter != '' && (
-          <TouchableOpacity
-            style={{
-              paddingVertical: 6,
-              paddingHorizontal: 6,
-            }}
-            onPress={() => {
-              console.log('cross pressed');
-              this.props.onChangeSearchFilter('');
-            }}>
+          rightIcon={
             <Icon
               type="ionicon"
               name="ios-close"
               size={GlobalIconSize}
               color={'grey'}
+              onPress={() => {
+                console.log('cross pressed');
+                this.props.onChangeSearchFilter('');
+              }}
             />
-          </TouchableOpacity>
-        )}
-      </View>
+          }
+        /> */}
+          {this.props.searchFilter != '' && (
+            <TouchableOpacity
+              style={{
+                paddingVertical: 6,
+                paddingHorizontal: 6,
+              }}
+              onPress={() => {
+                console.log('cross pressed');
+                this.props.onChangeSearchFilter('');
+              }}>
+              <Icon
+                type="ionicon"
+                name="ios-close"
+                size={GlobalIconSize}
+                color={'grey'}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+      </ScrollView>
     );
   }
 }

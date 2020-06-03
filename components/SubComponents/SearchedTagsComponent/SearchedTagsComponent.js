@@ -57,7 +57,8 @@ class SearchedTagsComponent extends Component {
       <ScrollView
         style={styles.container}
         horizontal={true}
-        showsHorizontalScrollIndicator={false}>
+        showsHorizontalScrollIndicator={false}
+        keyboardShouldPersistTaps={'handled'}>
         {this.state.filteredList &&
           this.state.filteredList.map(item => {
             return (
@@ -79,7 +80,7 @@ class SearchedTagsComponent extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     // justifyContent: 'flex-start',
     // alignItems: 'center',
     // horizontal: true,

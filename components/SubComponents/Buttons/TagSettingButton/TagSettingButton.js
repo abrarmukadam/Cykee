@@ -16,20 +16,32 @@ class TagSettingButton extends Component {
           onPress={() => {
             if (this.props.tagIconEnabled) {
               this.props.onPressTagName();
+              // console.log('onPress Tag');
             }
           }}>
           <Text style={styles.TextStyle}>
             {this.props.showIconName
               ? this.props.tagIconEnabled
-                ? 'Auto Tag On'
+                ? `Auto Tag ${this.props.autoTagValue}`
                 : 'Auto Tag Off'
               : this.props.tagIconEnabled
               ? this.props.autoTagValue
               : ''}
+
+            {/* {this.props.showIconName
+              ? this.props.tagIconEnabled
+                ? 'Auto Tag On'
+                : 'Auto Tag Off'
+              : this.props.tagIconEnabled
+              ? this.props.autoTagValue
+              : ''} */}
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => this.props.onPressAutoTagSetting()}>
+        <TouchableOpacity
+          onPress={() => {
+            this.props.onPressAutoTagSetting();
+          }}>
           <Icon
             name={
               this.props.tagIconEnabled ? 'tag' : 'tago'
