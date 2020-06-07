@@ -45,7 +45,7 @@ class GalleryButton extends Component {
           }
           defaultSource={require('../../Images/no-image.png')}
         />
-        <Image
+        <FastImage
           style={[
             styles.ImageStyle,
             {

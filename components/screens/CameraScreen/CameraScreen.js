@@ -158,9 +158,8 @@ class CameraScreen extends PureComponent {
     // this.volEvent.remove();
   }
   onPressGallery = () => {
-    changeNavigationBarColor(TAB_BAR_COLOR);
-
     this.props.navigation.navigate('GalleryTab');
+    changeNavigationBarColor(TAB_BAR_COLOR);
     // this.props.navigation.navigate('GridViewScreen');
   };
   takeVideo = async () => {

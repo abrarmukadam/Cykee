@@ -113,7 +113,7 @@ function GalleryTab(navigation) {
 const expandingTransition_config = {
   animation: 'timing',
   config: {
-    duration: 250, // These are optional, so feel free to modify them as you see fit.
+    duration: 10, // These are optional, so feel free to modify them as you see fit.
     easing: Easing.inOut(Easing.ease),
     timing: Animated.timing,
   },
@@ -122,7 +122,7 @@ const expandingTransition_config = {
 const sharedElementTransition_config = {
   animation: 'timing',
   config: {
-    duration: 350, // These are optional, so feel free to modify them as you see fit.
+    duration: 10, // These are optional, so feel free to modify them as you see fit.
     easing: Easing.inOut(Easing.ease),
     timing: Animated.timing,
   },
@@ -228,9 +228,9 @@ function CameraStack(navigation) {
 
         headerTintColor: 'red',
       }}
-      // screenOptions={{
-      //   animationEnabled: false,
-      // }}
+      screenOptions={{
+        animationEnabled: true,
+      }}
       //
     >
       <Stack.Screen
@@ -267,8 +267,8 @@ function CameraStack(navigation) {
           // },
           // cardStyleInterpolator: expandingTransition,
 
-          // cardStyleInterpolator:
-          //   CardStyleInterpolators.forRevealFromBottomAndroid,
+          cardStyleInterpolator:
+            CardStyleInterpolators.forRevealFromBottomAndroid,
           headerRight: () => (
             <View>
               <HideCaption />
@@ -290,9 +290,8 @@ function CameraStack(navigation) {
             elevation: 100,
             borderRadius: 0,
           },
-          // animationEnabled: false,
-          // cardStyleInterpolator:
-          //   CardStyleInterpolators.forFadeFromBottomAndroid,
+          cardStyleInterpolator:
+            CardStyleInterpolators.forRevealFromBottomAndroid,
           // cardStyleInterpolator: forFade,
         }}
       />
@@ -309,13 +308,15 @@ function CameraStack(navigation) {
           },
           headerShown: false,
           gestureEnabled: false,
+          cardStyleInterpolator:
+            CardStyleInterpolators.forFadeFromBottomAndroid,
 
           // gestureDirection: 'vertical',
-          transitionSpec: {
-            open: sharedElementTransition_config,
-            close: expandingTransition_config,
-          },
-          cardStyleInterpolator: sharedElementExitTransition,
+          // transitionSpec: {
+          //   open: sharedElementTransition_config,
+          //   close: expandingTransition_config,
+          // },
+          // cardStyleInterpolator: sharedElementExitTransition,
           // cardStyleInterpolator: expandingTransition,
 
           // ...TransitionPresets.ModalPresentationIOS,
@@ -338,8 +339,8 @@ function CameraStack(navigation) {
           gestureEnabled: false,
           // gestureDirection: 'vertical',
           // cardStyleInterpolator: forFade,
-          // cardStyleInterpolator:
-          //   CardStyleInterpolators.forFadeFromBottomAndroid,
+          cardStyleInterpolator:
+            CardStyleInterpolators.forFadeFromBottomAndroid,
         }}
       />
     </Stack.Navigator>

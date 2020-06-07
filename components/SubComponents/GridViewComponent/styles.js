@@ -38,9 +38,11 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   tagsContainer: {
+    // borderColor: 'red',
+    // borderWidth: 1,
     position: 'absolute',
     top: 0,
-    width: '60%',
+    width: '50%',
   },
   captionContainer: {
     position: 'absolute',

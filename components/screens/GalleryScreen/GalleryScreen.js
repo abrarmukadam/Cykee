@@ -102,7 +102,6 @@ class GalleryScreen extends Component {
   }
   componentWillUnmount() {
     console.log('Gallery Screen did-unmount');
-    this.props.photo_loaded();
     changeNavigationBarColor(TAB_BAR_COLOR);
   }
   async componentDidMount() {
@@ -134,14 +133,9 @@ class GalleryScreen extends Component {
     // },
     // headerRight: () => this.rightHeaderButton,
     // });
-    try {
-      // const response = await changeNavigationBarColor('transparent');
-      const response1 = await changeNavigationBarColor(TAB_BAR_COLOR);
-      // const response = await changeNavigationBarColor('#0000');
-      // console.log(response); // {success: true}
-    } catch (e) {
-      console.log(e); // {success: false}
-    }
+    const response1 = await changeNavigationBarColor(TAB_BAR_COLOR);
+
+    this.props.photo_loaded();
   }
   rightHeaderButton = (
     <TouchableOpacity

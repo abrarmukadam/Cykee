@@ -9,7 +9,7 @@ export default StyleSheet.create({
     // top: 80,
     // right: 20,
     // // alignSelf: 'flex-end',
-    paddingBottom: 12,
+    paddingTop: 12,
     flexDirection: 'row',
     alignItems: 'center',
     paddingRight: 2,

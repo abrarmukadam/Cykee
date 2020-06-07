@@ -99,6 +99,35 @@ class CameraSettingComponent extends Component {
             styles.HidingIconContainer,
             // {borderWidth: 1, borderColor: 'red'},
           ]}>
+          {this.props.hideCameraSettingsIcons && (
+            <View>
+              <FlashMode
+                flashIcon={this.props.flashMode}
+                onPressFlashMode={() => this.changeFlashMode()}
+                showIconName={this.state.showIconName}
+              />
+              <TextMode
+                textIcon={this.props.textMode}
+                onPressTextMode={() =>
+                  this.props.changeTextMode(!this.props.textMode)
+                }
+                showIconName={this.state.showIconName}
+              />
+              <AspectRatio
+                aspectIcon={this.props.aspectRatio}
+                onPressAspectRatio={() => {
+                  this.props.onPressAspectRatio();
+                  this.props.changeAspectRatio(!this.props.aspectRatio);
+                }}
+                showIconName={this.state.showIconName}
+              />
+
+              {this.props.autoTagEnabled &&
+                // this.props.autoTagValue.length <= 1 &&
+                this.state.showTagDialog &&
+                this.EnterAutoTag()}
+            </View>
+          )}
           {!(
             !this.props.hideCameraSettingsIcons && !this.props.autoTagEnabled
           ) && (
@@ -130,35 +159,6 @@ class CameraSettingComponent extends Component {
                 this.props.autoTagValue ? this.props.autoTagValue : 'No Tag set'
               }
             />
-          )}
-
-          {this.props.hideCameraSettingsIcons && (
-            <View>
-              <AspectRatio
-                aspectIcon={this.props.aspectRatio}
-                onPressAspectRatio={() => {
-                  this.props.onPressAspectRatio();
-                  this.props.changeAspectRatio(!this.props.aspectRatio);
-                }}
-                showIconName={this.state.showIconName}
-              />
-              <TextMode
-                textIcon={this.props.textMode}
-                onPressTextMode={() =>
-                  this.props.changeTextMode(!this.props.textMode)
-                }
-                showIconName={this.state.showIconName}
-              />
-              <FlashMode
-                flashIcon={this.props.flashMode}
-                onPressFlashMode={() => this.changeFlashMode()}
-                showIconName={this.state.showIconName}
-              />
-              {this.props.autoTagEnabled &&
-                // this.props.autoTagValue.length <= 1 &&
-                this.state.showTagDialog &&
-                this.EnterAutoTag()}
-            </View>
           )}
         </View>
       </View>

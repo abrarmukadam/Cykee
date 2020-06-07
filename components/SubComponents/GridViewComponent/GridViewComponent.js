@@ -68,20 +68,13 @@ class GridViewComponent extends Component {
     };
   }
   async componentDidMount() {
+    this.props.photo_loaded();
     console.log('componentDidMount in GridViewComponnet');
     this.setState({
       filteredList: this.props.receivedArray,
       refreshing: false,
     });
-    try {
-      const response = await changeNavigationBarColor(TAB_BAR_COLOR);
-      // const response = await changeNavigationBarColor('#0000');
-      // console.log(response); // {success: true}
-    } catch (e) {
-      console.log(e); // {success: false}
-    }
-
-    this.props.photo_loaded();
+    changeNavigationBarColor(TAB_BAR_COLOR);
   }
   componentWillUnmount() {
     console.log('UNMOUNTED');
@@ -102,15 +95,8 @@ class GridViewComponent extends Component {
           selectedArrayLength: 0,
           longPressStatus: false,
         });
-        // if (prevProps.receivedArray != this.props.receivedArray)
-        //   console.log(
-        //     'receivedArray not same',
-        //     prevProps.receivedArray,
-        //     this.props.receivedArray,
-        //   );
       }
       console.log('updating data');
-      // if (this.state.searchFilter[0] != '#')
       filteredList = this.props.receivedArray.filter(List => {
         let newString = '';
         if (List.tagsArray)
@@ -122,23 +108,6 @@ class GridViewComponent extends Component {
             .indexOf(this.state.searchFilter.toLowerCase()) !== -1
         );
       });
-      // else
-      //   filteredList = this.props.receivedArray.filter(List => {
-      //     let searchFilter = this.state.searchFilter;
-      //     console.log('searchFilterBefore', searchFilter);
-      //     if (searchFilter.length <= 1) searchFilter = '';
-      //     else searchFilter = searchFilter.substr(1);
-
-      //     console.log('searchFilter', searchFilter);
-      //     if (List.tagsArray)
-      //       if (List.tagsArray[0]) {
-      //         let tagsArray = List.tagsArray.toString();
-      //         return (
-      //           tagsArray.toLowerCase().indexOf(searchFilter.toLowerCase()) !==
-      //           -1
-      //         );
-      //       }
-      //   });
 
       this.setState({
         filteredList: filteredList,
@@ -269,14 +238,6 @@ class GridViewComponent extends Component {
             </TouchableOpacity>
           </View>
         )}
-        {/* <ScrollView
-          refreshControl={
-            <RefreshControl
-              colors={[CykeeColor]}
-              onRefresh={() => this.props.onScrollDown()}
-            />
-          }
-          style={([styles.scrollViewStyle], {alwaysBounceVertical: true})}> */}
 
         <View style={styles.gridContainer}>
           {this.state.filteredList && (
@@ -302,7 +263,6 @@ class GridViewComponent extends Component {
                     });
                   }}
                   refreshing={this.state.refreshing}
-                  // onRefresh={() => this.props.onScrollDown()}
                 />
               }
             />
@@ -310,9 +270,6 @@ class GridViewComponent extends Component {
         </View>
         {this.state.longPressStatus && (
           <View style={styles.buttonContainerStyle}>
-            {/* <TouchableOpacity
-              style={styles.shareIconContainer}
-              onPress={() => this.onPressShare()}> */}
             <View style={{position: 'absolute', bottom: 60, right: 20}}>
               <EditScreenButton
                 iconType="simple-line-icon"
@@ -331,15 +288,6 @@ class GridViewComponent extends Component {
                 handleOnPress={() => this.onPressDelete()}
               />
             </View>
-            {/* <ShareIcon iconSize={24} /> */}
-            {/* <Text style={styles.shareIconText}>Share</Text> */}
-            {/* </TouchableOpacity> */}
-            {/* <TouchableOpacity
-              style={styles.shareIconContainer}
-              onPress={() => this.onPressDelete()}>
-              <DeleteIcon iconSize={30} />
-              <Text style={styles.shareIconText}>Delete</Text>
-            </TouchableOpacity> */}
           </View>
         )}
         {/* </ScrollView> */}
@@ -348,35 +296,11 @@ class GridViewComponent extends Component {
           style={styles.backGroundBackButtonStyle}
           onPress={this.props.EmptyScreenBackButton}
         />
-        {this.renderAnimation(this.state.filteredList[this.state.index])}
-
-        {/* <View
-          style={{
-            opacity: 0.5,
-            height: 200,
-            width: WIDTH / 3,
-            backgroundColor: 'red',
-            position: 'absolute',
-            left: 219,
-            top: 249 + 4,
-          }}
-        /> */}
+        {/* {this.renderAnimation(this.state.filteredList[this.state.index])} */}
       </View>
     );
   }
   renderHeader = () => {
-    return (
-      <View style={[styles.searchTagsStyle]}>
-        {/* {this.state.searchFilter[0] == '#' && ( */}
-        {/* <SearchedTagsComponent
-          searchFilter={this.state.searchFilter}
-          filteredList={this.state.filteredList}
-          changeSearchFilter={item => this.setState({searchFilter: item})}
-        /> */}
-        {/* )} */}
-      </View>
-    );
-
     return <View />;
   };
   longPressItem = index => {
@@ -412,12 +336,12 @@ class GridViewComponent extends Component {
   singlePressItem = index => {
     if (this.state.longPressStatus == false) {
       // console.log('EVT EVT EVT: ', touchLocation);
+      this.props.photo_selected();
       this.setState({
         index: index,
-        animationCalled: true,
+        // animationCalled: true,
       });
 
-      this.props.photo_selected();
       console.log('card Pressed:', this.state.filteredList[index].uri);
       this.props.onPressCard(index, this.state.filteredList);
     } else if (this.state.longPressStatus == true) {
@@ -547,8 +471,10 @@ class GridViewComponent extends Component {
                   onPress={() =>
                     this.setState({showTags: !this.state.showTags})
                   }>
-                  {!this.state.showTags && !item.tagsArray[0] == false && (
+                  {/* {!this.state.showTags && !item.tagsArray[0] == false && ( */}
+                  {!item.tagsArray[0] == false && (
                     <TagIcon
+                      tagIconStatus={!this.state.showTags}
                       iconSize={20}
                       iconColor={BACKGROUND_COLOR}
                       // fav_status={item.fav_status}
@@ -578,10 +504,11 @@ class ImageAnimation extends Component {
     };
   }
   componentDidMount() {
+    // this.state.openProgress.setValue(0);
     Animated.timing(this.state.openProgress, {
       toValue: 1,
-      duration: 400,
-      // useNativeDriver: true,
+      duration: 10,
+      useNativeDriver: true,
     }).start(() => this.props.animationComplete());
     // this.setState({
     // });

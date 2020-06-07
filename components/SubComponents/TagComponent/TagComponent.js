@@ -37,14 +37,14 @@ class TagComponent extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.tags != this.state.tags) {
-      console.log('this.state.tags.tagsArray->', [
-        ...this.state.tags.tagsArray,
-        this.state.tags.tag,
-      ]);
-      this.props.tagsArrayChanged([
-        ...this.state.tags.tagsArray,
-        this.state.tags.tag,
-      ]);
+      if (this.state.tags.tag.length >= 1) {
+        this.props.tagsArrayChanged([
+          ...this.state.tags.tagsArray,
+          this.state.tags.tag,
+        ]);
+      } else {
+        this.props.tagsArrayChanged([...this.state.tags.tagsArray]);
+      }
       // this.props.tagsArrayChanged(this.state.tags.tagsArray);
     }
   }

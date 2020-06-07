@@ -9,7 +9,7 @@ class TagIcon extends Component {
     return (
       <Icon
         // name={this.props.fav_status ? 'tago' : 'heart-outlined'}
-        name={'tago'}
+        name={this.props.tagIconStatus ? 'tago' : 'tag'}
         // color={this.props.fav_status ? 'grey' : 'white'}
         size={this.props.iconSize ? this.props.iconSize : GlobalIconSize}
         color={'white'}
