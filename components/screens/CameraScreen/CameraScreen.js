@@ -11,6 +11,7 @@ import {
   BackHandler,
   Platform,
   ToastAndroid,
+  DeviceEventEmitter,
 } from 'react-native';
 import styles from './styles';
 import {RNCamera} from 'react-native-camera';
@@ -24,6 +25,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import {UIActivityIndicator} from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
 import moment from 'moment';
+import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
 
 import {
   TakePicture,
@@ -62,6 +64,7 @@ const BlurLoadingView = () => (
 class CameraScreen extends PureComponent {
   constructor(props) {
     super(props);
+    this.appTourTargets = [];
   }
   state = {
     remountCamera: false,
@@ -115,6 +118,30 @@ class CameraScreen extends PureComponent {
       }, 600);
     }
   }
+
+  registerSequenceStepEvent = () => {
+    if (this.sequenceStepListener) {
+      this.sequenceStepListener.remove();
+    }
+    this.sequenceStepListener = DeviceEventEmitter.addListener(
+      'onShowSequenceStepEvent',
+      (e: Event) => {
+        console.log(e);
+      },
+    );
+  };
+
+  registerFinishSequenceEvent = () => {
+    if (this.finishSequenceListener) {
+      this.finishSequenceListener.remove();
+    }
+    this.finishSequenceListener = DeviceEventEmitter.addListener(
+      'onFinishSequenceEvent',
+      (e: Event) => {
+        console.log(e);
+      },
+    );
+  };
   async componentDidMount() {
     console.log('CameraScreen componentDidMount');
     try {
@@ -124,7 +151,14 @@ class CameraScreen extends PureComponent {
     } catch (e) {
       console.log(e); // {success: false}
     }
+    setTimeout(() => {
+      let appTourSequence = new AppTourSequence();
+      this.appTourTargets.forEach(appTourTarget => {
+        appTourSequence.add(appTourTarget);
+      });
 
+      AppTour.ShowSequence(appTourSequence);
+    }, 1000);
     // this.camera.refreshAuthorizationStatus();
     // if (this.props.cameraAspectRatio.length <= 1) {
     //   const ratios = await this.camera.getSupportedRatiosAsync();
@@ -153,7 +187,8 @@ class CameraScreen extends PureComponent {
 
   componenDidUnmount() {
     console.log('CameraScreen componenDidUnmount');
-
+    this.registerSequenceStepEvent();
+    this.registerFinishSequenceEvent();
     // remove event listener
     // this.volEvent.remove();
   }
@@ -182,6 +217,13 @@ class CameraScreen extends PureComponent {
       // this.setState({showTagDialog: false});
       this.props.navigation.navigate('PreviewScreen', {photo: data});
     } else {
+      // CameraRoll.save(data.uri, {
+      //   type: 'photo',
+      //   album: 'Cykee',
+      // }).then(uri => {
+      //   console.log('uri--:', uri);
+      // });
+
       let newPhoto = {};
       const temp = data.uri.split('/');
       const d = new Date();
@@ -204,6 +246,7 @@ class CameraScreen extends PureComponent {
               : []
             : [];
           newPhoto.captionStyle = {captionSize: 0, captionFont: 0};
+          // newPhoto.uri = uri;
           newPhoto.uri = galleryUri + newPhoto.fileName;
           // console.log('d:', d);
           newPhoto.creationDate = [
@@ -213,7 +256,14 @@ class CameraScreen extends PureComponent {
           // newPhoto.creationDate = moment().format();
           // newPhoto.uri = uri;
           console.log('Photo saved in gallery from CameraScreen:', newPhoto);
-          this.props.addNewPhoto(newPhoto);
+          CameraRoll.getPhotos({
+            first: 1,
+            assetType: 'Photos',
+            Album: 'Cykee',
+          }).then(r => {
+            newPhoto.uri = r.edges[0].node.image.uri;
+            this.props.addNewPhoto(newPhoto);
+          });
         });
       });
     }
@@ -264,12 +314,7 @@ class CameraScreen extends PureComponent {
     ) {
       const ratios = await this.camera.getSupportedRatiosAsync();
       this.props.setCameraAspectRatio(ratios);
-      console.log('this.props.aspectRatio', this.props.cameraAspectRatio);
-      console.log('remountCamerae', this.state.remountCamera);
       this.setState({remountCamera: true, hideFlashScreen: true});
-      console.log('remountCamerae', this.state.remountCamera);
-      console.log('remountCamerae', this.state.remountCamera);
-      console.log('remountCamerae', this.state.remountCamera);
     }
 
     // if (!this.state.asp && this.camera) {
@@ -376,6 +421,9 @@ class CameraScreen extends PureComponent {
           {/* <View style={{borderColor: 'yellow', borderWidth: 1, flex: 1}}> */}
           <CameraSettingComponent
             //
+            addAppTourTarget={appTourTarget => {
+              this.appTourTargets.push(appTourTarget);
+            }}
             onPressAspectRatio={() =>
               this.setState({
                 showLoadingScreen: true,

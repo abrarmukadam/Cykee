@@ -386,7 +386,14 @@ class EditScreen extends Component {
             moment().format('MMM DD, YYYY'),
             moment().format('hh:mm:ss a'),
           ];
-          this.props.addNewPhoto(newPhoto); //add to photoArray if Creating duplicate
+          CameraRoll.getPhotos({
+            first: 1,
+            assetType: 'Photos',
+            Album: 'Cykee',
+          }).then(r => {
+            newPhoto.uri = r.edges[0].node.image.uri;
+            this.props.addNewPhoto(newPhoto);
+          });
         }
       });
     });

@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 let middleware = [logger];
 
 const persistConfig = {
-  key: 'root1111',
+  key: 'root121',
   storage: AsyncStorage,
   // whitelist: ['settingReducer', 'galleryReducer'], // which reducer want to store
 };

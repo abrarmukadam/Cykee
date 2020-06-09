@@ -93,6 +93,7 @@ class CameraRollScreen extends Component {
     this.screenLoadListener.remove();
   }
   onPressCard = (index, photoArray) => {
+    console.log('uri:', photoArray[index].uri);
     this.props.navigation.push('GalleryScreen', {
       index: index,
       toBeDisplayed: photoArray,

@@ -6,7 +6,7 @@ export default StyleSheet.create({
   FlashModeStyle: {
     flexDirection: 'row',
     alignItems: 'center',
-
+    paddingVertical: 8,
     // flex: 0,
     // position: 'absolute',
     // top: 20,

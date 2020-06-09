@@ -3,6 +3,7 @@ import {TouchableOpacity, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {GlobalIconColor, GlobalIconSize} from '../index';
 import styles from './styles';
+import {AppTour, AppTourView} from 'react-native-app-tour';
 
 class TextMode extends Component {
   constructor(props) {
@@ -33,7 +34,43 @@ class TextMode extends Component {
           </Text>
         )}
         <TouchableOpacity
+          key={'1st icon'}
+          ref={ref => {
+            if (!ref) return;
+
+            this.button1 = ref;
+
+            let props = {
+              order: 12,
+              title: 'Caption on/off',
+              description: `Turn on/off Caption Mode...Caption On will give Preview of the photo before it saves.. you can enter your caption there
+                
+
+
+
+
+                Touch Screen to close
+                `,
+              outerCircleColor: '#3f52ae',
+              cancelable: true,
+              targetRadius: 24,
+            };
+            this.props.addAppTourTarget &&
+              this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
+          }}
           onPress={() => {
+            // let props = {
+            //   order: 11,
+            //   title: 'This is a target button 1',
+            //   description: 'We have the best targets, believe me',
+            //   outerCircleColor: '#f24481',
+            // };
+
+            // let targetView = AppTourView.for(this.button1, {
+            //   ...props,
+            // });
+
+            // AppTour.ShowFor(targetView);
             this.setState({showIconName: true});
             setTimeout(() => {
               // console.log('timer running');

@@ -3,6 +3,7 @@ import {TouchableOpacity, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {GlobalIconColor, GlobalIconSize} from '../index';
 import styles from './styles';
+import {AppTour, AppTourView} from 'react-native-app-tour';
 
 class TagSettingButton extends Component {
   render() {
@@ -49,7 +50,32 @@ class TagSettingButton extends Component {
             }
             size={GlobalIconSize - 6}
             color={GlobalIconColor}
+            key={'2nd icon'}
+            ref={ref => {
+              if (!ref) return;
 
+              this.button2 = ref;
+
+              let props = {
+                order: 13,
+                title: 'Auto Tag on/off',
+                description: `Turn on/off Auo Tag mode & Enter the Tag
+Auto Tag will automatically tag the photos you click with the tag name entered.
+                
+
+
+
+
+                Touch Screen to close
+                `,
+                outerCircleColor: '#f24481',
+                cancelable: true,
+                targetRadius: 24,
+              };
+
+              this.props.addAppTourTarget &&
+                this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
+            }}
             // style={{borderWidth:1,borderColor:'red'}}
             // color={? GlobalIconColor}
           />

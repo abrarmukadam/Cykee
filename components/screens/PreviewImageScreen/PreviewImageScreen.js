@@ -184,7 +184,14 @@ class PreviewImageScreen extends Component {
         type: 'photo',
         album: 'Cykee',
       }).then(uri => {
-        this.props.addNewPhoto(newPhoto);
+        CameraRoll.getPhotos({
+          first: 1,
+          assetType: 'Photos',
+          Album: 'Cykee',
+        }).then(r => {
+          newPhoto.uri = r.edges[0].node.image.uri;
+          this.props.addNewPhoto(newPhoto);
+        });
         if (currentAlbumName == 'Cykee') RNFS.unlink(tempGalleryUri);
         this.props.navigation.goBack();
       });

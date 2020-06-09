@@ -107,6 +107,7 @@ class CameraSettingComponent extends Component {
                 showIconName={this.state.showIconName}
               />
               <TextMode
+                addAppTourTarget={this.props.addAppTourTarget}
                 textIcon={this.props.textMode}
                 onPressTextMode={() =>
                   this.props.changeTextMode(!this.props.textMode)
@@ -132,6 +133,7 @@ class CameraSettingComponent extends Component {
             !this.props.hideCameraSettingsIcons && !this.props.autoTagEnabled
           ) && (
             <TagSettingButton
+              addAppTourTarget={this.props.addAppTourTarget}
               showIconName={this.state.showIconName}
               onPressAutoTagSetting={() => {
                 if (

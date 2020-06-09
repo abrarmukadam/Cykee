@@ -16,7 +16,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     // borderWidth: 0.2,
     borderColor: 'white',
-    paddingVertical: 2,
+    paddingVertical: 8,
   },
 
   TextStyle: {
