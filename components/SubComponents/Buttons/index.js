@@ -4,6 +4,7 @@ import FlashMode from './FlashMode/FlashMode';
 import CameraType from './CameraType/CameraType';
 import GalleryIcon from './GalleryIcon/GalleryIcon';
 import TextMode from './TextMode/TextMode';
+import FaceDetection from './FaceDetection/FaceDetection';
 import AspectRatio from './AspectRatio/AspectRatio';
 import NavigationCameraButton from './NavigationCameraButton/NavigationCameraButton';
 export {
@@ -14,6 +15,7 @@ export {
   TextMode,
   AspectRatio,
   NavigationCameraButton,
+  FaceDetection,
 };
 
 //Gallery Screen Icons

@@ -4,6 +4,7 @@ import {CykeeColor} from '../../SubComponents/Buttons';
 const {width: WIDTH} = Dimensions.get('window');
 const ELEVATION = 100;
 const BORDERWIDTH = 0;
+const landmarkSize = 2;
 
 export default StyleSheet.create({
   container: {
@@ -41,5 +42,36 @@ export default StyleSheet.create({
     borderWidth: 2,
     borderColor: 'white',
     opacity: 0.4,
+  },
+  facesContainer: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    left: 0,
+    top: 0,
+  },
+  face: {
+    // padding: -100,
+    borderWidth: 1,
+    borderRadius: 20,
+    position: 'absolute',
+    // borderColor: '#FFD700',
+    borderColor: CykeeColor,
+    justifyContent: 'center',
+    opacity: 0.3,
+    // backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  landmark: {
+    width: landmarkSize,
+    height: landmarkSize,
+    position: 'absolute',
+    backgroundColor: 'red',
+  },
+  faceText: {
+    color: '#FFD700',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    margin: 10,
+    backgroundColor: 'transparent',
   },
 });

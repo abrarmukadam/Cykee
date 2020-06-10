@@ -10,6 +10,7 @@ const mapPropsToState = state => {
     flashMode: state.settingReducer.flashMode || 0,
     autoTagValue: state.settingReducer.autoTagValue || '',
     autoTagEnabled: state.settingReducer.autoTagEnabled || false,
+    faceDetectionMode: state.settingReducer.faceDetectionMode,
   };
 };
 
@@ -23,6 +24,11 @@ const mapDispatchToProps = dispatch => {
     },
     changeTextMode: textMode => {
       return dispatch(Actions.settingActions.changeTextMode(textMode));
+    },
+    changeFaceDetectionMode: faceDetectionMode => {
+      return dispatch(
+        Actions.settingActions.changeFaceDetectionMode(faceDetectionMode),
+      );
     },
     changeFlashMode: flashMode => {
       return dispatch(Actions.settingActions.changeFlashMode(flashMode));

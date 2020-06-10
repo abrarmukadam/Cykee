@@ -6,6 +6,7 @@ import {
   FlashMode,
   TagSettingButton,
   MoreIcon,
+  FaceDetection,
 } from '../Buttons/index';
 import DialogInput from 'react-native-dialog-input';
 
@@ -111,6 +112,15 @@ class CameraSettingComponent extends Component {
                 textIcon={this.props.textMode}
                 onPressTextMode={() =>
                   this.props.changeTextMode(!this.props.textMode)
+                }
+                showIconName={this.state.showIconName}
+              />
+              <FaceDetection
+                faceDetectionIcon={this.props.faceDetectionMode}
+                onPressFaceDetectionMode={() =>
+                  this.props.changeFaceDetectionMode(
+                    !this.props.faceDetectionMode,
+                  )
                 }
                 showIconName={this.state.showIconName}
               />

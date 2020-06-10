@@ -7,6 +7,7 @@ const defaultState = {
   cameraAspectRatio: [],
   hideCameraSettingsIcons: false,
   autoTagValue: '',
+  faceDetectionMode: true,
 };
 import {
   FLASH_MODE,
@@ -19,6 +20,7 @@ import {
   HIDE_CAMERA_SETTINGS,
   SET_AUTO_TAG_ENABLED,
   AUTO_TAG_SETTING,
+  FACE_DETECTION,
 } from '../Actions/actionTypes';
 
 export default function settingReducer(state = defaultState, action) {
@@ -39,6 +41,12 @@ export default function settingReducer(state = defaultState, action) {
       return {
         ...state,
         textMode: action.payload.textMode,
+      };
+    }
+    case FACE_DETECTION: {
+      return {
+        ...state,
+        faceDetectionMode: action.payload.faceDetectionMode,
       };
     }
     case ASPECT_RATIO: {

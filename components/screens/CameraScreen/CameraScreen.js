@@ -12,9 +12,10 @@ import {
   Platform,
   ToastAndroid,
   DeviceEventEmitter,
+  Text,
 } from 'react-native';
 import styles from './styles';
-import {RNCamera} from 'react-native-camera';
+import {RNCamera, FaceDetector} from 'react-native-camera';
 import GalleryButton from './../../SubComponents/GalleryButton/GalleryButton';
 import CameraRoll from '@react-native-community/cameraroll';
 import VolumeControl, {VolumeControlEvents} from 'react-native-volume-control';
@@ -88,7 +89,38 @@ class CameraScreen extends PureComponent {
         y: Dimensions.get('window').height * 0.5 - 32,
       },
     },
+    canDetectFaces: true,
+    canDetect: true,
+    faces: [],
   };
+  facesDetected = ({faces}) => this.setState({faces});
+  renderFace = ({bounds, faceID, rollAngle, yawAngle}) => (
+    <View
+      key={faceID}
+      transform={[
+        {perspective: 600},
+        // {rotateZ: `${rollAngle.toFixed(0)}deg`},
+        // {rotateY: `${yawAngle.toFixed(0)}deg`},
+        {rotateZ: 0},
+        {rotateY: 0},
+      ]}
+      style={[
+        styles.face,
+        {
+          ...bounds.size,
+          left: bounds.origin.x,
+          top: bounds.origin.y,
+        },
+      ]}
+    />
+  );
+
+  renderFaces = () => (
+    <View style={styles.facesContainer} pointerEvents="none">
+      {this.state.faces.map(this.renderFace)}
+    </View>
+  );
+
   componentDidUpdate() {
     if (this.state.hideFlashScreen)
       setTimeout(() => {
@@ -335,10 +367,6 @@ class CameraScreen extends PureComponent {
     });
 
   getCameraRatio = async () => {
-    check(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE).then(result => {
-      console.log('WRITE_EXTERNAL_STORAGE Permission:>', result);
-    });
-
     if (
       this.props.cameraAspectRatio.length <= 1 &&
       this.state.remountCamera == false
@@ -378,7 +406,7 @@ class CameraScreen extends PureComponent {
   };
 
   render() {
-    console.log('remountCamerae-render', this.state.remountCamera);
+    const {canDetectFaces} = this.state;
 
     // hideNavigationBar();
 
@@ -391,7 +419,6 @@ class CameraScreen extends PureComponent {
     // console.log('date_time2:', date_time2);
     // let date_time = '2020-05-09T19:34:30.094Z';
     // let a = date_time.getFullYear();
-    console.log('CameraScreen render');
 
     if (this.state.showLoadingScreen) return <PendingView />;
 
@@ -422,6 +449,12 @@ class CameraScreen extends PureComponent {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
+              androidCameraPermissionOptions={{
+                title: 'Permission to use camera',
+                message: 'We need your permission to use your camera',
+                buttonPositive: 'Ok',
+                buttonNegative: 'Cancel',
+              }}
               type={this.props.cameraType ? 0 : 1} //back:0 , front:1
               flashMode={this.props.flashMode}
               onCameraReady={this.getCameraRatio}
@@ -441,7 +474,18 @@ class CameraScreen extends PureComponent {
                 PermissionsAndroid.request(
                   PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
                 )
-              }>
+              }
+              faceDetectionLandmarks={
+                RNCamera.Constants.FaceDetection.Landmarks
+                  ? RNCamera.Constants.FaceDetection.Landmarks.all
+                  : undefined
+              }
+              faceDetectionClassifications={
+                RNCamera.Constants.FaceDetection.Classifications
+                  ? RNCamera.Constants.FaceDetection.Classifications.all
+                  : undefined
+              }
+              onFacesDetected={canDetectFaces ? this.facesDetected : null}>
               {({camera, status, recordAudioPermissionStatus}) => {
                 if (status !== 'READY') {
                   console.log('NOT READY');
@@ -471,6 +515,8 @@ class CameraScreen extends PureComponent {
                   </View>
                 );
               }}
+              {!!canDetectFaces && this.renderFaces()}
+              {/* {!!canDetectFaces && this.renderLandmarks()} */}
             </RNCamera>
           )}
           {/* {this.props.hideCameraSettingsIcons && ( */}

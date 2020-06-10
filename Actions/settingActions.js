@@ -8,6 +8,7 @@ import {
   HIDE_CAMERA_SETTINGS,
   AUTO_TAG_SETTING,
   SET_AUTO_TAG_ENABLED,
+  FACE_DETECTION,
 } from './actionTypes';
 
 export function changeFlashMode(flashMode) {
@@ -44,6 +45,15 @@ export function changeTextMode(textMode) {
     type: TEXT_MODE,
     payload: {
       textMode: textMode,
+    },
+  };
+}
+export function changeFaceDetectionMode(faceDetectionMode) {
+  console.log('Change changeFaceDetectionMode called');
+  return {
+    type: FACE_DETECTION,
+    payload: {
+      faceDetectionMode: faceDetectionMode,
     },
   };
 }

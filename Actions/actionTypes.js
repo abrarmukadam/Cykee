@@ -1,6 +1,7 @@
 export const FLASH_MODE = 'FLASH_MODE';
 export const CAMERA_TYPE = 'CAMERA_TYPE';
 export const TEXT_MODE = 'TEXT_MODE';
+export const FACE_DETECTION = 'FACE_DETECTION';
 export const ASPECT_RATIO = 'ASPECT_RATIO';
 export const CAMERA_ASPECT_RATIO = 'CAMERA_ASPECT_RATIO';
 export const HIDE_CAMERA_SETTINGS = 'HIDE_CAMERA_SETTINGS';
