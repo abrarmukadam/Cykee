@@ -36,8 +36,11 @@ import {
   TAB_BAR_COLOR,
   BACKGROUND_COLOR,
   CameraSettingComponent,
+  ZoomViewComponent,
 } from './../../SubComponents/Buttons/index';
 import GestureRecognizer from 'react-native-swipe-gestures';
+const ZOOM_F = 0.08;
+
 const PendingView = () => (
   <View
     style={{
@@ -77,6 +80,7 @@ class CameraScreen extends PureComponent {
       volume: 0,
     },
     focus: false,
+    zoom: 0.0,
     autoFocusPoint: {
       normalized: {x: 0.5, y: 0.5}, // normalized values required for autoFocusPointOfInterest
       drawRectPosition: {
@@ -354,6 +358,25 @@ class CameraScreen extends PureComponent {
     // }
   };
 
+  _onPinchStart = () => {
+    this._prevPinch = 1;
+  };
+
+  _onPinchEnd = () => {
+    this._prevPinch = 1;
+  };
+
+  _onPinchProgress = p => {
+    let p2 = p - this._prevPinch;
+    if (p2 > 0 && p2 > ZOOM_F) {
+      this._prevPinch = p;
+      this.setState({zoom: Math.min(this.state.zoom + ZOOM_F, 1)}, () => {});
+    } else if (p2 < 0 && p2 < -ZOOM_F) {
+      this._prevPinch = p;
+      this.setState({zoom: Math.max(this.state.zoom - ZOOM_F, 0)}, () => {});
+    }
+  };
+
   render() {
     console.log('remountCamerae-render', this.state.remountCamera);
 
@@ -427,19 +450,24 @@ class CameraScreen extends PureComponent {
                 }
                 return (
                   <View style={StyleSheet.absoluteFill}>
-                    <View
-                      style={[
-                        styles.autoFocusBox,
-                        drawFocusRingPosition,
-                        {
-                          borderColor: this.state.focus ? 'white' : '#0000',
-                        },
-                      ]}
-                    />
-                    <TouchableWithoutFeedback
-                      onPress={event => this.touchToFocus(event)}>
-                      <View style={{flex: 1}} />
-                    </TouchableWithoutFeedback>
+                    <ZoomViewComponent
+                      onPinchEnd={this._onPinchEnd}
+                      onPinchStart={this._onPinchStart}
+                      onPinchProgress={this._onPinchProgress}>
+                      <View
+                        style={[
+                          styles.autoFocusBox,
+                          drawFocusRingPosition,
+                          {
+                            borderColor: this.state.focus ? 'white' : '#0000',
+                          },
+                        ]}
+                      />
+                      <TouchableWithoutFeedback
+                        onPress={event => this.touchToFocus(event)}>
+                        <View style={{flex: 1}} />
+                      </TouchableWithoutFeedback>
+                    </ZoomViewComponent>
                   </View>
                 );
               }}

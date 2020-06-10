@@ -40,6 +40,7 @@ import TagDisplayComponent from '../TagDisplayComponent/TagDisplayComponent';
 import SearchedTagsComponent from '../SearchedTagsComponent/SearchedTagsComponent';
 import SearchPhotoComponent from '../SearchPhotoComponent/SearchPhotoComponent';
 import CameraSettingComponent from '../CameraSettingComponent/CameraSettingComponent.container';
+import ZoomViewComponent from '../ZoomViewComponent/ZoomViewComponent';
 
 export {
   GridViewComponent,
@@ -50,6 +51,7 @@ export {
   SearchedTagsComponent,
   SearchPhotoComponent,
   CameraSettingComponent,
+  ZoomViewComponent,
 };
 
 export {
