@@ -11,7 +11,8 @@ class TakePicture extends Component {
       <TouchableOpacity
         style={styles.TakePictureStyle}
         onPress={() => this.props.onTakePicture()}
-        onLongPress={() => this.props.onTakeVideo()}>
+        // onLongPress={() => this.props.onTakeVideo()}
+        onLongPress={() => this.props.onTakePicture()}>
         <Icon
           name="ios-radio-button-on"
           size={GlobalLargeIconSize}

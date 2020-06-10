@@ -26,6 +26,7 @@ import {UIActivityIndicator} from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
 import moment from 'moment';
 import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
+import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 
 import {
   TakePicture,
@@ -143,6 +144,10 @@ class CameraScreen extends PureComponent {
     );
   };
   async componentDidMount() {
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+    );
+
     console.log('CameraScreen componentDidMount');
     try {
       const response = await changeNavigationBarColor('transparent');
@@ -200,6 +205,17 @@ class CameraScreen extends PureComponent {
   takeVideo = async () => {
     console.log('take video');
   };
+  zoomOut() {
+    this.setState({
+      zoom: this.state.zoom - 0.1 < 0 ? 0 : this.state.zoom - 0.1,
+    });
+  }
+
+  zoomIn() {
+    this.setState({
+      zoom: this.state.zoom + 0.1 > 1 ? 1 : this.state.zoom + 0.1,
+    });
+  }
   takePicture = async () => {
     const options = {
       quality: 1,
@@ -214,9 +230,12 @@ class CameraScreen extends PureComponent {
     const data = await this.camera.takePictureAsync(options);
 
     if (this.props.textMode) {
+      console.log('going to preview screen');
       // this.setState({showTagDialog: false});
       this.props.navigation.navigate('PreviewScreen', {photo: data});
     } else {
+      console.log('saving without preview screen');
+
       // CameraRoll.save(data.uri, {
       //   type: 'photo',
       //   album: 'Cykee',
@@ -234,37 +253,41 @@ class CameraScreen extends PureComponent {
         CameraRoll.save(renamedURI, {
           type: 'photo',
           album: 'Cykee',
-        }).then(uri => {
-          newPhoto.height = data.height;
-          newPhoto.width = data.width;
-          let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
-          newPhoto.fileName = newName;
-          newPhoto.caption = '';
-          newPhoto.tagsArray = this.props.autoTagEnabled
-            ? this.props.autoTagValue.length
-              ? [this.props.autoTagValue]
-              : []
-            : [];
-          newPhoto.captionStyle = {captionSize: 0, captionFont: 0};
-          // newPhoto.uri = uri;
-          newPhoto.uri = galleryUri + newPhoto.fileName;
-          // console.log('d:', d);
-          newPhoto.creationDate = [
-            moment().format('MMM DD, YYYY'),
-            moment().format('hh:mm:ss a'),
-          ];
-          // newPhoto.creationDate = moment().format();
-          // newPhoto.uri = uri;
-          console.log('Photo saved in gallery from CameraScreen:', newPhoto);
-          CameraRoll.getPhotos({
-            first: 1,
-            assetType: 'Photos',
-            Album: 'Cykee',
-          }).then(r => {
-            newPhoto.uri = r.edges[0].node.image.uri;
-            this.props.addNewPhoto(newPhoto);
-          });
-        });
+        })
+          .then(uri => {
+            newPhoto.height = data.height;
+            newPhoto.width = data.width;
+            let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+            newPhoto.fileName = newName;
+            newPhoto.caption = '';
+            newPhoto.tagsArray = this.props.autoTagEnabled
+              ? this.props.autoTagValue.length
+                ? [this.props.autoTagValue]
+                : []
+              : [];
+            newPhoto.captionStyle = {captionSize: 0, captionFont: 0};
+            // newPhoto.uri = uri;
+            newPhoto.uri = galleryUri + newPhoto.fileName;
+            // console.log('d:', d);
+            newPhoto.creationDate = [
+              moment().format('MMM DD, YYYY'),
+              moment().format('hh:mm:ss a'),
+            ];
+            // newPhoto.creationDate = moment().format();
+            // newPhoto.uri = uri;
+            console.log('Photo saved in gallery from CameraScreen:', newPhoto);
+            CameraRoll.getPhotos({
+              first: 1,
+              assetType: 'Photos',
+              Album: 'Cykee',
+            })
+              .then(r => {
+                newPhoto.uri = r.edges[0].node.image.uri;
+                this.props.addNewPhoto(newPhoto);
+              })
+              .catch(error => console.log('read Photo Error:', error));
+          })
+          .catch(error => console.log('save Photo Error:', error));
       });
     }
     this.camera.resumePreview();
@@ -308,6 +331,10 @@ class CameraScreen extends PureComponent {
     });
 
   getCameraRatio = async () => {
+    check(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE).then(result => {
+      console.log('WRITE_EXTERNAL_STORAGE Permission:>', result);
+    });
+
     if (
       this.props.cameraAspectRatio.length <= 1 &&
       this.state.remountCamera == false
@@ -386,6 +413,7 @@ class CameraScreen extends PureComponent {
               autoFocusPointOfInterest={this.state.autoFocusPoint.normalized}
               defaultOnFocusComponent={true}
               autoFocus={true}
+              zoom={this.state.zoom}
               onPictureTaken={() =>
                 PermissionsAndroid.request(
                   PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
