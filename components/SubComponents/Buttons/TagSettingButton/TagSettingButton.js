@@ -59,8 +59,7 @@ class TagSettingButton extends Component {
                 let props = {
                   order: 13,
                   title: 'Auto Tag on/off',
-                  description: `Turn on/off Auo Tag mode & Enter the Tag
-Auto Tag will automatically tag the photos you click with the tag name entered.
+                  description: `Setting this will automatically tag the photos you click with the tag name entered.
                 
 
 

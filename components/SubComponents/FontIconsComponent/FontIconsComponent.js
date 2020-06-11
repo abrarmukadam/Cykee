@@ -45,8 +45,8 @@ class FontIconsComponent extends Component {
 
                   let props = {
                     order: 14,
-                    title: 'Add Tag',
-                    description: `Add tag to your photo.
+                    title: 'Add tags here !',
+                    description: `add tags to your photos .. tags help categorize your photos..
 
 
 
