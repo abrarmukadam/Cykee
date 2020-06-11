@@ -27,7 +27,6 @@ import {UIActivityIndicator} from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
 import moment from 'moment';
 import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
-import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 
 import {
   TakePicture,
@@ -73,6 +72,7 @@ class CameraScreen extends PureComponent {
   }
   state = {
     remountCamera: false,
+    firstLaunch: true,
     options: {
       quality: 1,
       base64: true,
@@ -89,8 +89,7 @@ class CameraScreen extends PureComponent {
         y: Dimensions.get('window').height * 0.5 - 32,
       },
     },
-    canDetectFaces: true,
-    canDetect: true,
+    canDetectFaces: this.props.faceDetectionMode,
     faces: [],
   };
   facesDetected = ({faces}) => this.setState({faces});
@@ -407,7 +406,7 @@ class CameraScreen extends PureComponent {
 
   render() {
     const {canDetectFaces} = this.state;
-
+    console.log('this.state.firstLaunch', this.state.firstLaunch);
     // hideNavigationBar();
 
     // const d_t = new Date();
@@ -449,12 +448,12 @@ class CameraScreen extends PureComponent {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              androidCameraPermissionOptions={{
-                title: 'Permission to use camera',
-                message: 'We need your permission to use your camera',
-                buttonPositive: 'Ok',
-                buttonNegative: 'Cancel',
-              }}
+              // androidCameraPermissionOptions={{
+              //   title: 'Permission to use camera',
+              //   message: 'We need your permission to use your camera',
+              //   buttonPositive: 'Ok',
+              //   buttonNegative: 'Cancel',
+              // }}
               type={this.props.cameraType ? 0 : 1} //back:0 , front:1
               flashMode={this.props.flashMode}
               onCameraReady={this.getCameraRatio}
@@ -475,17 +474,11 @@ class CameraScreen extends PureComponent {
                   PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
                 )
               }
-              faceDetectionLandmarks={
-                RNCamera.Constants.FaceDetection.Landmarks
-                  ? RNCamera.Constants.FaceDetection.Landmarks.all
-                  : undefined
-              }
-              faceDetectionClassifications={
-                RNCamera.Constants.FaceDetection.Classifications
-                  ? RNCamera.Constants.FaceDetection.Classifications.all
-                  : undefined
-              }
-              onFacesDetected={canDetectFaces ? this.facesDetected : null}>
+              // faceDetectionMode={RNCamera.Constants.FaceDetection.Mode.accurate}
+              // onFacesDetected={
+              //   this.props.faceDetectionMode ? this.facesDetected : null
+              // }
+            >
               {({camera, status, recordAudioPermissionStatus}) => {
                 if (status !== 'READY') {
                   console.log('NOT READY');
@@ -515,17 +508,17 @@ class CameraScreen extends PureComponent {
                   </View>
                 );
               }}
-              {!!canDetectFaces && this.renderFaces()}
+              {/* {!!canDetectFaces && this.renderFaces()} */}
               {/* {!!canDetectFaces && this.renderLandmarks()} */}
             </RNCamera>
           )}
           {/* {this.props.hideCameraSettingsIcons && ( */}
           {/* <View style={{borderColor: 'yellow', borderWidth: 1, flex: 1}}> */}
           <CameraSettingComponent
-            //
             addAppTourTarget={appTourTarget => {
               this.appTourTargets.push(appTourTarget);
             }}
+            firstLaunch={this.props.photoArray[0] ? true : false}
             onPressAspectRatio={() =>
               this.setState({
                 showLoadingScreen: true,

@@ -114,8 +114,9 @@ class CameraSettingComponent extends Component {
                   this.props.changeTextMode(!this.props.textMode)
                 }
                 showIconName={this.state.showIconName}
+                firstLaunch={this.props.firstLaunch}
               />
-              <FaceDetection
+              {/* <FaceDetection
                 faceDetectionIcon={this.props.faceDetectionMode}
                 onPressFaceDetectionMode={() =>
                   this.props.changeFaceDetectionMode(
@@ -123,7 +124,7 @@ class CameraSettingComponent extends Component {
                   )
                 }
                 showIconName={this.state.showIconName}
-              />
+              /> */}
               <AspectRatio
                 aspectIcon={this.props.aspectRatio}
                 onPressAspectRatio={() => {
@@ -144,6 +145,7 @@ class CameraSettingComponent extends Component {
           ) && (
             <TagSettingButton
               addAppTourTarget={this.props.addAppTourTarget}
+              firstLaunch={this.props.firstLaunch}
               showIconName={this.state.showIconName}
               onPressAutoTagSetting={() => {
                 if (

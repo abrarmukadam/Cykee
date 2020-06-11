@@ -5,7 +5,7 @@ const defaultState = {
   aspectRatio: 0,
   hideCaption: false,
   cameraAspectRatio: [],
-  hideCameraSettingsIcons: false,
+  hideCameraSettingsIcons: true,
   autoTagValue: '',
   faceDetectionMode: true,
 };

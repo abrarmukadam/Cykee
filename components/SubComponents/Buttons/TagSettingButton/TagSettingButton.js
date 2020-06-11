@@ -53,13 +53,13 @@ class TagSettingButton extends Component {
             key={'2nd icon'}
             ref={ref => {
               if (!ref) return;
+              if (this.props.firstLaunch != true) {
+                this.button2 = ref;
 
-              this.button2 = ref;
-
-              let props = {
-                order: 13,
-                title: 'Auto Tag on/off',
-                description: `Turn on/off Auo Tag mode & Enter the Tag
+                let props = {
+                  order: 13,
+                  title: 'Auto Tag on/off',
+                  description: `Turn on/off Auo Tag mode & Enter the Tag
 Auto Tag will automatically tag the photos you click with the tag name entered.
                 
 
@@ -68,13 +68,14 @@ Auto Tag will automatically tag the photos you click with the tag name entered.
 
                 Touch Screen to close
                 `,
-                outerCircleColor: '#f24481',
-                cancelable: true,
-                targetRadius: 24,
-              };
+                  outerCircleColor: '#f24481',
+                  cancelable: true,
+                  targetRadius: 24,
+                };
 
-              this.props.addAppTourTarget &&
-                this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
+                this.props.addAppTourTarget &&
+                  this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
+              }
             }}
             // style={{borderWidth:1,borderColor:'red'}}
             // color={? GlobalIconColor}

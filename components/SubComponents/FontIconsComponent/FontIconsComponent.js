@@ -11,6 +11,8 @@ import {
   FONT_ICON_OPACITY,
   TagComponent,
 } from '../Buttons/index';
+import {AppTour, AppTourView} from 'react-native-app-tour';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 class FontIconsComponent extends Component {
   state = {
@@ -34,18 +36,51 @@ class FontIconsComponent extends Component {
         }}>
         {!this.state.showFontIcons && (
           <View style={{flexDirection: 'column-reverse'}}>
-            <FontButton
-              iconType="material-community"
-              buttonName={
-                this.props.tagsArray
-                  ? 'tag'
-                  : this.props.enterTag
-                  ? 'tag'
-                  : 'tag-outline'
-              }
-              handleOnPress={this.props.tagPressed}
-              buttonText={'Tag'}
-            />
+            <TouchableOpacity
+              key={'3rd icon'}
+              ref={ref => {
+                if (!ref) return;
+                if (this.props.firstLaunch != true) {
+                  this.button3 = ref;
+
+                  let props = {
+                    order: 14,
+                    title: 'Add Tag',
+                    description: `Add tag to your photo.
+
+
+
+
+
+
+
+
+                      Touch Screen to close
+                `,
+                    outerCircleColor: '#f24481',
+                    cancelable: true,
+                    targetRadius: 24,
+                  };
+
+                  this.props.addAppTourTarget &&
+                    this.props.addAppTourTarget(
+                      AppTourView.for(ref, {...props}),
+                    );
+                }
+              }}>
+              <FontButton
+                iconType="material-community"
+                buttonName={
+                  this.props.tagsArray
+                    ? 'tag'
+                    : this.props.enterTag
+                    ? 'tag'
+                    : 'tag-outline'
+                }
+                handleOnPress={this.props.tagPressed}
+                buttonText={'Tag'}
+              />
+            </TouchableOpacity>
           </View>
         )}
 

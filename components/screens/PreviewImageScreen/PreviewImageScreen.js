@@ -40,10 +40,12 @@ import {
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import ToggleSwitch from 'toggle-switch-react-native';
+import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
 
 class PreviewImageScreen extends Component {
   constructor(props) {
     super(props);
+    this.appTourTargets = [];
   }
 
   state = {
@@ -71,6 +73,15 @@ class PreviewImageScreen extends Component {
     this.props.navigation.setOptions({
       headerLeft: () => this.leftHeaderButton,
     });
+    // if (!this.props.photoArray[0])
+    setTimeout(() => {
+      let appTourSequence = new AppTourSequence();
+      this.appTourTargets.forEach(appTourTarget => {
+        appTourSequence.add(appTourTarget);
+      });
+
+      AppTour.ShowSequence(appTourSequence);
+    }, 1000);
   }
   componentWillUnmount() {
     if (this.props.route.params.navigatingFrom != 'CameraRoll')
@@ -331,6 +342,11 @@ class PreviewImageScreen extends Component {
                 tagPressed={this.tagPressed}
                 enterTag={this.state.tagPressed}
                 tagsArray={this.props.autoTagEnabled}
+                addAppTourTarget={appTourTarget => {
+                  this.appTourTargets.push(appTourTarget);
+                }}
+                // firstLaunch={true}
+                firstLaunch={this.props.photoArray[0] ? true : false}
               />
             )}
 

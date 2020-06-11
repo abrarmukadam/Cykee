@@ -39,11 +39,12 @@ class TextMode extends Component {
             if (!ref) return;
 
             this.button1 = ref;
-
-            let props = {
-              order: 12,
-              title: 'Caption on/off',
-              description: `Turn on/off Caption Mode...Caption On will give Preview of the photo before it saves.. you can enter your caption there
+            if (this.props.firstLaunch == false) {
+              console.log('run run run');
+              let props = {
+                order: 12,
+                title: 'Caption on/off',
+                description: `Turn on/off Caption Mode...Caption On will give Preview of the photo before it saves.. you can enter your caption there
                 
 
 
@@ -51,12 +52,13 @@ class TextMode extends Component {
 
                 Touch Screen to close
                 `,
-              outerCircleColor: '#3f52ae',
-              cancelable: true,
-              targetRadius: 24,
-            };
-            this.props.addAppTourTarget &&
-              this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
+                outerCircleColor: '#3f52ae',
+                cancelable: true,
+                targetRadius: 24,
+              };
+              this.props.addAppTourTarget &&
+                this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
+            }
           }}
           onPress={() => {
             // let props = {
