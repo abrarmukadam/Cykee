@@ -308,7 +308,7 @@ class PreviewImageScreen extends Component {
           </TouchableWithoutFeedback>
           {this.props.route.params.type == 'video' && (
             <PlayOverlay
-            // onPressPlay={() => console.log('Play video Pressed')}
+              onPressPlay={() => console.log('Play video Pressed')}
             />
           )}
           {this.state.showIcons && (
