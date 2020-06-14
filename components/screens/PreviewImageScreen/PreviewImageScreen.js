@@ -37,6 +37,7 @@ import {
   FontIconsComponent,
   TagComponent,
   TagDisplayComponent,
+  PlayOverlay,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import ToggleSwitch from 'toggle-switch-react-native';
@@ -305,6 +306,11 @@ class PreviewImageScreen extends Component {
               // style={styles.image}
             />
           </TouchableWithoutFeedback>
+          {this.props.route.params.type == 'video' && (
+            <PlayOverlay
+            // onPressPlay={() => console.log('Play video Pressed')}
+            />
+          )}
           {this.state.showIcons && (
             <TouchableOpacity
               onPress={() => this.setState({tagPressed: true})}

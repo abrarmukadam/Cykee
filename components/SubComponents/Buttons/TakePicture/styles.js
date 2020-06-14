@@ -12,4 +12,11 @@ export default StyleSheet.create({
     marginBottom: 10,
     alignItems: 'center',
   },
+  timeContainerStyle: {
+    position: 'absolute',
+    top: -22,
+  },
+  timeTextStyle: {
+    color: 'white',
+  },
 });

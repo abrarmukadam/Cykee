@@ -46,6 +46,7 @@
     "react-native-swipe-gestures": "^1.0.5",
     "react-native-tags-input": "^1.0.10",
     "react-native-vector-icons": "^6.6.0",
+    "react-native-video": "^4.4.5",
     "react-native-volume-control": "^1.0.1",
     "react-navigation-shared-element": "^5.0.0-alpha1",
     "react-redux": "^7.2.0",

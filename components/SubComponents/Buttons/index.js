@@ -1,5 +1,6 @@
 //Camera Screen Icons
 import TakePicture from './TakePicture/TakePicture';
+import TakeVideoButton from './TakeVideoButton/TakeVideoButton';
 import FlashMode from './FlashMode/FlashMode';
 import CameraType from './CameraType/CameraType';
 import GalleryIcon from './GalleryIcon/GalleryIcon';
@@ -9,6 +10,7 @@ import AspectRatio from './AspectRatio/AspectRatio';
 import NavigationCameraButton from './NavigationCameraButton/NavigationCameraButton';
 export {
   TakePicture,
+  TakeVideoButton,
   FlashMode,
   CameraType,
   GalleryIcon,
@@ -32,7 +34,7 @@ import EditScreenButton from './EditScreenButton/EditScreenButton';
 import TimerButton from './TimerButton/TimerButton';
 import TagIcon from './TagIcon/TagIcon';
 import TagSettingButton from './TagSettingButton/TagSettingButton';
-
+import PlayOverlay from './PlayOverlay/PlayOverlay';
 //Gallery(Grid) view component
 import GridViewComponent from '../GridViewComponent/GridViewComponent';
 import EditIconsComponent from '../EditIconsComponent/EditIconsComponent';
@@ -70,6 +72,7 @@ export {
   TimerButton,
   TagIcon,
   TagSettingButton,
+  PlayOverlay,
 };
 
 //Global constants

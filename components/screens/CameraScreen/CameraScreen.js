@@ -30,6 +30,7 @@ import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
 
 import {
   TakePicture,
+  TakeVideoButton,
   CameraType,
   GalleryIcon,
   CykeeColor,
@@ -91,6 +92,7 @@ class CameraScreen extends PureComponent {
     },
     canDetectFaces: this.props.faceDetectionMode,
     faces: [],
+    isRecording: false,
   };
   facesDetected = ({faces}) => this.setState({faces});
   renderFace = ({bounds, faceID, rollAngle, yawAngle}) => (
@@ -237,8 +239,47 @@ class CameraScreen extends PureComponent {
     changeNavigationBarColor(TAB_BAR_COLOR);
     // this.props.navigation.navigate('GridViewScreen');
   };
+
+  stopVideo = async () => {
+    await this.camera.stopRecording();
+    this.setState({isRecording: false});
+  };
+
   takeVideo = async () => {
+    const recordOptions = {
+      mute: false,
+      maxDuration: 300,
+      quality: RNCamera.Constants.VideoQuality['720p'],
+    };
+    const {isRecording} = this.state;
     console.log('take video');
+    if (this.camera && !isRecording) {
+      try {
+        const promise = this.camera.recordAsync(recordOptions);
+
+        if (promise) {
+          this.setState({isRecording: true});
+          const data = await promise;
+          console.warn('takeVideo', data);
+          if (this.props.textMode) {
+            console.log('going to preview screen');
+            this.props.navigation.navigate('PreviewScreen', {
+              photo: data,
+              type: 'video',
+            });
+          } else {
+            CameraRoll.save(data.uri, {
+              type: 'video',
+              album: 'Cykee',
+            }).then(uri => {
+              console.warn('video Saved !');
+            });
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
   };
   zoomOut() {
     this.setState({
@@ -252,6 +293,18 @@ class CameraScreen extends PureComponent {
     });
   }
   takePicture = async () => {
+    // newPhoto: {
+    //   height: Number;
+    //   width: Number;
+    //   uri: String;
+    //   fileName: String;
+    //   caption: String;
+    //   captionStyle:{captionSize: Number , captionFont: Number}
+    //   tagsArray: Array;
+    //   creationDate: [date, time];
+    //   type:'photo','video','gif'
+    //   duration: Number
+    // }
     const options = {
       quality: 1,
       base64: true,
@@ -266,17 +319,12 @@ class CameraScreen extends PureComponent {
 
     if (this.props.textMode) {
       console.log('going to preview screen');
-      // this.setState({showTagDialog: false});
-      this.props.navigation.navigate('PreviewScreen', {photo: data});
+      this.props.navigation.navigate('PreviewScreen', {
+        photo: data,
+        type: 'photo',
+      });
     } else {
       console.log('saving without preview screen');
-
-      // CameraRoll.save(data.uri, {
-      //   type: 'photo',
-      //   album: 'Cykee',
-      // }).then(uri => {
-      //   console.log('uri--:', uri);
-      // });
 
       let newPhoto = {};
       const temp = data.uri.split('/');
@@ -292,7 +340,7 @@ class CameraScreen extends PureComponent {
           .then(uri => {
             newPhoto.height = data.height;
             newPhoto.width = data.width;
-            let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+            // let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
             newPhoto.fileName = newName;
             newPhoto.caption = '';
             newPhoto.tagsArray = this.props.autoTagEnabled
@@ -302,8 +350,7 @@ class CameraScreen extends PureComponent {
               : [];
             newPhoto.captionStyle = {captionSize: 0, captionFont: 0};
             // newPhoto.uri = uri;
-            newPhoto.uri = galleryUri + newPhoto.fileName;
-            // console.log('d:', d);
+            // newPhoto.uri = galleryUri + newPhoto.fileName;
             newPhoto.creationDate = [
               moment().format('MMM DD, YYYY'),
               moment().format('hh:mm:ss a'),
@@ -544,7 +591,9 @@ class CameraScreen extends PureComponent {
             <TakePicture
               onTakePicture={() => this.takePicture()}
               onTakeVideo={() => this.takeVideo()}
+              onRecordingStopped={() => this.stopVideo()}
             />
+            {/* <TakeVideoButton /> */}
             <CameraType
               onPressCameraType={() => {
                 this.setState({showBlurScreen: true});
