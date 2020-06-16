@@ -40,6 +40,7 @@ import {
   FontIconsComponent,
   TagComponent,
   TagDisplayComponent,
+  saveFileFunction,
 } from '../../SubComponents/Buttons/index';
 
 const ICON_OPACITY = 0.6;
@@ -102,6 +103,7 @@ class EditScreen extends Component {
   };
 
   componentDidMount() {
+    console.log('this.props.route.params.photo', this.props.route.params.photo);
     changeNavigationBarColor('black');
 
     this.backHandler = BackHandler.addEventListener(
@@ -277,6 +279,7 @@ class EditScreen extends Component {
       this.state.photo.source.uri,
       90,
       uri => {
+        DisplayedPhoto.uri = uri;
         DisplayedPhoto.source = {uri: uri};
         DisplayedPhoto.height = this.state.photo.width;
         DisplayedPhoto.width = this.state.photo.heightl;
@@ -290,7 +293,7 @@ class EditScreen extends Component {
 
   onPressSave = () => {
     const saveHeader = 'Save changes ?';
-    const saveMessage = 'Update existing photo or Add as new photo?';
+    const saveMessage = 'Overwrite existing photo or Add as new photo?';
     if (
       this.state.text != this.state.orignal_photo.caption ||
       this.state.photo.source.uri != this.state.orignal_photo.source.uri ||
@@ -307,15 +310,18 @@ class EditScreen extends Component {
           {
             text: 'Update',
             onPress: () => {
-              this.savePhoto(true);
-              console.log('Replace');
+              // this.overwritePhoto(true);
+              this.temp_overwritePhoto(true);
+
+              console.log('Overwrite');
             },
           },
           {
             text: 'Add',
             onPress: () => {
               console.log('Duplicate');
-              this.savePhoto(false);
+              this.temp_overwritePhoto(false);
+              // this.overwritePhoto(false);
             },
           },
         ],
@@ -323,10 +329,73 @@ class EditScreen extends Component {
       );
     else this.props.navigation.goBack();
   };
-  savePhoto = photo_replace => {
+
+  temp_overwritePhoto = photo_replace => {
     this.props.navigation.navigate('GalleryTab');
 
     this.setState({saveInProgress: true});
+    let newPhoto = {...this.state.photo};
+    newPhoto.uri = this.state.photo.source.uri;
+
+    console.log('photo_new', this.state.photo);
+    saveFileFunction({
+      data: newPhoto,
+      fileType: this.state.orignal_photo.type,
+      caption: this.state.text,
+      captionStyle: {
+        captionSize: this.state.captionSize,
+        captionFont: this.state.captionFont,
+      },
+      fav_status: this.state.orignal_photo.fav_status,
+      tagsArray: this.state.tagsArray,
+      saveType: photo_replace == true ? 'edit' : 'add',
+      callingScreen: 'EditScreen',
+      addNewPhoto: newPhoto => this.props.addNewPhoto(newPhoto),
+      afterSaveFunction: () => {
+        console.log('photo_overwrite', this.state.photo);
+        CameraRoll.deletePhotos([this.state.orignal_photo.source.uri]).then(
+          () => {
+            let newPhoto = {};
+            let index = this.props.route.params.index;
+            newPhoto.height = this.state.photo.height;
+            newPhoto.width = this.state.photo.width;
+            newPhoto.caption = this.state.text;
+            newPhoto.fav_status = this.state.orignal_photo.fav_status;
+            newPhoto.creationDate = this.state.orignal_photo.creationDate;
+            newPhoto.captionStyle = {
+              captionSize: this.state.captionSize,
+              captionFont: this.state.captionFont,
+            };
+            newPhoto.tagsArray = this.state.tagsArray;
+            newPhoto.type = this.state.photo.type;
+
+            CameraRoll.getPhotos({
+              first: 1,
+              // assetType: 'Photos',
+              Album: 'Cykee',
+            }).then(r => {
+              newPhoto.uri = r.edges[0].node.image.uri;
+              console.log('photoArray', this.props.photoArray);
+              console.log('newPhoto after edit', newPhoto);
+              let updatedPhotoArray = [...this.props.photoArray];
+              updatedPhotoArray[index] = newPhoto;
+              console.log('updatedPhotoArray before shift', updatedPhotoArray);
+              // updatedPhotoArray.splice(1, 1);
+              console.log('updatedPhotoArray', updatedPhotoArray);
+              this.props.replacePhotoFromList(updatedPhotoArray);
+
+              console.log('OLD DELETED');
+            });
+          },
+        );
+      },
+    });
+  };
+  overwritePhoto = photo_replace => {
+    this.props.navigation.navigate('GalleryTab');
+
+    this.setState({saveInProgress: true});
+
     let newPhoto = {};
     let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
 

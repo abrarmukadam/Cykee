@@ -148,6 +148,7 @@ export function saveFileFunction({
   fileType,
   caption,
   captionStyle,
+  fav_status,
   tagsArray,
   saveType,
   callingScreen,
@@ -185,6 +186,7 @@ export function saveFileFunction({
   newPhoto.width = data.width;
   newPhoto.fileName = newName;
   newPhoto.caption = caption;
+  newPhoto.fav_status = fav_status;
   newPhoto.tagsArray = tagsArray;
   newPhoto.captionStyle = captionStyle;
   newPhoto.type = fileType;
@@ -208,7 +210,9 @@ export function saveFileFunction({
         Album: 'Cykee',
       }).then(r => {
         newPhoto.uri = r.edges[0].node.image.uri;
-        addNewPhoto(newPhoto);
+
+        if (saveType == 'edit') afterSaveFunction();
+        else addNewPhoto(newPhoto);
       });
       if (currentAlbumName == 'Cykee') RNFS.unlink(tempGalleryUri);
       if (callingScreen == 'PreviewScreen') afterSaveFunction();

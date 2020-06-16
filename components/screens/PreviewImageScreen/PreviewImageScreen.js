@@ -166,6 +166,7 @@ class PreviewImageScreen extends Component {
         captionSize: this.state.captionSize,
         captionFont: this.state.captionFont,
       },
+      fav_status: false,
       tagsArray: this.state.tagsArray,
       saveType: 'add',
       callingScreen: 'PreviewScreen',

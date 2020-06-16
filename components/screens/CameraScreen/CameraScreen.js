@@ -284,6 +284,7 @@ class CameraScreen extends PureComponent {
                 captionSize: 0,
                 captionFont: 0,
               },
+              fav_status: false,
               tagsArray: this.props.autoTagEnabled
                 ? this.props.autoTagValue.length
                   ? [this.props.autoTagValue]
@@ -356,6 +357,7 @@ class CameraScreen extends PureComponent {
           captionSize: 0,
           captionFont: 0,
         },
+        fav_status: false,
         tagsArray: this.props.autoTagEnabled
           ? this.props.autoTagValue.length
             ? [this.props.autoTagValue]

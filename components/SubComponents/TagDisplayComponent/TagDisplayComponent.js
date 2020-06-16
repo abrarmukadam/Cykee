@@ -8,7 +8,6 @@ class TagDisplayComponent extends Component {
     console.log('tagsArray', this.props.tagsArray);
   }
   render() {
-    console.log('auto:', this.props.autoTagActive);
     if (this.props.tagsArray)
       if (this.props.tagsArray[0] != '')
         return (
