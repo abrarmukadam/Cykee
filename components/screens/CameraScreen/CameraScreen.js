@@ -25,7 +25,7 @@ import {hideNavigationBar} from 'react-native-navigation-bar-color';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import {UIActivityIndicator} from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
-import moment from 'moment';
+
 import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
 
 import {
@@ -38,6 +38,7 @@ import {
   BACKGROUND_COLOR,
   CameraSettingComponent,
   ZoomViewComponent,
+  saveFileFunction,
 } from './../../SubComponents/Buttons/index';
 import GestureRecognizer from 'react-native-swipe-gestures';
 const ZOOM_F = 0.08;
@@ -235,9 +236,11 @@ class CameraScreen extends PureComponent {
     // this.volEvent.remove();
   }
   onPressGallery = () => {
-    this.props.navigation.navigate('GalleryTab');
-    changeNavigationBarColor(TAB_BAR_COLOR);
-    // this.props.navigation.navigate('GridViewScreen');
+    if (this.state.isRecording != true) {
+      this.props.navigation.navigate('GalleryTab');
+      changeNavigationBarColor(TAB_BAR_COLOR);
+      // this.props.navigation.navigate('GridViewScreen');
+    }
   };
 
   stopVideo = async () => {
@@ -249,6 +252,9 @@ class CameraScreen extends PureComponent {
     const recordOptions = {
       mute: false,
       maxDuration: 300,
+      // mirrorVideo: this.props.cameraType ? true : false, //0 = back , 1 = front
+      mirrorVideo: true,
+
       quality: RNCamera.Constants.VideoQuality['720p'],
     };
     const {isRecording} = this.state;
@@ -268,12 +274,28 @@ class CameraScreen extends PureComponent {
               type: 'video',
             });
           } else {
-            CameraRoll.save(data.uri, {
-              type: 'video',
-              album: 'Cykee',
-            }).then(uri => {
-              console.warn('video Saved !');
+            let newPhoto = {};
+            console.log('saving without preview screen');
+            saveFileFunction({
+              data: data,
+              fileType: 'video',
+              caption: '',
+              captionStyle: {
+                captionSize: 0,
+                captionFont: 0,
+              },
+              tagsArray: this.props.autoTagEnabled
+                ? this.props.autoTagValue.length
+                  ? [this.props.autoTagValue]
+                  : []
+                : [],
+              saveType: 'add',
+              callingScreen: 'CameraScreen',
+              addNewPhoto: newPhoto => this.props.addNewPhoto(newPhoto),
             });
+
+            this.camera.resumePreview();
+            this.setState({focus: false});
           }
         }
       } catch (e) {
@@ -324,52 +346,24 @@ class CameraScreen extends PureComponent {
         type: 'photo',
       });
     } else {
-      console.log('saving without preview screen');
-
       let newPhoto = {};
-      const temp = data.uri.split('/');
-      const d = new Date();
-      const newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
-      let nameToChange = temp[temp.length - 1];
-      let renamedURI = data.uri.replace(nameToChange, newName);
-      RNFS.copyFile(data.uri, renamedURI).then(() => {
-        CameraRoll.save(renamedURI, {
-          type: 'photo',
-          album: 'Cykee',
-        })
-          .then(uri => {
-            newPhoto.height = data.height;
-            newPhoto.width = data.width;
-            // let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
-            newPhoto.fileName = newName;
-            newPhoto.caption = '';
-            newPhoto.tagsArray = this.props.autoTagEnabled
-              ? this.props.autoTagValue.length
-                ? [this.props.autoTagValue]
-                : []
-              : [];
-            newPhoto.captionStyle = {captionSize: 0, captionFont: 0};
-            // newPhoto.uri = uri;
-            // newPhoto.uri = galleryUri + newPhoto.fileName;
-            newPhoto.creationDate = [
-              moment().format('MMM DD, YYYY'),
-              moment().format('hh:mm:ss a'),
-            ];
-            // newPhoto.creationDate = moment().format();
-            // newPhoto.uri = uri;
-            console.log('Photo saved in gallery from CameraScreen:', newPhoto);
-            CameraRoll.getPhotos({
-              first: 1,
-              assetType: 'Photos',
-              Album: 'Cykee',
-            })
-              .then(r => {
-                newPhoto.uri = r.edges[0].node.image.uri;
-                this.props.addNewPhoto(newPhoto);
-              })
-              .catch(error => console.log('read Photo Error:', error));
-          })
-          .catch(error => console.log('save Photo Error:', error));
+      console.log('saving without preview screen');
+      saveFileFunction({
+        data: data,
+        fileType: 'photo',
+        caption: '',
+        captionStyle: {
+          captionSize: 0,
+          captionFont: 0,
+        },
+        tagsArray: this.props.autoTagEnabled
+          ? this.props.autoTagValue.length
+            ? [this.props.autoTagValue]
+            : []
+          : [],
+        saveType: 'add',
+        callingScreen: 'CameraScreen',
+        addNewPhoto: newPhoto => this.props.addNewPhoto(newPhoto),
       });
     }
     this.camera.resumePreview();
@@ -455,16 +449,6 @@ class CameraScreen extends PureComponent {
     const {canDetectFaces} = this.state;
     console.log('this.state.firstLaunch', this.state.firstLaunch);
     // hideNavigationBar();
-
-    // const d_t = new Date();
-    // const d_t_full = `${d_t.getFullYear()}${d_t.getMonth()}${d_t.getDate()}${d_t.getHours()}${d_t.getMinutes()}${d_t.getSeconds()}${d_t.getMilliseconds()}`;
-    // console.log(d_t);
-    // console.log(d_t_full);
-    // // let date_time2 = new Date();
-    // let date_time2 = d_t.getFullYear();
-    // console.log('date_time2:', date_time2);
-    // let date_time = '2020-05-09T19:34:30.094Z';
-    // let a = date_time.getFullYear();
 
     if (this.state.showLoadingScreen) return <PendingView />;
 

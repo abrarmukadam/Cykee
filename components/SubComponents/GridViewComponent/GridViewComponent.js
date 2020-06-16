@@ -31,6 +31,7 @@ import {
   TagIcon,
   TagDisplayComponent,
   SearchedTagsComponent,
+  PlayOverlay,
 } from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 // import Icon from 'react-native-vector-icons/Ionicons';
@@ -50,6 +51,7 @@ import {
   GlobalMediumIconSize,
   GlobalLargeIconSize,
   SearchPhotoComponent,
+  EmptyGalleryMessage,
 } from '../../SubComponents/Buttons/index';
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('screen');
 const {width: WIDTH_W, height: HEIGHT_W} = Dimensions.get('window');
@@ -189,6 +191,25 @@ class GridViewComponent extends Component {
       directionalOffsetThreshold: 80,
     };
     // return <View />;
+    if (!this.state.filteredList.length)
+      return (
+        <View style={styles.container}>
+          <StatusBar backgroundColor={'transparent'} translucent />
+          <View>
+            {this.props.gridSize != 'CameraRoll' && (
+              <SearchPhotoComponent
+                searchFilter={this.state.searchFilter}
+                onChangeSearchFilter={searchFilter =>
+                  this.setState({searchFilter})
+                }
+                //
+              />
+            )}
+          </View>
+          <EmptyGalleryMessage />
+        </View>
+      );
+
     return (
       <View style={styles.container}>
         {/* <StatusBar hidden={true} /> */}

@@ -125,14 +125,14 @@ class CameraSettingComponent extends Component {
                 }
                 showIconName={this.state.showIconName}
               /> */}
-              <AspectRatio
+              {/* <AspectRatio
                 aspectIcon={this.props.aspectRatio}
                 onPressAspectRatio={() => {
                   this.props.onPressAspectRatio();
                   this.props.changeAspectRatio(!this.props.aspectRatio);
                 }}
                 showIconName={this.state.showIconName}
-              />
+              /> */}
 
               {this.props.autoTagEnabled &&
                 // this.props.autoTagValue.length <= 1 &&

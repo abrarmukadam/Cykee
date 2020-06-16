@@ -38,6 +38,7 @@ import {
   TagComponent,
   TagDisplayComponent,
   PlayOverlay,
+  saveFileFunction,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import ToggleSwitch from 'toggle-switch-react-native';
@@ -157,57 +158,72 @@ class PreviewImageScreen extends Component {
 
   savePhoto = data => {
     this.setState({saveInProgress: true});
-    let newPhoto = {};
-
-    const d = new Date();
-    const newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
-    newPhoto.creationDate = [
-      moment().format('MMM DD, YYYY'),
-      moment().format('hh:mm:ss a'),
-    ];
-
-    const temp = data.uri.split('/');
-    let nameToChange = temp[temp.length - 1];
-    let currentAlbumName = temp[temp.length - 2];
-    let renamedURI = data.uri.replace(nameToChange, newName);
-    let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
-    let tempGalleryUri = 'file:///storage/emulated/0/Pictures/' + newName;
-    let destinationUri = '';
-    newPhoto.height = data.height;
-    newPhoto.width = data.width;
-    newPhoto.fileName = newName;
-    newPhoto.caption = this.state.text;
-    newPhoto.tagsArray = this.state.tagsArray;
-    newPhoto.captionStyle = {
-      captionSize: this.state.captionSize,
-      captionFont: this.state.captionFont,
-    };
-    newPhoto.uri = galleryUri + newPhoto.fileName;
-
-    if (currentAlbumName == 'Cykee') {
-      console.log('Photo already in Cykee Gallery');
-      destinationUri = tempGalleryUri;
-    } else {
-      console.log('Photo in other gallery');
-      destinationUri = renamedURI;
-    }
-    RNFS.copyFile(data.uri, destinationUri).then(() => {
-      CameraRoll.save(destinationUri, {
-        type: 'photo',
-        album: 'Cykee',
-      }).then(uri => {
-        CameraRoll.getPhotos({
-          first: 1,
-          assetType: 'Photos',
-          Album: 'Cykee',
-        }).then(r => {
-          newPhoto.uri = r.edges[0].node.image.uri;
-          this.props.addNewPhoto(newPhoto);
-        });
-        if (currentAlbumName == 'Cykee') RNFS.unlink(tempGalleryUri);
-        this.props.navigation.goBack();
-      });
+    saveFileFunction({
+      data: data,
+      fileType: this.props.route.params.type,
+      caption: this.state.text,
+      captionStyle: {
+        captionSize: this.state.captionSize,
+        captionFont: this.state.captionFont,
+      },
+      tagsArray: this.state.tagsArray,
+      saveType: 'add',
+      callingScreen: 'PreviewScreen',
+      addNewPhoto: newPhoto => this.props.addNewPhoto(newPhoto),
+      afterSaveFunction: () => this.props.navigation.goBack(),
     });
+
+    // let newPhoto = {};
+    // const temp = data.uri.split('/');
+    // const d = new Date();
+    // const newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
+    // let nameToChange = temp[temp.length - 1];
+    // let renamedURI = data.uri.replace(nameToChange, newName);
+
+    // newPhoto.creationDate = [
+    //   moment().format('MMM DD, YYYY'),
+    //   moment().format('hh:mm:ss a'),
+    // ];
+
+    // let currentAlbumName = temp[temp.length - 2];
+    // let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+    // let tempGalleryUri = 'file:///storage/emulated/0/Pictures/' + newName;
+    // let destinationUri = '';
+    // newPhoto.height = data.height;
+    // newPhoto.width = data.width;
+    // newPhoto.fileName = newName;
+    // newPhoto.caption = this.state.text;
+    // newPhoto.tagsArray = this.state.tagsArray;
+    // newPhoto.captionStyle = {
+    //   captionSize: this.state.captionSize,
+    //   captionFont: this.state.captionFont,
+    // };
+    // newPhoto.uri = galleryUri + newPhoto.fileName;
+
+    // if (currentAlbumName == 'Cykee') {
+    //   console.log('Photo already in Cykee Gallery');
+    //   destinationUri = tempGalleryUri;
+    // } else {
+    //   console.log('Photo in other gallery');
+    //   destinationUri = renamedURI;
+    // }
+    // RNFS.copyFile(data.uri, destinationUri).then(() => {
+    //   CameraRoll.save(destinationUri, {
+    //     type: 'photo',
+    //     album: 'Cykee',
+    //   }).then(uri => {
+    //     CameraRoll.getPhotos({
+    //       first: 1,
+    //       assetType: 'Photos',
+    //       Album: 'Cykee',
+    //     }).then(r => {
+    //       newPhoto.uri = r.edges[0].node.image.uri;
+    //       this.props.addNewPhoto(newPhoto);
+    //     });
+    //     if (currentAlbumName == 'Cykee') RNFS.unlink(tempGalleryUri);
+    //     this.props.navigation.goBack();
+    //   });
+    // });
   };
 
   onSwipeDown = () => {
@@ -308,7 +324,9 @@ class PreviewImageScreen extends Component {
           </TouchableWithoutFeedback>
           {this.props.route.params.type == 'video' && (
             <PlayOverlay
-              onPressPlay={() => console.log('Play video Pressed')}
+              onPressPlay={() => {
+                console.log('Play video Pressed');
+              }}
             />
           )}
           {this.state.showIcons && (

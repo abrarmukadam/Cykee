@@ -44,6 +44,7 @@ import {
   MoreIcon,
   GalleryIcon,
   TagDisplayComponent,
+  PlayOverlay,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 // import {SharedElement} from 'react-navigation-shared-element';
@@ -77,6 +78,7 @@ class GalleryScreen extends Component {
           captionStyle: item.captionStyle,
           creationDate: item.creationDate || [' ', ' '],
           tagsArray: item.tagsArray || [],
+          type: item.type,
         };
         temp = [...temp, newItem];
         // item.dimension={{item.height,item.width}}
@@ -117,6 +119,7 @@ class GalleryScreen extends Component {
         captionStyle: item.captionStyle,
         creationDate: item.creationDate || [' ', ' '],
         tagsArray: item.tagsArray || [],
+        type: item.type,
       };
       temp = [...temp, newItem];
     });
@@ -415,6 +418,14 @@ class GalleryScreen extends Component {
                 bottom: 0,
               }}
             /> */}
+            {this.state.photoArray[this.state.index].type == 'video' && (
+              <PlayOverlay
+                onPressPlay={() => {
+                  console.log('Play video Pressed');
+                  // saveFileFunction();
+                }}
+              />
+            )}
           </View>
         )}
 

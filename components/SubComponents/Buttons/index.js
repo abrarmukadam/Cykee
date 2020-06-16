@@ -1,3 +1,7 @@
+import CameraRoll from '@react-native-community/cameraroll';
+var RNFS = require('react-native-fs');
+import moment from 'moment';
+
 //Camera Screen Icons
 import TakePicture from './TakePicture/TakePicture';
 import TakeVideoButton from './TakeVideoButton/TakeVideoButton';
@@ -45,6 +49,7 @@ import SearchedTagsComponent from '../SearchedTagsComponent/SearchedTagsComponen
 import SearchPhotoComponent from '../SearchPhotoComponent/SearchPhotoComponent';
 import CameraSettingComponent from '../CameraSettingComponent/CameraSettingComponent.container';
 import ZoomViewComponent from '../ZoomViewComponent/ZoomViewComponent';
+import EmptyGalleryMessage from '../EmptyGalleryMessage/EmptyGalleryMessage';
 
 export {
   GridViewComponent,
@@ -56,6 +61,7 @@ export {
   SearchPhotoComponent,
   CameraSettingComponent,
   ZoomViewComponent,
+  EmptyGalleryMessage,
 };
 
 export {
@@ -136,3 +142,76 @@ const flashIconName = [
   'flash-auto',
 ];
 export {flashIconName, CAPTION_SIZE, GRID_CAPTION_SIZE, CAPTION_FONT};
+
+export function saveFileFunction({
+  data,
+  fileType,
+  caption,
+  captionStyle,
+  tagsArray,
+  saveType,
+  callingScreen,
+  addNewPhoto,
+  afterSaveFunction,
+}) {
+  let newPhoto = {};
+  const temp = data.uri.split('/');
+  const d = new Date();
+  const extension = fileType == 'video' ? '.mp4' : '.jpeg';
+  const month_temp = d.getMonth() + 1;
+  let month = '';
+  if (month_temp < 10) month = '0' + month_temp;
+  else month = month_temp;
+
+  let name_tag = '';
+  if (tagsArray.length > 0)
+    for (let i = 0; i < tagsArray.length; i++)
+      name_tag = name_tag + '_' + tagsArray[i].substr(1);
+  const newName = `${d.getFullYear()}${month}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}${name_tag}${extension}`;
+
+  let nameToChange = temp[temp.length - 1];
+  let renamedURI = data.uri.replace(nameToChange, newName);
+
+  newPhoto.creationDate = [
+    moment().format('MMM DD, YYYY'),
+    moment().format('hh:mm:ss a'),
+  ];
+
+  let currentAlbumName = temp[temp.length - 2];
+  // let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
+  let tempGalleryUri = 'file:///storage/emulated/0/Pictures/' + newName;
+  let destinationUri = '';
+  newPhoto.height = data.height;
+  newPhoto.width = data.width;
+  newPhoto.fileName = newName;
+  newPhoto.caption = caption;
+  newPhoto.tagsArray = tagsArray;
+  newPhoto.captionStyle = captionStyle;
+  newPhoto.type = fileType;
+  // newPhoto.uri = galleryUri + newPhoto.fileName;
+
+  if (currentAlbumName == 'Cykee') {
+    console.log('Photo already in Cykee Gallery');
+    destinationUri = tempGalleryUri;
+  } else {
+    console.log('Photo in other gallery');
+    destinationUri = renamedURI;
+  }
+  RNFS.copyFile(data.uri, destinationUri).then(() => {
+    CameraRoll.save(destinationUri, {
+      type: fileType,
+      album: 'Cykee',
+    }).then(uri => {
+      CameraRoll.getPhotos({
+        first: 1,
+        // assetType: 'Photos',
+        Album: 'Cykee',
+      }).then(r => {
+        newPhoto.uri = r.edges[0].node.image.uri;
+        addNewPhoto(newPhoto);
+      });
+      if (currentAlbumName == 'Cykee') RNFS.unlink(tempGalleryUri);
+      if (callingScreen == 'PreviewScreen') afterSaveFunction();
+    });
+  });
+}

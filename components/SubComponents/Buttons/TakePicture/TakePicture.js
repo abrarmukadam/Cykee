@@ -25,10 +25,10 @@ class TakePicture extends Component {
               this.props.onRecordingStopped();
             }
           }}
-          onLongPress={() => {
-            this.setState({isRecording: true, inLongPress: true});
-            this.props.onTakeVideo();
-          }}
+          // onLongPress={() => {
+          //   this.setState({isRecording: true, inLongPress: true});
+          //   this.props.onTakeVideo();
+          // }}
           onPressOut={() => {
             this.setState({inLongPress: false});
           }}

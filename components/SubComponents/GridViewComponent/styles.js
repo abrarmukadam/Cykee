@@ -1,5 +1,9 @@
 import {StyleSheet, Dimensions} from 'react-native';
-import {BACKGROUND_COLOR, SEARCH_BAR_COLOR} from '../Buttons/index';
+import {
+  BACKGROUND_COLOR,
+  SEARCH_BAR_COLOR,
+  TEXT_BUTTON_COLOR,
+} from '../Buttons/index';
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
 export default StyleSheet.create({

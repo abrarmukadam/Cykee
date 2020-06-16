@@ -16,7 +16,6 @@ class SearchPhotoComponent extends Component {
   constructor(props) {
     super(props);
   }
-
   state = {};
   render() {
     console.log('search rendered');

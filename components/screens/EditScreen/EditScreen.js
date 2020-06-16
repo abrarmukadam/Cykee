@@ -343,9 +343,18 @@ class EditScreen extends Component {
 
     let orignal_temp = this.state.orignal_photo.source.uri.split('/');
     let orignalName = orignal_temp[orignal_temp.length - 1];
-
+    const extension =
+      this.state.orignal_photo.type == 'video' ? '.mp4' : '.jpeg';
     const d = new Date();
-    let newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
+    const month_temp = d.getMonth() + 1;
+    let month = '';
+    if (month_temp < 10) month = '0' + month_temp;
+    else month = month_temp;
+    let name_tag = '';
+    if (this.state.tagsArray.length > 0)
+      for (let i = 0; i < this.state.tagsArray.length; i++)
+        name_tag = name_tag + '_' + this.state.tagsArray[i].substr(1);
+    let newName = `${d.getFullYear()}${month}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}${name_tag}${extension}`;
 
     const temp = this.state.photo.source.uri.split('/');
     let nameToChange = temp[temp.length - 1];

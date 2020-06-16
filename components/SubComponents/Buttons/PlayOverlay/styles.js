@@ -7,7 +7,7 @@ export default StyleSheet.create({
   container: {
     opacity: 0.5,
     position: 'absolute',
-    bottom: HEIGHT / 2 - GlobalLargeIconSize / 2 - 10,
-    left: WIDTH / 2 - GlobalLargeIconSize / 2 - 10,
+    bottom: HEIGHT / 2 - 50,
+    left: WIDTH / 2 - 50,
   },
 });

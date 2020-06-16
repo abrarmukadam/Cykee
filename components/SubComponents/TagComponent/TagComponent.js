@@ -28,10 +28,28 @@ class TagComponent extends Component {
     if (state.tagsArray.length >= 5)
       ToastAndroid.show('Can add only 4 tags ! !', ToastAndroid.SHORT);
     else {
+      //
       if (temp.tag && temp.tag[0] != '#') temp.tag = '#' + temp.tag;
+      if (
+        (/^(?:[A-Za-z0-9_\s]+)$/.test(temp.tag.substr(1)) || temp.tag == '#') &&
+        // temp.tag.length >= 1
+        temp.tag.length >= 1
+      )
+        console.log('valid');
+      else {
+        if (temp.tag.length > 0) {
+          temp = this.state.tags;
+          ToastAndroid.show(
+            `Can only use Alphabets, Numbers or '_'`,
+            ToastAndroid.SHORT,
+          );
+        }
+      }
+      console.log(temp.tag);
       this.setState({
         tags: temp,
       });
+      //
     }
   };
 
