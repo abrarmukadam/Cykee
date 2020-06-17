@@ -17,6 +17,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 class FontIconsComponent extends Component {
   state = {
     showFontIcons: this.props.showFontIcons,
+    showIconName: this.props.showIconName,
     // enterTag: false,
   };
   componentDidMount() {
@@ -78,7 +79,7 @@ class FontIconsComponent extends Component {
                     : 'tag-outline'
                 }
                 handleOnPress={this.props.tagPressed}
-                buttonText={'Tag'}
+                buttonText={this.props.showIconName ? 'Tag' : ''}
               />
             </TouchableOpacity>
           </View>
@@ -89,7 +90,7 @@ class FontIconsComponent extends Component {
             iconType="material-community"
             buttonName={'format-size'}
             handleOnPress={this.props.captionSizePressed}
-            buttonText={'Size'}
+            buttonText={this.props.showIconName ? 'Size' : ''}
           />
         )}
         {!this.state.showFontIcons && !this.props.enterTag && (
@@ -97,7 +98,7 @@ class FontIconsComponent extends Component {
             iconType="material-community"
             buttonName={'format-font'}
             handleOnPress={this.props.captionFontPressed}
-            buttonText={'Font'}
+            buttonText={this.props.showIconName ? 'Font' : ''}
           />
         )}
         <Icon

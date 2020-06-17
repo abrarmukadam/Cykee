@@ -18,7 +18,7 @@ class CameraSettingComponent extends Component {
   }
   state = {
     showTagDialog: false,
-    showIconName: true,
+    showIconName: this.props.photoArray.length < 5 ? true : false,
     // animationOpen: new Animated.Value(0),
   };
   componentDidMount() {
@@ -90,7 +90,10 @@ class CameraSettingComponent extends Component {
         <MoreIcon
           expandOptions={this.props.hideCameraSettingsIcons}
           onPressMore={() => {
-            if (!this.props.hideCameraSettingsIcons)
+            if (
+              !this.props.hideCameraSettingsIcons &&
+              this.props.photoArray.length < 5
+            )
               this.setState({showIconName: true});
             this.props.hideCameraSettings(!this.props.hideCameraSettingsIcons);
           }}

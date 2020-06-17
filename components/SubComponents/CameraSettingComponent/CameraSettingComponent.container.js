@@ -11,6 +11,7 @@ const mapPropsToState = state => {
     autoTagValue: state.settingReducer.autoTagValue || '',
     autoTagEnabled: state.settingReducer.autoTagEnabled || false,
     faceDetectionMode: state.settingReducer.faceDetectionMode,
+    photoArray: state.galleryReducer.photoArray,
   };
 };
 

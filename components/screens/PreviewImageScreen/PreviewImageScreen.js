@@ -356,6 +356,7 @@ class PreviewImageScreen extends Component {
               redoPressed={this.redoPressed}
               prevPhoto={this.state.prevPhoto}
               nextPhoto={this.state.nextPhoto}
+              showIconName={this.props.photoArray.length < 5 ? true : false}
             />
           )}
           <View style={styles.bottomContainer}>
@@ -370,6 +371,7 @@ class PreviewImageScreen extends Component {
                 addAppTourTarget={appTourTarget => {
                   this.appTourTargets.push(appTourTarget);
                 }}
+                showIconName={this.props.photoArray.length < 5 ? true : false}
                 // firstLaunch={true}
                 firstLaunch={this.props.photoArray[0] ? true : false}
               />

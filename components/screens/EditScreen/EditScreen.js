@@ -515,6 +515,7 @@ class EditScreen extends Component {
             redoPressed={this.redoPressed}
             prevPhoto={this.state.prevPhoto}
             nextPhoto={this.state.nextPhoto}
+            showIconNames={this.props.photoArray.length < 5 ? true : false}
           />
         )}
         <KeyboardAvoidingView style={[styles.textBoxContainer]}>
@@ -526,6 +527,7 @@ class EditScreen extends Component {
               tagPressed={this.tagPressed}
               enterTag={this.state.tagPressed}
               tagsArray={this.state.tagsArray}
+              showIconNames={this.props.photoArray.length < 5 ? true : false}
             />
           )}
 

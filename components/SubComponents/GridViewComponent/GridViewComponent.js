@@ -191,7 +191,7 @@ class GridViewComponent extends Component {
       directionalOffsetThreshold: 80,
     };
     // return <View />;
-    if (!this.state.filteredList.length)
+    if (!this.state.filteredList.length & (this.props.gridSize != 'CameraRoll'))
       return (
         <View style={styles.container}>
           <StatusBar backgroundColor={'transparent'} translucent />
