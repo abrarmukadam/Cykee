@@ -505,6 +505,20 @@ class GridViewComponent extends Component {
               )}
             </View>
           )}
+        {item.type == 'video' && (
+          <Icon
+            type="material-community"
+            name="play-circle-outline"
+            size={40}
+            color={CykeeColor}
+            containerStyle={{
+              opacity: 0.5,
+              position: 'absolute',
+              top: 100 - 20,
+              left: WIDTH / 3 / 2 - 20,
+            }}
+          />
+        )}
       </TouchableOpacity>
     );
   };

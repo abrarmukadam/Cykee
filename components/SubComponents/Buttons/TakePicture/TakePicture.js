@@ -14,7 +14,6 @@ class TakePicture extends Component {
     isRecording: false,
     // recordingTime: 0,
   };
-  componentDidMount() {}
   componentDidUpdate(prevProps, prevState) {
     if (prevState.isRecording != this.state.isRecording)
       if (this.state.isRecording == true) {
@@ -29,8 +28,6 @@ class TakePicture extends Component {
       }
   }
   render() {
-    console.log('Min:', Math.floor(this.state.recordingTime / 60));
-    console.log('Sec:', this.state.recordingTime % 60);
     return (
       <View style={styles.TakePictureStyle}>
         {this.state.isRecording && (
