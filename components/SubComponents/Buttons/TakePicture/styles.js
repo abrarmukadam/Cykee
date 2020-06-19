@@ -10,13 +10,18 @@ export default StyleSheet.create({
     // justifyContent:'flex-end',
     // alignSelf: 'center',
     marginBottom: 10,
+    paddingLeft: -4,
     alignItems: 'center',
   },
   timeContainerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     position: 'absolute',
     top: -22,
   },
   timeTextStyle: {
+    paddingHorizontal: 4,
     color: 'white',
   },
 });
