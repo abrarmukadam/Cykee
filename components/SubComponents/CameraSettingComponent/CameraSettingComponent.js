@@ -7,6 +7,7 @@ import {
   TagSettingButton,
   MoreIcon,
   FaceDetection,
+  BlankCaptionModeButton,
 } from '../Buttons/index';
 import DialogInput from 'react-native-dialog-input';
 
@@ -118,6 +119,9 @@ class CameraSettingComponent extends Component {
                 }
                 showIconName={this.state.showIconName}
                 firstLaunch={this.props.firstLaunch}
+              />
+              <BlankCaptionModeButton
+                onPressBlankCaption={() => this.props.onPressBlankCaption()}
               />
               {/* <FaceDetection
                 faceDetectionIcon={this.props.faceDetectionMode}

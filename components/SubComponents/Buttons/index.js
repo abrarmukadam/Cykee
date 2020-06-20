@@ -39,6 +39,7 @@ import TimerButton from './TimerButton/TimerButton';
 import TagIcon from './TagIcon/TagIcon';
 import TagSettingButton from './TagSettingButton/TagSettingButton';
 import PlayOverlay from './PlayOverlay/PlayOverlay';
+import BlankCaptionModeButton from './BlankCaptionModeButton/BlankCaptionModeButton';
 //Gallery(Grid) view component
 import GridViewComponent from '../GridViewComponent/GridViewComponent';
 import EditIconsComponent from '../EditIconsComponent/EditIconsComponent';
@@ -62,6 +63,7 @@ export {
   CameraSettingComponent,
   ZoomViewComponent,
   EmptyGalleryMessage,
+  BlankCaptionModeButton,
 };
 
 export {
@@ -124,9 +126,9 @@ export {
   HEADER_TITLE_COLOR,
 };
 
-const CAPTION_SIZE = [18, 25, 35];
-const GRID_CAPTION_SIZE = [10, 12, 14];
-const CAPTION_FONT = [
+export const CAPTION_SIZE = [18, 25, 35];
+export const GRID_CAPTION_SIZE = [10, 12, 14];
+export const CAPTION_FONT = [
   'normal',
   'times-roman',
   'caveat-regular',
@@ -134,14 +136,25 @@ const CAPTION_FONT = [
 ];
 
 //Flash icons
-const flashIconName = [
+export const flashIconName = [
   //   //"FlashMode": {"off": 0, "on": 1, "torch": 2,"auto": 3, }
   'flash-off',
   'flash',
   'flashlight',
   'flash-auto',
 ];
-export {flashIconName, CAPTION_SIZE, GRID_CAPTION_SIZE, CAPTION_FONT};
+
+export const backgroundColorArray = [
+  '#e1bee7',
+  'steelblue',
+  'teal',
+  'skyblue',
+  'lightgreen',
+  'lightslategrey',
+  'mediumpurple',
+  'rgb(195, 125, 198)',
+  'mediumturquoise',
+];
 
 export function saveFileFunction({
   data,

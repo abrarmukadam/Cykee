@@ -254,6 +254,7 @@ class CameraScreen extends PureComponent {
       maxDuration: 300,
       // mirrorVideo: this.props.cameraType ? true : false, //0 = back , 1 = front
       mirrorVideo: true,
+      orientation: 'portrait',
 
       quality: RNCamera.Constants.VideoQuality['720p'],
     };
@@ -556,6 +557,9 @@ class CameraScreen extends PureComponent {
               this.setState({
                 showLoadingScreen: true,
               })
+            }
+            onPressBlankCaption={() =>
+              this.props.navigation.navigate('BlankCaptionScreen')
             }
           />
           {/* </View> */}

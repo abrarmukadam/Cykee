@@ -308,10 +308,10 @@ class EditScreen extends Component {
         saveMessage,
         [
           {
-            text: 'Update',
+            text: 'Overwrite',
             onPress: () => {
               // this.overwritePhoto(true);
-              this.temp_overwritePhoto(true);
+              this.overwritePhoto(true);
 
               console.log('Overwrite');
             },
@@ -320,7 +320,7 @@ class EditScreen extends Component {
             text: 'Add',
             onPress: () => {
               console.log('Duplicate');
-              this.temp_overwritePhoto(false);
+              this.overwritePhoto(false);
               // this.overwritePhoto(false);
             },
           },
@@ -330,7 +330,7 @@ class EditScreen extends Component {
     else this.props.navigation.goBack();
   };
 
-  temp_overwritePhoto = photo_replace => {
+  overwritePhoto = photo_replace => {
     this.props.navigation.navigate('GalleryTab');
 
     this.setState({saveInProgress: true});
@@ -391,7 +391,7 @@ class EditScreen extends Component {
       },
     });
   };
-  overwritePhoto = photo_replace => {
+  temp_overwritePhoto = photo_replace => {
     this.props.navigation.navigate('GalleryTab');
 
     this.setState({saveInProgress: true});
@@ -506,7 +506,7 @@ class EditScreen extends Component {
             style={styles.image}
           />
         </TouchableWithoutFeedback>
-        {this.state.showIcons && (
+        {this.state.showIcons && this.state.orignal_photo.type != 'video' && (
           <EditIconsComponent
             showEditOptions={this.state.showEditOptions}
             cropPressed={this.cropPressed}

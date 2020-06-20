@@ -44,6 +44,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import ToggleSwitch from 'toggle-switch-react-native';
 import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
 
+// import {leftHeaderButton} from
 class PreviewImageScreen extends Component {
   constructor(props) {
     super(props);
@@ -101,6 +102,21 @@ class PreviewImageScreen extends Component {
       console.log('photo changed');
     }
   }
+
+  captionSizePressed = () => {
+    if (this.state.captionSize >= 2) this.setState({captionSize: 0});
+    else this.setState({captionSize: this.state.captionSize + 1});
+    console.log('captionSize Pressed');
+  };
+  captionFontPressed = () => {
+    if (this.state.captionFont >= 3) this.setState({captionFont: 0});
+    else
+      this.setState({
+        captionFont: this.state.captionFont + 1,
+      });
+
+    console.log('captionFont Pressed');
+  };
   leftHeaderButton = (
     <TouchableOpacity
       onPress={() => this.props.navigation.goBack()}
@@ -141,21 +157,6 @@ class PreviewImageScreen extends Component {
     </TouchableOpacity>
   );
 
-  captionSizePressed = () => {
-    if (this.state.captionSize >= 2) this.setState({captionSize: 0});
-    else this.setState({captionSize: this.state.captionSize + 1});
-    console.log('captionSize Pressed');
-  };
-  captionFontPressed = () => {
-    if (this.state.captionFont >= 3) this.setState({captionFont: 0});
-    else
-      this.setState({
-        captionFont: this.state.captionFont + 1,
-      });
-
-    console.log('captionFont Pressed');
-  };
-
   savePhoto = data => {
     this.setState({saveInProgress: true});
     saveFileFunction({
@@ -173,58 +174,6 @@ class PreviewImageScreen extends Component {
       addNewPhoto: newPhoto => this.props.addNewPhoto(newPhoto),
       afterSaveFunction: () => this.props.navigation.goBack(),
     });
-
-    // let newPhoto = {};
-    // const temp = data.uri.split('/');
-    // const d = new Date();
-    // const newName = `${d.getFullYear()}${d.getMonth()}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}.jpg`;
-    // let nameToChange = temp[temp.length - 1];
-    // let renamedURI = data.uri.replace(nameToChange, newName);
-
-    // newPhoto.creationDate = [
-    //   moment().format('MMM DD, YYYY'),
-    //   moment().format('hh:mm:ss a'),
-    // ];
-
-    // let currentAlbumName = temp[temp.length - 2];
-    // let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
-    // let tempGalleryUri = 'file:///storage/emulated/0/Pictures/' + newName;
-    // let destinationUri = '';
-    // newPhoto.height = data.height;
-    // newPhoto.width = data.width;
-    // newPhoto.fileName = newName;
-    // newPhoto.caption = this.state.text;
-    // newPhoto.tagsArray = this.state.tagsArray;
-    // newPhoto.captionStyle = {
-    //   captionSize: this.state.captionSize,
-    //   captionFont: this.state.captionFont,
-    // };
-    // newPhoto.uri = galleryUri + newPhoto.fileName;
-
-    // if (currentAlbumName == 'Cykee') {
-    //   console.log('Photo already in Cykee Gallery');
-    //   destinationUri = tempGalleryUri;
-    // } else {
-    //   console.log('Photo in other gallery');
-    //   destinationUri = renamedURI;
-    // }
-    // RNFS.copyFile(data.uri, destinationUri).then(() => {
-    //   CameraRoll.save(destinationUri, {
-    //     type: 'photo',
-    //     album: 'Cykee',
-    //   }).then(uri => {
-    //     CameraRoll.getPhotos({
-    //       first: 1,
-    //       assetType: 'Photos',
-    //       Album: 'Cykee',
-    //     }).then(r => {
-    //       newPhoto.uri = r.edges[0].node.image.uri;
-    //       this.props.addNewPhoto(newPhoto);
-    //     });
-    //     if (currentAlbumName == 'Cykee') RNFS.unlink(tempGalleryUri);
-    //     this.props.navigation.goBack();
-    //   });
-    // });
   };
 
   onSwipeDown = () => {

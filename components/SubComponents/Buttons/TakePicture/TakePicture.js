@@ -83,7 +83,7 @@ class TakePicture extends Component {
               position: 'absolute',
               bottom: 0,
             }}
-            color={this.state.inLongPress ? 'red' : CykeeColor}
+            color={this.state.isRecording ? 'red' : CykeeColor}
           />
           {this.state.isRecording && (
             <Icon

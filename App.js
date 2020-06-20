@@ -22,6 +22,8 @@ import {default as EditScreen} from './components/screens/EditScreen/EditScreen.
 import {default as FavoriteScreen} from './components/screens/FavoriteScreen/FavoriteScreen.container';
 import {default as CameraRollScreen} from './components/screens/CameraRollScreen/CameraRollScreen.container';
 import {default as HideCaption} from './components/SubComponents/HideCaption/HideCaption.container';
+import BlankCaptionScreen from './components/screens/BlankCaptionScreen/BlankCaptionScreen';
+
 import EmptyScreen from './components/screens/EmptyScreen/EmptyScreen';
 import {
   FavouriteIcon,
@@ -245,6 +247,25 @@ function CameraStack(navigation) {
           // },
           // cardStyleInterpolator: expandingTransition,
           // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <Stack.Screen
+        name="BlankCaptionScreen"
+        component={BlankCaptionScreen}
+        options={{
+          title: '',
+
+          headerTransparent: true,
+          // headerShown: false,
+          headerTitleStyle: {fontSize: 24, color: 'white'},
+          headerTintColor: 'white',
+          headerStyle: {
+            elevation: 100,
+            borderRadius: 0,
+          },
+          cardStyleInterpolator:
+            CardStyleInterpolators.forRevealFromBottomAndroid,
+          // cardStyleInterpolator: forFade,
         }}
       />
 
