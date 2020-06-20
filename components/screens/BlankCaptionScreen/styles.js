@@ -41,7 +41,7 @@ export default StyleSheet.create({
   },
   saveButtonStyle: {
     position: 'absolute',
-    bottom: 35,
+    bottom: 50,
     right: '4%',
     paddingHorizontal: 4,
   },

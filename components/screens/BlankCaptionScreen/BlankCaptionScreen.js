@@ -14,6 +14,7 @@ import {
   backgroundColorArray,
   GlobalIconSize,
   CheckCircle,
+  BackgroundColor,
 } from '../../SubComponents/Buttons/index';
 
 class BlankCaptionScreen extends Component {
@@ -66,12 +67,19 @@ class BlankCaptionScreen extends Component {
       headerLeft: () => this.leftHeaderButton,
     });
   }
-
+  onPressSave = () => {
+    let newCaption = {
+      caption: this.state.text,
+      backColor: this.state.backColor,
+    };
+    //    this.props.handleAddAffirmation(newAffirmation)
+  };
   render() {
     return (
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView behavior="height">
         <View
           style={[styles.container, {backgroundColor: this.state.backColor}]}>
+          {/* <View> */}
           <View style={styles.AffDetails}>
             <TextInput
               style={styles.textInputStyle}
@@ -86,20 +94,23 @@ class BlankCaptionScreen extends Component {
             />
           </View>
           <View style={styles.colorButtonContainer}>
-            {/* <BackgroundColor
-            selectedColor={colorArray[0]}
-            onPressColor={color => this.setState({backColor: color})}
-            colorArray={colorArray}
-          /> */}
-
+            <BackgroundColor
+              selectedColor={backgroundColorArray[0]}
+              onPressColor={color => this.setState({backColor: color})}
+              colorArray={backgroundColorArray}
+            />
             <View style={styles.saveButtonStyle}>
               <TouchableOpacity
-                onPress={() => this.savePhoto(this.state.photo)}
+                onPress={() => {
+                  // this.savePhoto(this.state.photo);
+                  this.onPressSave();
+                }}
                 disabled={this.state.saveInProgress}>
                 <CheckCircle iconSize={70} />
               </TouchableOpacity>
             </View>
           </View>
+          {/* </View> */}
         </View>
       </KeyboardAvoidingView>
     );

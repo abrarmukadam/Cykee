@@ -9,7 +9,7 @@ class BlankCaptionModeButton extends Component {
     return (
       <Icon
         type={'material-community'}
-        name={'presentation'}
+        name={'file-document-edit-outline'}
         size={GlobalIconSize}
         color={GlobalIconColor}
         onPress={() => {

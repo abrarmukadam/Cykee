@@ -51,6 +51,7 @@ import SearchPhotoComponent from '../SearchPhotoComponent/SearchPhotoComponent';
 import CameraSettingComponent from '../CameraSettingComponent/CameraSettingComponent.container';
 import ZoomViewComponent from '../ZoomViewComponent/ZoomViewComponent';
 import EmptyGalleryMessage from '../EmptyGalleryMessage/EmptyGalleryMessage';
+import BackgroundColor from '../BackgroundColor/BackgroundColor';
 
 export {
   GridViewComponent,
@@ -64,6 +65,7 @@ export {
   ZoomViewComponent,
   EmptyGalleryMessage,
   BlankCaptionModeButton,
+  BackgroundColor,
 };
 
 export {
