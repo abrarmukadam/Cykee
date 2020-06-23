@@ -158,6 +158,10 @@ export const backgroundColorArray = [
   'mediumturquoise',
 ];
 
+export const BLANK_CAPTION = 'blankCaption';
+export const VIDEO = 'video';
+export const PHOTO = 'photo';
+
 export function saveFileFunction({
   data,
   fileType,
@@ -167,15 +171,21 @@ export function saveFileFunction({
   tagsArray,
   saveType,
   callingScreen,
+  backColor,
   addNewPhoto,
   afterSaveFunction,
 }) {
+  const BLANK_CAPTION = 'blankCaption';
   let newPhoto = {};
-  const temp = data.uri.split('/');
   const d = new Date();
-  const extension = fileType == 'video' ? '.mp4' : '.jpeg';
+  let extension = fileType == 'video' ? '.mp4' : '.jpeg';
+  if (fileType == BLANK_CAPTION) extension = '';
   const month_temp = d.getMonth() + 1;
   let month = '';
+  let renamedURI = '';
+  let currentAlbumName = '';
+  let nameToChange = '';
+
   if (month_temp < 10) month = '0' + month_temp;
   else month = month_temp;
 
@@ -185,15 +195,20 @@ export function saveFileFunction({
       name_tag = name_tag + '_' + tagsArray[i].substr(1);
   const newName = `${d.getFullYear()}${month}${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${d.getMilliseconds()}${name_tag}${extension}`;
 
-  let nameToChange = temp[temp.length - 1];
-  let renamedURI = data.uri.replace(nameToChange, newName);
+  if (fileType != BLANK_CAPTION) {
+    const temp = data.uri.split('/');
+
+    nameToChange = temp[temp.length - 1];
+    renamedURI = data.uri.replace(nameToChange, newName);
+
+    currentAlbumName = temp[temp.length - 2];
+  }
 
   newPhoto.creationDate = [
     moment().format('MMM DD, YYYY'),
     moment().format('hh:mm:ss a'),
   ];
 
-  let currentAlbumName = temp[temp.length - 2];
   // let galleryUri = 'file:///storage/emulated/0/Pictures/Cykee/';
   let tempGalleryUri = 'file:///storage/emulated/0/Pictures/' + newName;
   let destinationUri = '';
@@ -205,32 +220,38 @@ export function saveFileFunction({
   newPhoto.tagsArray = tagsArray;
   newPhoto.captionStyle = captionStyle;
   newPhoto.type = fileType;
+
   // newPhoto.uri = galleryUri + newPhoto.fileName;
-
-  if (currentAlbumName == 'Cykee') {
-    console.log('Photo already in Cykee Gallery');
-    destinationUri = tempGalleryUri;
+  if (fileType == BLANK_CAPTION) {
+    newPhoto.backColor = backColor;
+    addNewPhoto(newPhoto);
+    afterSaveFunction();
   } else {
-    console.log('Photo in other gallery');
-    destinationUri = renamedURI;
-  }
-  RNFS.copyFile(data.uri, destinationUri).then(() => {
-    CameraRoll.save(destinationUri, {
-      type: fileType,
-      album: 'Cykee',
-    }).then(uri => {
-      CameraRoll.getPhotos({
-        first: 1,
-        // assetType: 'Photos',
-        Album: 'Cykee',
-      }).then(r => {
-        newPhoto.uri = r.edges[0].node.image.uri;
+    if (currentAlbumName == 'Cykee') {
+      console.log('Photo already in Cykee Gallery');
+      destinationUri = tempGalleryUri;
+    } else {
+      console.log('Photo in other gallery');
+      destinationUri = renamedURI;
+    }
+    RNFS.copyFile(data.uri, destinationUri).then(() => {
+      CameraRoll.save(destinationUri, {
+        type: fileType,
+        album: 'Cykee',
+      }).then(uri => {
+        CameraRoll.getPhotos({
+          first: 1,
+          // assetType: 'Photos',
+          Album: 'Cykee',
+        }).then(r => {
+          newPhoto.uri = r.edges[0].node.image.uri;
 
-        if (saveType == 'edit') afterSaveFunction();
-        else addNewPhoto(newPhoto);
+          if (saveType == 'edit') afterSaveFunction();
+          else addNewPhoto(newPhoto);
+        });
+        if (currentAlbumName == 'Cykee') RNFS.unlink(tempGalleryUri);
+        if (callingScreen == 'PreviewScreen') afterSaveFunction();
       });
-      if (currentAlbumName == 'Cykee') RNFS.unlink(tempGalleryUri);
-      if (callingScreen == 'PreviewScreen') afterSaveFunction();
     });
-  });
+  }
 }

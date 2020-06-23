@@ -15,10 +15,17 @@ import {
   GlobalIconSize,
   CheckCircle,
   BackgroundColor,
+  saveFileFunction,
 } from '../../SubComponents/Buttons/index';
 
+const BLANK_CAPTION = 'blankCaption';
+
 class BlankCaptionScreen extends Component {
-  state = {backColor: backgroundColorArray[0]};
+  state = {
+    backColor: backgroundColorArray[0],
+    saveInProgress: false,
+    tagsArray: [],
+  };
 
   leftHeaderButton = (
     <TouchableOpacity
@@ -68,10 +75,24 @@ class BlankCaptionScreen extends Component {
     });
   }
   onPressSave = () => {
-    let newCaption = {
+    this.setState({saveInProgress: true});
+
+    saveFileFunction({
+      data: {},
+      fileType: BLANK_CAPTION,
       caption: this.state.text,
+      captionStyle: {
+        captionSize: this.state.captionSize,
+        captionFont: this.state.captionFont,
+      },
+      fav_status: false,
+      tagsArray: this.state.tagsArray,
+      saveType: 'add',
+      callingScreen: 'BlankCaptionScreen',
       backColor: this.state.backColor,
-    };
+      addNewPhoto: newPhoto => this.props.addNewPhoto(newPhoto),
+      afterSaveFunction: () => this.props.navigation.goBack(),
+    });
     //    this.props.handleAddAffirmation(newAffirmation)
   };
   render() {
@@ -99,18 +120,21 @@ class BlankCaptionScreen extends Component {
               onPressColor={color => this.setState({backColor: color})}
               colorArray={backgroundColorArray}
             />
-            <View style={styles.saveButtonStyle}>
-              <TouchableOpacity
-                onPress={() => {
-                  // this.savePhoto(this.state.photo);
-                  this.onPressSave();
-                }}
-                disabled={this.state.saveInProgress}>
-                <CheckCircle iconSize={70} />
-              </TouchableOpacity>
-            </View>
           </View>
+
           {/* </View> */}
+        </View>
+        <View style={styles.saveButtonStyle}>
+          <TouchableOpacity
+            onPress={() => {
+              console.log('saving blank caption');
+              // this.savePhoto(this.state.photo);
+              this.onPressSave();
+            }}
+            // disabled={this.state.saveInProgress}
+          >
+            <CheckCircle iconSize={70} />
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     );

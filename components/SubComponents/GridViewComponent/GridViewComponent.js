@@ -35,7 +35,7 @@ import {
 } from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 // import Icon from 'react-native-vector-icons/Ionicons';
-
+const BLANK_CAPTION = 'blankCaption';
 import {Button, Icon, Header} from 'react-native-elements';
 
 import Share from 'react-native-share';
@@ -421,103 +421,128 @@ class GridViewComponent extends Component {
           this.longPressItem(index);
           console.log('longPress accepted');
         }}>
-        <View style={{height: '100%', width: '100%', activeOpacity: 0}}>
-          <FastImage
-            resizeMode={FastImage.resizeMode.cover}
-            style={{
-              height: '100%',
-              width: '100%',
-              borderRadius: 5,
-              resizeMode: 'cover',
-            }}
-            source={{uri: item.uri}}
-          />
-        </View>
-        {this.state.showTags && (
-          <TouchableOpacity
-            style={styles.tagsContainer}
-            onPress={() => this.setState({showTags: !this.state.showTags})}>
-            <TagDisplayComponent
-              tagsArray={item.tagsArray ? item.tagsArray : ['']}
-            />
-          </TouchableOpacity>
-        )}
-        {item.caption != '' && this.props.hideCaption == false && (
-          <View style={styles.captionContainer}>
-            <Text
-              style={[
-                styles.captionStyle,
-                {
-                  fontSize: item.captionStyle
-                    ? GRID_CAPTION_SIZE[item.captionStyle.captionSize]
-                    : 20,
-                  fontFamily: item.captionStyle
-                    ? CAPTION_FONT[item.captionStyle.captionFont]
-                    : 'normal',
-                },
-              ]}>
-              {item.caption}
-            </Text>
+        {item.type == BLANK_CAPTION && (
+          <View
+            style={[
+              styles.Layout,
+              {
+                backgroundColor: item.backColor,
+                height: '100%',
+                width: '100%',
+                activeOpacity: 0,
+                borderRadius: 5,
+              },
+            ]}>
+            <Text style={styles.AffText}>{item.caption}</Text>
           </View>
         )}
-        {this.state.longPressStatus && (
-          <TouchableOpacity
-            style={styles.selectionIconContainer}
-            onPress={() => this.singlePressItem(index)}>
-            <SelectionIcon
-              iconSize={20}
-              iconColor="white"
-              longPressStatus={this.state.longPressStatus}
-              selectedStatus={this.state.filteredList[index].selectedStatus}
-            />
-          </TouchableOpacity>
-        )}
-        {this.props.gridSize != 'CameraRoll' &&
-          this.state.longPressStatus == false && (
-            <View style={styles.favContainer}>
+
+        {item.type != BLANK_CAPTION && (
+          <View>
+            <View
+              style={{
+                height: '100%',
+                width: '100%',
+                activeOpacity: 0,
+              }}>
+              <FastImage
+                resizeMode={FastImage.resizeMode.cover}
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  borderRadius: 5,
+                  resizeMode: 'cover',
+                }}
+                source={{uri: item.uri}}
+              />
+            </View>
+            {this.state.showTags && (
               <TouchableOpacity
-                style={{paddingHorizontal: 4}}
-                onPress={() => {
-                  console.log('Photo fav pressed');
-                  this.props.favPhoto(this.props.photoArray, item.uri);
-                }}>
-                <FavouriteIcon
-                  iconSize={20}
-                  iconColor={BACKGROUND_COLOR}
-                  fav_status={item.fav_status}
+                style={styles.tagsContainer}
+                onPress={() => this.setState({showTags: !this.state.showTags})}>
+                <TagDisplayComponent
+                  tagsArray={item.tagsArray ? item.tagsArray : ['']}
                 />
               </TouchableOpacity>
-              {item.tagsArray && (
-                <TouchableOpacity
-                  onPress={() =>
-                    this.setState({showTags: !this.state.showTags})
-                  }>
-                  {/* {!this.state.showTags && !item.tagsArray[0] == false && ( */}
-                  {!item.tagsArray[0] == false && (
-                    <TagIcon
-                      tagIconStatus={!this.state.showTags}
+            )}
+            {item.caption != '' && this.props.hideCaption == false && (
+              <View style={styles.captionContainer}>
+                <Text
+                  style={[
+                    styles.captionStyle,
+                    {
+                      fontSize: item.captionStyle
+                        ? GRID_CAPTION_SIZE[item.captionStyle.captionSize]
+                        : 20,
+                      fontFamily: item.captionStyle
+                        ? CAPTION_FONT[item.captionStyle.captionFont]
+                        : 'normal',
+                    },
+                  ]}>
+                  {item.caption}
+                </Text>
+              </View>
+            )}
+            {this.state.longPressStatus && (
+              <TouchableOpacity
+                style={styles.selectionIconContainer}
+                onPress={() => this.singlePressItem(index)}>
+                <SelectionIcon
+                  iconSize={20}
+                  iconColor="white"
+                  longPressStatus={this.state.longPressStatus}
+                  selectedStatus={this.state.filteredList[index].selectedStatus}
+                />
+              </TouchableOpacity>
+            )}
+            {this.props.gridSize != 'CameraRoll' &&
+              this.state.longPressStatus == false && (
+                <View style={styles.favContainer}>
+                  <TouchableOpacity
+                    style={{paddingHorizontal: 4}}
+                    onPress={() => {
+                      console.log('Photo fav pressed');
+                      this.props.favPhoto(this.props.photoArray, item.uri);
+                    }}>
+                    <FavouriteIcon
                       iconSize={20}
                       iconColor={BACKGROUND_COLOR}
-                      // fav_status={item.fav_status}
+                      fav_status={item.fav_status}
                     />
+                  </TouchableOpacity>
+                  {item.tagsArray && (
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.setState({showTags: !this.state.showTags})
+                      }>
+                      {/* {!this.state.showTags && !item.tagsArray[0] == false && ( */}
+                      {!item.tagsArray[0] == false && (
+                        <TagIcon
+                          tagIconStatus={!this.state.showTags}
+                          iconSize={20}
+                          iconColor={BACKGROUND_COLOR}
+                          // fav_status={item.fav_status}
+                        />
+                      )}
+                    </TouchableOpacity>
                   )}
-                </TouchableOpacity>
+                </View>
               )}
-            </View>
-          )}
-        {item.type == 'video' && (
-          <Icon
-            type="material-community"
-            name="play-circle-outline"
-            size={40}
-            color={CykeeColor}
-            containerStyle={{
-              opacity: 0.5,
-              position: 'absolute',
-              top: 100 - 20,
-              left: WIDTH / 3 / 2 - 20,
-            }}
-          />
+            {item.type == 'video' && (
+              <Icon
+                type="material-community"
+                name="play-circle-outline"
+                size={40}
+                color={CykeeColor}
+                containerStyle={{
+                  opacity: 0.5,
+                  position: 'absolute',
+                  top: 100 - 20,
+                  left: WIDTH / 3 / 2 - 20,
+                }}
+              />
+            )}
+          </View>
         )}
       </TouchableOpacity>
     );

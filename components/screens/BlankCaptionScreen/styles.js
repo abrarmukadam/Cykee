@@ -44,5 +44,6 @@ export default StyleSheet.create({
     bottom: 50,
     right: '4%',
     paddingHorizontal: 4,
+    // borderWidth: 1,
   },
 });
