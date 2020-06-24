@@ -576,6 +576,7 @@ class CameraScreen extends PureComponent {
               photo_uri3={
                 this.props.photoArray[2] ? this.props.photoArray[2].uri : ''
               }
+              photo1={this.props.photoArray[0]}
               onPressGalleryIcon={() => this.onPressGallery()}
             />
             <TakePicture

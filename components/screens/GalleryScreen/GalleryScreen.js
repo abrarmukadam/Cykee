@@ -45,6 +45,7 @@ import {
   GalleryIcon,
   TagDisplayComponent,
   PlayOverlay,
+  BlankCaptionDisplay,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 // import {SharedElement} from 'react-navigation-shared-element';
@@ -79,6 +80,7 @@ class GalleryScreen extends Component {
           creationDate: item.creationDate || [' ', ' '],
           tagsArray: item.tagsArray || [],
           type: item.type,
+          backColor: item.backColor,
         };
         temp = [...temp, newItem];
         // item.dimension={{item.height,item.width}}
@@ -120,6 +122,7 @@ class GalleryScreen extends Component {
         creationDate: item.creationDate || [' ', ' '],
         tagsArray: item.tagsArray || [],
         type: item.type,
+        backColor: item.backColor,
       };
       temp = [...temp, newItem];
     });
@@ -251,7 +254,7 @@ class GalleryScreen extends Component {
       velocityThreshold: 0.3,
       directionalOffsetThreshold: 80,
     };
-
+    // console.log('type:', this.state.photoArray[this.state.index].type);
     let ImageRatio = 3;
     if (this.state.photoArray[0]) {
       ImageRatio =
@@ -277,7 +280,10 @@ class GalleryScreen extends Component {
               width: '100%',
               // psition: 'absolute',
               // bottom: 0,
-              backgroundColor: this.state.optionsAvailable ? 'black' : 'black',
+              backgroundColor: this.state.photoArray[this.state.index].backColor
+                ? this.state.photoArray[this.state.index].backColor
+                : 'black',
+              justifyContent: 'center',
             }}>
             {/* <Image
               style={{flex: 1}}
@@ -285,6 +291,12 @@ class GalleryScreen extends Component {
                 uri: this.props.photoArray[this.props.route.params.index].uri,
               }}
             /> */}
+            {this.state.photoArray[this.state.index].type == 'blankCaption' && (
+              <BlankCaptionDisplay
+                caption={this.state.photoArray[this.state.index].caption}
+                backColor={this.state.photoArray[this.state.index].backColor}
+              />
+            )}
             <GallerySwiper
               style={{
                 // flex: 1,
@@ -301,22 +313,17 @@ class GalleryScreen extends Component {
               //     ? 'stretch'
               //     : 'contain'
               // }
-              errorComponent={() => (
+
+              errorComponent={() => {
                 <View
                   style={{
-                    flex: 1,
+                    height: '100%',
+                    width: '100%',
                     justifyContent: 'center',
                     alignItems: 'center',
-                  }}>
-                  <Image
-                    style={{
-                      flex: 1,
-                      resizeMode: 'center',
-                    }}
-                    source={require('../../Images/no-image.png')}
-                  />
-                </View>
-              )}
+                  }}
+                />;
+              }}
               // resizeMode={'contain'}
               images={this.state.photoArray}
               initialPage={this.state.index}
@@ -456,7 +463,10 @@ class GalleryScreen extends Component {
               <CaptionComponent
                 caption={
                   this.state.photoArray[this.state.index]
-                    ? this.state.photoArray[this.state.index].caption
+                    ? this.state.photoArray[this.state.index].type !=
+                      'blankCaption'
+                      ? this.state.photoArray[this.state.index].caption
+                      : ''
                     : ''
                 }
                 captionStyle={

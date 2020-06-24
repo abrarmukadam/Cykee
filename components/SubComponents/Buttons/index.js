@@ -52,6 +52,7 @@ import CameraSettingComponent from '../CameraSettingComponent/CameraSettingCompo
 import ZoomViewComponent from '../ZoomViewComponent/ZoomViewComponent';
 import EmptyGalleryMessage from '../EmptyGalleryMessage/EmptyGalleryMessage';
 import BackgroundColor from '../BackgroundColor/BackgroundColor';
+import BlankCaptionDisplay from '../BlankCaptionDisplay/BlankCaptionDisplay';
 
 export {
   GridViewComponent,
@@ -66,6 +67,7 @@ export {
   EmptyGalleryMessage,
   BlankCaptionModeButton,
   BackgroundColor,
+  BlankCaptionDisplay,
 };
 
 export {
@@ -224,6 +226,7 @@ export function saveFileFunction({
   // newPhoto.uri = galleryUri + newPhoto.fileName;
   if (fileType == BLANK_CAPTION) {
     newPhoto.backColor = backColor;
+    newPhoto.uri = 'blankCaption';
     addNewPhoto(newPhoto);
     afterSaveFunction();
   } else {

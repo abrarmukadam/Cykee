@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, Image} from 'react-native';
+import {TouchableOpacity, Image, View, Text} from 'react-native';
 import styles from './styles';
 
 import FastImage from 'react-native-fast-image';
@@ -45,7 +45,7 @@ class GalleryButton extends Component {
           }
           defaultSource={require('../../Images/no-image.png')}
         />
-        <FastImage
+        <Image
           style={[
             styles.ImageStyle,
             {
@@ -62,6 +62,20 @@ class GalleryButton extends Component {
           }
           defaultSource={require('../../Images/no-image.png')}
         />
+        {this.props.photo1.type == 'blankCaption' && (
+          <View
+            style={{
+              backgroundColor: this.props.photo1.backColor,
+              height: 40,
+              width: 40,
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}>
+            <Text style={{color: 'white', fontSize: 5, textAlign: 'center'}}>
+              {this.props.photo1.caption}
+            </Text>
+          </View>
+        )}
       </TouchableOpacity>
     );
   }
