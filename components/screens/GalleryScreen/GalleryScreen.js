@@ -23,6 +23,7 @@ import CameraRoll from '@react-native-community/cameraroll';
 
 import Gallery from 'react-native-image-gallery';
 import GallerySwiper from 'react-native-gallery-swiper';
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 import FastImage from 'react-native-fast-image';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
@@ -71,6 +72,7 @@ class GalleryScreen extends Component {
       this.state.toBeDisplayed.map(item => {
         console.log(item.tagsArray);
         let newItem = {
+          url: item.uri,
           source: {uri: item.uri},
           height: item.height,
           width: item.width,
@@ -113,6 +115,7 @@ class GalleryScreen extends Component {
     let temp = [];
     this.state.toBeDisplayed.map(item => {
       let newItem = {
+        url: item.uri,
         source: {uri: item.uri},
         height: item.height,
         width: item.width,
@@ -285,19 +288,59 @@ class GalleryScreen extends Component {
                 : 'black',
               justifyContent: 'center',
             }}>
-            {/* <Image
-              style={{flex: 1}}
-              source={{
-                uri: this.props.photoArray[this.props.route.params.index].uri,
+            <ImageViewer
+              imageUrls={this.state.photoArray}
+              // style={{
+              //   // flex: 1,
+              //   height: '100%',
+              //   width: '100%',
+              // }}
+              index={this.state.index}
+              onClick={() => {
+                this.setState({
+                  optionsAvailable: !this.state.optionsAvailable,
+                });
+                changeNavigationBarColor(
+                  !this.state.optionsAvailable ? 'black' : TAB_BAR_COLOR,
+                );
               }}
-            /> */}
-            {this.state.photoArray[this.state.index].type == 'blankCaption' && (
-              <BlankCaptionDisplay
-                caption={this.state.photoArray[this.state.index].caption}
-                backColor={this.state.photoArray[this.state.index].backColor}
-              />
-            )}
-            <GallerySwiper
+              onChange={index => {
+                this.setState({index: index});
+                // console.log('index:', index);
+              }}
+              enableSwipeDown={true}
+              onSwipeDown={() => this.props.navigation.goBack()}
+              swipeDownThreshold={1}
+              backgroundColor="#0000"
+              enablePreload={true}
+              saveToLocalByLongPress={false}
+              useNativeDriver={true}
+              renderIndicator={() => {}}
+              // onMove={() => console.log('MOVING')}
+              renderHeader={() =>
+                this.state.photoArray[this.state.index].type ==
+                  'blankCaption' && (
+                  <View
+                    style={{
+                      height: '100%',
+                      width: '100%',
+                      justifyContent: 'center',
+                      backgroundColor: this.state.photoArray[this.state.index]
+                        .backColor,
+                      position: 'absolute',
+                      bottom: 0,
+                    }}>
+                    <BlankCaptionDisplay
+                      caption={this.state.photoArray[this.state.index].caption}
+                      backColor={
+                        this.state.photoArray[this.state.index].backColor
+                      }
+                    />
+                  </View>
+                )
+              }
+            />
+            {/* <GallerySwiper
               style={{
                 // flex: 1,
                 height: '100%',
@@ -370,8 +413,7 @@ class GalleryScreen extends Component {
                     transform.translateY,
                   );
               }}
-            />
-
+            /> */}
             {/* <Gallery
               ImageResizeMode={
                 this.state.photoArray[this.state.index].height /
@@ -425,6 +467,13 @@ class GalleryScreen extends Component {
                 bottom: 0,
               }}
             /> */}
+
+            {/* {this.state.photoArray[this.state.index].type == 'blankCaption' && (
+              <BlankCaptionDisplay
+                caption={this.state.photoArray[this.state.index].caption}
+                backColor={this.state.photoArray[this.state.index].backColor}
+              />
+            )} */}
             {this.state.photoArray[this.state.index].type == 'video' && (
               <PlayOverlay
                 onPressPlay={() => {

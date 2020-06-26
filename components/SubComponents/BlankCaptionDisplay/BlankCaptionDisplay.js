@@ -25,10 +25,11 @@ class BlankCaptionDisplay extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // height: '100%',
+    height: '100%',
     width: '100%',
+    borderWidth: 1,
     // flex: 1,
-    position: 'absolute',
+    // position: 'absolute',
     // bottom: HEIGHT / 2 - 50,
     // left: WIDTH / 2 - 20,
     justifyContent: 'center',
