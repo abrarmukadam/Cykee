@@ -483,66 +483,66 @@ class GridViewComponent extends Component {
                 </Text>
               </View>
             )}
-            {this.state.longPressStatus && (
+          </View>
+        )}
+        {this.state.longPressStatus && (
+          <TouchableOpacity
+            style={styles.selectionIconContainer}
+            onPress={() => this.singlePressItem(index)}>
+            <SelectionIcon
+              iconSize={20}
+              iconColor="white"
+              longPressStatus={this.state.longPressStatus}
+              selectedStatus={this.state.filteredList[index].selectedStatus}
+            />
+          </TouchableOpacity>
+        )}
+        {this.props.gridSize != 'CameraRoll' &&
+          this.state.longPressStatus == false && (
+            <View style={styles.favContainer}>
               <TouchableOpacity
-                style={styles.selectionIconContainer}
-                onPress={() => this.singlePressItem(index)}>
-                <SelectionIcon
+                style={{paddingHorizontal: 4}}
+                onPress={() => {
+                  console.log('Photo fav pressed', item);
+                  this.props.favPhoto(this.props.photoArray, item.fileName);
+                }}>
+                <FavouriteIcon
                   iconSize={20}
-                  iconColor="white"
-                  longPressStatus={this.state.longPressStatus}
-                  selectedStatus={this.state.filteredList[index].selectedStatus}
+                  iconColor={BACKGROUND_COLOR}
+                  fav_status={item.fav_status}
                 />
               </TouchableOpacity>
-            )}
-            {this.props.gridSize != 'CameraRoll' &&
-              this.state.longPressStatus == false && (
-                <View style={styles.favContainer}>
-                  <TouchableOpacity
-                    style={{paddingHorizontal: 4}}
-                    onPress={() => {
-                      console.log('Photo fav pressed');
-                      this.props.favPhoto(this.props.photoArray, item.uri);
-                    }}>
-                    <FavouriteIcon
+              {item.tagsArray && (
+                <TouchableOpacity
+                  onPress={() =>
+                    this.setState({showTags: !this.state.showTags})
+                  }>
+                  {/* {!this.state.showTags && !item.tagsArray[0] == false && ( */}
+                  {!item.tagsArray[0] == false && (
+                    <TagIcon
+                      tagIconStatus={!this.state.showTags}
                       iconSize={20}
                       iconColor={BACKGROUND_COLOR}
-                      fav_status={item.fav_status}
+                      // fav_status={item.fav_status}
                     />
-                  </TouchableOpacity>
-                  {item.tagsArray && (
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.setState({showTags: !this.state.showTags})
-                      }>
-                      {/* {!this.state.showTags && !item.tagsArray[0] == false && ( */}
-                      {!item.tagsArray[0] == false && (
-                        <TagIcon
-                          tagIconStatus={!this.state.showTags}
-                          iconSize={20}
-                          iconColor={BACKGROUND_COLOR}
-                          // fav_status={item.fav_status}
-                        />
-                      )}
-                    </TouchableOpacity>
                   )}
-                </View>
+                </TouchableOpacity>
               )}
-            {item.type == 'video' && (
-              <Icon
-                type="material-community"
-                name="play-circle-outline"
-                size={40}
-                color={CykeeColor}
-                containerStyle={{
-                  opacity: 0.5,
-                  position: 'absolute',
-                  top: 100 - 20,
-                  left: WIDTH / 3 / 2 - 20,
-                }}
-              />
-            )}
-          </View>
+            </View>
+          )}
+        {item.type == 'video' && (
+          <Icon
+            type="material-community"
+            name="play-circle-outline"
+            size={40}
+            color={CykeeColor}
+            containerStyle={{
+              opacity: 0.5,
+              position: 'absolute',
+              top: 100 - 20,
+              left: WIDTH / 3 / 2 - 20,
+            }}
+          />
         )}
       </TouchableOpacity>
     );

@@ -83,6 +83,7 @@ class GalleryScreen extends Component {
           tagsArray: item.tagsArray || [],
           type: item.type,
           backColor: item.backColor,
+          fileName: item.fileName,
         };
         temp = [...temp, newItem];
         // item.dimension={{item.height,item.width}}
@@ -126,6 +127,7 @@ class GalleryScreen extends Component {
         tagsArray: item.tagsArray || [],
         type: item.type,
         backColor: item.backColor,
+        fileName: item.fileName,
       };
       temp = [...temp, newItem];
     });
@@ -178,7 +180,7 @@ class GalleryScreen extends Component {
   };
   onPressFav = item => {
     console.log('Favorite Pressed');
-    this.props.favPhoto(this.props.photoArray, item.source.uri);
+    this.props.favPhoto(this.props.photoArray, item.fileName);
   };
   onPressEdit = item => {
     this.props.navigation.navigate('EditScreen', {

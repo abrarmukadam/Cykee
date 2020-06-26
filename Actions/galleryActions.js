@@ -23,11 +23,11 @@ export function deletePhotoFromList(newPhotoArray) {
     },
   };
 }
-export function favPhoto(photoArray, photo_uri) {
+export function favPhoto(photoArray, photo_fileName) {
   console.log('favPhoto run');
 
   photoArray.map(photo => {
-    if (photo.uri == photo_uri) {
+    if (photo.fileName == photo_fileName) {
       // console.log(photo.fav_status);
       photo.fav_status = !photo.fav_status;
       return;
