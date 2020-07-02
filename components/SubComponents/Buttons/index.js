@@ -51,7 +51,6 @@ import SearchPhotoComponent from '../SearchPhotoComponent/SearchPhotoComponent';
 import CameraSettingComponent from '../CameraSettingComponent/CameraSettingComponent.container';
 import ZoomViewComponent from '../ZoomViewComponent/ZoomViewComponent';
 import EmptyGalleryMessage from '../EmptyGalleryMessage/EmptyGalleryMessage';
-import BackgroundColor from '../BackgroundColor/BackgroundColor';
 import BlankCaptionDisplay from '../BlankCaptionDisplay/BlankCaptionDisplay';
 
 export {
@@ -66,7 +65,6 @@ export {
   ZoomViewComponent,
   EmptyGalleryMessage,
   BlankCaptionModeButton,
-  BackgroundColor,
   BlankCaptionDisplay,
 };
 

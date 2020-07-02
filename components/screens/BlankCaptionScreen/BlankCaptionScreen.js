@@ -9,6 +9,7 @@ import {
 import styles from './styles';
 import {Icon} from 'react-native-elements';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import ToggleSwitch from 'toggle-switch-react-native';
 
 import {
   backgroundColorArray,
@@ -16,15 +17,29 @@ import {
   CheckCircle,
   BackgroundColor,
   saveFileFunction,
+  FontIconsComponent,
+  CAPTION_FONT,
+  CAPTION_SIZE,
+  TagComponent,
+  CykeeColor,
 } from '../../SubComponents/Buttons/index';
 
 const BLANK_CAPTION = 'blankCaption';
 
 class BlankCaptionScreen extends Component {
   state = {
+    colorIndex: 0,
     backColor: backgroundColorArray[0],
     saveInProgress: false,
-    tagsArray: [],
+    captionSize: 0,
+    captionFont: 0,
+    tagPressed: false,
+    tagText: '',
+    tagsArray: this.props.autoTagEnabled
+      ? this.props.autoTagValue.length
+        ? [this.props.autoTagValue]
+        : []
+      : [],
   };
 
   leftHeaderButton = (
@@ -74,6 +89,27 @@ class BlankCaptionScreen extends Component {
       headerLeft: () => this.leftHeaderButton,
     });
   }
+  captionSizePressed = () => {
+    if (this.state.captionSize >= 2) this.setState({captionSize: 0});
+    else this.setState({captionSize: this.state.captionSize + 1});
+    console.log('captionSize Pressed');
+  };
+  captionFontPressed = () => {
+    if (this.state.captionFont >= 3) this.setState({captionFont: 0});
+    else
+      this.setState({
+        captionFont: this.state.captionFont + 1,
+      });
+  };
+  tagPressed = () => {
+    this.setState({tagPressed: !this.state.tagPressed});
+  };
+  tagsArrayChanged = tagsArray => {
+    this.setState({tagsArray});
+    this.props.autoTagSetting(tagsArray[0]);
+    // console.log(tagsArray);
+  };
+
   onPressSave = () => {
     this.setState({saveInProgress: true});
 
@@ -89,40 +125,105 @@ class BlankCaptionScreen extends Component {
       tagsArray: this.state.tagsArray,
       saveType: 'add',
       callingScreen: 'BlankCaptionScreen',
-      backColor: this.state.backColor,
+      backColor: backgroundColorArray[this.state.colorIndex],
       addNewPhoto: newPhoto => this.props.addNewPhoto(newPhoto),
       afterSaveFunction: () => this.props.navigation.goBack(),
     });
     //    this.props.handleAddAffirmation(newAffirmation)
   };
+  changeBackColorPressed = () => {
+    console.log('colorIndex:', this.state.colorIndex);
+    if (this.state.colorIndex >= backgroundColorArray.length - 1)
+      this.setState({colorIndex: 0});
+    else this.setState({colorIndex: this.state.colorIndex + 1});
+    console.log('change color pressed');
+  };
+
   render() {
     return (
       <KeyboardAvoidingView behavior="height">
         <View
-          style={[styles.container, {backgroundColor: this.state.backColor}]}>
+          style={[
+            styles.container,
+            {backgroundColor: backgroundColorArray[this.state.colorIndex]},
+          ]}>
           {/* <View> */}
           <View style={styles.AffDetails}>
             <TextInput
-              style={styles.textInputStyle}
+              style={[
+                styles.textInputStyle,
+                {
+                  fontFamily: CAPTION_FONT[this.state.captionFont],
+                },
+              ]}
+              placeholderTextColor="white"
               placeholder={'Type Here ...'}
               multiline={true}
               //            numberOfLines={4}
               //            value={this.state.text}
+              value={this.state.text}
               onChangeText={text => this.setState({text: text})}
               autoFocus
               padding={10}
-              //color="white"
             />
           </View>
-          <View style={styles.colorButtonContainer}>
+          {/* <View style={styles.colorButtonContainer}>
             <BackgroundColor
               selectedColor={backgroundColorArray[0]}
               onPressColor={color => this.setState({backColor: color})}
               colorArray={backgroundColorArray}
             />
-          </View>
+          </View> */}
 
-          {/* </View> */}
+          <View style={styles.bottomContainer}>
+            <FontIconsComponent
+              type={BLANK_CAPTION}
+              showFontIcons={this.props.showFontIcons}
+              captionFontPressed={this.captionFontPressed}
+              captionSizePressed={this.captionSizePressed}
+              tagPressed={this.tagPressed}
+              enterTag={this.state.tagPressed}
+              tagsArray={this.props.autoTagEnabled}
+              showIconName={this.props.photoArray.length < 5 ? true : false}
+              // firstLaunch={true}
+              changeBackColorPressed={this.changeBackColorPressed}
+              firstLaunch={this.props.photoArray[0] ? true : false}
+            />
+
+            <View
+              style={[
+                styles.textBoxContainer,
+                {
+                  // borderWidth: 1,
+                  // borderColor: 'red',
+                  // backgroundColor: 'yellow',
+                },
+              ]}>
+              {this.state.tagPressed && (
+                <ToggleSwitch
+                  isOn={this.props.autoTagEnabled}
+                  onColor={CykeeColor}
+                  offColor="grey"
+                  label={`Enable auto-Tag ${
+                    this.state.tagsArray[0] && this.props.autoTagEnabled
+                      ? `'${this.state.tagsArray[0]}'`
+                      : ''
+                  }`}
+                  labelStyle={{color: 'white', fontWeight: '900'}}
+                  size="small"
+                  onToggle={() =>
+                    this.props.setAutoTagEnabled(!this.props.autoTagEnabled)
+                  }
+                />
+              )}
+              {this.state.tagPressed && (
+                <TagComponent
+                  tagsArrayChanged={this.tagsArrayChanged}
+                  tagsArray={this.state.tagsArray}
+                />
+              )}
+            </View>
+          </View>
         </View>
         <View style={styles.saveButtonStyle}>
           <TouchableOpacity

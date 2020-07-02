@@ -46,4 +46,22 @@ export default StyleSheet.create({
     paddingHorizontal: 4,
     // borderWidth: 1,
   },
+  textBoxContainer: {
+    // paddingVertical: 10,
+    backgroundColor: 'black',
+    opacity: 0.7,
+    width: '100%',
+    // position: 'absolute',
+    // bottom: 0,
+    // borderWidth: 1,
+    // borderColor: 'red',
+  },
+  bottomContainer: {
+    // height: '100%',
+    width: '100%',
+    // justifyContent: 'flex-end',
+    position: 'absolute',
+    bottom: 0,
+    // flexDirection: 'row',
+  },
 });

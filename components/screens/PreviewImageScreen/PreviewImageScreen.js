@@ -62,6 +62,7 @@ class PreviewImageScreen extends Component {
     showEditOptions: true,
     prevPhoto: {},
     nextPhoto: {},
+    tagPressed: false,
     tagText: '',
     tagsArray: this.props.autoTagEnabled
       ? this.props.autoTagValue.length
@@ -311,6 +312,7 @@ class PreviewImageScreen extends Component {
           <View style={styles.bottomContainer}>
             {this.state.showIcons && (
               <FontIconsComponent
+                type={this.props.route.params.type}
                 showFontIcons={this.props.showFontIcons}
                 captionFontPressed={this.captionFontPressed}
                 captionSizePressed={this.captionSizePressed}

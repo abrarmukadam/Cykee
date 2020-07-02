@@ -47,6 +47,7 @@ import {
   TagDisplayComponent,
   PlayOverlay,
   BlankCaptionDisplay,
+  CAPTION_FONT,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 // import {SharedElement} from 'react-navigation-shared-element';
@@ -267,7 +268,7 @@ class GalleryScreen extends Component {
         this.state.photoArray[this.state.index].width;
     } else ImageRatio = 1;
     // if (ImageRatio == SCREEN_RATIO)
-
+    console.log('captionStyle:', this.state.photoArray[this.state.index]);
     return (
       <View style={styles.container}>
         {/* <StatusBar
@@ -336,6 +337,12 @@ class GalleryScreen extends Component {
                       caption={this.state.photoArray[this.state.index].caption}
                       backColor={
                         this.state.photoArray[this.state.index].backColor
+                      }
+                      captionFont={
+                        CAPTION_FONT[
+                          this.state.photoArray[this.state.index].captionStyle
+                            .captionFont
+                        ]
                       }
                     />
                   </View>

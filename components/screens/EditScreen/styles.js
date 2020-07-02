@@ -83,4 +83,18 @@ export default StyleSheet.create({
     alignContent: 'flex-start',
     flexDirection: 'row',
   },
+
+  Layout: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
+    borderRadius: 5,
+  },
+  AffText: {
+    color: 'white',
+    fontSize: 35,
+    textAlign: 'center',
+    margin: 4,
+  },
 });

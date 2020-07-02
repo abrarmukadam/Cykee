@@ -22,6 +22,7 @@ import {hideNavigationBar} from 'react-native-navigation-bar-color';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 const CykeeColor = EDIT_ICON_COLOR;
+const BLANK_CAPTION = 'blankCaption';
 import {
   GlobalIconColor,
   GlobalIconSize,
@@ -64,6 +65,7 @@ class EditScreen extends Component {
     saveInProgress: false,
     showIcons: true,
     tagsArray: this.props.route.params.photo.tagsArray || [],
+    backColor: this.props.route.params.photo.backColor,
   };
   backAction = () => {
     const deletHeader = 'Discard changes ?';
@@ -290,8 +292,35 @@ class EditScreen extends Component {
       },
     );
   };
+  onPressSaveBlankCaption = () => {
+    console.log('onPressSaveBlankCaption');
+    let newPhoto = {};
+    let index = this.props.route.params.index;
+    let updatedPhotoArray = [...this.props.photoArray];
+
+    newPhoto.uri = this.state.orignal_photo.source.uri;
+    newPhoto.height = this.state.orignal_photo.height;
+    newPhoto.width = this.state.orignal_photo.width;
+    newPhoto.caption = this.state.text;
+    newPhoto.fav_status = this.state.orignal_photo.fav_status;
+    newPhoto.creationDate = this.state.orignal_photo.creationDate;
+    newPhoto.captionStyle = {
+      captionSize: this.state.orignal_photo.captionSize,
+      captionFont: this.state.captionFont,
+    };
+    newPhoto.tagsArray = this.state.tagsArray;
+    newPhoto.type = this.state.orignal_photo.type;
+    newPhoto.backColor = this.state.backColor;
+
+    updatedPhotoArray[index] = newPhoto;
+
+    this.props.replacePhotoFromList(updatedPhotoArray);
+    this.props.navigation.goBack();
+  };
 
   onPressSave = () => {
+    console.log('onPressSave');
+
     const saveHeader = 'Save changes ?';
     const saveMessage = 'Overwrite existing photo or Add as new photo?';
     if (
@@ -375,13 +404,9 @@ class EditScreen extends Component {
               Album: 'Cykee',
             }).then(r => {
               newPhoto.uri = r.edges[0].node.image.uri;
-              console.log('photoArray', this.props.photoArray);
-              console.log('newPhoto after edit', newPhoto);
               let updatedPhotoArray = [...this.props.photoArray];
               updatedPhotoArray[index] = newPhoto;
-              console.log('updatedPhotoArray before shift', updatedPhotoArray);
               // updatedPhotoArray.splice(1, 1);
-              console.log('updatedPhotoArray', updatedPhotoArray);
               this.props.replacePhotoFromList(updatedPhotoArray);
 
               console.log('OLD DELETED');
@@ -483,44 +508,78 @@ class EditScreen extends Component {
     // console.log('OG PHOTO:', this.state.orignal_photo.uri);
     // console.log('Photo:', this.state.photo.uri);
     return (
-      <View style={styles.container2} disabled behavior="height">
-        {/* <StatusBar hidden={false} /> */}
-        <TouchableWithoutFeedback
-          onPress={Keyboard.dismiss}
-          onPressIn={() => {
-            //   Keyboard.dismiss;
-            this.props.navigation.setOptions({
-              headerShown: !this.state.showIcons,
-            });
-
-            this.setState({
-              showIcons: !this.state.showIcons,
-            });
-          }}>
-          <FastImage
-            source={{
-              uri: this.state.photo.source.uri,
-              priority: FastImage.priority.high,
-            }}
-            resizeMode={FastImage.resizeMode.contain}
-            style={styles.image}
-          />
-        </TouchableWithoutFeedback>
-        {this.state.showIcons && this.state.orignal_photo.type != 'video' && (
-          <EditIconsComponent
-            showEditOptions={this.state.showEditOptions}
-            cropPressed={this.cropPressed}
-            rotatePressed={this.rotatePressed}
-            undoPressed={this.undoPressed}
-            redoPressed={this.redoPressed}
-            prevPhoto={this.state.prevPhoto}
-            nextPhoto={this.state.nextPhoto}
-            showIconNames={this.props.photoArray.length < 5 ? true : false}
-          />
+      <View
+        style={[styles.container2, {backgroundColor: this.state.backColor}]}
+        // disabled
+        behavior="height">
+        {this.state.photo.type == BLANK_CAPTION && (
+          <View style={[styles.Layout]}>
+            <TextInput
+              style={[
+                styles.AffText,
+                {fontFamily: CAPTION_FONT[this.state.captionFont]},
+              ]}
+              placeholder={'Add a caption...'}
+              placeholderTextColor="grey"
+              value={this.state.text}
+              multiline
+              onChangeText={text => this.setState({text})}
+              autoCapitalize="none"
+              padding={10}
+              onBlur={() => this.setState({showIcons: true})}
+            />
+          </View>
         )}
-        <KeyboardAvoidingView style={[styles.textBoxContainer]}>
+        {/* <StatusBar hidden={false} /> */}
+        {this.state.photo.type != BLANK_CAPTION && (
+          <TouchableWithoutFeedback
+            onPress={Keyboard.dismiss}
+            onPressIn={() => {
+              //   Keyboard.dismiss;
+              console.log('TouchableWithoutFeedback');
+              this.props.navigation.setOptions({
+                headerShown: !this.state.showIcons,
+              });
+
+              this.setState({
+                showIcons: !this.state.showIcons,
+              });
+            }}>
+            {/* <View> */}
+
+            <FastImage
+              source={{
+                uri: this.state.photo.source.uri,
+                priority: FastImage.priority.high,
+              }}
+              resizeMode={FastImage.resizeMode.contain}
+              style={styles.image}
+            />
+            {/* </View> */}
+          </TouchableWithoutFeedback>
+        )}
+
+        {this.state.showIcons &&
+          this.state.orignal_photo.type != 'video' &&
+          this.state.photo.type != BLANK_CAPTION && (
+            <EditIconsComponent
+              showEditOptions={this.state.showEditOptions}
+              cropPressed={this.cropPressed}
+              rotatePressed={this.rotatePressed}
+              undoPressed={this.undoPressed}
+              redoPressed={this.redoPressed}
+              prevPhoto={this.state.prevPhoto}
+              nextPhoto={this.state.nextPhoto}
+              showIconNames={this.props.photoArray.length < 5 ? true : false}
+            />
+          )}
+        <KeyboardAvoidingView
+          style={[styles.textBoxContainer]}
+          // behavior="position"
+        >
           {this.state.showIcons && (
             <FontIconsComponent
+              type={this.state.photo.type}
               showFontIcons={this.props.showFontIcons}
               captionFontPressed={this.captionFontPressed}
               captionSizePressed={this.captionSizePressed}
@@ -538,7 +597,7 @@ class EditScreen extends Component {
               // opacity: 0.6,
               paddingRight: 50,
             }}>
-            {!this.state.tagPressed && (
+            {!this.state.tagPressed && this.state.photo.type != BLANK_CAPTION && (
               <TextInput
                 style={[
                   styles.textInputStyle,
@@ -565,7 +624,21 @@ class EditScreen extends Component {
             )}
           </View>
           <View style={styles.saveButtonStyle}>
-            <TouchableOpacity onPress={() => this.onPressSave()}>
+            <TouchableOpacity
+              onPress={() => {
+                console.log('save pressed');
+                if (
+                  (this.state.orignal_photo.type == BLANK_CAPTION &&
+                    this.state.text != this.state.orignal_photo.caption) ||
+                  this.state.orignal_photo.captionStyle.captionSize !=
+                    this.state.captionSize ||
+                  this.state.orignal_photo.captionStyle.captionFont !=
+                    this.state.captionFont ||
+                  this.state.orignal_photo.tagsArray != this.state.tagsArray
+                )
+                  this.onPressSaveBlankCaption();
+                else this.onPressSave();
+              }}>
               <CheckCircle iconSize={60} />
             </TouchableOpacity>
           </View>

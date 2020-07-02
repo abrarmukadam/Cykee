@@ -11,13 +11,17 @@ const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 class BlankCaptionDisplay extends Component {
   state = {};
   render() {
+    console.log('captionStyle:', this.props.captionFont);
+
     return (
       <View
         style={[
           styles.container,
           //       //    {backgroundColor: this.props.backColor}
         ]}>
-        <Text style={styles.fontStyle}>{this.props.caption}</Text>
+        <Text style={[styles.fontStyle, {fontFamily: this.props.captionFont}]}>
+          {this.props.caption}
+        </Text>
       </View>
     );
   }
@@ -40,9 +44,9 @@ const styles = StyleSheet.create({
   },
   fontStyle: {
     color: 'white',
-    fontSize: 30,
+    fontSize: 40,
     textAlign: 'center',
-    fontWeight: '700',
+    // fontWeight: '700',
     margin: 4,
   },
 });

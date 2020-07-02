@@ -10,10 +10,11 @@ import {
   FONT_ICON_COLOR,
   FONT_ICON_OPACITY,
   TagComponent,
+  backgroundColorArray,
 } from '../Buttons/index';
 import {AppTour, AppTourView} from 'react-native-app-tour';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-
+const BLANK_CAPTION = 'blankCaption';
 class FontIconsComponent extends Component {
   state = {
     showFontIcons: this.props.showFontIcons,
@@ -85,14 +86,16 @@ class FontIconsComponent extends Component {
           </View>
         )}
 
-        {!this.state.showFontIcons && !this.props.enterTag && (
-          <FontButton
-            iconType="material-community"
-            buttonName={'format-size'}
-            handleOnPress={this.props.captionSizePressed}
-            buttonText={this.props.showIconName ? 'Size' : ''}
-          />
-        )}
+        {!this.state.showFontIcons &&
+          !this.props.enterTag &&
+          this.props.type != BLANK_CAPTION && (
+            <FontButton
+              iconType="material-community"
+              buttonName={'format-size'}
+              handleOnPress={this.props.captionSizePressed}
+              buttonText={this.props.showIconName ? 'Size' : ''}
+            />
+          )}
         {!this.state.showFontIcons && !this.props.enterTag && (
           <FontButton
             iconType="material-community"
@@ -101,6 +104,16 @@ class FontIconsComponent extends Component {
             buttonText={this.props.showIconName ? 'Font' : ''}
           />
         )}
+        {!this.state.showFontIcons &&
+          !this.props.enterTag &&
+          this.props.type == BLANK_CAPTION && (
+            <FontButton
+              iconType="ionicon"
+              buttonName={'ios-color-palette'}
+              handleOnPress={this.props.changeBackColorPressed}
+              buttonText={this.props.showIconName ? 'Color' : ''}
+            />
+          )}
         <Icon
           type={'entypo'}
           name={

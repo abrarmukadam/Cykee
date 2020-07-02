@@ -98,7 +98,7 @@ export default StyleSheet.create({
     color: 'white',
     fontSize: 15,
     textAlign: 'center',
-    fontWeight: '700',
+    // fontWeight: '700',
     margin: 4,
   },
   Layout: {

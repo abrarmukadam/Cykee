@@ -433,7 +433,13 @@ class GridViewComponent extends Component {
                 borderRadius: 5,
               },
             ]}>
-            <Text style={styles.AffText}>{item.caption}</Text>
+            <Text
+              style={[
+                styles.AffText,
+                {fontFamily: CAPTION_FONT[item.captionStyle.captionFont]},
+              ]}>
+              {item.caption}
+            </Text>
           </View>
         )}
 
