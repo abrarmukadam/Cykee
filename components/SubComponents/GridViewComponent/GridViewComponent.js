@@ -462,15 +462,6 @@ class GridViewComponent extends Component {
                 source={{uri: item.uri}}
               />
             </View>
-            {this.state.showTags && (
-              <TouchableOpacity
-                style={styles.tagsContainer}
-                onPress={() => this.setState({showTags: !this.state.showTags})}>
-                <TagDisplayComponent
-                  tagsArray={item.tagsArray ? item.tagsArray : ['']}
-                />
-              </TouchableOpacity>
-            )}
             {item.caption != '' && this.props.hideCaption == false && (
               <View style={styles.captionContainer}>
                 <Text
@@ -503,6 +494,16 @@ class GridViewComponent extends Component {
             />
           </TouchableOpacity>
         )}
+        {this.state.showTags && (
+          <TouchableOpacity
+            style={styles.tagsContainer}
+            onPress={() => this.setState({showTags: !this.state.showTags})}>
+            <TagDisplayComponent
+              tagsArray={item.tagsArray ? item.tagsArray : ['']}
+            />
+          </TouchableOpacity>
+        )}
+
         {this.props.gridSize != 'CameraRoll' &&
           this.state.longPressStatus == false && (
             <View style={styles.favContainer}>

@@ -96,7 +96,7 @@ export default StyleSheet.create({
 
   AffText: {
     color: 'white',
-    fontSize: 15,
+    fontSize: 12,
     textAlign: 'center',
     // fontWeight: '700',
     margin: 4,

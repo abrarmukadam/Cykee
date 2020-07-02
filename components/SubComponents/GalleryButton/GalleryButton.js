@@ -12,6 +12,7 @@ class GalleryButton extends Component {
     return (
       <TouchableOpacity
         style={styles.IconContainer}
+        activeOpacity={0.8}
         onPress={() => this.props.onPressGalleryIcon()}>
         <Image
           style={[
@@ -29,6 +30,24 @@ class GalleryButton extends Component {
           }
           defaultSource={require('../../Images/no-image.png')}
         />
+        {this.props.photo3.type == 'blankCaption' && (
+          <View
+            style={{
+              backgroundColor: this.props.photo3.backColor,
+              height: 40,
+              width: 40,
+              justifyContent: 'center',
+              alignContent: 'center',
+              transform: [{rotate: '22deg'}],
+              left: 2,
+              position: 'absolute',
+              borderRadius: 2,
+            }}>
+            <Text style={{color: 'white', fontSize: 5, textAlign: 'center'}}>
+              {this.props.photo3.caption}
+            </Text>
+          </View>
+        )}
         <Image
           style={[
             styles.ImageStyle,
@@ -45,6 +64,24 @@ class GalleryButton extends Component {
           }
           defaultSource={require('../../Images/no-image.png')}
         />
+        {this.props.photo2.type == 'blankCaption' && (
+          <View
+            style={{
+              backgroundColor: this.props.photo2.backColor,
+              height: 40,
+              width: 40,
+              justifyContent: 'center',
+              alignContent: 'center',
+              transform: [{rotate: '12deg'}],
+              left: 2,
+              position: 'absolute',
+              borderRadius: 2,
+            }}>
+            <Text style={{color: 'white', fontSize: 5, textAlign: 'center'}}>
+              {this.props.photo2.caption}
+            </Text>
+          </View>
+        )}
         <Image
           style={[
             styles.ImageStyle,
@@ -62,6 +99,7 @@ class GalleryButton extends Component {
           }
           defaultSource={require('../../Images/no-image.png')}
         />
+
         {this.props.photo1.type == 'blankCaption' && (
           <View
             style={{
@@ -70,6 +108,7 @@ class GalleryButton extends Component {
               width: 40,
               justifyContent: 'center',
               alignContent: 'center',
+              borderRadius: 2,
             }}>
             <Text style={{color: 'white', fontSize: 5, textAlign: 'center'}}>
               {this.props.photo1.caption}
