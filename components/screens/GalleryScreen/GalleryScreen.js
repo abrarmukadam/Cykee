@@ -36,6 +36,7 @@ import {
   TEXT_BUTTON_COLOR,
   GalleryIconColor,
   TAB_BAR_COLOR,
+  BLANK_CAPTION,
 } from '../../SubComponents/Buttons/index';
 import {
   ShareIcon,
@@ -235,13 +236,8 @@ class GalleryScreen extends Component {
                 this.state.photoArray[index].source.uri,
               ]).then(() => {
                 console.log('File delete success-CYKEE');
-
-                // this.props.navigation.push('GalleryScreen', {
-                //   index: this.state.index ? this.state.index - 1 : 0,
-                //   toBeDisplayed: newToBeDisplayed,
-                // });
-                this.props.navigation.goBack();
               });
+              this.props.navigation.goBack();
             }
           },
         },
