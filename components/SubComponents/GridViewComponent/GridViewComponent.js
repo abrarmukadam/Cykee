@@ -32,6 +32,7 @@ import {
   TagDisplayComponent,
   SearchedTagsComponent,
   PlayOverlay,
+  backgroundColorArray,
 } from './../../SubComponents/Buttons/index';
 import FastImage from 'react-native-fast-image';
 // import Icon from 'react-native-vector-icons/Ionicons';
@@ -426,7 +427,7 @@ class GridViewComponent extends Component {
             style={[
               styles.Layout,
               {
-                backgroundColor: item.backColor,
+                backgroundColor: backgroundColorArray[item.backColor],
                 height: '100%',
                 width: '100%',
                 activeOpacity: 0,

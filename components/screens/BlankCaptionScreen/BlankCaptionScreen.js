@@ -15,7 +15,6 @@ import {
   backgroundColorArray,
   GlobalIconSize,
   CheckCircle,
-  BackgroundColor,
   saveFileFunction,
   FontIconsComponent,
   CAPTION_FONT,
@@ -28,8 +27,8 @@ const BLANK_CAPTION = 'blankCaption';
 
 class BlankCaptionScreen extends Component {
   state = {
-    colorIndex: 0,
-    backColor: backgroundColorArray[0],
+    // colorIndex: 0,
+    backColor: 0,
     saveInProgress: false,
     captionSize: 0,
     captionFont: 0,
@@ -125,17 +124,18 @@ class BlankCaptionScreen extends Component {
       tagsArray: this.state.tagsArray,
       saveType: 'add',
       callingScreen: 'BlankCaptionScreen',
-      backColor: backgroundColorArray[this.state.colorIndex],
+      backColor: this.state.backColor,
+      // backColor: backgroundColorArray[this.state.colorIndex],
       addNewPhoto: newPhoto => this.props.addNewPhoto(newPhoto),
       afterSaveFunction: () => this.props.navigation.goBack(),
     });
     //    this.props.handleAddAffirmation(newAffirmation)
   };
   changeBackColorPressed = () => {
-    console.log('colorIndex:', this.state.colorIndex);
-    if (this.state.colorIndex >= backgroundColorArray.length - 1)
-      this.setState({colorIndex: 0});
-    else this.setState({colorIndex: this.state.colorIndex + 1});
+    console.log('backColor:', this.state.backColor);
+    if (this.state.backColor >= backgroundColorArray.length - 1)
+      this.setState({backColor: 0});
+    else this.setState({backColor: this.state.backColor + 1});
     console.log('change color pressed');
   };
 
@@ -145,7 +145,7 @@ class BlankCaptionScreen extends Component {
         <View
           style={[
             styles.container,
-            {backgroundColor: backgroundColorArray[this.state.colorIndex]},
+            {backgroundColor: backgroundColorArray[this.state.backColor]},
           ]}>
           {/* <View> */}
           <View style={styles.AffDetails}>

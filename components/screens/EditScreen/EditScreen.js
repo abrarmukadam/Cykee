@@ -42,6 +42,7 @@ import {
   TagComponent,
   TagDisplayComponent,
   saveFileFunction,
+  backgroundColorArray,
 } from '../../SubComponents/Buttons/index';
 
 const ICON_OPACITY = 0.6;
@@ -182,7 +183,13 @@ class EditScreen extends Component {
     // this.props.autoTagSetting(tagsArray[0]);
     // console.log(tagsArray);
   };
-
+  changeBackColorPressed = () => {
+    console.log('backColor:', this.state.backColor);
+    if (this.state.backColor >= backgroundColorArray.length - 1)
+      this.setState({backColor: 0});
+    else this.setState({backColor: this.state.backColor + 1});
+    console.log('change color pressed');
+  };
   componentWillUnmount() {
     changeNavigationBarColor(TAB_BAR_COLOR);
 
@@ -208,6 +215,7 @@ class EditScreen extends Component {
     }
   }
   captionSizePressed = () => {
+    console.log('captionSizePressed:', this.state.captionSize);
     if (this.state.captionSize >= 2) this.setState({captionSize: 0});
     else this.setState({captionSize: this.state.captionSize + 1});
   };
@@ -293,7 +301,11 @@ class EditScreen extends Component {
     );
   };
   onPressSaveBlankCaption = () => {
+    this.props.navigation.navigate('GalleryTab');
+
     console.log('onPressSaveBlankCaption');
+    this.setState({saveInProgress: true});
+
     let newPhoto = {};
     let index = this.props.route.params.index;
     let updatedPhotoArray = [...this.props.photoArray];
@@ -315,7 +327,7 @@ class EditScreen extends Component {
     updatedPhotoArray[index] = newPhoto;
 
     this.props.replacePhotoFromList(updatedPhotoArray);
-    this.props.navigation.goBack();
+    // this.props.navigation.goBack();
   };
 
   onPressSave = () => {
@@ -509,7 +521,10 @@ class EditScreen extends Component {
     // console.log('Photo:', this.state.photo.uri);
     return (
       <View
-        style={[styles.container2, {backgroundColor: this.state.backColor}]}
+        style={[
+          styles.container2,
+          {backgroundColor: backgroundColorArray[this.state.backColor]},
+        ]}
         // disabled
         behavior="height">
         {this.state.photo.type == BLANK_CAPTION && (
@@ -587,6 +602,7 @@ class EditScreen extends Component {
               enterTag={this.state.tagPressed}
               tagsArray={this.state.tagsArray}
               showIconNames={this.props.photoArray.length < 5 ? true : false}
+              changeBackColorPressed={this.changeBackColorPressed}
             />
           )}
 
@@ -627,17 +643,20 @@ class EditScreen extends Component {
             <TouchableOpacity
               onPress={() => {
                 console.log('save pressed');
-                if (
+                if (this.state.orignal_photo.type != BLANK_CAPTION)
+                  this.onPressSave();
+                else if (
                   (this.state.orignal_photo.type == BLANK_CAPTION &&
                     this.state.text != this.state.orignal_photo.caption) ||
                   this.state.orignal_photo.captionStyle.captionSize !=
                     this.state.captionSize ||
                   this.state.orignal_photo.captionStyle.captionFont !=
                     this.state.captionFont ||
-                  this.state.orignal_photo.tagsArray != this.state.tagsArray
+                  this.state.orignal_photo.tagsArray != this.state.tagsArray ||
+                  this.state.orignal_photo.backColor != this.state.backColor
                 )
                   this.onPressSaveBlankCaption();
-                else this.onPressSave();
+                else this.props.navigation.goBack();
               }}>
               <CheckCircle iconSize={60} />
             </TouchableOpacity>

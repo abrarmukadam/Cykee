@@ -22,8 +22,8 @@ class TagComponent extends Component {
   }
 
   updateTagState = state => {
-    console.log(state.tagsArray);
-    console.log(state.tag);
+    // console.log(state.tagsArray);
+    // console.log(state.tag);
     let temp = {...state};
     if (state.tagsArray.length >= 5)
       ToastAndroid.show('Can add only 4 tags ! !', ToastAndroid.SHORT);
@@ -45,7 +45,7 @@ class TagComponent extends Component {
           );
         }
       }
-      console.log(temp.tag);
+      // console.log(temp.tag);
       this.setState({
         tags: temp,
       });

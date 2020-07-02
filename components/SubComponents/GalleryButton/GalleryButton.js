@@ -3,6 +3,7 @@ import {TouchableOpacity, Image, View, Text} from 'react-native';
 import styles from './styles';
 
 import FastImage from 'react-native-fast-image';
+import {backgroundColorArray} from '../Buttons/index';
 
 class GalleryButton extends Component {
   state = {photo: undefined};
@@ -33,7 +34,8 @@ class GalleryButton extends Component {
         {this.props.photo3.type == 'blankCaption' && (
           <View
             style={{
-              backgroundColor: this.props.photo3.backColor,
+              backgroundColor:
+                backgroundColorArray[this.props.photo3.backColor],
               height: 40,
               width: 40,
               justifyContent: 'center',
@@ -67,7 +69,8 @@ class GalleryButton extends Component {
         {this.props.photo2.type == 'blankCaption' && (
           <View
             style={{
-              backgroundColor: this.props.photo2.backColor,
+              backgroundColor:
+                backgroundColorArray[this.props.photo2.backColor],
               height: 40,
               width: 40,
               justifyContent: 'center',
@@ -103,7 +106,8 @@ class GalleryButton extends Component {
         {this.props.photo1.type == 'blankCaption' && (
           <View
             style={{
-              backgroundColor: this.props.photo1.backColor,
+              backgroundColor:
+                backgroundColorArray[this.props.photo1.backColor],
               height: 40,
               width: 40,
               justifyContent: 'center',

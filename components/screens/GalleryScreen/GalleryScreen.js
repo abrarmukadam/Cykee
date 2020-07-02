@@ -48,6 +48,7 @@ import {
   PlayOverlay,
   BlankCaptionDisplay,
   CAPTION_FONT,
+  backgroundColorArray,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 // import {SharedElement} from 'react-navigation-shared-element';
@@ -71,7 +72,6 @@ class GalleryScreen extends Component {
     if (prevProps.photoArray != this.props.photoArray) {
       let temp = [];
       this.state.toBeDisplayed.map(item => {
-        console.log(item.tagsArray);
         let newItem = {
           url: item.uri,
           source: {uri: item.uri},
@@ -255,6 +255,7 @@ class GalleryScreen extends Component {
   };
 
   render() {
+    console.log('galleryScreenRendered');
     // hideNavigationBar();
     const config = {
       velocityThreshold: 0.3,
@@ -287,7 +288,9 @@ class GalleryScreen extends Component {
               // psition: 'absolute',
               // bottom: 0,
               backgroundColor: this.state.photoArray[this.state.index].backColor
-                ? this.state.photoArray[this.state.index].backColor
+                ? backgroundColorArray[
+                    this.state.photoArray[this.state.index].backColor
+                  ]
                 : 'black',
               justifyContent: 'center',
             }}>
@@ -328,8 +331,10 @@ class GalleryScreen extends Component {
                       height: '100%',
                       width: '100%',
                       justifyContent: 'center',
-                      backgroundColor: this.state.photoArray[this.state.index]
-                        .backColor,
+                      backgroundColor:
+                        backgroundColorArray[
+                          this.state.photoArray[this.state.index].backColor
+                        ],
                       position: 'absolute',
                       bottom: 0,
                     }}>
