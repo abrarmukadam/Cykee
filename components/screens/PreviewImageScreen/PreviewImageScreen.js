@@ -279,14 +279,16 @@ class PreviewImageScreen extends Component {
             )}
           {this.props.route.params.type == 'video' && (
             <View style={StyleSheet.absoluteFill}>
-              <PlayVideoComponent />
-              <PlayOverlay
-                onPressPlay={() => {
-                  console.log('Play video Pressed');
+              <PlayVideoComponent
+                video={this.state.photo}
+                onPlayPressed={pauseStatus => {
+                  console.log('play pressed in preview');
+                  this.setState({showIcons: pauseStatus});
                 }}
               />
             </View>
           )}
+
           {this.state.showIcons && (
             <TouchableOpacity
               onPress={() => this.setState({tagPressed: true})}
@@ -304,7 +306,7 @@ class PreviewImageScreen extends Component {
               />
             </TouchableOpacity>
           )}
-          {this.state.showIcons && (
+          {this.state.showIcons && this.props.route.params.type != 'video' && (
             <EditIconsComponent
               showEditOptions={this.state.showEditOptions}
               cropPressed={this.cropPressed}
@@ -353,7 +355,7 @@ class PreviewImageScreen extends Component {
                   }
                 />
               )}
-              {!this.state.tagPressed && (
+              {!this.state.tagPressed && this.state.showIcons && (
                 <TextInput
                   style={[
                     styles.textInputStyle,
@@ -375,7 +377,7 @@ class PreviewImageScreen extends Component {
                   onBlur={() => this.setState({showIcons: true})}
                 />
               )}
-              {this.state.tagPressed && (
+              {this.state.tagPressed && this.state.showIcons && (
                 <TagComponent
                   tagsArrayChanged={this.tagsArrayChanged}
                   tagsArray={this.state.tagsArray}
@@ -384,11 +386,13 @@ class PreviewImageScreen extends Component {
             </View>
           </View>
           <View style={styles.saveButtonStyle}>
-            <TouchableOpacity
-              onPress={() => this.savePhoto(this.state.photo)}
-              disabled={this.state.saveInProgress}>
-              <CheckCircle iconSize={70} />
-            </TouchableOpacity>
+            {this.state.showIcons && (
+              <TouchableOpacity
+                onPress={() => this.savePhoto(this.state.photo)}
+                disabled={this.state.saveInProgress}>
+                <CheckCircle iconSize={70} />
+              </TouchableOpacity>
+            )}
           </View>
         </KeyboardAvoidingView>
       </GestureRecognizer>

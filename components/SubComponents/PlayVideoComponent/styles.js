@@ -1,4 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
+import {CykeeColor} from '../Buttons/index';
 
 const {width: WIDTH} = Dimensions.get('window');
 
@@ -7,11 +8,65 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: 'black',
   },
-  fontStyle: {
-    fontSize: 20,
-    textAlign: 'center',
-    color: 'red',
+  fullScreen: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+  controls: {
+    backgroundColor: 'transparent',
+    borderRadius: 5,
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+  },
+  progress: {
+    flex: 1,
+    flexDirection: 'row',
+    borderRadius: 3,
+    overflow: 'hidden',
+  },
+  innerProgressCompleted: {
+    height: 10,
+    // backgroundColor: '#cccccc',
+    backgroundColor: CykeeColor,
+  },
+  innerProgressRemaining: {
+    height: 10,
+    backgroundColor: '#2C2C2C',
+  },
+  generalControls: {
+    flex: 1,
+    flexDirection: 'row',
+    borderRadius: 4,
+    overflow: 'hidden',
+    paddingBottom: 10,
+  },
+
+  resizeModeControl: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  controlOption: {
+    alignSelf: 'center',
+    fontSize: 11,
+    color: 'white',
+    paddingLeft: 2,
+    paddingRight: 2,
+    lineHeight: 12,
+  },
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });
