@@ -39,6 +39,7 @@ import {
   TagDisplayComponent,
   PlayOverlay,
   saveFileFunction,
+  PlayVideoComponent,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import ToggleSwitch from 'toggle-switch-react-native';
@@ -251,34 +252,40 @@ class PreviewImageScreen extends Component {
         }}>
         <StatusBar hidden={false} />
         <KeyboardAvoidingView style={styles.container}>
-          <TouchableWithoutFeedback
-            onPress={Keyboard.dismiss}
-            onPressIn={() => {
-              //   Keyboard.dismiss;
-              this.props.navigation.setOptions({
-                headerShown: !this.state.showIcons,
-              });
+          {this.props.route.params.type != 'video' &&
+            this.props.route.params.type != 'blankCaption' && (
+              <TouchableWithoutFeedback
+                onPress={Keyboard.dismiss}
+                onPressIn={() => {
+                  //   Keyboard.dismiss;
+                  this.props.navigation.setOptions({
+                    headerShown: !this.state.showIcons,
+                  });
 
-              this.setState({
-                showIcons: !this.state.showIcons,
-              });
-            }}>
-            <FastImage
-              source={{
-                uri: this.state.photo.uri,
-                priority: FastImage.priority.high,
-              }}
-              resizeMode={FastImage.resizeMode.contain}
-              style={StyleSheet.absoluteFill}
-              // style={styles.image}
-            />
-          </TouchableWithoutFeedback>
+                  this.setState({
+                    showIcons: !this.state.showIcons,
+                  });
+                }}>
+                <FastImage
+                  source={{
+                    uri: this.state.photo.uri,
+                    priority: FastImage.priority.high,
+                  }}
+                  resizeMode={FastImage.resizeMode.contain}
+                  style={StyleSheet.absoluteFill}
+                  // style={styles.image}
+                />
+              </TouchableWithoutFeedback>
+            )}
           {this.props.route.params.type == 'video' && (
-            <PlayOverlay
-              onPressPlay={() => {
-                console.log('Play video Pressed');
-              }}
-            />
+            <View style={StyleSheet.absoluteFill}>
+              <PlayVideoComponent />
+              <PlayOverlay
+                onPressPlay={() => {
+                  console.log('Play video Pressed');
+                }}
+              />
+            </View>
           )}
           {this.state.showIcons && (
             <TouchableOpacity
