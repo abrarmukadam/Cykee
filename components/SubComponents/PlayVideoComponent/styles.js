@@ -6,24 +6,25 @@ const {width: WIDTH} = Dimensions.get('window');
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     backgroundColor: 'black',
   },
   fullScreen: {
     position: 'absolute',
     top: 0,
     left: 0,
-    bottom: 0,
+    // bottom: 0,
     right: 0,
+    height: '100%',
   },
   controls: {
     backgroundColor: 'transparent',
     borderRadius: 5,
     position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   progress: {
     flex: 1,
@@ -39,14 +40,24 @@ export default StyleSheet.create({
   },
   innerProgressRemaining: {
     height: 4,
-    backgroundColor: '#2C2C2C',
+    // backgroundColor: SIDE_ICON_COLOR,
+    backgroundColor: 'white',
   },
   generalControls: {
+    position: 'absolute',
     flex: 1,
+    height: 80,
+    width: '100%',
+    backgroundColor: 'black',
+    opacity: 0.8,
     flexDirection: 'row',
-    borderRadius: 4,
+    // borderRadius: 4,
     overflow: 'hidden',
-    paddingBottom: 10,
+    left: 0,
+    bottom: 0,
+    right: 0,
+
+    // paddingBottom: 10,
   },
 
   resizeModeControl: {
@@ -71,10 +82,20 @@ export default StyleSheet.create({
     right: 0,
   },
   trackingControls: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+
     // justifyContent: 'center',
     // alignItems: 'center',
   },
   pauseButtonStyle: {
     marginHorizontal: 4,
+  },
+  timeTextStyle: {
+    color: 'white',
+    fontSize: 10,
+    paddingHorizontal: 4,
   },
 });

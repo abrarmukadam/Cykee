@@ -13,11 +13,13 @@ class PlayVideoComponent extends Component {
     resizeMode: 'contain',
     duration: 0.0,
     currentTime: 0.0,
-    paused: true,
+    paused: this.props.pauseStatus,
   };
 
   onLoad = data => {
-    this.setState({duration: data.duration});
+    this.setState({
+      duration: data.duration,
+    });
   };
 
   onProgress = data => {
@@ -46,8 +48,11 @@ class PlayVideoComponent extends Component {
     }
     return 0;
   }
-
+  componentDidMount() {
+    this.setState({pauseStatus: this.props.pauseStatus});
+  }
   render() {
+    console.log('uro:', this.props.video);
     const flexCompleted = this.getCurrentTimePercentage() * 100;
     const flexRemaining = (1 - this.getCurrentTimePercentage()) * 100;
 
@@ -84,35 +89,30 @@ class PlayVideoComponent extends Component {
             repeat={false}
           />
         </TouchableOpacity>
-
-        <View style={styles.controls}>
-          <View style={styles.generalControls} />
-
-          <View
-            style={[
-              styles.trackingControls,
-              {borderWidth: 1, borderColor: 'red'},
-            ]}>
-            {!this.state.paused && (
+        {!this.state.paused && (
+          <View style={[styles.controls]}>
+            <View
+              style={[
+                styles.generalControls,
+                // {borderWidth: 1, borderColor: 'red'},
+              ]}
+            />
+            <View
+              style={[
+                styles.trackingControls,
+                //   {borderWidth: 1, borderColor: 'red'},
+              ]}>
               <View
                 style={[
                   styles.progress,
-                  {borderWidth: 1, borderColor: 'green'},
+                  //   {borderWidth: 1, borderColor: 'green'},
                 ]}>
-                <Icon
-                  type="ionicon"
-                  name={this.state.paused ? 'ios-play' : 'ios-pause'}
-                  size={30}
-                  color={'white'}
-                  containerStyle={styles.pauseButtonStyle}
-                  onPress={() => {
-                    this.props.onPlayPressed(!this.state.paused);
-                    this.setState({
-                      paused: !this.state.paused,
-                    });
-                  }}
-                />
-
+                <Text style={styles.timeTextStyle}>
+                  {Math.floor(this.state.currentTime.toFixed() / 60)}:
+                  {this.state.currentTime.toFixed() < 10
+                    ? '0' + (this.state.currentTime.toFixed() % 60)
+                    : this.state.currentTime.toFixed() % 60}
+                </Text>
                 <View
                   style={[styles.innerProgressCompleted, {flex: flexCompleted}]}
                 />
@@ -125,10 +125,30 @@ class PlayVideoComponent extends Component {
                 <View
                   style={[styles.innerProgressRemaining, {flex: flexRemaining}]}
                 />
+                <Text style={styles.timeTextStyle}>
+                  {Math.floor(this.state.duration.toFixed() / 60)}:
+                  {this.state.duration.toFixed() < 10
+                    ? '0' + (this.state.duration.toFixed() % 60)
+                    : this.state.duration.toFixed() % 60}
+                </Text>
               </View>
-            )}
+
+              <Icon
+                type="feather"
+                name={this.state.paused ? 'play-circle' : 'pause-circle'}
+                size={40}
+                color={'white'}
+                containerStyle={styles.pauseButtonStyle}
+                onPress={() => {
+                  this.props.onPlayPressed(!this.state.paused);
+                  this.setState({
+                    paused: !this.state.paused,
+                  });
+                }}
+              />
+            </View>
           </View>
-        </View>
+        )}
         {this.state.paused && (
           <PlayOverlay
             onPressPlay={() => {

@@ -17,7 +17,7 @@ class TakePicture extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.isRecording != this.state.isRecording)
       if (this.state.isRecording == true) {
-        this.setState({recordingTime: 1});
+        this.setState({recordingTime: 0});
         this.recordingTimer = setInterval(
           () => this.setState({recordingTime: this.state.recordingTime + 1}),
           1000,

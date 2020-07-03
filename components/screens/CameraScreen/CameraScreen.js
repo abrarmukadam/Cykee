@@ -27,6 +27,7 @@ import {UIActivityIndicator} from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
 
 import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
+const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
 import {
   TakePicture,
@@ -255,8 +256,11 @@ class CameraScreen extends PureComponent {
       // mirrorVideo: this.props.cameraType ? true : false, //0 = back , 1 = front
       mirrorVideo: true,
       orientation: 'portrait',
-
-      quality: RNCamera.Constants.VideoQuality['720p'],
+      playSoundOnCapture: true,
+      quality: '1080p',
+      // quality: RNCamera.Constants.VideoQuality['720p'],
+      // quality: RNCamera.Constants.VideoQuality['1080p'],
+      // fps: 30,
     };
     const {isRecording} = this.state;
     console.log('take video');
@@ -268,6 +272,8 @@ class CameraScreen extends PureComponent {
           this.setState({isRecording: true});
           const data = await promise;
           console.warn('takeVideo', data);
+          data.width = 1080;
+          data.height = 1920;
           if (this.props.textMode) {
             console.log('going to preview screen');
             this.props.navigation.navigate('PreviewScreen', {
@@ -337,6 +343,7 @@ class CameraScreen extends PureComponent {
       volume: 0,
       pauseAfterCapture: true,
       mirrorImage: this.props.cameraType ? false : true, //0 = back , 1 = front
+      playSoundOnCapture: true,
     };
     console.log('CLICK CLICK');
     const data = await this.camera.takePictureAsync(options);

@@ -37,6 +37,7 @@ import {
   GalleryIconColor,
   TAB_BAR_COLOR,
   BLANK_CAPTION,
+  PlayVideoComponent,
 } from '../../SubComponents/Buttons/index';
 import {
   ShareIcon,
@@ -74,6 +75,7 @@ class GalleryScreen extends Component {
       let temp = [];
       this.state.toBeDisplayed.map(item => {
         let newItem = {
+          uri: item.uri,
           url: item.uri,
           source: {uri: item.uri},
           height: item.height,
@@ -118,6 +120,7 @@ class GalleryScreen extends Component {
     let temp = [];
     this.state.toBeDisplayed.map(item => {
       let newItem = {
+        uri: item.uri,
         url: item.uri,
         source: {uri: item.uri},
         height: item.height,
@@ -281,8 +284,11 @@ class GalleryScreen extends Component {
               // flex: 1,
               height: '101%',
               width: '100%',
-              // psition: 'absolute',
-              // bottom: 0,
+              psition: 'absolute',
+              bottom: 0,
+              right: 0,
+              left: 0,
+              // top: 0,
               backgroundColor: this.state.photoArray[this.state.index].backColor
                 ? backgroundColorArray[
                     this.state.photoArray[this.state.index].backColor
@@ -350,144 +356,13 @@ class GalleryScreen extends Component {
                 )
               }
             />
-            {/* <GallerySwiper
-              style={{
-                // flex: 1,
-                height: '100%',
-                width: '100%',
-              }}
-              resizeMode={'contain'}
-              // resizeMode={
-              //   this.props.route.params.navigatingFrom == 'CameraRollScreen'
-              //     ? 'contain'
-              //     : this.state.photoArray[this.state.index].height /
-              //         this.state.photoArray[this.state.index].width >
-              //       SCREEN_RATIO
-              //     ? 'stretch'
-              //     : 'contain'
-              // }
-
-              errorComponent={() => {
-                <View
-                  style={{
-                    height: '100%',
-                    width: '100%',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                />;
-              }}
-              // resizeMode={'contain'}
-              images={this.state.photoArray}
-              initialPage={this.state.index}
-              flatListProps={{
-                initialNumToRender: this.state.index,
-                initialScrollIndex: this.state.index,
-                getItemLayout: (data, index) => ({
-                  length: Dimensions.get('screen').width,
-                  offset: Dimensions.get('screen').width * index,
-                  index,
-                }),
-              }}
-              initialNumToRender={4}
-              // sensitiveScroll={false}
-              onSingleTapConfirmed={() => {
-                this.setState({
-                  optionsAvailable: !this.state.optionsAvailable,
-                });
-                changeNavigationBarColor(
-                  !this.state.optionsAvailable ? 'black' : TAB_BAR_COLOR,
-                );
-              }}
-              onPageSelected={index => this.setState({index: index})}
-              // pageMargin={5}
-              // onSwipeUpReleased={() =>
-              //   this.onPressShare(this.state.photoArray[this.state.index])
-              // }
-              onSwipeDownReleased={() => this.props.navigation.goBack()}
-              onTransformGestureReleased={(transform, index) => {
-                if (transform.translateX > 0)
-                  console.log('translateX:', transform.translateX);
-                if (transform.translateY > 0)
-                  console.log('translateY:', transform.translateY);
-              }}
-              onViewTransformed={(transform, index) => {
-                if (transform.translateX > 0)
-                  console.log(
-                    'onViewTransformed translateX:',
-                    transform.translateX,
-                  );
-                if (transform.translateY > 0)
-                  console.log(
-                    'onViewTransformed translateY:',
-                    transform.translateY,
-                  );
-              }}
-            /> */}
-            {/* <Gallery
-              ImageResizeMode={
-                this.state.photoArray[this.state.index].height /
-                  this.state.photoArray[this.state.index].width >
-                SCREEN_RATIO
-                  ? 'stretch'
-                  : 'contain'
-              }
-              errorComponent={() => (
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Image
-                    style={{
-                      flex: 1,
-                      resizeMode: 'center',
-                    }}
-                    source={require('../../Images/no-image.png')}
-                  />
-                </View>
-              )}
-              images={this.state.photoArray}
-              initialPage={this.state.index}
-              flatListProps={{
-                initialNumToRender: this.state.index,
-                initialScrollIndex: this.state.index,
-                getItemLayout: (data, index) => ({
-                  length: Dimensions.get('screen').width,
-                  offset: Dimensions.get('screen').width * index,
-                  index,
-                }),
-              }}
-              onSingleTapConfirmed={() =>
-                this.setState({
-                  optionsAvailable: !this.state.optionsAvailable,
-                })
-              }
-              onPageSelected={index => this.setState({index: index})}
-            /> */}
-            {/* <GestureRecognizer
-              onSwipe={(direction, state) => console.log('gesture detected')}
-              onSwipeUp={state => console.log('gesture onSwipeUp')}
-              onSwipeDown={state => console.log('gesture onSwipeDown')}
-              config={config}
-              style={{
-                flex: 1,
-                position: 'absolute',
-                bottom: 0,
-              }}
-            /> */}
-
-            {/* {this.state.photoArray[this.state.index].type == 'blankCaption' && (
-              <BlankCaptionDisplay
-                caption={this.state.photoArray[this.state.index].caption}
-                backColor={this.state.photoArray[this.state.index].backColor}
-              />
-            )} */}
             {this.state.photoArray[this.state.index].type == 'video' && (
               <PlayOverlay
                 onPressPlay={() => {
                   console.log('Play video Pressed');
+                  this.props.navigation.navigate('PlayVideoScreen', {
+                    video: this.state.photoArray[this.state.index],
+                  });
                   // saveFileFunction();
                 }}
               />

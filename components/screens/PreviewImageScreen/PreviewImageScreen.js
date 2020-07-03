@@ -45,7 +45,6 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import ToggleSwitch from 'toggle-switch-react-native';
 import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
 
-// import {leftHeaderButton} from
 class PreviewImageScreen extends Component {
   constructor(props) {
     super(props);

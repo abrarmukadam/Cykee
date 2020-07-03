@@ -23,6 +23,7 @@ import {default as FavoriteScreen} from './components/screens/FavoriteScreen/Fav
 import {default as CameraRollScreen} from './components/screens/CameraRollScreen/CameraRollScreen.container';
 import {default as HideCaption} from './components/SubComponents/HideCaption/HideCaption.container';
 import {default as BlankCaptionScreen} from './components/screens/BlankCaptionScreen/BlankCaptionScreen.container';
+import PlayVideoScreen from './components/screens/PlayVideoScreen/PlayVideoScreen';
 
 import EmptyScreen from './components/screens/EmptyScreen/EmptyScreen';
 import {
@@ -214,7 +215,11 @@ const expandingTransition = ({current, next, index, closing, layouts}) => {
     },
   };
 };
-
+const forFade = ({current, closing}) => ({
+  cardStyle: {
+    opacity: current.progress,
+  },
+});
 function CameraStack(navigation) {
   return (
     <Stack.Navigator
@@ -342,6 +347,26 @@ function CameraStack(navigation) {
 
           // ...TransitionPresets.ModalPresentationIOS,
         })}
+      />
+      <Stack.Screen
+        name="PlayVideoScreen"
+        component={PlayVideoScreen}
+        options={{
+          title: '',
+
+          headerTransparent: true,
+          // headerShown: false,
+          headerTitleStyle: {fontSize: 24, color: 'white'},
+          headerTintColor: 'white',
+          headerStyle: {
+            elevation: 100,
+            borderRadius: 0,
+          },
+          cardStyleInterpolator: forFade,
+          // CardStyleInterpolators.forRevealFromBottomAndroid,
+          // cardStyleInterpolator: CardStyleInterpolators.forFade,
+          // cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+        }}
       />
 
       <Stack.Screen
