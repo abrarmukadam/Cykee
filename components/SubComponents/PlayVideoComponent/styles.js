@@ -30,14 +30,15 @@ export default StyleSheet.create({
     flexDirection: 'row',
     borderRadius: 3,
     overflow: 'hidden',
+    alignItems: 'center',
   },
   innerProgressCompleted: {
-    height: 10,
+    height: 4,
     // backgroundColor: '#cccccc',
     backgroundColor: CykeeColor,
   },
   innerProgressRemaining: {
-    height: 10,
+    height: 4,
     backgroundColor: '#2C2C2C',
   },
   generalControls: {
@@ -68,5 +69,12 @@ export default StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
+  },
+  trackingControls: {
+    // justifyContent: 'center',
+    // alignItems: 'center',
+  },
+  pauseButtonStyle: {
+    marginHorizontal: 4,
   },
 });

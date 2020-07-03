@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {PlayOverlay} from '../Buttons/index';
+import {PlayOverlay, CykeeColor} from '../Buttons/index';
 import styles from './styles';
 import Video from 'react-native-video';
+import {Icon} from 'react-native-elements';
 
 class PlayVideoComponent extends Component {
   state = {
@@ -68,8 +69,6 @@ class PlayVideoComponent extends Component {
             ref={ref => {
               this.video = ref;
             }}
-            /* For ExoPlayer */
-            /* source={{ uri: 'http://www.youtube.com/api/manifest/dash/id/bf5bb2419360daf1/source/youtube?as=fmp4_audio_clear,fmp4_sd_hd_clear&sparams=ip,ipbits,expire,source,id,as&ip=0.0.0.0&ipbits=0&expire=19000000000&signature=51AF5F39AB0CEC3E5497CD9C900EBFEAECCCB5C7.8506521BFC350652163895D4C26DEE124209AA9E&key=ik0', type: 'mpd' }} */
             source={{uri: this.props.video.uri}}
             style={styles.fullScreen}
             rate={this.state.rate}
@@ -89,11 +88,39 @@ class PlayVideoComponent extends Component {
         <View style={styles.controls}>
           <View style={styles.generalControls} />
 
-          <View style={styles.trackingControls}>
+          <View
+            style={[
+              styles.trackingControls,
+              {borderWidth: 1, borderColor: 'red'},
+            ]}>
             {!this.state.paused && (
-              <View style={styles.progress}>
+              <View
+                style={[
+                  styles.progress,
+                  {borderWidth: 1, borderColor: 'green'},
+                ]}>
+                <Icon
+                  type="ionicon"
+                  name={this.state.paused ? 'ios-play' : 'ios-pause'}
+                  size={30}
+                  color={'white'}
+                  containerStyle={styles.pauseButtonStyle}
+                  onPress={() => {
+                    this.props.onPlayPressed(!this.state.paused);
+                    this.setState({
+                      paused: !this.state.paused,
+                    });
+                  }}
+                />
+
                 <View
                   style={[styles.innerProgressCompleted, {flex: flexCompleted}]}
+                />
+                <Icon
+                  type="font-awesome"
+                  name={'circle'}
+                  size={12}
+                  color={CykeeColor}
                 />
                 <View
                   style={[styles.innerProgressRemaining, {flex: flexRemaining}]}

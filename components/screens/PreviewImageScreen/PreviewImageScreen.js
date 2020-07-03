@@ -141,6 +141,7 @@ class PreviewImageScreen extends Component {
           name="md-close"
           size={GlobalIconSize}
           color={'white'}
+          underlayColor={'#0000'}
         />
       </View>
       <View
@@ -154,6 +155,7 @@ class PreviewImageScreen extends Component {
           name="md-close"
           size={GlobalIconSize}
           color={'white'}
+          underlayColor={'#0000'}
         />
       </View>
     </TouchableOpacity>
