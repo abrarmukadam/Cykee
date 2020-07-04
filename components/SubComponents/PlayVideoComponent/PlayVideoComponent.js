@@ -27,6 +27,8 @@ class PlayVideoComponent extends Component {
   };
 
   onEnd = () => {
+    if (this.state.paused != true) this.props.onVideoComplete();
+
     this.setState({paused: true, currentTime: 0});
     this.props.onPlayPressed(true);
     this.video.seek(0);

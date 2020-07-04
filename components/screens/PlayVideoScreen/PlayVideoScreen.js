@@ -88,6 +88,10 @@ class PlayVideoScreen extends Component {
             });
             // showCapion;
           }}
+          onVideoComplete={() => {
+            console.log('going back');
+            this.props.navigation.goBack();
+          }}
         />
       </View>
     );
