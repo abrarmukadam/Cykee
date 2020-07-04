@@ -286,6 +286,7 @@ class PreviewImageScreen extends Component {
                   console.log('play pressed in preview');
                   this.setState({showIcons: pauseStatus});
                 }}
+                pauseStatus={true}
               />
             </View>
           )}
