@@ -393,38 +393,39 @@ class EditScreen extends Component {
       callingScreen: 'EditScreen',
       addNewPhoto: newPhoto => this.props.addNewPhoto(newPhoto),
       afterSaveFunction: () => {
-        console.log('photo_overwrite', this.state.photo);
-        CameraRoll.deletePhotos([this.state.orignal_photo.source.uri]).then(
-          () => {
-            let newPhoto = {};
-            let index = this.props.route.params.index;
-            newPhoto.height = this.state.photo.height;
-            newPhoto.width = this.state.photo.width;
-            newPhoto.caption = this.state.text;
-            newPhoto.fav_status = this.state.orignal_photo.fav_status;
-            newPhoto.creationDate = this.state.orignal_photo.creationDate;
-            newPhoto.captionStyle = {
-              captionSize: this.state.captionSize,
-              captionFont: this.state.captionFont,
-            };
-            newPhoto.tagsArray = this.state.tagsArray;
-            newPhoto.type = this.state.photo.type;
+        console.log('photo_overwrite_old', this.state.photo);
+        console.log('photo_overwrite_new', newPhoto);
+        console.log('orignal_photo', this.state.orignal_photo);
+        // CameraRoll.deletePhotos([this.state.orignal_photo.source.uri]).then(
+        RNFS.unlink(this.state.orignal_photo.source.uri).then(() => {
+          let newPhoto = {};
+          let index = this.props.route.params.index;
+          newPhoto.height = this.state.photo.height;
+          newPhoto.width = this.state.photo.width;
+          newPhoto.caption = this.state.text;
+          newPhoto.fav_status = this.state.orignal_photo.fav_status;
+          newPhoto.creationDate = this.state.orignal_photo.creationDate;
+          newPhoto.captionStyle = {
+            captionSize: this.state.captionSize,
+            captionFont: this.state.captionFont,
+          };
+          newPhoto.tagsArray = this.state.tagsArray;
+          newPhoto.type = this.state.photo.type;
 
-            CameraRoll.getPhotos({
-              first: 1,
-              // assetType: 'Photos',
-              Album: 'Cykee',
-            }).then(r => {
-              newPhoto.uri = r.edges[0].node.image.uri;
-              let updatedPhotoArray = [...this.props.photoArray];
-              updatedPhotoArray[index] = newPhoto;
-              // updatedPhotoArray.splice(1, 1);
-              this.props.replacePhotoFromList(updatedPhotoArray);
+          CameraRoll.getPhotos({
+            first: 1,
+            // assetType: 'Photos',
+            Album: 'Cykee',
+          }).then(r => {
+            newPhoto.uri = r.edges[0].node.image.uri;
+            let updatedPhotoArray = [...this.props.photoArray];
+            updatedPhotoArray[index] = newPhoto;
+            // updatedPhotoArray.splice(1, 1);
+            this.props.replacePhotoFromList(updatedPhotoArray);
 
-              console.log('OLD DELETED');
-            });
-          },
-        );
+            console.log('OLD DELETED');
+          });
+        });
       },
     });
   };

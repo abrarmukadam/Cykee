@@ -28,6 +28,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import FastImage from 'react-native-fast-image';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import {hideNavigationBar} from 'react-native-navigation-bar-color';
+var RNFS = require('react-native-fs');
 
 import {CaptionComponent} from '../../index';
 import {
@@ -235,11 +236,16 @@ class GalleryScreen extends Component {
               newToBeDisplayed.splice(this.state.index, 1);
               console.log('photo deleted');
               console.log(this.state.photoArray[index].source.uri);
-              CameraRoll.deletePhotos([
-                this.state.photoArray[index].source.uri,
-              ]).then(() => {
-                console.log('File delete success-CYKEE');
+
+              RNFS.unlink(this.state.photoArray[index].source.uri).then(() => {
+                console.log('FILE DELETED');
               });
+
+              // CameraRoll.deletePhotos([
+              //   this.state.photoArray[index].source.uri,
+              // ]).then(() => {
+              //   console.log('File delete success-CYKEE');
+              // });
               this.props.navigation.goBack();
             }
           },

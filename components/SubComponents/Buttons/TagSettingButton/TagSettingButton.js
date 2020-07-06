@@ -50,14 +50,14 @@ class TagSettingButton extends Component {
             }
             size={GlobalIconSize - 6}
             color={GlobalIconColor}
-            key={'2nd icon'}
+            key={'3rd icon'}
             ref={ref => {
               if (!ref) return;
               if (this.props.firstLaunch != true) {
                 this.button2 = ref;
 
                 let props = {
-                  order: 13,
+                  order: 14,
                   title: 'Auto Tag on/off',
                   description: `Setting this will automatically tag the photos you click with the tag name entered.
                 

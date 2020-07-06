@@ -424,6 +424,7 @@ class CameraScreen extends PureComponent {
       const ratios = await this.camera.getSupportedRatiosAsync();
       this.props.setCameraAspectRatio(ratios);
       this.setState({remountCamera: true, hideFlashScreen: true});
+      console.log('getCameraRatio');
     }
 
     // if (!this.state.asp && this.camera) {
@@ -559,7 +560,8 @@ class CameraScreen extends PureComponent {
             addAppTourTarget={appTourTarget => {
               this.appTourTargets.push(appTourTarget);
             }}
-            firstLaunch={this.props.photoArray[0] ? true : false}
+            firstLaunch={false}
+            // firstLaunch={this.props.photoArray[0] ? true : false}
             onPressAspectRatio={() =>
               this.setState({
                 showLoadingScreen: true,
