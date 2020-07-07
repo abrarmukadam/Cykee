@@ -122,10 +122,14 @@ class GalleryScreen extends Component {
     this.state.toBeDisplayed.map(item => {
       let newItem = {
         uri: item.uri,
-        url: item.uri,
+        // url: item.uri,
+        url:
+          item.uri == BLANK_CAPTION
+            ? 'https://thumbs.dreamstime.com/b/transparent-designer-must-have-fake-background-39672616.jpg'
+            : item.uri,
         source: {uri: item.uri},
-        height: item.height,
-        width: item.width,
+        height: item.uri == BLANK_CAPTION ? '100%' : item.height,
+        width: item.uri == BLANK_CAPTION ? '100%' : item.width,
         fav_status: item.fav_status,
         caption: item.caption,
         captionStyle: item.captionStyle,
@@ -310,6 +314,7 @@ class GalleryScreen extends Component {
               //   width: '100%',
               // }}
               index={this.state.index}
+              flipThreshold={10}
               onClick={() => {
                 this.setState({
                   optionsAvailable: !this.state.optionsAvailable,
@@ -320,7 +325,7 @@ class GalleryScreen extends Component {
               }}
               onChange={index => {
                 this.setState({index: index});
-                // console.log('index:', index);
+                console.log('index:', index);
               }}
               enableSwipeDown={true}
               onSwipeDown={() => this.props.navigation.goBack()}
@@ -345,6 +350,8 @@ class GalleryScreen extends Component {
                         ],
                       position: 'absolute',
                       bottom: 0,
+                      // borderColor: 'red',
+                      // borderWidth: 2,
                     }}>
                     <BlankCaptionDisplay
                       caption={this.state.photoArray[this.state.index].caption}
