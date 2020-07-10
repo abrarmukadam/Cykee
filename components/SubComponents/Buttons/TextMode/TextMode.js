@@ -44,7 +44,6 @@ class TextMode extends Component {
 
             this.button1 = ref;
             if (this.props.firstLaunch == false) {
-              console.log('run run run');
               let props = {
                 order: 12,
                 title: 'Caption on/off',
@@ -56,7 +55,7 @@ class TextMode extends Component {
 
                 Touch Screen to close
                 `,
-                outerCircleColor: '#3f52ae',
+                outerCircleColor: this.props.toolTipColor,
                 cancelable: true,
                 targetRadius: 24,
               };

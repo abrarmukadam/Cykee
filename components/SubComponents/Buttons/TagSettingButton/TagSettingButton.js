@@ -67,7 +67,8 @@ class TagSettingButton extends Component {
 
                 Touch Screen to close
                 `,
-                  outerCircleColor: '#f24481',
+                  // outerCircleColor: '#f24481',
+                  outerCircleColor: this.props.toolTipColor,
                   cancelable: true,
                   targetRadius: 24,
                 };

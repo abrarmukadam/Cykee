@@ -564,7 +564,10 @@ class CameraScreen extends PureComponent {
               this.appTourTargets.push(appTourTarget);
             }}
             // firstLaunch={false}
-            firstLaunch={this.props.cameraAspectRatio.length > 0 ? true : false}
+            firstLaunch={
+              // false
+              this.props.cameraAspectRatio.length > 0 ? true : false
+            }
             // firstLaunch={this.props.photoArray[0] ? true : false}
             onPressAspectRatio={() =>
               this.setState({
@@ -598,6 +601,13 @@ class CameraScreen extends PureComponent {
               onTakePicture={() => this.takePicture()}
               onTakeVideo={() => this.takeVideo()}
               onRecordingStopped={() => this.stopVideo()}
+              addAppTourTarget={appTourTarget => {
+                this.appTourTargets.push(appTourTarget);
+              }}
+              firstLaunch={
+                // false
+                this.props.cameraAspectRatio.length > 0 ? true : false
+              }
             />
             {/* <TakeVideoButton /> */}
             <CameraType

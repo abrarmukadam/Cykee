@@ -48,7 +48,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
   },
   innerProgressCompleted: {
-    height: 4,
+    height: 2,
     // backgroundColor: '#cccccc',
     backgroundColor: CykeeColor,
   },

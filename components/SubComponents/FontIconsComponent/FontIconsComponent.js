@@ -11,6 +11,7 @@ import {
   FONT_ICON_OPACITY,
   TagComponent,
   backgroundColorArray,
+  toolTipColorArray,
 } from '../Buttons/index';
 import {AppTour, AppTourView} from 'react-native-app-tour';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -59,7 +60,8 @@ class FontIconsComponent extends Component {
 
                       Touch Screen to close
                 `,
-                    outerCircleColor: '#f24481',
+                    outerCircleColor: toolTipColorArray[3],
+                    // outerCircleColor: '#f24481',
                     cancelable: true,
                     targetRadius: 24,
                   };

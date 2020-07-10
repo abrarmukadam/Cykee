@@ -23,11 +23,10 @@ class BlankCaptionModeButton extends Component {
 
             this.button3 = ref;
             if (this.props.firstLaunch == false) {
-              console.log('run run run');
               let props = {
                 order: 13,
-                title: 'Only Caption',
-                description: `Turn on/off Only Caption Mode...
+                title: 'Blank Screen',
+                description: `Creates a blank screen for you to write a note...
                 
 
 
@@ -35,7 +34,9 @@ class BlankCaptionModeButton extends Component {
 
                 Touch Screen to close
                 `,
-                outerCircleColor: '#a231ab',
+                outerCircleColor: this.props.toolTipColor,
+
+                // outerCircleColor: '#a231ab',
                 cancelable: true,
                 targetRadius: 24,
               };

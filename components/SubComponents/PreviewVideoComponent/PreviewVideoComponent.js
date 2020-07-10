@@ -27,7 +27,7 @@ class PreviewVideoComponent extends Component {
   };
 
   onEnd = () => {
-    if (this.state.paused != true) this.props.onVideoComplete();
+    // if (this.state.paused != true) this.props.onVideoComplete();
 
     this.setState({paused: true, currentTime: 0});
     this.props.onPlayPressed(true);

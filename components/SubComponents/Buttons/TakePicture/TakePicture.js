@@ -2,9 +2,15 @@ import React, {Component} from 'react';
 import {TouchableOpacity, View, Text} from 'react-native';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import {Icon} from 'react-native-elements';
-import {GlobalIconColor, GlobalLargeIconSize, CykeeColor} from '../index';
+import {
+  GlobalIconColor,
+  GlobalLargeIconSize,
+  CykeeColor,
+  toolTipColorArray,
+} from '../index';
 import styles from './styles';
 import moment from 'moment';
+import {AppTour, AppTourView} from 'react-native-app-tour';
 
 class TakePicture extends Component {
   constructor(props) {
@@ -42,6 +48,32 @@ class TakePicture extends Component {
           </View>
         )}
         <TouchableOpacity
+          key={'0th icon'}
+          ref={ref => {
+            if (!ref) return;
+
+            this.button0 = ref;
+            if (this.props.firstLaunch == false) {
+              let props = {
+                order: 11,
+                title: 'Take Photo/Video',
+                description: `Press and hold to begin video recording...
+                
+
+
+
+
+                Touch Screen to close
+                `,
+                outerCircleColor: toolTipColorArray[0],
+                cancelable: true,
+                targetRadius: 40,
+                targetCircleColor: 'red',
+              };
+              this.props.addAppTourTarget &&
+                this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
+            }
+          }}
           activeOpacity={0.8}
           onPress={() => {
             if (this.state.isRecording == false) this.props.onTakePicture();

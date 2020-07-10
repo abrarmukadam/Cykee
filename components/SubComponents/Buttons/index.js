@@ -161,6 +161,12 @@ export const backgroundColorArray = [
   'rgb(195, 125, 198)',
   'mediumturquoise',
 ];
+export const toolTipColorArray = [
+  '#008080', //TakePicture
+  '#3f52ae', //Text Mode
+  '#a231ab', //BlankCaption
+  '#f24481', //TagButton
+]; //
 
 export const BLANK_CAPTION = 'blankCaption';
 export const VIDEO = 'video';

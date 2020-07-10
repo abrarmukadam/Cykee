@@ -6,8 +6,9 @@ import {
   FlashMode,
   TagSettingButton,
   MoreIcon,
-  FaceDetection,
+  // FaceDetection,
   BlankCaptionModeButton,
+  toolTipColorArray,
 } from '../Buttons/index';
 import DialogInput from 'react-native-dialog-input';
 
@@ -112,6 +113,7 @@ class CameraSettingComponent extends Component {
                 showIconName={this.state.showIconName}
               />
               <TextMode
+                toolTipColor={toolTipColorArray[1]}
                 addAppTourTarget={this.props.addAppTourTarget}
                 textIcon={this.props.textMode}
                 onPressTextMode={() =>
@@ -121,6 +123,7 @@ class CameraSettingComponent extends Component {
                 firstLaunch={this.props.firstLaunch}
               />
               <BlankCaptionModeButton
+                toolTipColor={toolTipColorArray[2]}
                 onPressBlankCaption={() => this.props.onPressBlankCaption()}
                 addAppTourTarget={this.props.addAppTourTarget}
                 firstLaunch={this.props.firstLaunch}
@@ -154,6 +157,7 @@ class CameraSettingComponent extends Component {
             !this.props.hideCameraSettingsIcons && !this.props.autoTagEnabled
           ) && (
             <TagSettingButton
+              toolTipColor={toolTipColorArray[3]}
               addAppTourTarget={this.props.addAppTourTarget}
               firstLaunch={this.props.firstLaunch}
               showIconName={this.state.showIconName}

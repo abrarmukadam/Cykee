@@ -34,7 +34,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   innerProgressCompleted: {
-    height: 4,
+    height: 2,
     // backgroundColor: '#cccccc',
     backgroundColor: CykeeColor,
   },
