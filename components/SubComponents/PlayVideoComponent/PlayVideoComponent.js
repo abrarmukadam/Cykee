@@ -4,6 +4,7 @@ import {PlayOverlay, CykeeColor} from '../Buttons/index';
 import styles from './styles';
 import Video from 'react-native-video';
 import {Icon} from 'react-native-elements';
+import VideoPlayer from 'react-native-video-controls';
 
 class PlayVideoComponent extends Component {
   state = {
@@ -32,7 +33,7 @@ class PlayVideoComponent extends Component {
 
     this.setState({paused: true, currentTime: 0});
     this.props.onPlayPressed(true);
-    this.video.seek(0);
+    // this.video.seek(0);
   };
 
   onAudioBecomingNoisy = () => {
@@ -72,12 +73,11 @@ class PlayVideoComponent extends Component {
               });
             }
           }}>
-          <Video
+          <VideoPlayer
             ref={ref => {
               this.video = ref;
             }}
             source={{uri: this.props.video.uri}}
-            style={styles.fullScreen}
             rate={this.state.rate}
             paused={this.state.paused}
             volume={this.state.volume}
@@ -89,6 +89,18 @@ class PlayVideoComponent extends Component {
             onAudioBecomingNoisy={this.onAudioBecomingNoisy}
             // onAudioFocusChanged={this.onAudioFocusChanged}
             repeat={false}
+            seekColor={CykeeColor}
+            // controlTimeout={2000}
+            disableTimer
+            disableBack
+            disableVolume
+            disableFullscreen
+            disablePlayPause
+            onHideControls={() => this.setState({showIcons: true})}
+            onShowControls={() => this.setState({showIcons: false})}
+            showOnStart={true}
+            style={styles.fullScreen}
+            // videoStyle={styles.videoStyle}
           />
         </TouchableOpacity>
         {/* <TouchableOpacity
@@ -118,18 +130,7 @@ class PlayVideoComponent extends Component {
                 styles.trackingControls,
                 // {borderWidth: 1, borderColor: 'red'},
               ]}>
-              <TouchableOpacity
-                style={[
-                  styles.progress,
-                  // {borderWidth: 1, borderColor: 'green'},
-                ]}
-                onPress={position => {
-                  console.log(
-                    'seekbar pressed:',
-                    position.nativeEvent.locationX,
-                    position.nativeEvent.locationY,
-                  );
-                }}>
+              <View style={[styles.progress]}>
                 <Text style={styles.timeTextStyle}>
                   {Math.floor(this.state.currentTime.toFixed() / 60)}:
                   {this.state.currentTime.toFixed() < 10
@@ -137,26 +138,13 @@ class PlayVideoComponent extends Component {
                     : this.state.currentTime.toFixed() % 60}
                 </Text>
 
-                <View
-                  style={[styles.innerProgressCompleted, {flex: flexCompleted}]}
-                />
-                <Icon
-                  type="font-awesome"
-                  name={'circle'}
-                  size={12}
-                  color={CykeeColor}
-                />
-                <View
-                  style={[styles.innerProgressRemaining, {flex: flexRemaining}]}
-                />
-
                 <Text style={styles.timeTextStyle}>
                   {Math.floor(this.state.duration.toFixed() / 60)}:
                   {this.state.duration.toFixed() < 10
                     ? '0' + (this.state.duration.toFixed() % 60)
                     : this.state.duration.toFixed() % 60}
                 </Text>
-              </TouchableOpacity>
+              </View>
               <TouchableOpacity
                 style={styles.pauseButtonContainer}
                 onPress={() => {
@@ -165,7 +153,6 @@ class PlayVideoComponent extends Component {
                   this.setState({
                     paused: !this.state.paused,
                   });
-                  this.video.seek(4);
                 }}>
                 <Icon
                   type="feather"

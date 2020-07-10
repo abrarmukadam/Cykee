@@ -63,9 +63,9 @@ class PlayVideoScreen extends Component {
     </TouchableOpacity>
   );
   componentDidMount() {
-    this.props.navigation.setOptions({
-      headerLeft: () => this.leftHeaderButton,
-    });
+    // this.props.navigation.setOptions({
+    //   headerLeft: () => this.leftHeaderButton,
+    // });
   }
   render() {
     return (

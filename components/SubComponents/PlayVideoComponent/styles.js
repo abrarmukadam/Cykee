@@ -27,7 +27,7 @@ export default StyleSheet.create({
     // borderWidth: 1,
     // borderColor: 'green',
     // width: '100%',
-    height: 100,
+    // height: 100,
     // borderWidth: 1,
     // borderColor: 'blue',
     // backgroundColor: 'white',
@@ -37,11 +37,15 @@ export default StyleSheet.create({
     right: 0,
   },
   progress: {
-    flex: 1,
+    position: 'absolute',
+    bottom: 20,
+
+    width: '100%',
     flexDirection: 'row',
     borderRadius: 3,
     overflow: 'hidden',
-    alignItems: 'center',
+    // alignItems: 'center',
+    justifyContent: 'space-between',
   },
   innerProgressCompleted: {
     height: 4,
@@ -93,10 +97,10 @@ export default StyleSheet.create({
   },
   trackingControls: {
     position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
-
+    bottom: 10,
+    left: 10,
+    right: 10,
+    height: 26,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -113,5 +117,9 @@ export default StyleSheet.create({
     color: 'white',
     fontSize: 10,
     paddingHorizontal: 4,
+  },
+  videoStyle: {
+    backgroundColor: 'red',
+    // height: '70%',
   },
 });
