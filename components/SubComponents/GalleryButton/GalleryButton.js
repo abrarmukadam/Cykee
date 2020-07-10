@@ -31,7 +31,8 @@ class GalleryButton extends Component {
           }
           defaultSource={require('../../Images/no-image.png')}
         />
-        {this.props.photo3.type == 'blankCaption' && (
+
+        {this.props.photo3 && this.props.photo3.type == 'blankCaption' && (
           <View
             style={{
               backgroundColor:
@@ -66,7 +67,7 @@ class GalleryButton extends Component {
           }
           defaultSource={require('../../Images/no-image.png')}
         />
-        {this.props.photo2.type == 'blankCaption' && (
+        {this.props.photo2 && this.props.photo2.type == 'blankCaption' && (
           <View
             style={{
               backgroundColor:
@@ -103,7 +104,7 @@ class GalleryButton extends Component {
           defaultSource={require('../../Images/no-image.png')}
         />
 
-        {this.props.photo1.type == 'blankCaption' && (
+        {this.props.photo1 && this.props.photo1.type == 'blankCaption' && (
           <View
             style={{
               backgroundColor:

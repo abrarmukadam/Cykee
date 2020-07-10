@@ -124,6 +124,7 @@ class CameraSettingComponent extends Component {
                 onPressBlankCaption={() => this.props.onPressBlankCaption()}
                 addAppTourTarget={this.props.addAppTourTarget}
                 firstLaunch={this.props.firstLaunch}
+                showIconName={this.state.showIconName}
               />
               {/* <FaceDetection
                 faceDetectionIcon={this.props.faceDetectionMode}
