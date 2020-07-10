@@ -81,7 +81,7 @@ class PlayVideoScreen extends Component {
           video={this.props.route.params.video}
           pauseStatus={this.state.pauseStatus}
           onPlayPressed={pauseStatus => {
-            console.log('play pressed in preview');
+            console.log('play pressed in PlayVideoScreen');
             this.setState({
               optionsAvailable: pauseStatus,
               // showCapion: pauseStatus,

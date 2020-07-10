@@ -560,8 +560,8 @@ class CameraScreen extends PureComponent {
             addAppTourTarget={appTourTarget => {
               this.appTourTargets.push(appTourTarget);
             }}
-            firstLaunch={false}
-            // firstLaunch={this.props.photoArray[0] ? true : false}
+            // firstLaunch={false}
+            firstLaunch={this.props.photoArray[0] ? true : false}
             onPressAspectRatio={() =>
               this.setState({
                 showLoadingScreen: true,

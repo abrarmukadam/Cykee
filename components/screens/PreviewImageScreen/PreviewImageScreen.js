@@ -39,7 +39,7 @@ import {
   TagDisplayComponent,
   PlayOverlay,
   saveFileFunction,
-  PlayVideoComponent,
+  PreviewVideoComponent,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import ToggleSwitch from 'toggle-switch-react-native';
@@ -280,7 +280,7 @@ class PreviewImageScreen extends Component {
             )}
           {this.props.route.params.type == 'video' && (
             <View style={StyleSheet.absoluteFill}>
-              <PlayVideoComponent
+              <PreviewVideoComponent
                 video={this.state.photo}
                 onPlayPressed={pauseStatus => {
                   console.log('play pressed in preview');

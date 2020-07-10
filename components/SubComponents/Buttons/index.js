@@ -52,6 +52,7 @@ import CameraSettingComponent from '../CameraSettingComponent/CameraSettingCompo
 import ZoomViewComponent from '../ZoomViewComponent/ZoomViewComponent';
 import EmptyGalleryMessage from '../EmptyGalleryMessage/EmptyGalleryMessage';
 import BlankCaptionDisplay from '../BlankCaptionDisplay/BlankCaptionDisplay';
+import PreviewVideoComponent from '../PreviewVideoComponent/PreviewVideoComponent';
 import PlayVideoComponent from '../PlayVideoComponent/PlayVideoComponent';
 
 export {
@@ -67,6 +68,7 @@ export {
   EmptyGalleryMessage,
   BlankCaptionModeButton,
   BlankCaptionDisplay,
+  PreviewVideoComponent,
   PlayVideoComponent,
 };
 
