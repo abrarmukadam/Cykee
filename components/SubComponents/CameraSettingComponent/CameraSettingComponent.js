@@ -106,7 +106,7 @@ class CameraSettingComponent extends Component {
             // {borderWidth: 1, borderColor: 'red'},
           ]}>
           {this.props.hideCameraSettingsIcons && (
-            <View>
+            <View style={styles.HidingIconStyle}>
               <FlashMode
                 flashIcon={this.props.flashMode}
                 onPressFlashMode={() => this.changeFlashMode()}

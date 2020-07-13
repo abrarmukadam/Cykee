@@ -48,6 +48,7 @@ class TakePicture extends Component {
           </View>
         )}
         <TouchableOpacity
+          style={{alignItems: 'center'}}
           key={'0th icon'}
           ref={ref => {
             if (!ref) return;
@@ -125,8 +126,9 @@ class TakePicture extends Component {
               // color={GlobalIconColor}
               containerStyle={{
                 position: 'absolute',
-                bottom: GlobalLargeIconSize / 2 - 15,
-                alignSelf: 'center',
+                bottom: GlobalLargeIconSize / 2 - 14,
+                left: GlobalLargeIconSize / 2 - 16,
+                // alignSelf: 'center',
               }}
               color="red"
             />

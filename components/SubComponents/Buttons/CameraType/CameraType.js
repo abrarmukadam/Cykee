@@ -9,9 +9,10 @@ class CameraType extends Component {
     return (
       <TouchableOpacity
         onPress={() => this.props.onPressCameraType()}
-        style={styles.CameraTypeStyle}>
+        style={styles.CameraTypeStyle}
+        disabled={this.props.isRecording}>
         <Icon
-          name={'ios-reverse-camera'}
+          name={'md-camera-reverse'}
           size={GlobalMediumIconSize}
           color={GlobalIconColor}
         />

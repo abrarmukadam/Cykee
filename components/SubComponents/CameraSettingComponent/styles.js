@@ -31,6 +31,7 @@ export default StyleSheet.create({
     flexDirection: 'column-reverse',
     // borderWidth: 0.2,
     borderColor: CykeeColor,
+    // height: 300,
     // borderRadius: 50,
   },
   HidingIconContainer: {
@@ -40,5 +41,10 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'space-around',
     borderColor: CykeeColor,
+    // height: 300,
+  },
+  HidingIconStyle: {
+    justifyContent: 'space-around',
+    height: 180,
   },
 });

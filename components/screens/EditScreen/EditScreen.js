@@ -137,7 +137,7 @@ class EditScreen extends Component {
           <View
             style={{
               backgroundColor: 'grey',
-              paddingHorizontal: 7,
+              paddingHorizontal: 2,
               borderRadius: 20,
               opacity: 0.2,
             }}>
@@ -150,7 +150,7 @@ class EditScreen extends Component {
           </View>
           <View
             style={{
-              paddingHorizontal: 7,
+              paddingHorizontal: 2,
               borderRadius: 20,
               position: 'absolute',
             }}>
@@ -549,7 +549,7 @@ class EditScreen extends Component {
         {/* <StatusBar hidden={false} /> */}
         {this.state.photo.type != BLANK_CAPTION && (
           <TouchableWithoutFeedback
-            onPress={Keyboard.dismiss}
+            onPress={Keyboard.dismiss()}
             onPressIn={() => {
               //   Keyboard.dismiss;
               console.log('TouchableWithoutFeedback');

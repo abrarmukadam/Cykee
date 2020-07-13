@@ -432,6 +432,10 @@ class GridViewComponent extends Component {
                 width: '100%',
                 activeOpacity: 0,
                 borderRadius: 5,
+                // borderWidth: 1,
+                // borderColor: 'red',
+                marginLeft: 0,
+                marginTop: 0,
               },
             ]}>
             <Text
@@ -439,7 +443,7 @@ class GridViewComponent extends Component {
                 styles.AffText,
                 {fontFamily: CAPTION_FONT[item.captionStyle.captionFont]},
               ]}>
-              {item.caption}
+              {`${item.caption} `}
             </Text>
           </View>
         )}

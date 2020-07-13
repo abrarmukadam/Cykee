@@ -14,13 +14,16 @@ class BlankCaptionDisplay extends Component {
     console.log('captionStyle:', this.props.captionFont);
 
     return (
-      <View
-        style={[
-          styles.container,
-          //       //    {backgroundColor: this.props.backColor}
-        ]}>
-        <Text style={[styles.fontStyle, {fontFamily: this.props.captionFont}]}>
-          {this.props.caption}
+      <View style={[styles.container, {borderWidth: 2}]}>
+        <Text
+          style={[
+            styles.fontStyle,
+            {
+              fontFamily: this.props.captionFont,
+              // textAlign: 'auto',
+            },
+          ]}>
+          {`${this.props.caption} `}
         </Text>
       </View>
     );

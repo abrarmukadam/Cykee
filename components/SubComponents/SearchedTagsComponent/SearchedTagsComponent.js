@@ -4,6 +4,8 @@ import {
   View,
   Text,
   ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
   TouchableOpacity,
 } from 'react-native';
 
@@ -66,6 +68,7 @@ class SearchedTagsComponent extends Component {
                 activeOpacity={1}
                 style={styles.tagStyle}
                 onPress={() => {
+                  Keyboard.dismiss();
                   this.setState({searchFilter: item});
                   this.props.changeSearchFilter(item);
                 }}>

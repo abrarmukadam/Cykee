@@ -54,7 +54,6 @@ import {
   backgroundColorArray,
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
-// import {SharedElement} from 'react-navigation-shared-element';
 
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 const SCREEN_RATIO = HEIGHT / WIDTH;

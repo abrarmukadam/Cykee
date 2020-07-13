@@ -18,7 +18,7 @@ import styles from './styles';
 import {RNCamera, FaceDetector} from 'react-native-camera';
 import GalleryButton from './../../SubComponents/GalleryButton/GalleryButton';
 import CameraRoll from '@react-native-community/cameraroll';
-import VolumeControl, {VolumeControlEvents} from 'react-native-volume-control';
+// import VolumeControl, {VolumeControlEvents} from 'react-native-volume-control';
 var RNFS = require('react-native-fs');
 import SplashScreen from 'react-native-splash-screen';
 import {hideNavigationBar} from 'react-native-navigation-bar-color';
@@ -463,7 +463,7 @@ class CameraScreen extends PureComponent {
     console.log('this.state.firstLaunch', this.state.firstLaunch);
     console.log('render');
     // hideNavigationBar();
-
+    if (Platform.OS != 'android') return <PendingView />;
     if (this.state.showLoadingScreen) return <PendingView />;
 
     const drawFocusRingPosition = {
@@ -615,6 +615,7 @@ class CameraScreen extends PureComponent {
                 this.setState({showBlurScreen: true});
                 this.props.changeCameraType(!this.props.cameraType);
               }}
+              isRecording={this.state.isRecording}
             />
           </View>
         </View>

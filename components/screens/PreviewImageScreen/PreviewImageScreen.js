@@ -131,9 +131,9 @@ class PreviewImageScreen extends Component {
       <View
         style={{
           backgroundColor: 'grey',
-          paddingHorizontal: 7,
+          paddingHorizontal: 2,
           borderRadius: 20,
-          opacity: 0.2,
+          opacity: 0.3,
         }}>
         <Icon
           type="ionicon"
@@ -145,7 +145,7 @@ class PreviewImageScreen extends Component {
       </View>
       <View
         style={{
-          paddingHorizontal: 7,
+          paddingHorizontal: 2,
           borderRadius: 20,
           position: 'absolute',
         }}>

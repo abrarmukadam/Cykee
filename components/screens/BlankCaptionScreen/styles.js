@@ -21,6 +21,8 @@ export default StyleSheet.create({
     fontSize: 35,
     textAlign: 'center',
     color: 'white',
+    marginRight: 20,
+    // borderWidth: 1,
   },
   sendButtonStyle: {
     alignSelf: 'flex-end',
