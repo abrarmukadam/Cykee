@@ -39,7 +39,7 @@ export default StyleSheet.create({
     backgroundColor: CykeeColor,
   },
   innerProgressRemaining: {
-    height: 4,
+    height: 2,
     // backgroundColor: SIDE_ICON_COLOR,
     backgroundColor: 'white',
   },

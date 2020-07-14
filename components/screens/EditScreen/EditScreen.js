@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  ToastAndroid,
 } from 'react-native';
 import styles from './styles';
 import {Icon} from 'react-native-elements';
@@ -539,7 +540,11 @@ class EditScreen extends Component {
               placeholderTextColor="grey"
               value={this.state.text}
               multiline
-              onChangeText={text => this.setState({text})}
+              onChangeText={text => {
+                if (text.length <= 125) this.setState({text: text});
+                else
+                  ToastAndroid.show('Caption too Long !', ToastAndroid.SHORT);
+              }}
               autoCapitalize="none"
               padding={10}
               onBlur={() => this.setState({showIcons: true})}

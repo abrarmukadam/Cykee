@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
+  ToastAndroid,
 } from 'react-native';
 import styles from './styles';
 import {Icon} from 'react-native-elements';
@@ -162,7 +163,11 @@ class BlankCaptionScreen extends Component {
               //            numberOfLines={4}
               //            value={this.state.text}
               value={this.state.text}
-              onChangeText={text => this.setState({text: text})}
+              onChangeText={text => {
+                if (text.length <= 125) this.setState({text: text});
+                else
+                  ToastAndroid.show('Caption too Long !', ToastAndroid.SHORT);
+              }}
               autoFocus
               padding={10}
             />

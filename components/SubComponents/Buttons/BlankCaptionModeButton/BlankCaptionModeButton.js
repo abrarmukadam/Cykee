@@ -13,7 +13,7 @@ class BlankCaptionModeButton extends Component {
     return (
       <View style={styles.TextModeStyle}>
         {this.props.showIconName && (
-          <Text style={styles.TextStyle}>Blank Screen</Text>
+          <Text style={styles.TextStyle}>Create a Note</Text>
         )}
 
         <TouchableOpacity
@@ -25,8 +25,8 @@ class BlankCaptionModeButton extends Component {
             if (this.props.firstLaunch == false) {
               let props = {
                 order: 13,
-                title: 'Blank Screen',
-                description: `Creates a blank screen for you to write a note...
+                title: 'Notes..',
+                description: `Creates an empty screen for you to pendown your memories that can't be clicked...
                 
 
 

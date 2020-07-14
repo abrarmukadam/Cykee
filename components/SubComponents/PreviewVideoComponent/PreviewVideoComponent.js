@@ -111,7 +111,10 @@ class PreviewVideoComponent extends Component {
                     : this.state.currentTime.toFixed() % 60}
                 </Text>
                 <View
-                  style={[styles.innerProgressCompleted, {flex: flexCompleted}]}
+                  style={[
+                    styles.innerProgressCompleted,
+                    {flex: flexCompleted, backgroundColor: CykeeColor},
+                  ]}
                 />
                 <Icon
                   type="font-awesome"

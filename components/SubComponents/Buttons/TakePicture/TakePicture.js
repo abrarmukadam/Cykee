@@ -127,7 +127,7 @@ class TakePicture extends Component {
               containerStyle={{
                 position: 'absolute',
                 bottom: GlobalLargeIconSize / 2 - 14,
-                left: GlobalLargeIconSize / 2 - 16,
+                left: GlobalLargeIconSize / 2 - 17,
                 // alignSelf: 'center',
               }}
               color="red"
