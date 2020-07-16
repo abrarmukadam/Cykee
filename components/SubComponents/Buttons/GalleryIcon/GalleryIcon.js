@@ -1,21 +1,16 @@
 import React, {Component} from 'react';
-import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {GlobalIconColor, GlobalIconSize} from '../index';
+import {GalleryIconColor, GlobalIconSize} from '../index';
 import styles from './styles';
-
 class GalleryIcon extends Component {
   render() {
     return (
-      <TouchableOpacity
-        onPress={() => this.props.onPressGalleryIcon()}
-        style={styles.GalleryIconStyle}>
-        <Icon
-          name={'ios-images'}
-          size={GlobalIconSize}
-          color={GlobalIconColor}
-        />
-      </TouchableOpacity>
+      <Icon
+        name={this.props.selectedStatus ? 'md-images' : 'md-images'}
+        size={GlobalIconSize}
+        color={this.props.iconColor ? this.props.iconColor : GalleryIconColor}
+        // style={styles.GalleryIconStyle}
+      />
     );
   }
 }

@@ -1,4 +1,15 @@
-import {FLASH_MODE, CAMERA_TYPE, TEXT_MODE} from './actionTypes';
+import {
+  FLASH_MODE,
+  CAMERA_TYPE,
+  TEXT_MODE,
+  ASPECT_RATIO,
+  HIDE_CAPTION,
+  CAMERA_ASPECT_RATIO,
+  HIDE_CAMERA_SETTINGS,
+  AUTO_TAG_SETTING,
+  SET_AUTO_TAG_ENABLED,
+  FACE_DETECTION,
+} from './actionTypes';
 
 export function changeFlashMode(flashMode) {
   console.log('Change FlashMode called');
@@ -19,12 +30,75 @@ export function changeCameraType(cameraType) {
     },
   };
 }
+export function changeAspectRatio(aspectRatio) {
+  console.log('Change aspectRatio called');
+  return {
+    type: ASPECT_RATIO,
+    payload: {
+      aspectRatio: aspectRatio,
+    },
+  };
+}
 export function changeTextMode(textMode) {
   console.log('Change textMode called');
   return {
     type: TEXT_MODE,
     payload: {
       textMode: textMode,
+    },
+  };
+}
+export function changeFaceDetectionMode(faceDetectionMode) {
+  console.log('Change changeFaceDetectionMode called');
+  return {
+    type: FACE_DETECTION,
+    payload: {
+      faceDetectionMode: faceDetectionMode,
+    },
+  };
+}
+export function hideCaptionAction(hideCaption) {
+  console.log('Change hideCaptionAction called');
+  return {
+    type: HIDE_CAPTION,
+    payload: {
+      hideCaption: hideCaption,
+    },
+  };
+}
+export function setCameraAspectRatio(ratio) {
+  console.log('Change hideCaptionAction called');
+  return {
+    type: CAMERA_ASPECT_RATIO,
+    payload: {
+      cameraAspectRatio: ratio,
+    },
+  };
+}
+export function hideCameraSettings(hideSettings) {
+  console.log('Change hideCameraSettings called');
+  return {
+    type: HIDE_CAMERA_SETTINGS,
+    payload: {
+      hideCameraSettingsIcons: hideSettings,
+    },
+  };
+}
+export function setAutoTagEnabled(autoTagEnabled) {
+  console.log('Change autoTagEnabled called');
+  return {
+    type: SET_AUTO_TAG_ENABLED,
+    payload: {
+      autoTagEnabled: autoTagEnabled,
+    },
+  };
+}
+export function autoTagSetting(autoTagValue) {
+  console.log('Change autoTagEnabled called');
+  return {
+    type: AUTO_TAG_SETTING,
+    payload: {
+      autoTagValue: autoTagValue,
     },
   };
 }

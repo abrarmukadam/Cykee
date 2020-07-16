@@ -1,9 +1,22 @@
 import CameraScreen from './../components/screens/CameraScreen/CameraScreen';
 import PreviewImageScreen from './screens/PreviewImageScreen/PreviewImageScreen';
-// import PreviewImage from './SubComponents/PreviewImage/PreviewImage';
+import GridViewScreen from './screens/GridViewScreen/GridViewScreen';
+import EditScreen from './screens/EditScreen/EditScreen';
+import BlankCaptionScreen from './screens/BlankCaptionScreen/BlankCaptionScreen';
+import PlayVideoScreen from './screens/PlayVideoScreen/PlayVideoScreen';
 
+import FavoriteScreen from './screens/FavoriteScreen/FavoriteScreen';
+import CameraRollScreen from './screens/CameraRollScreen/CameraRollScreen';
+
+import CaptionComponent from './SubComponents/CaptionComponent/CaptionComponent';
 export {
   CameraScreen,
-  // PreviewImage,
   PreviewImageScreen,
+  CaptionComponent,
+  GridViewScreen,
+  EditScreen,
+  FavoriteScreen,
+  CameraRollScreen,
+  BlankCaptionScreen,
+  PlayVideoScreen,
 };

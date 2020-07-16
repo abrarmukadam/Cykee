@@ -1,5 +1,19 @@
 export const FLASH_MODE = 'FLASH_MODE';
 export const CAMERA_TYPE = 'CAMERA_TYPE';
 export const TEXT_MODE = 'TEXT_MODE';
+export const FACE_DETECTION = 'FACE_DETECTION';
+export const ASPECT_RATIO = 'ASPECT_RATIO';
+export const CAMERA_ASPECT_RATIO = 'CAMERA_ASPECT_RATIO';
+export const HIDE_CAMERA_SETTINGS = 'HIDE_CAMERA_SETTINGS';
+export const AUTO_TAG_SETTING = 'AUTO_TAG_SETTING';
+export const SET_AUTO_TAG_ENABLED = 'SET_AUTO_TAG_ENABLED';
 
 export const ADD_PHOTO = 'ADD_PHOTO';
+export const FAV_PHOTO = 'FAV_PHOTO';
+export const DELETE_PHOTO = 'DELETE_PHOTO';
+
+export const HIDE_CAPTION = 'HIDE_CAPTION';
+
+export const SELECT_PHOTO = 'SELECT_PHOTO';
+export const PHOTO_LOADED = 'PHOTO_LOADED';
+export const SCREEN_MOUNTED = 'SCREEN_MOUNTED';
