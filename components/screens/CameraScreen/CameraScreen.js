@@ -26,7 +26,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import {UIActivityIndicator} from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
 
-import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
+// import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
 import {
@@ -49,7 +49,7 @@ const PendingView = () => (
     style={{
       flex: 1,
       // backgroundColor: {BACKGROUND_COLOR},
-      backgroundColor: 'black',
+      backgroundColor: 'red',
       justifyContent: 'center',
       alignItems: 'center',
     }}>
@@ -195,14 +195,14 @@ class CameraScreen extends PureComponent {
     } catch (e) {
       console.log(e); // {success: false}
     }
-    setTimeout(() => {
-      let appTourSequence = new AppTourSequence();
-      this.appTourTargets.forEach(appTourTarget => {
-        appTourSequence.add(appTourTarget);
-      });
+    // setTimeout(() => {
+    //   let appTourSequence = new AppTourSequence();
+    //   this.appTourTargets.forEach(appTourTarget => {
+    //     appTourSequence.add(appTourTarget);
+    //   });
 
-      AppTour.ShowSequence(appTourSequence);
-    }, 1000);
+    //   AppTour.ShowSequence(appTourSequence);
+    // }, 1000);
     // this.camera.refreshAuthorizationStatus();
     // if (this.props.cameraAspectRatio.length <= 1) {
     //   const ratios = await this.camera.getSupportedRatiosAsync();
@@ -514,11 +514,12 @@ class CameraScreen extends PureComponent {
               defaultOnFocusComponent={true}
               autoFocus={true}
               zoom={this.state.zoom}
-              onPictureTaken={() =>
-                PermissionsAndroid.request(
-                  PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-                )
-              }
+              onPictureTaken={() => {
+                if (Platform.OS == 'android')
+                  PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                  );
+              }}
               // faceDetectionMode={RNCamera.Constants.FaceDetection.Mode.accurate}
               // onFacesDetected={
               //   this.props.faceDetectionMode ? this.facesDetected : null

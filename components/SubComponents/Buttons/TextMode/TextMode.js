@@ -3,7 +3,7 @@ import {TouchableOpacity, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {GlobalIconColor, GlobalIconSize} from '../index';
 import styles from './styles';
-import {AppTour, AppTourView} from 'react-native-app-tour';
+// import {AppTour, AppTourView} from 'react-native-app-tour';
 
 class TextMode extends Component {
   constructor(props) {

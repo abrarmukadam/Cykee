@@ -13,7 +13,7 @@ import {
   backgroundColorArray,
   toolTipColorArray,
 } from '../Buttons/index';
-import {AppTour, AppTourView} from 'react-native-app-tour';
+// import {AppTour, AppTourView} from 'react-native-app-tour';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 const BLANK_CAPTION = 'blankCaption';
 class FontIconsComponent extends Component {

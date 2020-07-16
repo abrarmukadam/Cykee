@@ -10,7 +10,7 @@ import {
 } from '../index';
 import styles from './styles';
 import moment from 'moment';
-import {AppTour, AppTourView} from 'react-native-app-tour';
+// import {AppTour, AppTourView} from 'react-native-app-tour';
 
 class TakePicture extends Component {
   constructor(props) {
