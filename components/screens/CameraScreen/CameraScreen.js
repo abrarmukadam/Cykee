@@ -26,7 +26,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import {UIActivityIndicator} from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
 
-// import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
+import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
 import {
@@ -49,7 +49,7 @@ const PendingView = () => (
     style={{
       flex: 1,
       // backgroundColor: {BACKGROUND_COLOR},
-      backgroundColor: 'red',
+      backgroundColor: 'black',
       justifyContent: 'center',
       alignItems: 'center',
     }}>
@@ -463,7 +463,7 @@ class CameraScreen extends PureComponent {
     console.log('this.state.firstLaunch', this.state.firstLaunch);
     console.log('render');
     // hideNavigationBar();
-    if (Platform.OS != 'android') return <PendingView />;
+    // if (Platform.OS != 'android') return <PendingView />;
     if (this.state.showLoadingScreen) return <PendingView />;
 
     const drawFocusRingPosition = {

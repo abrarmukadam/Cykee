@@ -8,7 +8,7 @@ class EditIcon extends Component {
   render() {
     return (
       <Icon
-        type={this.props.iconName == 'addToCykee' ? 'feather' : 'antdesign'}
+        type={this.props.iconName == 'addToCykee' ? 'feather' : 'feather'}
         name={this.props.iconName == 'addToCykee' ? 'download' : 'edit'}
         size={GlobalIconSize}
         color={GalleryIconColor}

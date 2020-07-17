@@ -3,7 +3,7 @@ import {TouchableOpacity, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {GlobalIconColor, GlobalIconSize} from '../index';
 import styles from './styles';
-// import {AppTour, AppTourView} from 'react-native-app-tour';
+import {AppTour, AppTourView} from 'react-native-app-tour';
 
 class TextMode extends Component {
   constructor(props) {
@@ -71,11 +71,11 @@ class TextMode extends Component {
             //   outerCircleColor: '#f24481',
             // };
 
-            // let targetView = AppTourView.for(this.button1, {
-            //   ...props,
-            // });
+            let targetView = AppTourView.for(this.button1, {
+              ...props,
+            });
 
-            // AppTour.ShowFor(targetView);
+            AppTour.ShowFor(targetView);
             this.setState({showIconName: true});
             setTimeout(() => {
               // console.log('timer running');
