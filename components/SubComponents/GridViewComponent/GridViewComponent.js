@@ -12,6 +12,7 @@ import {
   StatusBar,
   Animated,
   Dimensions,
+  Platform,
 } from 'react-native';
 import styles from './styles';
 import {
@@ -456,16 +457,35 @@ class GridViewComponent extends Component {
                 width: '100%',
                 activeOpacity: 0,
               }}>
-              <FastImage
-                resizeMode={FastImage.resizeMode.cover}
-                style={{
-                  height: '100%',
-                  width: '100%',
-                  borderRadius: 5,
-                  resizeMode: 'cover',
-                }}
-                source={{uri: item.uri}}
-              />
+              {Platform.OS == 'android' && (
+                <FastImage
+                  resizeMode={FastImage.resizeMode.cover}
+                  // resizeMode={'contain'}
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    borderRadius: 5,
+                    // resizeMode: 'cover',
+                    // backgroundColor: 'red',
+                  }}
+                  source={{uri: item.uri}}
+                />
+              )}
+
+              {Platform.OS != 'android' && (
+                <Image
+                  resizeMode={FastImage.resizeMode.cover}
+                  // resizeMode={'contain'}
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    borderRadius: 5,
+                    // resizeMode: 'cover',
+                    backgroundColor: 'red',
+                  }}
+                  source={{uri: item.uri}}
+                />
+              )}
             </View>
             {item.caption != '' && this.props.hideCaption == false && (
               <View style={styles.captionContainer}>
