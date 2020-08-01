@@ -40,6 +40,7 @@ class FontIconsComponent extends Component {
         {!this.state.showFontIcons && (
           <View style={{flexDirection: 'column-reverse'}}>
             <TouchableOpacity
+              onPress={this.props.tagPressed}
               key={'3rd icon'}
               ref={ref => {
                 if (!ref) return;

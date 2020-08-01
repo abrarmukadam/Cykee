@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text} from 'react-native';
 import {EditScreenButton} from '../Buttons/index';
 import styles from './styles';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 class EditIconsComponent extends Component {
   state = {
@@ -11,6 +12,9 @@ class EditIconsComponent extends Component {
     return (
       <View style={styles.container}>
         {this.state.showEditOptions && (
+          // <TouchableOpacity
+          //   // style={{backgroundColor: 'red'}}
+          //   onPress={() => console.log('rere')}>
           <EditScreenButton
             iconType="ionicon"
             iconName="md-crop"
@@ -18,6 +22,7 @@ class EditIconsComponent extends Component {
             handleOnPress={this.props.cropPressed}
             buttonText={this.props.showIconName ? 'Crop' : ''}
           />
+          // </TouchableOpacity>
         )}
         {this.state.showEditOptions && (
           <EditScreenButton

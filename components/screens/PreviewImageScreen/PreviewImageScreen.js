@@ -120,6 +120,17 @@ class PreviewImageScreen extends Component {
 
     console.log('captionFont Pressed');
   };
+
+  tagPressed = () => {
+    console.log('tag pressed');
+    this.setState({tagPressed: !this.state.tagPressed});
+  };
+  tagsArrayChanged = tagsArray => {
+    this.setState({tagsArray});
+    this.props.autoTagSetting(tagsArray[0]);
+    // console.log(tagsArray);
+  };
+
   leftHeaderButton = (
     <TouchableOpacity
       onPress={() => this.props.navigation.goBack()}
@@ -222,19 +233,15 @@ class PreviewImageScreen extends Component {
       freeStyleCropEnabled: true,
       path: this.state.photo.uri,
     }).then(image => {
+      // console.log(image.path);
+      console.log(this.state.photo.uri);
+
       image.uri = image.path;
       image.source = {uri: image.path};
       this.setState({tempPhoto: image});
     });
   };
-  tagPressed = () => {
-    this.setState({tagPressed: !this.state.tagPressed});
-  };
-  tagsArrayChanged = tagsArray => {
-    this.setState({tagsArray});
-    this.props.autoTagSetting(tagsArray[0]);
-    // console.log(tagsArray);
-  };
+
   render() {
     const config = {
       velocityThreshold: 0.3,
@@ -310,19 +317,33 @@ class PreviewImageScreen extends Component {
               />
             </TouchableOpacity>
           )}
-          {this.state.showIcons && this.props.route.params.type != 'video' && (
-            <EditIconsComponent
-              showEditOptions={this.state.showEditOptions}
-              cropPressed={this.cropPressed}
-              rotatePressed={this.rotatePressed}
-              undoPressed={this.undoPressed}
-              redoPressed={this.redoPressed}
-              prevPhoto={this.state.prevPhoto}
-              nextPhoto={this.state.nextPhoto}
-              showIconName={this.props.photoArray.length < 5 ? true : false}
-            />
-          )}
+          {/* <View
+            style={{
+              // flex: 1,
+              height: '100%',
+              // backgroundColor: 'yellow',
+              // alignContent: 'center',
+              // alignSelf: 'flex-end',
+              // justifyContent: 'center',
+              // position: 'absolute',
+              // bottom: 10,
+              // right: 10,
+            }}
+          /> */}
           <View style={styles.bottomContainer}>
+            {this.state.showIcons &&
+              this.props.route.params.type != 'video' && (
+                <EditIconsComponent
+                  showEditOptions={this.state.showEditOptions}
+                  cropPressed={this.cropPressed}
+                  rotatePressed={this.rotatePressed}
+                  undoPressed={this.undoPressed}
+                  redoPressed={this.redoPressed}
+                  prevPhoto={this.state.prevPhoto}
+                  nextPhoto={this.state.nextPhoto}
+                  showIconName={this.props.photoArray.length < 5 ? true : false}
+                />
+              )}
             {this.state.showIcons && (
               <FontIconsComponent
                 type={this.props.route.params.type}
