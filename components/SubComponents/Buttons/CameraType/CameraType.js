@@ -3,6 +3,7 @@ import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {GlobalIconColor, GlobalMediumIconSize} from '../index';
 import styles from './styles';
+// import {Icon} from 'react-native-elements';
 
 class CameraType extends Component {
   render() {
@@ -12,7 +13,10 @@ class CameraType extends Component {
         style={styles.CameraTypeStyle}
         disabled={this.props.isRecording}>
         <Icon
-          name={'md-camera-reverse'}
+          name={'ios-reverse-camera'}
+          // name={'md-camera-reverse'}
+          // name={'md-camera-reverse-sharp'}
+          // type={'ionicon'}
           size={GlobalMediumIconSize}
           color={GlobalIconColor}
         />

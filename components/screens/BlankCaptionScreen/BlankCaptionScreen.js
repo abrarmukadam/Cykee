@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ToastAndroid,
+  Platform,
 } from 'react-native';
 import styles from './styles';
 import {Icon} from 'react-native-elements';
@@ -19,6 +20,7 @@ import {
   saveFileFunction,
   FontIconsComponent,
   CAPTION_FONT,
+  CAPTION_FONT_IOS,
   CAPTION_SIZE,
   TagComponent,
   CykeeColor,
@@ -154,7 +156,9 @@ class BlankCaptionScreen extends Component {
               style={[
                 styles.textInputStyle,
                 {
-                  fontFamily: CAPTION_FONT[this.state.captionFont],
+                  fontFamily: Platform.OS
+                    ? CAPTION_FONT_IOS[this.state.captionFont]
+                    : CAPTION_FONT[this.state.captionFont],
                 },
               ]}
               placeholderTextColor="white"

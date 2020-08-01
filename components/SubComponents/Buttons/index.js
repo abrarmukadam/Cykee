@@ -1,6 +1,7 @@
 import CameraRoll from '@react-native-community/cameraroll';
 var RNFS = require('react-native-fs');
 import moment from 'moment';
+import {Platform} from 'react-native';
 
 //Camera Screen Icons
 import TakePicture from './TakePicture/TakePicture';
@@ -134,12 +135,17 @@ export {
 
 export const CAPTION_SIZE = [18, 25, 35];
 export const GRID_CAPTION_SIZE = [10, 12, 14];
-export const CAPTION_FONT = [
-  'normal',
-  'times-roman',
-  'caveat-regular',
-  'amatic-regular',
-];
+export const CAPTION_FONT =
+         Platform.OS == 'android'
+           ? [
+               'normal',
+               'times-roman',
+               'caveat-regular',
+               'amatic-regular',
+             ]
+           : ['Arial', 'Avenir', 'Baskerville', 'Zapfino'];
+
+export const CAPTION_FONT_IOS = ['Arial', 'Avenir', 'Baskerville', 'Zapfino'];
 
 //Flash icons
 export const flashIconName = [

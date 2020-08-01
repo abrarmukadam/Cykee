@@ -64,25 +64,6 @@ class TextMode extends Component {
             }
           }}
           onPress={() => {
-            // let props = {
-            //   order: 11,
-            //   title: 'This is a target button 1',
-            //   description: 'We have the best targets, believe me',
-            //   outerCircleColor: '#f24481',
-            // };
-
-            let targetView = AppTourView.for(this.button1, {
-              ...props,
-            });
-
-            AppTour.ShowFor(targetView);
-            this.setState({showIconName: true});
-            setTimeout(() => {
-              // console.log('timer running');
-              this.setState({
-                showIconName: false,
-              });
-            }, 2000);
             this.props.onPressTextMode();
           }}>
           <Icon

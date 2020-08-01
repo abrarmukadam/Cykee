@@ -10,6 +10,7 @@ import {
   Keyboard,
   PermissionsAndroid,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import styles from './styles';
 import {Icon} from 'react-native-elements';
@@ -27,6 +28,7 @@ import {
   CheckCircle,
   CykeeColor,
   CAPTION_FONT,
+  CAPTION_FONT_IOS,
   CAPTION_SIZE,
   FontButton,
   FONT_ICON_COLOR,
@@ -77,15 +79,15 @@ class PreviewImageScreen extends Component {
     this.props.navigation.setOptions({
       headerLeft: () => this.leftHeaderButton,
     });
-    if (!this.props.photoArray[0])
-      setTimeout(() => {
-        let appTourSequence = new AppTourSequence();
-        this.appTourTargets.forEach(appTourTarget => {
-          appTourSequence.add(appTourTarget);
-        });
+    // if (!this.props.photoArray[0])
+    //   setTimeout(() => {
+    //     let appTourSequence = new AppTourSequence();
+    //     this.appTourTargets.forEach(appTourTarget => {
+    //       appTourSequence.add(appTourTarget);
+    //     });
 
-        AppTour.ShowSequence(appTourSequence);
-      }, 1000);
+    //     AppTour.ShowSequence(appTourSequence);
+    //   }, 1000);
   }
   componentWillUnmount() {
     if (this.props.route.params.navigatingFrom != 'CameraRoll')
@@ -363,7 +365,9 @@ class PreviewImageScreen extends Component {
                     styles.textInputStyle,
                     {
                       fontSize: CAPTION_SIZE[this.state.captionSize],
-                      fontFamily: CAPTION_FONT[this.state.captionFont],
+                      fontFamily: Platform.OS
+                        ? CAPTION_FONT_IOS[[this.state.captionFont]]
+                        : CAPTION_FONT[this.state.captionFont],
                     },
                   ]}
                   placeholder={'Add a caption...'}

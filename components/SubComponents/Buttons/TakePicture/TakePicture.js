@@ -116,7 +116,8 @@ class TakePicture extends Component {
               position: 'absolute',
               bottom: 0,
             }}
-            color={this.state.isRecording ? 'red' : CykeeColor}
+            // color={this.state.isRecording ? 'red' : CykeeColor}
+            color={this.state.isRecording ? 'red' : 'blue'}
           />
           {this.state.isRecording && (
             <Icon
