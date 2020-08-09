@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ToastAndroid,
+  Image,
 } from 'react-native';
 import styles from './styles';
 import {Icon} from 'react-native-elements';
@@ -568,10 +569,10 @@ class EditScreen extends Component {
             }}>
             {/* <View> */}
 
-            <FastImage
+            <Image
               source={{
                 uri: this.state.photo.source.uri,
-                priority: FastImage.priority.high,
+                // priority: FastImage.priority.high,
               }}
               resizeMode={FastImage.resizeMode.contain}
               style={styles.image}

@@ -232,7 +232,7 @@ function CameraStack(navigation) {
         },
         // cardStyleInterpolator: forFade,
 
-        headerTintColor: 'red',
+        // headerTintColor: 'red',
       }}
       screenOptions={{
         animationEnabled: true,

@@ -10,7 +10,7 @@ import {
 } from '../index';
 import styles from './styles';
 import moment from 'moment';
-import {AppTour, AppTourView} from 'react-native-app-tour';
+// import {AppTour, AppTourView} from 'react-native-app-tour';
 
 class TakePicture extends Component {
   constructor(props) {
@@ -71,8 +71,8 @@ class TakePicture extends Component {
                 targetRadius: 40,
                 targetCircleColor: 'red',
               };
-              this.props.addAppTourTarget &&
-                this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
+              // this.props.addAppTourTarget &&
+              //   this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
             }
           }}
           activeOpacity={0.8}

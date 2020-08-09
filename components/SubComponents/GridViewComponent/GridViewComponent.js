@@ -481,7 +481,7 @@ class GridViewComponent extends Component {
                     width: '100%',
                     borderRadius: 5,
                     // resizeMode: 'cover',
-                    backgroundColor: 'red',
+                    // backgroundColor: 'red',
                   }}
                   source={{uri: item.uri}}
                 />

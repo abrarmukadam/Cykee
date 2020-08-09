@@ -251,10 +251,10 @@ PODS:
     - React
   - RNCMaskedView (0.1.7):
     - React
-  - RNFastImage (8.1.5):
+  - RNFastImage (8.3.2):
     - React
-    - SDWebImage (~> 5.0)
-    - SDWebImageWebPCoder (~> 0.4.1)
+    - SDWebImage (~> 5.8)
+    - SDWebImageWebPCoder (~> 0.6.1)
   - RNFS (2.16.6):
     - React
   - RNGestureHandler (1.6.0):
@@ -279,10 +279,10 @@ PODS:
   - SDWebImage (5.8.4):
     - SDWebImage/Core (= 5.8.4)
   - SDWebImage/Core (5.8.4)
-  - SDWebImageWebPCoder (0.4.1):
+  - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
-    - SDWebImage/Core (~> 5.5)
-  - TOCropViewController (2.5.3)
+    - SDWebImage/Core (~> 5.7)
+  - TOCropViewController (2.5.4)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -458,7 +458,7 @@ SPEC CHECKSUMS:
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   RNCAsyncStorage: 00bdf63f7f1e0f11d3323533dba4f222e58bf092
   RNCMaskedView: 90dd32f5b786bd562e876e1421ea77c700cbf71e
-  RNFastImage: 35ae972d6727c84ee3f5c6897e07f84d0a3445e9
+  RNFastImage: e19ba191922e7dab9d932a4d59d62d76660aa222
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNImageCropPicker: f0557a908758c4a3f83978894ec7227651529b45
@@ -467,10 +467,10 @@ SPEC CHECKSUMS:
   RNShare: a1d5064df7a0ebe778d001869b3f0a124bf0a491
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   SDWebImage: cf6922231e95550934da2ada0f20f2becf2ceba9
-  SDWebImageWebPCoder: 36f8f47bd9879a8aea6044765c1351120fd8e3a8
-  TOCropViewController: 20a14b6a7a098308bf369e7c8d700dc983a974e6
+  SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
+  TOCropViewController: 2a1ae1242600b1f2d996fd91a5268b2309a33b5c
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 5b81ca80c320c8b11be87c90d35d858632c946dd
+PODFILE CHECKSUM: f0adc5ea909d7bab5508b2f46620647cb739cfa6
 
 COCOAPODS: 1.9.3

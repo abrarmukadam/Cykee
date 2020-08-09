@@ -8,6 +8,7 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
+  Image,
   PermissionsAndroid,
   TouchableOpacity,
   Platform,
@@ -45,7 +46,7 @@ import {
 } from '../../SubComponents/Buttons/index';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import ToggleSwitch from 'toggle-switch-react-native';
-import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
+// import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
 
 class PreviewImageScreen extends Component {
   constructor(props) {
@@ -276,10 +277,10 @@ class PreviewImageScreen extends Component {
                     showIcons: !this.state.showIcons,
                   });
                 }}>
-                <FastImage
+                <Image
                   source={{
                     uri: this.state.photo.uri,
-                    priority: FastImage.priority.high,
+                    // priority: FastImage.priority.high,
                   }}
                   resizeMode={FastImage.resizeMode.contain}
                   style={StyleSheet.absoluteFill}

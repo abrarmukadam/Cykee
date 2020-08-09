@@ -119,7 +119,7 @@ export default StyleSheet.create({
     paddingHorizontal: 4,
   },
   videoStyle: {
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
     // height: '70%',
   },
 });
