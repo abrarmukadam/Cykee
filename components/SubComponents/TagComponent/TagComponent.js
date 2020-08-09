@@ -5,8 +5,9 @@ import {
   Text,
   TextInput,
   KeyboardAvoidingView,
-  ToastAndroid,
 } from 'react-native';
+import Toast from 'react-native-simple-toast';
+
 import styles from './styles';
 import TagInput from 'react-native-tags-input';
 
@@ -25,8 +26,7 @@ class TagComponent extends Component {
     // console.log(state.tagsArray);
     // console.log(state.tag);
     let temp = {...state};
-    if (state.tagsArray.length >= 5)
-      ToastAndroid.show('Can add only 4 tags ! !', ToastAndroid.SHORT);
+    if (state.tagsArray.length >= 5) Toast.show('Can add only 4 tags ! !');
     else {
       //
       if (temp.tag && temp.tag[0] != '#') temp.tag = '#' + temp.tag;
@@ -39,10 +39,7 @@ class TagComponent extends Component {
       else {
         if (temp.tag.length > 0) {
           temp = this.state.tags;
-          ToastAndroid.show(
-            `Can only use Alphabets, Numbers or '_'`,
-            ToastAndroid.SHORT,
-          );
+          Toast.show(`Can only use Alphabets, Numbers or '_'`);
         }
       }
       // console.log(temp.tag);

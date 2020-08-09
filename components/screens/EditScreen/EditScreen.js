@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  ToastAndroid,
   Image,
 } from 'react-native';
 import styles from './styles';
@@ -22,6 +21,7 @@ import moment from 'moment';
 var RNFS = require('react-native-fs');
 import {hideNavigationBar} from 'react-native-navigation-bar-color';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import Toast from 'react-native-simple-toast';
 
 const CykeeColor = EDIT_ICON_COLOR;
 const BLANK_CAPTION = 'blankCaption';
@@ -543,8 +543,7 @@ class EditScreen extends Component {
               multiline
               onChangeText={text => {
                 if (text.length <= 125) this.setState({text: text});
-                else
-                  ToastAndroid.show('Caption too Long !', ToastAndroid.SHORT);
+                else Toast.show('Caption too Long !');
               }}
               autoCapitalize="none"
               padding={10}

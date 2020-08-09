@@ -205,6 +205,9 @@ PODS:
     - React
   - react-native-safe-area-context (0.7.3):
     - React
+  - react-native-simple-toast (1.1.2):
+    - React
+    - Toast (~> 4.0.0)
   - react-native-splash-screen (3.2.0):
     - React
   - react-native-video (4.4.5):
@@ -282,6 +285,7 @@ PODS:
   - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.7)
+  - Toast (4.0.0)
   - TOCropViewController (2.5.4)
   - Yoga (1.14.0)
 
@@ -306,6 +310,7 @@ DEPENDENCIES:
   - react-native-camera (from `../node_modules/react-native-camera`)
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-video (from `../node_modules/react-native-video`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -337,6 +342,7 @@ SPEC REPOS:
     - libwebp
     - SDWebImage
     - SDWebImageWebPCoder
+    - Toast
     - TOCropViewController
 
 EXTERNAL SOURCES:
@@ -376,6 +382,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/cameraroll"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-simple-toast:
+    :path: "../node_modules/react-native-simple-toast"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-video:
@@ -444,6 +452,7 @@ SPEC CHECKSUMS:
   react-native-camera: 2b575b086c06caf89fd3d119d06bd977a9942103
   react-native-cameraroll: 035c425c733acd3333e6c673db5ab66a559ca2e0
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
+  react-native-simple-toast: a3a8e9033a549c11741debe875e54698cc4c0dd7
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-video: aa527b0acb37f94c4491e70df0274cb26979405d
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
@@ -468,6 +477,7 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   SDWebImage: cf6922231e95550934da2ada0f20f2becf2ceba9
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: 2a1ae1242600b1f2d996fd91a5268b2309a33b5c
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 

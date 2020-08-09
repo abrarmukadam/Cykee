@@ -9,12 +9,11 @@ import {
   StatusBar,
   Alert,
   Image,
-  // ToastAndroid,
   Animated,
   Easing,
 } from 'react-native';
 import Share from 'react-native-share';
-// import Toast from 'react-native-simple-toast';
+import Toast from 'react-native-simple-toast';
 
 import styles from './styles';
 // import Icon from 'react-native-vector-icons/Ionicons';
@@ -101,8 +100,7 @@ class GalleryScreen extends Component {
       this.props.photoArray[0]
     ) {
       console.log('ADDED TO CYKEE GALLERY');
-      // Toast.show('Added to Cykee Gallery !');
-      // ToastAndroid.show('Added to Cykee Gallery !', ToastAndroid.SHORT);
+      Toast.show('Added to Cykee Gallery !');
     }
     // if (this.props.route.params.index != prevProps.route.params.index) {
     //   this.setState({index: this.props.route.params.index});

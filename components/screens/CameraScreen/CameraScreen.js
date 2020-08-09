@@ -10,7 +10,6 @@ import {
   StatusBar,
   BackHandler,
   Platform,
-  ToastAndroid,
   DeviceEventEmitter,
   Text,
 } from 'react-native';
@@ -25,6 +24,7 @@ import {hideNavigationBar} from 'react-native-navigation-bar-color';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import {UIActivityIndicator} from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
+import Toast from 'react-native-simple-toast';
 
 // import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
@@ -135,7 +135,7 @@ class CameraScreen extends PureComponent {
     if (this.state.remountCamera) {
       console.log('CameraScreen-didUpdate-remountCamera');
       setTimeout(() => {
-        ToastAndroid.show('Initializing Settings !', ToastAndroid.SHORT);
+        Toast.show('Initializing Settings !');
         console.log('Timer:this.state.remountCamera');
 
         this.setState({remountCamera: false});
