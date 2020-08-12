@@ -274,7 +274,7 @@ PODS:
     - React
   - RNShare (3.7.0):
     - React
-  - RNVectorIcons (6.6.0):
+  - RNVectorIcons (7.0.0):
     - React
   - SDWebImage (5.8.4):
     - SDWebImage/Core (= 5.8.4)
@@ -282,7 +282,7 @@ PODS:
   - SDWebImageWebPCoder (0.4.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.5)
-  - TOCropViewController (2.5.3)
+  - TOCropViewController (2.5.4)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -465,12 +465,12 @@ SPEC CHECKSUMS:
   RNImageRotate: 61c62c5a907405821e28dc8c0e04e4fdc909b1fa
   RNScreens: 03bf608b92ac0acf323f47d8f5b63a8f829340c8
   RNShare: a1d5064df7a0ebe778d001869b3f0a124bf0a491
-  RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
+  RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
   SDWebImage: cf6922231e95550934da2ada0f20f2becf2ceba9
   SDWebImageWebPCoder: 36f8f47bd9879a8aea6044765c1351120fd8e3a8
-  TOCropViewController: 20a14b6a7a098308bf369e7c8d700dc983a974e6
+  TOCropViewController: 2a1ae1242600b1f2d996fd91a5268b2309a33b5c
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 5b81ca80c320c8b11be87c90d35d858632c946dd
+PODFILE CHECKSUM: 9058cd773a2352d41b861e3b9eb4d763043743ef
 
 COCOAPODS: 1.9.3

@@ -26,7 +26,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import {UIActivityIndicator} from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
 
-import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
+// import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
 import {
