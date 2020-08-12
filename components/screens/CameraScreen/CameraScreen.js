@@ -10,10 +10,11 @@ import {
   StatusBar,
   BackHandler,
   Platform,
-  ToastAndroid,
   DeviceEventEmitter,
   Text,
 } from 'react-native';
+import Toast from 'react-native-simple-toast';
+
 import styles from './styles';
 import {RNCamera, FaceDetector} from 'react-native-camera';
 import GalleryButton from './../../SubComponents/GalleryButton/GalleryButton';
@@ -135,7 +136,7 @@ class CameraScreen extends PureComponent {
     if (this.state.remountCamera) {
       console.log('CameraScreen-didUpdate-remountCamera');
       setTimeout(() => {
-        ToastAndroid.show('Initializing Settings !', ToastAndroid.SHORT);
+        Toast.show('Initializing Settings !');
         console.log('Timer:this.state.remountCamera');
 
         this.setState({remountCamera: false});

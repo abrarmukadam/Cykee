@@ -38,6 +38,7 @@
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.3.0",
     "react-native-share": "^3.7.0",
+    "react-native-simple-toast": "^1.1.2",
     "react-native-splash-screen": "^3.2.0",
     "react-native-swipe-gestures": "^1.0.5",
     "react-native-tags-input": "^1.0.10",

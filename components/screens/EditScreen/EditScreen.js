@@ -9,8 +9,9 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  ToastAndroid,
 } from 'react-native';
+import Toast from 'react-native-simple-toast';
+
 import styles from './styles';
 import {Icon} from 'react-native-elements';
 import CameraRoll from '@react-native-community/cameraroll';
@@ -542,8 +543,7 @@ class EditScreen extends Component {
               multiline
               onChangeText={text => {
                 if (text.length <= 125) this.setState({text: text});
-                else
-                  ToastAndroid.show('Caption too Long !', ToastAndroid.SHORT);
+                else Toast.show('Caption too Long !');
               }}
               autoCapitalize="none"
               padding={10}

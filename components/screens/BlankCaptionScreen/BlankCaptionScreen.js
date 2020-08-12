@@ -5,12 +5,12 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ToastAndroid,
 } from 'react-native';
 import styles from './styles';
 import {Icon} from 'react-native-elements';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import ToggleSwitch from 'toggle-switch-react-native';
+import Toast from 'react-native-simple-toast';
 
 import {
   backgroundColorArray,
@@ -165,8 +165,7 @@ class BlankCaptionScreen extends Component {
               value={this.state.text}
               onChangeText={text => {
                 if (text.length <= 125) this.setState({text: text});
-                else
-                  ToastAndroid.show('Caption too Long !', ToastAndroid.SHORT);
+                else Toast.show('Caption too Long !');
               }}
               autoFocus
               padding={10}
