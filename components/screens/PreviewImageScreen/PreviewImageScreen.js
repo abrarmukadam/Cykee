@@ -308,19 +308,21 @@ class PreviewImageScreen extends Component {
               />
             </TouchableOpacity>
           )}
-          {this.state.showIcons && this.props.route.params.type != 'video' && (
-            <EditIconsComponent
-              showEditOptions={this.state.showEditOptions}
-              cropPressed={this.cropPressed}
-              rotatePressed={this.rotatePressed}
-              undoPressed={this.undoPressed}
-              redoPressed={this.redoPressed}
-              prevPhoto={this.state.prevPhoto}
-              nextPhoto={this.state.nextPhoto}
-              showIconName={this.props.photoArray.length < 5 ? true : false}
-            />
-          )}
+
           <View style={styles.bottomContainer}>
+            {this.state.showIcons &&
+              this.props.route.params.type != 'video' && (
+                <EditIconsComponent
+                  showEditOptions={this.state.showEditOptions}
+                  cropPressed={this.cropPressed}
+                  rotatePressed={this.rotatePressed}
+                  undoPressed={this.undoPressed}
+                  redoPressed={this.redoPressed}
+                  prevPhoto={this.state.prevPhoto}
+                  nextPhoto={this.state.nextPhoto}
+                  showIconName={this.props.photoArray.length < 5 ? true : false}
+                />
+              )}
             {this.state.showIcons && (
               <FontIconsComponent
                 type={this.props.route.params.type}

@@ -36,7 +36,9 @@ class FontButton extends Component {
             styles.fontButtonStyle,
             {opacity: FONT_ICON_OPACITY},
           ]}
-          onPress={() => this.props.handleOnPress()}
+          onPress={() => {
+            this.props.handleOnPress();
+          }}
         />
       </View>
     );

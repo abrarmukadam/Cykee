@@ -19,7 +19,7 @@ export default StyleSheet.create({
   },
   textInputStyle: {
     fontSize: 35,
-    textAlign: 'center',
+    // textAlign: 'center',
     color: 'white',
     marginRight: 20,
     // borderWidth: 1,

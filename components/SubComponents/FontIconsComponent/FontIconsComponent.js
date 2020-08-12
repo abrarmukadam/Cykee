@@ -71,7 +71,8 @@ class FontIconsComponent extends Component {
                   //     AppTourView.for(ref, {...props}),
                   //   );
                 }
-              }}>
+              }}
+              onPress={this.props.tagPressed}>
               <FontButton
                 iconType="material-community"
                 buttonName={

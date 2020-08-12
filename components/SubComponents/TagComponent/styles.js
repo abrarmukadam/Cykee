@@ -46,7 +46,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 6,
     marginRight: 70,
-    fontFamily: 'normal',
+    // fontFamily: 'normal',
   },
   tag: {
     backgroundColor: 'silver',
