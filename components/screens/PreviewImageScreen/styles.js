@@ -4,7 +4,10 @@ const {width: WIDTH} = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
-    //  flex: 1,
+    // flex: 1,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     height: '100%',
     width: '100%',
     // flexDirection: 'column',

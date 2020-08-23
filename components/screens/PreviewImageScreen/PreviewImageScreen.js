@@ -8,14 +8,14 @@ import {
   StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
-  PermissionsAndroid,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import styles from './styles';
 import {Icon} from 'react-native-elements';
 import CameraRoll from '@react-native-community/cameraroll';
 import ImagePicker from 'react-native-image-crop-picker';
-import ImageRotate from 'react-native-image-rotate';
+import ImageResizer from 'react-native-image-resizer';
 
 import FastImage from 'react-native-fast-image';
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -200,26 +200,41 @@ class PreviewImageScreen extends Component {
   rotatePressed = () => {
     let DisplayedPhoto = {};
     console.log(this.state.photo.uri);
-    ImageRotate.rotateImage(
+
+    ImageResizer.createResizedImage(
       this.state.photo.uri,
+      this.state.photo.height,
+      this.state.photo.width,
+      'JPEG',
+      100,
       90,
-      uri => {
-        DisplayedPhoto.source = {uri: uri};
-        DisplayedPhoto.uri = uri;
+      null,
+    )
+      .then(response => {
+        console.log('rotate uri:', response.uri);
+        DisplayedPhoto.source = {uri: response.uri};
+        DisplayedPhoto.uri = response.uri;
         DisplayedPhoto.height = this.state.photo.width;
-        DisplayedPhoto.width = this.state.photo.heightl;
-        this.setState({tempPhoto: DisplayedPhoto});
-      },
-      error => {
-        console.error(error);
-      },
-    );
+        DisplayedPhoto.width = this.state.photo.height;
+        this.setState({tempPhoto: DisplayedPhoto, photo: DisplayedPhoto});
+        // response.uri is the URI of the new image that can now be displayed, uploaded...
+        // response.path is the path of the new image
+        // response.name is the name of the new image with the extension
+        // response.size is the size of the new image
+      })
+      .catch(err => {
+        console.log('fail:', err);
+
+        // Oops, something went wrong. Check that the filename is correct and
+        // inspect err to get more details.
+      });
   };
   cropPressed = () => {
     ImagePicker.openCropper({
       freeStyleCropEnabled: true,
       path: this.state.photo.uri,
     }).then(image => {
+      console.log('crop uri:', image.path);
       image.uri = image.path;
       image.source = {uri: image.path};
       this.setState({tempPhoto: image});
@@ -244,15 +259,19 @@ class PreviewImageScreen extends Component {
     } else ImageRatio = 1;
 
     return (
-      <GestureRecognizer
-        onSwipeDown={() => this.onSwipeDown()}
-        config={config}
-        style={{
-          width: '100%',
-          height: '100%',
-        }}>
-        <StatusBar hidden={false} />
-        <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="height"
+        //
+      >
+        <GestureRecognizer
+          onSwipeDown={() => this.onSwipeDown()}
+          config={config}
+          style={{
+            width: '100%',
+            height: '100%',
+          }}>
+          <StatusBar hidden={false} />
           {this.props.route.params.type != 'video' &&
             this.props.route.params.type != 'blankCaption' && (
               <TouchableWithoutFeedback
@@ -267,14 +286,14 @@ class PreviewImageScreen extends Component {
                     showIcons: !this.state.showIcons,
                   });
                 }}>
-                <FastImage
+                <Image
                   source={{
                     uri: this.state.photo.uri,
                     priority: FastImage.priority.high,
                   }}
-                  resizeMode={FastImage.resizeMode.contain}
+                  // resizeMode={FastImage.resizeMode.contain}
                   style={StyleSheet.absoluteFill}
-                  // style={styles.image}
+                  // style={styles.container}
                 />
               </TouchableWithoutFeedback>
             )}
@@ -398,8 +417,8 @@ class PreviewImageScreen extends Component {
               </TouchableOpacity>
             )}
           </View>
-        </KeyboardAvoidingView>
-      </GestureRecognizer>
+        </GestureRecognizer>
+      </KeyboardAvoidingView>
     );
   }
 }

@@ -9,14 +9,15 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  Image,
 } from 'react-native';
 import Toast from 'react-native-simple-toast';
+import ImageResizer from 'react-native-image-resizer';
 
 import styles from './styles';
 import {Icon} from 'react-native-elements';
 import CameraRoll from '@react-native-community/cameraroll';
 import ImagePicker from 'react-native-image-crop-picker';
-import ImageRotate from 'react-native-image-rotate';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 var RNFS = require('react-native-fs');
@@ -286,22 +287,33 @@ class EditScreen extends Component {
 
   rotatePressed = () => {
     let DisplayedPhoto = {};
-    console.log(this.state.photo.source.uri);
-    ImageRotate.rotateImage(
+    console.log('photo:', this.state.photo);
+
+    ImageResizer.createResizedImage(
       this.state.photo.source.uri,
+      this.state.photo.height,
+      this.state.photo.width,
+      'JPEG',
+      100,
       90,
-      uri => {
-        DisplayedPhoto.uri = uri;
-        DisplayedPhoto.source = {uri: uri};
+      null,
+    )
+      .then(response => {
+        console.log('rotate uri:', response.uri);
+        DisplayedPhoto.source = {uri: response.uri};
+        DisplayedPhoto.uri = response.uri;
         DisplayedPhoto.height = this.state.photo.width;
-        DisplayedPhoto.width = this.state.photo.heightl;
-        this.setState({tempPhoto: DisplayedPhoto});
-      },
-      error => {
-        console.error(error);
-      },
-    );
+        DisplayedPhoto.width = this.state.photo.height;
+        this.setState({tempPhoto: DisplayedPhoto, photo: DisplayedPhoto});
+      })
+      .catch(err => {
+        console.log('fail:', err);
+
+        // Oops, something went wrong. Check that the filename is correct and
+        // inspect err to get more details.
+      });
   };
+
   onPressSaveBlankCaption = () => {
     this.props.navigation.navigate('GalleryTab');
 
@@ -529,7 +541,8 @@ class EditScreen extends Component {
           {backgroundColor: backgroundColorArray[this.state.backColor]},
         ]}
         // disabled
-        behavior="height">
+        // behavior="position"
+      >
         {this.state.photo.type == BLANK_CAPTION && (
           <View style={[styles.Layout]}>
             <TextInput
@@ -554,9 +567,9 @@ class EditScreen extends Component {
         {/* <StatusBar hidden={false} /> */}
         {this.state.photo.type != BLANK_CAPTION && (
           <TouchableWithoutFeedback
-            onPress={Keyboard.dismiss()}
+            // onPress={Keyboard.dismiss()}
             onPressIn={() => {
-              //   Keyboard.dismiss;
+              Keyboard.dismiss();
               console.log('TouchableWithoutFeedback');
               this.props.navigation.setOptions({
                 headerShown: !this.state.showIcons,
@@ -565,15 +578,15 @@ class EditScreen extends Component {
               this.setState({
                 showIcons: !this.state.showIcons,
               });
-            }}>
+            }}
+            style={styles.image}>
             {/* <View> */}
-
-            <FastImage
+            <Image
               source={{
                 uri: this.state.photo.source.uri,
                 priority: FastImage.priority.high,
               }}
-              resizeMode={FastImage.resizeMode.contain}
+              resizeMode={'contain'}
               style={styles.image}
             />
             {/* </View> */}
@@ -594,7 +607,7 @@ class EditScreen extends Component {
               showIconNames={this.props.photoArray.length < 5 ? true : false}
             />
           )}
-        <KeyboardAvoidingView
+        <View
           style={[styles.textBoxContainer]}
           // behavior="position"
         >
@@ -667,7 +680,7 @@ class EditScreen extends Component {
               <CheckCircle iconSize={60} />
             </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
+        </View>
         {this.state.showIcons && (
           <TouchableOpacity
             onPress={() => this.setState({tagPressed: true})}

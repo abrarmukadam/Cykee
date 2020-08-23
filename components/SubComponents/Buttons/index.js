@@ -205,10 +205,9 @@ export function saveFileFunction({
 
   if (fileType != BLANK_CAPTION) {
     const temp = data.uri.split('/');
-
+    console.log('split', temp);
     nameToChange = temp[temp.length - 1];
     renamedURI = data.uri.replace(nameToChange, newName);
-
     currentAlbumName = temp[temp.length - 2];
   }
 
@@ -243,24 +242,33 @@ export function saveFileFunction({
       console.log('Photo in other gallery');
       destinationUri = renamedURI;
     }
-    RNFS.copyFile(data.uri, destinationUri).then(() => {
-      CameraRoll.save(destinationUri, {
-        type: fileType,
-        album: 'Cykee',
-      }).then(uri => {
-        CameraRoll.getPhotos({
-          first: 1,
-          // assetType: 'Photos',
-          Album: 'Cykee',
-        }).then(r => {
-          newPhoto.uri = r.edges[0].node.image.uri;
 
-          if (saveType == 'edit') afterSaveFunction();
-          else addNewPhoto(newPhoto);
+    console.log('data.uri', data.uri);
+    console.log('destinationUri', destinationUri);
+    // destinationUri =
+    //   '/Users/abrar/Library/Developer/CoreSimulator/Devices/C1A46A6C-9852-43B2-8883-FEAF365AEBA6/data/Containers/Data/Application/0FCC5C19-A8FE-4CED-A68C-1E11E3692C5C/tmp/react-native-image-crop-picker/202008131550209031.jpeg';
+    RNFS.copyFile(data.uri, destinationUri)
+      .then(() => {
+        console.log('copy success');
+        CameraRoll.save(destinationUri, {
+          type: fileType,
+          album: 'Cykee',
+        }).then(uri => {
+          CameraRoll.getPhotos({
+            first: 1,
+            // assetType: 'Photos',
+            Album: 'Cykee',
+          }).then(r => {
+            newPhoto.uri = r.edges[0].node.image.uri;
+            console.log('new uri after read is:', newPhoto.uri);
+
+            if (saveType == 'edit') afterSaveFunction();
+            else addNewPhoto(newPhoto);
+          });
+          if (currentAlbumName == 'Cykee') RNFS.unlink(tempGalleryUri);
+          if (callingScreen == 'PreviewScreen') afterSaveFunction();
         });
-        if (currentAlbumName == 'Cykee') RNFS.unlink(tempGalleryUri);
-        if (callingScreen == 'PreviewScreen') afterSaveFunction();
-      });
-    });
+      })
+      .catch(() => console.log('copy fail'));
   }
 }

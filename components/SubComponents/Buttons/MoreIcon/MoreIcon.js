@@ -13,9 +13,7 @@ class MoreIcon extends Component {
         color={this.props.expandOptions ? 'white' : 'white'}
         containerStyle={{paddingBottom: 15, opacity: 0.7}}
         onPress={() => this.props.onPressMore()}
-        // reverse
         reverseColor={'white'}
-        // raised
         underlayColor={'#0000'}
       />
     );

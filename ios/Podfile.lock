@@ -203,6 +203,8 @@ PODS:
     - React
   - react-native-cameraroll (1.4.1):
     - React
+  - react-native-image-resizer (1.2.5):
+    - React
   - react-native-safe-area-context (0.7.3):
     - React
   - react-native-simple-toast (1.1.2):
@@ -309,6 +311,7 @@ DEPENDENCIES:
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-camera (from `../node_modules/react-native-camera`)
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
+  - react-native-image-resizer (from `../node_modules/react-native-image-resizer`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -330,7 +333,6 @@ DEPENDENCIES:
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
-  - RNImageRotate (from `../node_modules/react-native-image-rotate`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -380,6 +382,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera"
   react-native-cameraroll:
     :path: "../node_modules/@react-native-community/cameraroll"
+  react-native-image-resizer:
+    :path: "../node_modules/react-native-image-resizer"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-simple-toast:
@@ -420,8 +424,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
-  RNImageRotate:
-    :path: "../node_modules/react-native-image-rotate"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNShare:
@@ -451,6 +453,7 @@ SPEC CHECKSUMS:
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-camera: 2b575b086c06caf89fd3d119d06bd977a9942103
   react-native-cameraroll: 035c425c733acd3333e6c673db5ab66a559ca2e0
+  react-native-image-resizer: 31f4efd7934bab95ea2e95fd5a0b3c4fd245f36d
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-simple-toast: a3a8e9033a549c11741debe875e54698cc4c0dd7
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
@@ -481,6 +484,6 @@ SPEC CHECKSUMS:
   TOCropViewController: 2a1ae1242600b1f2d996fd91a5268b2309a33b5c
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 6d33c1ecaa7e6e8b509c050386bb26fe2fa6e92b
+PODFILE CHECKSUM: 00023400974a60fb2761090678ed659548f36b42
 
 COCOAPODS: 1.9.3

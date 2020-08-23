@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {TouchableOpacity, Text, View} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Icon} from 'react-native-elements';
 import {GlobalIconColor, GlobalIconSize} from '../index';
 import styles from './styles';
+
 // import {AppTour, AppTourView} from 'react-native-app-tour';
 
 class TextMode extends Component {
@@ -88,11 +90,22 @@ class TextMode extends Component {
           <Icon
             name={
               this.props.textIcon ? 'closed-caption' : 'closed-caption-outline'
-              // this.props.textIcon ? 'closed-caption' : 'closed-caption-outline'
             }
-            size={GlobalIconSize}
-            color={GlobalIconColor}
-            // color={? GlobalIconColor}
+            type="material-community"
+            // name="marker"
+            // name={this.props.expandOptions ? 'closecircleo' : 'upcircleo'}
+            // type="antdesign"
+            size={30}
+            color={this.props.expandOptions ? 'white' : 'white'}
+            containerStyle={{paddingBottom: 15, opacity: 0.7}}
+            // size={GlobalIconSize}
+            // color={'white'}
+            // containerStyle={{paddingBottom: 15, opacity: 0.7}}
+            // onPress={() => this.props.onPressMore()}
+            // reverse
+            reverseColor={'white'}
+            // raised
+            underlayColor={'#0000'}
           />
         </TouchableOpacity>
       </View>
