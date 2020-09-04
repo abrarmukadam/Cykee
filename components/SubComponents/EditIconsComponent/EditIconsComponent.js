@@ -30,8 +30,8 @@ class EditIconsComponent extends Component {
         )}
         {this.state.showEditOptions && this.props.prevPhoto.source && (
           <EditScreenButton
-            iconType="ionicon"
-            iconName="md-undo"
+            iconType="material-community"
+            iconName="undo"
             buttonText={this.props.showIconName ? 'Undo' : ''}
             // topPosition={170}
             handleOnPress={this.props.undoPressed}
@@ -39,8 +39,8 @@ class EditIconsComponent extends Component {
         )}
         {this.state.showEditOptions && this.props.nextPhoto.source && (
           <EditScreenButton
-            iconType="ionicon"
-            iconName="md-redo"
+            iconType="material-community"
+            iconName="redo"
             buttonText={this.props.showIconName ? 'Redo' : ''}
             // topPosition={170}
             handleOnPress={this.props.redoPressed}

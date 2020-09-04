@@ -259,166 +259,162 @@ class PreviewImageScreen extends Component {
     } else ImageRatio = 1;
 
     return (
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior="height"
-        //
-      >
-        <GestureRecognizer
-          onSwipeDown={() => this.onSwipeDown()}
-          config={config}
-          style={{
-            width: '100%',
-            height: '100%',
-          }}>
-          <StatusBar hidden={false} />
-          {this.props.route.params.type != 'video' &&
-            this.props.route.params.type != 'blankCaption' && (
-              <TouchableWithoutFeedback
-                onPress={Keyboard.dismiss}
-                onPressIn={() => {
-                  //   Keyboard.dismiss;
-                  this.props.navigation.setOptions({
-                    headerShown: !this.state.showIcons,
-                  });
+      // <KeyboardAvoidingView
+      //   style={styles.container}
+      //   behavior="height"
+      //   //
+      // >
+      <GestureRecognizer
+        onSwipeDown={() => this.onSwipeDown()}
+        config={config}
+        style={styles.container}>
+        <StatusBar hidden={false} />
+        {this.props.route.params.type != 'video' &&
+          this.props.route.params.type != 'blankCaption' && (
+            <TouchableWithoutFeedback
+              onPress={Keyboard.dismiss}
+              onPressIn={() => {
+                //   Keyboard.dismiss;
+                this.props.navigation.setOptions({
+                  headerShown: !this.state.showIcons,
+                });
 
-                  this.setState({
-                    showIcons: !this.state.showIcons,
-                  });
-                }}>
-                <Image
-                  source={{
-                    uri: this.state.photo.uri,
-                    priority: FastImage.priority.high,
-                  }}
-                  // resizeMode={FastImage.resizeMode.contain}
-                  style={StyleSheet.absoluteFill}
-                  // style={styles.container}
-                />
-              </TouchableWithoutFeedback>
-            )}
-          {this.props.route.params.type == 'video' && (
-            <View style={StyleSheet.absoluteFill}>
-              <PreviewVideoComponent
-                video={this.state.photo}
-                onPlayPressed={pauseStatus => {
-                  console.log('play pressed in preview');
-                  this.setState({showIcons: pauseStatus});
+                this.setState({
+                  showIcons: !this.state.showIcons,
+                });
+              }}>
+              <FastImage
+                source={{
+                  uri: this.state.photo.uri,
+                  priority: FastImage.priority.high,
                 }}
-                pauseStatus={true}
+                resizeMode={FastImage.resizeMode.contain}
+                style={StyleSheet.absoluteFill}
+                // style={styles.container}
               />
-            </View>
+            </TouchableWithoutFeedback>
+          )}
+        {this.props.route.params.type == 'video' && (
+          <View style={StyleSheet.absoluteFill}>
+            <PreviewVideoComponent
+              video={this.state.photo}
+              onPlayPressed={pauseStatus => {
+                console.log('play pressed in preview');
+                this.setState({showIcons: pauseStatus});
+              }}
+              pauseStatus={true}
+            />
+          </View>
+        )}
+
+        {this.state.showIcons && (
+          <TouchableOpacity
+            onPress={() => this.setState({tagPressed: true})}
+            style={{
+              position: 'absolute',
+              top: 80,
+              left: 20,
+              // flexWrap: 'wrap',
+            }}>
+            <TagDisplayComponent
+              tagsArray={this.state.tagsArray}
+              autoTagActive={
+                this.props.autoTagEnabled ? this.props.autoTagValue : ''
+              }
+            />
+          </TouchableOpacity>
+        )}
+
+        <View style={styles.bottomContainer}>
+          {this.state.showIcons && this.props.route.params.type != 'video' && (
+            <EditIconsComponent
+              showEditOptions={this.state.showEditOptions}
+              cropPressed={this.cropPressed}
+              rotatePressed={this.rotatePressed}
+              undoPressed={this.undoPressed}
+              redoPressed={this.redoPressed}
+              prevPhoto={this.state.prevPhoto}
+              nextPhoto={this.state.nextPhoto}
+              showIconName={this.props.photoArray.length < 5 ? true : false}
+            />
+          )}
+          {this.state.showIcons && (
+            <FontIconsComponent
+              type={this.props.route.params.type}
+              showFontIcons={this.props.showFontIcons}
+              captionFontPressed={this.captionFontPressed}
+              captionSizePressed={this.captionSizePressed}
+              tagPressed={this.tagPressed}
+              enterTag={this.state.tagPressed}
+              tagsArray={this.props.autoTagEnabled}
+              addAppTourTarget={appTourTarget => {
+                this.appTourTargets.push(appTourTarget);
+              }}
+              showIconName={this.props.photoArray.length < 5 ? true : false}
+              // firstLaunch={true}
+              firstLaunch={this.props.photoArray[0] ? true : false}
+            />
           )}
 
-          {this.state.showIcons && (
-            <TouchableOpacity
-              onPress={() => this.setState({tagPressed: true})}
-              style={{
-                position: 'absolute',
-                top: 80,
-                left: 20,
-                // flexWrap: 'wrap',
-              }}>
-              <TagDisplayComponent
-                tagsArray={this.state.tagsArray}
-                autoTagActive={
-                  this.props.autoTagEnabled ? this.props.autoTagValue : ''
+          <View style={styles.textBoxContainer}>
+            {this.state.tagPressed && (
+              <ToggleSwitch
+                isOn={this.props.autoTagEnabled}
+                onColor={CykeeColor}
+                offColor="grey"
+                label={`Enable auto-Tag ${
+                  this.state.tagsArray[0] && this.props.autoTagEnabled
+                    ? `'${this.state.tagsArray[0]}'`
+                    : ''
+                }`}
+                labelStyle={{color: 'white', fontWeight: '900'}}
+                size="small"
+                onToggle={() =>
+                  this.props.setAutoTagEnabled(!this.props.autoTagEnabled)
                 }
               />
-            </TouchableOpacity>
-          )}
-
-          <View style={styles.bottomContainer}>
-            {this.state.showIcons &&
-              this.props.route.params.type != 'video' && (
-                <EditIconsComponent
-                  showEditOptions={this.state.showEditOptions}
-                  cropPressed={this.cropPressed}
-                  rotatePressed={this.rotatePressed}
-                  undoPressed={this.undoPressed}
-                  redoPressed={this.redoPressed}
-                  prevPhoto={this.state.prevPhoto}
-                  nextPhoto={this.state.nextPhoto}
-                  showIconName={this.props.photoArray.length < 5 ? true : false}
-                />
-              )}
-            {this.state.showIcons && (
-              <FontIconsComponent
-                type={this.props.route.params.type}
-                showFontIcons={this.props.showFontIcons}
-                captionFontPressed={this.captionFontPressed}
-                captionSizePressed={this.captionSizePressed}
-                tagPressed={this.tagPressed}
-                enterTag={this.state.tagPressed}
-                tagsArray={this.props.autoTagEnabled}
-                addAppTourTarget={appTourTarget => {
-                  this.appTourTargets.push(appTourTarget);
+            )}
+            {!this.state.tagPressed && this.state.showIcons && (
+              <TextInput
+                style={[
+                  styles.textInputStyle,
+                  {
+                    fontSize: CAPTION_SIZE[this.state.captionSize],
+                    fontFamily: CAPTION_FONT[this.state.captionFont],
+                  },
+                ]}
+                placeholder={'Add a caption...'}
+                placeholderTextColor="grey"
+                value={this.state.text}
+                multiline
+                // autoFocus
+                onChangeText={text => {
+                  this.setState({text});
                 }}
-                showIconName={this.props.photoArray.length < 5 ? true : false}
-                // firstLaunch={true}
-                firstLaunch={this.props.photoArray[0] ? true : false}
+                autoCapitalize="none"
+                padding={10}
+                onBlur={() => this.setState({showIcons: true})}
               />
             )}
-
-            <View style={styles.textBoxContainer}>
-              {this.state.tagPressed && (
-                <ToggleSwitch
-                  isOn={this.props.autoTagEnabled}
-                  onColor={CykeeColor}
-                  offColor="grey"
-                  label={`Enable auto-Tag ${
-                    this.state.tagsArray[0] && this.props.autoTagEnabled
-                      ? `'${this.state.tagsArray[0]}'`
-                      : ''
-                  }`}
-                  labelStyle={{color: 'white', fontWeight: '900'}}
-                  size="small"
-                  onToggle={() =>
-                    this.props.setAutoTagEnabled(!this.props.autoTagEnabled)
-                  }
-                />
-              )}
-              {!this.state.tagPressed && this.state.showIcons && (
-                <TextInput
-                  style={[
-                    styles.textInputStyle,
-                    {
-                      fontSize: CAPTION_SIZE[this.state.captionSize],
-                      fontFamily: CAPTION_FONT[this.state.captionFont],
-                    },
-                  ]}
-                  placeholder={'Add a caption...'}
-                  placeholderTextColor="grey"
-                  value={this.state.text}
-                  multiline
-                  // autoFocus
-                  onChangeText={text => {
-                    this.setState({text});
-                  }}
-                  autoCapitalize="none"
-                  padding={10}
-                  onBlur={() => this.setState({showIcons: true})}
-                />
-              )}
-              {this.state.tagPressed && this.state.showIcons && (
-                <TagComponent
-                  tagsArrayChanged={this.tagsArrayChanged}
-                  tagsArray={this.state.tagsArray}
-                />
-              )}
-            </View>
-          </View>
-          <View style={styles.saveButtonStyle}>
-            {this.state.showIcons && (
-              <TouchableOpacity
-                onPress={() => this.savePhoto(this.state.photo)}
-                disabled={this.state.saveInProgress}>
-                <CheckCircle iconSize={70} />
-              </TouchableOpacity>
+            {this.state.tagPressed && this.state.showIcons && (
+              <TagComponent
+                tagsArrayChanged={this.tagsArrayChanged}
+                tagsArray={this.state.tagsArray}
+              />
             )}
           </View>
-        </GestureRecognizer>
-      </KeyboardAvoidingView>
+        </View>
+        <View style={styles.saveButtonStyle}>
+          {this.state.showIcons && (
+            <TouchableOpacity
+              onPress={() => this.savePhoto(this.state.photo)}
+              disabled={this.state.saveInProgress}>
+              <CheckCircle iconSize={70} />
+            </TouchableOpacity>
+          )}
+        </View>
+      </GestureRecognizer>
+      // {/* </KeyboardAvoidingView> */}
     );
   }
 }
