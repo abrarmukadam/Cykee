@@ -79,6 +79,12 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>amatic-regular.ttf</string>
+		<string>arial-ce.ttf</string>
+		<string>caveat-regular.ttf</string>
+		<string>comic-sans-ms.ttf</string>
+		<string>times-roman.ttf</string>
+		<string>zapfino.ttf</string>
 	</array>
 </dict>
 </plist>

@@ -55,20 +55,21 @@ class BlankCaptionScreen extends Component {
       <View
         style={{
           backgroundColor: 'grey',
-          paddingHorizontal: 7,
+          paddingHorizontal: 2,
           borderRadius: 20,
-          opacity: 0.2,
+          opacity: 0.3,
         }}>
         <Icon
           type="ionicon"
           name="md-close"
           size={GlobalIconSize}
           color={'white'}
+          underlayColor={'#0000'}
         />
       </View>
       <View
         style={{
-          paddingHorizontal: 7,
+          paddingHorizontal: 2,
           borderRadius: 20,
           position: 'absolute',
         }}>
@@ -77,6 +78,7 @@ class BlankCaptionScreen extends Component {
           name="md-close"
           size={GlobalIconSize}
           color={'white'}
+          underlayColor={'#0000'}
         />
       </View>
     </TouchableOpacity>
@@ -169,6 +171,7 @@ class BlankCaptionScreen extends Component {
               }}
               autoFocus
               padding={10}
+              textAlign="center"
             />
           </View>
           {/* <View style={styles.colorButtonContainer}>

@@ -3,7 +3,7 @@ import {GlobalIconSize, GlobalIconColor} from '../index';
 import {View, TouchableOpacity, Text} from 'react-native';
 // import Icon from 'react-native-vector-icons/Feather';
 import {Icon} from 'react-native-elements';
-// import {AppTour, AppTourView} from 'react-native-app-tour';
+import {AppTour, AppTourView} from 'react-native-app-tour';
 import styles from './styles';
 
 class BlankCaptionModeButton extends Component {
@@ -40,8 +40,8 @@ class BlankCaptionModeButton extends Component {
                 cancelable: true,
                 targetRadius: 24,
               };
-              // this.props.addAppTourTarget &&
-              //   this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
+              this.props.addAppTourTarget &&
+                this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
             }
           }}
           onPress={() => {

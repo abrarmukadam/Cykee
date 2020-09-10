@@ -117,6 +117,7 @@ class PreviewImageScreen extends Component {
       });
 
     console.log('captionFont Pressed');
+    console.log(CAPTION_FONT[this.state.captionFont]);
   };
   leftHeaderButton = (
     <TouchableOpacity
@@ -242,6 +243,7 @@ class PreviewImageScreen extends Component {
   };
   tagPressed = () => {
     this.setState({tagPressed: !this.state.tagPressed});
+    console.log('tagssPressed');
   };
   tagsArrayChanged = tagsArray => {
     this.setState({tagsArray});
@@ -315,6 +317,7 @@ class PreviewImageScreen extends Component {
               top: 80,
               left: 20,
               // flexWrap: 'wrap',
+              // backgroundColor: 'red',
             }}>
             <TagDisplayComponent
               tagsArray={this.state.tagsArray}
