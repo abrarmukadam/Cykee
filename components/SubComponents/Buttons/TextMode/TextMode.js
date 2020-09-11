@@ -5,7 +5,7 @@ import {Icon} from 'react-native-elements';
 import {GlobalIconColor, GlobalIconSize} from '../index';
 import styles from './styles';
 
-import {AppTour, AppTourView} from 'react-native-app-tour';
+// import {AppTour, AppTourView} from 'react-native-app-tour';
 
 class TextMode extends Component {
   constructor(props) {
@@ -61,8 +61,8 @@ class TextMode extends Component {
                 cancelable: true,
                 targetRadius: 24,
               };
-              this.props.addAppTourTarget &&
-                this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
+              // this.props.addAppTourTarget &&
+              //   this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
             }
           }}
           onPress={() => {

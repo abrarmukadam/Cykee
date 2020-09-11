@@ -27,7 +27,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import {UIActivityIndicator} from 'react-native-indicators';
 import {BlurView} from '@react-native-community/blur';
 
-import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
+// import {AppTour, AppTourSequence, AppTourView} from 'react-native-app-tour';
 const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
 
 import {
@@ -196,14 +196,14 @@ class CameraScreen extends PureComponent {
     } catch (e) {
       console.log(e); // {success: false}
     }
-    setTimeout(() => {
-      let appTourSequence = new AppTourSequence();
-      this.appTourTargets.forEach(appTourTarget => {
-        appTourSequence.add(appTourTarget);
-      });
+    // setTimeout(() => {
+    //   let appTourSequence = new AppTourSequence();
+    //   this.appTourTargets.forEach(appTourTarget => {
+    //     appTourSequence.add(appTourTarget);
+    //   });
 
-      AppTour.ShowSequence(appTourSequence);
-    }, 1000);
+    //   AppTour.ShowSequence(appTourSequence);
+    // }, 1000);
     // this.camera.refreshAuthorizationStatus();
     // if (this.props.cameraAspectRatio.length <= 1) {
     //   const ratios = await this.camera.getSupportedRatiosAsync();
