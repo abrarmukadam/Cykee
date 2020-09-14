@@ -167,7 +167,7 @@ class GalleryScreen extends Component {
   onPressGallery = () => {
     this.props.navigation.push('GalleryTab');
     // this.setState({index: 0});
-    console.log('Gallery Pressed');
+    // console.log('Gallery Pressed');
   };
   onPressShare = item => {
     console.log('Share Pressed');
