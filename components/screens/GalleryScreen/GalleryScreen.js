@@ -174,7 +174,7 @@ class GalleryScreen extends Component {
     console.log(item.source.uri);
     const shareOptions = {
       type: 'image',
-      url: item.source.uri,
+      urls: [item.source.uri],
       message: item.caption,
       subject: item.caption,
       title: item.caption,
