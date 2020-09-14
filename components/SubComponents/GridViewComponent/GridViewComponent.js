@@ -530,7 +530,7 @@ class GridViewComponent extends Component {
               <TouchableOpacity
                 style={{paddingHorizontal: 4}}
                 onPress={() => {
-                  console.log('Photo fav pressed', item);
+                  console.log('Photo fav pressed', item.fileName);
                   this.props.favPhoto(this.props.photoArray, item.fileName);
                 }}>
                 <FavouriteIcon
@@ -561,13 +561,13 @@ class GridViewComponent extends Component {
           <Icon
             type="material-community"
             name="play-circle-outline"
-            size={40}
+            size={20}
             color={CykeeColor}
             containerStyle={{
-              opacity: 0.5,
+              // opacity: 0.5,
               position: 'absolute',
-              top: 100 - 20,
-              left: WIDTH / 3 / 2 - 20,
+              bottom: 5,
+              right: 5,
             }}
           />
         )}

@@ -432,6 +432,10 @@ class EditScreen extends Component {
             Album: 'Cykee',
           }).then(r => {
             newPhoto.uri = r.edges[0].node.image.uri;
+            const temp = newPhoto.uri.split('/');
+            console.log('split', temp);
+            newPhoto.fileName = temp[temp.length - 1];
+
             let updatedPhotoArray = [...this.props.photoArray];
             updatedPhotoArray[index] = newPhoto;
             // updatedPhotoArray.splice(1, 1);
