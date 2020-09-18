@@ -131,8 +131,8 @@ android {
         applicationId "com.cykee"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 3145743
+        versionName "1.4.1"
             missingDimensionStrategy 'react-native-camera', 'general' // <--- insert this line
             multiDexEnabled  true
 

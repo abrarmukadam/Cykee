@@ -5,7 +5,7 @@ import {Icon} from 'react-native-elements';
 import {GlobalIconColor, GlobalIconSize} from '../index';
 import styles from './styles';
 
-// import {AppTour, AppTourView} from 'react-native-app-tour';
+import {AppTour, AppTourView} from 'react-native-app-tour';
 
 class TextMode extends Component {
   constructor(props) {
@@ -61,8 +61,8 @@ class TextMode extends Component {
                 cancelable: true,
                 targetRadius: 24,
               };
-              // this.props.addAppTourTarget &&
-              //   this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
+              this.props.addAppTourTarget &&
+                this.props.addAppTourTarget(AppTourView.for(ref, {...props}));
             }
           }}
           onPress={() => {
@@ -97,7 +97,7 @@ class TextMode extends Component {
             // type="antdesign"
             size={30}
             color={this.props.expandOptions ? 'white' : 'white'}
-            containerStyle={{paddingBottom: 15, opacity: 0.7}}
+            containerStyle={{paddingBottom: 15}}
             // size={GlobalIconSize}
             // color={'white'}
             // containerStyle={{paddingBottom: 15, opacity: 0.7}}
